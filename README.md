@@ -4,13 +4,23 @@ This an eclipse project containing all the files necessary to begin developing g
 After having cloned the repository to your disk you have to follow these few steps:
 
 Open up Eclipse.
+
 Create a new java project and select the folder containing this seed.
+
 Go to Project --> Properties in the menu bar.
+
 Click on Java Build Path.
+
 Expand lwjgl.jar.
+
 Select Natives Library Location and click the Edit button.
+
 Click the Workspace button.
+
 Select the native folder in your project
+
 Select your operating system and click OK until you get back to the default eclipse window.
+
 Press play to check it it works.
+
 Now, you can start making your own game.
