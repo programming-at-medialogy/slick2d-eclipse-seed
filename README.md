@@ -17,3 +17,9 @@ After having cloned the repository to your disk you have to follow these few ste
 11. Select your operating system and click OK until you get back to the default eclipse window.
 12. Press play to check it it works.
 13. Now, you can start making your own game.
+
+
+Description of Project:
+Breakout game with common classes and objects like balls, bricks and paddle. But with added powerups from the bricks. Made with Github and by 3 persons at OOSE Course
+
+New edit: 2015 wednesday at 11.09
