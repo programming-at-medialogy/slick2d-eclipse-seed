@@ -20,3 +20,4 @@ After having cloned the repository to your disk you have to follow these few ste
 
 Sunhedsfyr!
 tissemand!
+Gal i er klamme!
