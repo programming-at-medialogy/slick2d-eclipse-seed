@@ -55,3 +55,7 @@ New edit: 2015 wednesday at 11.09
 
 help meeeeeeee
 >>>>>>> branch 'master' of https://github.com/DKNavySeal/OOSE2015-405A.git
+
+
+New edit: 2015 wednesday at 11.54
+We need more women with guns in the game! :-)
