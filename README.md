@@ -19,8 +19,7 @@ After having cloned the repository to your disk you have to follow these few ste
 13. Now, you can start making your own game.
 
 
-class' needed 
-player 
-ball
-bricks
+Description of Project:
+Breakout game with common classes and objects like balls, bricks and paddle. But with added powerups from the bricks. Made with Github and by 3 persons at OOSE Course
 
+New edit: 2015 wednesday at 11.09
