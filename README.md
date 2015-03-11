@@ -18,4 +18,4 @@ After having cloned the repository to your disk you have to follow these few ste
 12. Press play to check it it works.
 13. Now, you can start making your own game.
 
-Det her er noget nyt!
+Pruttefyr
