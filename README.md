@@ -23,3 +23,5 @@ Description of Project:
 Breakout game with common classes and objects like balls, bricks and paddle. But with added powerups from the bricks. Made with Github and by 3 persons at OOSE Course
 
 New edit: 2015 wednesday at 11.09
+
+This is a test of pushing and pulling, by Christian
