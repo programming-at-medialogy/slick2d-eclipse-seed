@@ -3,6 +3,7 @@ This an eclipse project containing all the files necessary to begin developing g
 
 After having cloned the repository to your disk you have to follow these few steps:
 
+
 Open up Eclipse.
 
 Create a new java project and select the folder containing this seed.
