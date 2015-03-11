@@ -6,6 +6,7 @@ import org.newdawn.slick.*;
 
 public class SimpleSlickGame extends BasicGame
 {
+	int i = 0;
     private double x,y;
     private float a = 0;
 
