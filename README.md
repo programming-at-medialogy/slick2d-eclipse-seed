@@ -22,4 +22,7 @@ After having cloned the repository to your disk you have to follow these few ste
 Description of Project:
 Breakout game with common classes and objects like balls, bricks and paddle. But with added powerups from the bricks. Made with Github and by 3 persons at OOSE Course
 
-New edit: 2015 wednesday at 11.09
+New edit: 2015 wednesday at 11:09
+
+New entry wed 11.03.2015 at 11:35
+We need more women with guns in the code!
