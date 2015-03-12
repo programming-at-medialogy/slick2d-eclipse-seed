@@ -20,7 +20,7 @@ public class SimpleSlickGame extends BasicGame
 	private Image player = null;
 	
 	private boolean leftInput = false;
-	
+	private boolean rightInput = false;
 	
 	public SimpleSlickGame(String gamename)
 	{
@@ -41,8 +41,17 @@ public class SimpleSlickGame extends BasicGame
 	public void update(GameContainer gc, int i) throws SlickException {
 		Input input = gc.getInput();
 		
-		if(input.isKeyPressed(Input.KEY_LEFT)){
+		if(input.isKeyDown(Input.KEY_LEFT)){
 			leftInput = true;
+		} else {
+			leftInput = false;
+		}
+		
+		
+		if(input.isKeyDown(Input.KEY_RIGHT)){
+			rightInput = true;
+		} else {
+			rightInput = false;
 		}
 		
 	}
@@ -58,6 +67,9 @@ public class SimpleSlickGame extends BasicGame
 		
 		if(leftInput){
 			g.drawString("Left!", 200, 200);
+		}
+		if(rightInput){
+			g.drawString("Right!", 380, 200);
 		}
 		
 
