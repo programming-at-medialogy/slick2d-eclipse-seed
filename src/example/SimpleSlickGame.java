@@ -12,6 +12,11 @@ import org.newdawn.slick.SlickException;
 public class SimpleSlickGame extends BasicGame
 {
 	private Image ball = null;
+	private Image gameBackground = null;
+	private Image player = null;
+	
+	static int sHeight = 640;
+	static int sWidth = 480;
 	
 	public SimpleSlickGame(String gamename)
 	{
@@ -20,7 +25,12 @@ public class SimpleSlickGame extends BasicGame
 
 	@Override
 	public void init(GameContainer gc) throws SlickException {
+		
+		//Initializes images.
 		ball = new Image("data/ball.png");
+		gameBackground = new Image("data/bg.png");
+		player = new Image("data/paddle.png");
+		
 	}
 
 	@Override
@@ -31,8 +41,13 @@ public class SimpleSlickGame extends BasicGame
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
+		//Renders the images
+		gameBackground.draw();
 		g.drawString("Arcade Game", 250, 200);
-		ball.draw();
+		player.draw(250, 400);
+		ball.draw(290, 365);
+		
+		
 	}
 
 	public static void main(String[] args)
@@ -41,7 +56,9 @@ public class SimpleSlickGame extends BasicGame
 		{
 			AppGameContainer appgc;
 			appgc = new AppGameContainer(new SimpleSlickGame("Arcade"));
-			appgc.setDisplayMode(640, 480, false);
+			appgc.setDisplayMode(sHeight, sWidth, false);
+			
+			
 			appgc.start();
 		}
 		catch (SlickException ex)
