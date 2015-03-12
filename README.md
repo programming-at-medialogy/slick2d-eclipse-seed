@@ -14,3 +14,5 @@ Small Arcade game .. yay!
 9: Select your operating system and click OK until you get back to the default eclipse window.
 10: Press play to check it it works.
 11: Now, you can start making your own game.
+
+Jew is love, jew is life!
