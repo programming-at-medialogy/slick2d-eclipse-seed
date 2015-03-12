@@ -13,6 +13,7 @@ import org.newdawn.slick.SlickException;
 public class SimpleSlickGame extends BasicGame
 {
 	static int sHeight = 640, sWidth = 480; 
+	public float playerX = 250, playerY = 400, playerSpeed = 0.1f;
 	private Image ball = null, gameBackground = null, player = null;
 	private boolean leftInput = false, rightInput = false;
 	
@@ -56,17 +57,18 @@ public class SimpleSlickGame extends BasicGame
 		//Renders the images
 		gameBackground.draw();
 		g.drawString("BreakOut", 275, 200);
-		player.draw(250, 400);
+		player.draw(playerX, playerY);
 		ball.draw(290, 365);
 		
 		if(leftInput){
 			g.drawString("Left!", 200, 200);
-		}
-		if(rightInput){
-			g.drawString("Right!", 380, 200);
+			playerX = playerX - playerSpeed;
 		}
 		
-
+		if(rightInput){
+			g.drawString("Right!", 380, 200);
+			playerX = playerX + playerSpeed;
+		}
 	}
 
 	public static void main(String[] args)
