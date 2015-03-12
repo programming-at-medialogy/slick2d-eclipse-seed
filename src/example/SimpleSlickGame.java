@@ -7,16 +7,20 @@ import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
 public class SimpleSlickGame extends BasicGame
 {
+	static int sHeight = 640;
+	static int sWidth = 480;
+	
 	private Image ball = null;
 	private Image gameBackground = null;
 	private Image player = null;
 	
-	static int sHeight = 640;
-	static int sWidth = 480;
+	private boolean leftInput = false;
+	
 	
 	public SimpleSlickGame(String gamename)
 	{
@@ -35,6 +39,11 @@ public class SimpleSlickGame extends BasicGame
 
 	@Override
 	public void update(GameContainer gc, int i) throws SlickException {
+		Input input = gc.getInput();
+		
+		if(input.isKeyPressed(Input.KEY_LEFT)){
+			leftInput = true;
+		}
 		
 	}
 
@@ -46,6 +55,11 @@ public class SimpleSlickGame extends BasicGame
 		g.drawString("BreakOut", 275, 200);
 		player.draw(250, 400);
 		ball.draw(290, 365);
+		
+		if(leftInput){
+			g.drawString("Left!", 200, 200);
+		}
+		
 
 	}
 
