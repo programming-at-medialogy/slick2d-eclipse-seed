@@ -43,11 +43,10 @@ public class SimpleSlickGame extends BasicGame
 	{
 		//Renders the images
 		gameBackground.draw();
-		g.drawString("Arcade Game", 250, 200);
+		g.drawString("BreakOut", 275, 200);
 		player.draw(250, 400);
 		ball.draw(290, 365);
-		
-		
+
 	}
 
 	public static void main(String[] args)
@@ -55,9 +54,8 @@ public class SimpleSlickGame extends BasicGame
 		try
 		{
 			AppGameContainer appgc;
-			appgc = new AppGameContainer(new SimpleSlickGame("Arcade"));
+			appgc = new AppGameContainer(new SimpleSlickGame("BreakOut 2015"));
 			appgc.setDisplayMode(sHeight, sWidth, false);
-			
 			
 			appgc.start();
 		}
