@@ -12,15 +12,9 @@ import org.newdawn.slick.SlickException;
 
 public class SimpleSlickGame extends BasicGame
 {
-	static int sHeight = 640;
-	static int sWidth = 480;
-	
-	private Image ball = null;
-	private Image gameBackground = null;
-	private Image player = null;
-	
-	private boolean leftInput = false;
-	private boolean rightInput = false;
+	static int sHeight = 640, sWidth = 480; 
+	private Image ball = null, gameBackground = null, player = null;
+	private boolean leftInput = false, rightInput = false;
 	
 	public SimpleSlickGame(String gamename)
 	{
