@@ -11,4 +11,5 @@ package oose2015.entities;
  */
 
 public class Agent extends MoveableEntity {
+
 }
