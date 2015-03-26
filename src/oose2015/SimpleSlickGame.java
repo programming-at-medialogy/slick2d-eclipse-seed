@@ -2,8 +2,7 @@ package oose2015;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import oose2015.states.GameplayState;
-import oose2015.states.MainmenuState;
+import oose2015.states.*;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -18,8 +17,8 @@ public class SimpleSlickGame extends StateBasedGame
     @Override
     public void initStatesList(GameContainer gameContainer) throws SlickException {
 
-        addState(new MainmenuState());
-        addState(new GameplayState());
+        addState(new MainMenuState());
+        addState(new GamePlayState());
 
     }
 

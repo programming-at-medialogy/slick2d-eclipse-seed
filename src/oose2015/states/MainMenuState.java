@@ -1,9 +1,6 @@
 package oose2015.states;
 
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Input;
-import org.newdawn.slick.SlickException;
+import org.newdawn.slick.*;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -18,6 +15,9 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 
 public class MainMenuState implements GameState {
+
+    StateBasedGame sbg;
+
     @Override
     public int getID() {
         return 0;
@@ -25,12 +25,13 @@ public class MainMenuState implements GameState {
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
+        sbg = stateBasedGame;
 
     }
 
     @Override
     public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
-
+        graphics.drawString("Press Space To start the game",100,100);
     }
 
     @Override
@@ -42,6 +43,7 @@ public class MainMenuState implements GameState {
 
     @Override
     public void enter(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
+        System.out.println("entered mainmenu");
     }
 
     @Override
@@ -100,8 +102,9 @@ public class MainMenuState implements GameState {
     }
 
     @Override
-    public void keyPressed(int i, char c) {
-
+    public void keyPressed(int key, char c) {
+        if(key == Input.KEY_SPACE)
+            sbg.enterState(1);
     }
 
     @Override
@@ -146,7 +149,7 @@ public class MainMenuState implements GameState {
 
     @Override
     public boolean isAcceptingInput() {
-        return false;
+        return true;
     }
 
     @Override
@@ -156,6 +159,5 @@ public class MainMenuState implements GameState {
 
     @Override
     public void inputStarted() {
-
     }
 }

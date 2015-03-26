@@ -1,38 +1,22 @@
 package oose2015.states;
 
-import com.artemis.Entity;
-import com.artemis.World;
-
-import oose2015.EntityFactory;
-import oose2015.components.TransformComponent;
-import oose2015.systems.MovementSystem;
-import oose2015.systems.PlayerMovementSystem;
-import oose2015.systems.RenderSystem;
-
 import org.newdawn.slick.*;
-import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 /**
- * Created by @Kasper on 14/03/2015
+ * Created by @Kasper on 26/03/2015
  * <p/>
  * Description:
- * Game State when the game run this will be updating
+ * ---
  * <p/>
  * Usage:
  * ---
  */
 
-public class GameplayState implements GameState {
+public class GamePlayState implements GameState {
 
-    World world;
-    GameContainer container;
     StateBasedGame sbg;
-
-    //Systems
-    RenderSystem renderSystem;
-
 
     @Override
     public int getID() {
@@ -41,55 +25,23 @@ public class GameplayState implements GameState {
 
     @Override
     public void init(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
-        this.container = gameContainer;
-        this.sbg = stateBasedGame;
-        world = new World();
-        EntityFactory.setWorld(world);
-
-        //create systems
-        renderSystem = new RenderSystem(gameContainer);
-        world.setSystem(new PlayerMovementSystem(gameContainer));
-        world.setSystem(new MovementSystem());
-        world.setSystem(renderSystem,false);
-
-        //init world and systems
-        world.initialize();
-
-        //init entities
-        initPlayer();
-        initMonster();
+        sbg = stateBasedGame;
     }
 
     @Override
-    public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics g) throws SlickException {
-        g.setBackground(new Color(0x161515));
-        renderSystem.render();
+    public void render(GameContainer gameContainer, StateBasedGame stateBasedGame, Graphics graphics) throws SlickException {
 
     }
 
     @Override
-    public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int delta) throws SlickException {
-        world.setDelta(delta);
-        world.process();
+    public void update(GameContainer gameContainer, StateBasedGame stateBasedGame, int i) throws SlickException {
 
-    }
-
-    private void initPlayer(){
-        Entity player = EntityFactory.create_player();
-
-        player.getComponent(TransformComponent.class).pos = new Vector2f(0,0);
-
-    }
-
-    private void initMonster(){
-        Entity monster = EntityFactory.create_monster();
-
-        monster.getComponent(TransformComponent.class).pos = new Vector2f(10,100);
     }
 
     @Override
     public void enter(GameContainer gameContainer, StateBasedGame stateBasedGame) throws SlickException {
-        System.out.println("entering game state");
+        System.out.println("entered gameplay");
+
     }
 
     @Override
@@ -194,7 +146,7 @@ public class GameplayState implements GameState {
 
     @Override
     public boolean isAcceptingInput() {
-        return false;
+        return true;
     }
 
     @Override
@@ -204,6 +156,5 @@ public class GameplayState implements GameState {
 
     @Override
     public void inputStarted() {
-
     }
 }
