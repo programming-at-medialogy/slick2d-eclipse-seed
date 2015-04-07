@@ -9,7 +9,7 @@ public class Coins {
 
 	
 	public void render (Graphics g){
-	
+	//change
 	coin.draw();
 	
 	}
