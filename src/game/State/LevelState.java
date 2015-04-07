@@ -24,14 +24,18 @@ public class LevelState extends BasicGameState {
 		
 	}
 	public void render (GameContainer container, StateBasedGame sbg, Graphics g) throws SlickException{
-		g.scale(game.SCALE, game.SCALE);
+		g.scale(SimpleSlickGame.SCALE, SimpleSlickGame.SCALE);
 		level.render();
 	}
 	public void KeyPressed ( int key, char code){
 		if (key == Input.KEY_ESCAPE){
 			System.exit(0);
 		}
-		
+	}
+	public int getID(){
+        //this is the id for changing states
+        return 0;
+	
 	}
 
 }
