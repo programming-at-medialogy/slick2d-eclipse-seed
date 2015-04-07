@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="grassy_tileset" tilewidth="32" tileheight="32">
+  <image source="../images/grassy_tileset.png" width="640" height="1280"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt1UEKwjAUBNBP40rw/tcVSYNQ3NiqGel7MMuWz8wiVU9tDRnskSVlj1Y5t8yU0oE9upQO7NGldGCPLqUDe3QpHVwr55aZkjpIumWWdzq4ffOQssfD6GBZ88rY4fKjW86sbbIcyLDnW+95t93jSD71zzOzRxZ7ZLEHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD8tzvgpwKl
+  </data>
+ </layer>
+</map>
