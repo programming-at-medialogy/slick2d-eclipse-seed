@@ -9,9 +9,9 @@ import org.newdawn.slick.SlickException;
 
 public class SimpleSlickGame extends BasicGame
 {
-	public SimpleSlickGame(String gamename)
+	public SimpleSlickGame(String MarioOOSE)
 	{
-		super(gamename);
+		super(MarioOOSE);
 	}
 
 	@Override
