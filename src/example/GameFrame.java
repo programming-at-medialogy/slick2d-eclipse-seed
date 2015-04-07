@@ -24,7 +24,7 @@ public class GameFrame extends JPanel implements ActionListener {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.drawString("MARIO",20, 100);
 		
-		ImageIcon ic = new ImageIcon("D:/Medialogy/MED6/Oose/OOSE2015/images/mario_small.png");
+		ImageIcon ic = new ImageIcon("images/mario_small.png");
 		Image i  = ic.getImage();
 		
 		g2d.drawImage(i,600,150,null);
