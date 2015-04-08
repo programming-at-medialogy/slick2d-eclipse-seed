@@ -1,13 +1,15 @@
 package game;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.newdawn.slick.AppGameContainer;
-import org.newdawn.slick.BasicGame;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.SlickException;
+import game.State.LevelState;
 
-public class SimpleSlickGame extends BasicGame
+
+import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.StateBasedGame;
+
+public class SimpleSlickGame extends StateBasedGame
 {
 	//For width and height 
 	public static final int 	WINDOW_WIDTH = 1280;
@@ -25,20 +27,13 @@ public class SimpleSlickGame extends BasicGame
 	
 	
 	@Override
-	public void init(GameContainer gc) throws SlickException {
+	public void initStatesList(GameContainer gc) throws SlickException {
 		
-		//addState(new LevelState("Level_0"));
-		//this.enterState(0);
+		addState(new LevelState("Level_0"));
+		this.enterState(0);
 	}
 
-	@Override
-	public void update(GameContainer gc, int i) throws SlickException {}
 
-	@Override
-	public void render(GameContainer gc, Graphics g) throws SlickException
-	{
-		g.drawString("Welcome to Mario", 250, 200);
-	}
 
 	public static void main(String[] args) throws SlickException{
 		AppGameContainer app = new AppGameContainer (new SimpleSlickGame());

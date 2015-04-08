@@ -18,6 +18,7 @@ public class LevelState extends BasicGameState {
 	public void init(GameContainer container, StateBasedGame sbg)throws SlickException{
 		
 		level = new Level (firstLevel);
+	
 	}
 
 	public void update (GameContainer container,  StateBasedGame  sbg, int delta) throws SlickException{
@@ -25,7 +26,7 @@ public class LevelState extends BasicGameState {
 	}
 	public void render (GameContainer container, StateBasedGame sbg, Graphics g) throws SlickException{
 		g.scale(SimpleSlickGame.SCALE, SimpleSlickGame.SCALE);
-		level.render();
+		level.render();	
 	}
 	public void KeyPressed ( int key, char code){
 		if (key == Input.KEY_ESCAPE){
