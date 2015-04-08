@@ -11,6 +11,6 @@ public class Level {
     }
  
     public void render(){
-        map.render(0, 0, 0, 0, 32,15);
+        map.render(0, 0, 0, 0, 32,18);
     }
 }
