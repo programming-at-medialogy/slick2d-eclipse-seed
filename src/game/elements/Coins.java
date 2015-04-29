@@ -5,12 +5,10 @@ import org.newdawn.slick.Graphics;
 public class Coins {
 
 	public Image coin = null;
-	
 
+	sprite = new image ("/images/coin.gif");
 	
-	public void render (Graphics g){
-	//change
-	coin.draw();
+	
 	
 	}
 	
