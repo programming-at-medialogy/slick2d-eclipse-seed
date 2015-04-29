@@ -1,5 +1,5 @@
 package Level.Tile;
-
+import org.newdawn.slick.tiled.TiledMap;
 public class Tile {
 	  	protected int x;
 	    protected int y;

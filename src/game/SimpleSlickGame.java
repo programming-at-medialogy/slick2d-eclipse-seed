@@ -1,6 +1,5 @@
 package game;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import game.State.LevelState;
 
 
@@ -8,6 +7,7 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+
 
 public class SimpleSlickGame extends StateBasedGame
 {
@@ -29,7 +29,7 @@ public class SimpleSlickGame extends StateBasedGame
 	@Override
 	public void initStatesList(GameContainer gc) throws SlickException {
 		
-		addState(new LevelState("Level_0"));
+		addState(new LevelState("level_0"));
 		this.enterState(0);
 	}
 
