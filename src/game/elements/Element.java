@@ -69,7 +69,12 @@ public abstract class Element  {
 		
 		
 	}
-	
+	public void moveRight(){
+		x++;
+	}
+	public void moveLeft(){
+		x--;
+	}
 }
 
 	 

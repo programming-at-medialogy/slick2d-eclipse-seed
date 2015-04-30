@@ -1,13 +1,15 @@
 package game.elements;
 
+import java.io.IOException;
+
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-public abstract class Enemy extends Element {
+public class Enemy extends Element {
     
     public Enemy(float x, float y) throws SlickException{
     	super(x,y);
-    	sprite = new Image("D:/Medialogy/MED6/Oose/OOSE2015/images");
+		sprite = new Image("images/Goomba2.png");    	
     }
-
+  
 }
