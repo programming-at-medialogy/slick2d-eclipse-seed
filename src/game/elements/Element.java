@@ -20,7 +20,7 @@ public abstract class Element  {
 		this.x = x;
 		this.y = y;
 		// ----- Placeholder for image -----
-		sprite = new Image("data/img/placeholder_sprite.png");
+		//sprite = new Image("data/img/placeholder_sprite.png");
 	}
 	 
         

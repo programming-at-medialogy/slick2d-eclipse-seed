@@ -21,6 +21,7 @@ public class Level {
 	    public Level(String level) throws SlickException{
 	        map = new TiledMap("data/levels/" + level + ".tmx",true);
 	       // characters = new ArrayList<Character>();
+	        enemies = new ArrayList<Element>();
 	        loadTileMap();
 	    }
 
@@ -68,7 +69,7 @@ public class Level {
    
 	    public void render(){
 	        map.render(0, 0, 0, 0, 32, 18);
-	        for(Element e: enemies){
+	       for(Element e: enemies){
 	        	e.render();
 	        }
 	    }
