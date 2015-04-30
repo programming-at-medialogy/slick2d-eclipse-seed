@@ -3,6 +3,9 @@ package Level;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
 
+import java.util.ArrayList;
+import game.elements.Element;
+
 import Level.Tile.AirTile;
 import Level.Tile.SolidTile;
 import Level.Tile.Tile;
@@ -10,18 +13,21 @@ import Level.Tile.Tile;
 public class Level {
 	   private TiledMap map;
 	   
-	    //a list of all characters present somewhere on this map
-	    //private ArrayList<Character> characters;
-	 
-	    private Tile[][] tiles;
-	    public Level(String level) throws SlickException{
+	   //a list of all characters present somewhere on this map
+	   private ArrayList<Element> elements;
+	   
+	   private Tile[][] tiles;
+	   public Level(String level) throws SlickException{
 	        map = new TiledMap("data/levels/" + level + ".tmx",true);
-	       // characters = new ArrayList<Character>();
+	        elements = new ArrayList<Element>();
 	        loadTileMap();
-	    }
-	    
-	  
-	    private void loadTileMap(){
+	   }
+	   
+	   public void addElement (Element e){
+		   elements.add(e);
+	   }
+	   
+	   private void loadTileMap(){
 	        //create an array to hold all the tiles in the map
 	        tiles = new Tile[map.getWidth()][map.getHeight()];
 	 
@@ -60,7 +66,12 @@ public class Level {
 	    }
    
 	    public void render(){
+	    	//the chronological rendering of Map, Elements, etc.
 	        map.render(0, 0, 0, 0, 32, 18);
+	        
+	        for(Element e : elements){
+	        	e.render();
+	        }
 	    }
 	    
 	  
