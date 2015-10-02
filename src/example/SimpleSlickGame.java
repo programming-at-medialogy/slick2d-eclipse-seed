@@ -14,6 +14,7 @@ public class SimpleSlickGame extends BasicGame
 		super(gamename);
 	}
 
+	// this is a test
 	@Override
 	public void init(GameContainer gc) throws SlickException {}
 
