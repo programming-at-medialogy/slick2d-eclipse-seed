@@ -15,7 +15,7 @@ public class SimpleSlickGame extends BasicGame //My first comment
 	}
 
 	@Override
-	public void init(GameContainer gc) throws SlickException {}
+	public void init(GameContainer gc) throws SlickException {}//Comment 2
 
 	@Override
 	public void update(GameContainer gc, int i) throws SlickException {}
