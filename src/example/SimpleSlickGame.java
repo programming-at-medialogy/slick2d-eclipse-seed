@@ -7,7 +7,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
-public class SimpleSlickGame extends BasicGame
+public class SimpleSlickGame extends BasicGame //My first comment
 {
 	public SimpleSlickGame(String gamename)
 	{
