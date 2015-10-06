@@ -23,7 +23,7 @@ public class SimpleSlickGame extends BasicGame //My first comment
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
-		g.drawString("Hello World!", 250, 200);
+		g.drawString("Puerto Rico!", 250, 200);
 	}
 
 	public static void main(String[] args)
@@ -32,7 +32,7 @@ public class SimpleSlickGame extends BasicGame //My first comment
 		{
 			AppGameContainer appgc;
 			appgc = new AppGameContainer(new SimpleSlickGame("Simple Slick Game"));
-			appgc.setDisplayMode(640, 480, false);
+			appgc.setDisplayMode(1080, 720, false);
 			appgc.start();
 		}
 		catch (SlickException ex)
