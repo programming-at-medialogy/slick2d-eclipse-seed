@@ -16,7 +16,7 @@ public class SimpleSlickGame extends BasicGame
 
 	// this is a test
 	
-	//Test 2
+	//rkgmåepmvpwm¨q93f
 	@Override
 	public void init(GameContainer gc) throws SlickException {}
 
