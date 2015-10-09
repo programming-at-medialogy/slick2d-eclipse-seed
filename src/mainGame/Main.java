@@ -7,8 +7,13 @@ import org.newdawn.slick.*;
 
 public class Main extends BasicGame
 {
-	public static final int _screenWidth = 640;
-	public static final int _screenHeight = 480;
+	public static final int ScreenWidth = 640;
+	public static final int ScreenHeight = 480;
+	
+	public static final int GameWindowWidth = ScreenWidth-100;
+	public static final int GameWindowHeight = ScreenHeight-100;
+	
+	public static final int GameWindowOffset = 50;
 	
 	public static Image butt;
 	public static Image doge;
@@ -25,7 +30,7 @@ public class Main extends BasicGame
 	{
 		butt = new Image("resources/butt.png");
 		doge = new Image("resources/doge.png");
-		map = new GameMap(_screenWidth, _screenHeight);
+		map = new GameMap(GameWindowWidth, GameWindowHeight, 13, 10, GameWindowOffset);
 	}
 
 	@Override
@@ -49,7 +54,7 @@ public class Main extends BasicGame
 		{
 			AppGameContainer appgc;
 			appgc = new AppGameContainer(new Main("Dick Butt: The Game"));
-			appgc.setDisplayMode(_screenWidth, _screenHeight, false);
+			appgc.setDisplayMode(ScreenWidth, ScreenHeight, false);
 			appgc.start();
 		}
 		catch (SlickException ex)

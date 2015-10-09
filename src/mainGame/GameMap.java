@@ -13,22 +13,32 @@ public class GameMap
 	
 	char[] tiles;
 	char[][] Map;
+	
+	int offset;
+	
+	int tilesWide;
+	int tilesHigh;
+	
 	int tileWidth;
 	int tileHeight;
-	
+
 	Image tile; 
 	
-	GameMap(int width, int height)
+	GameMap(int width, int height, int tilesWide, int tilesHigh, int offset)
 	{
-		tileWidth = width/13;
-		tileHeight = height/10;
+		this.tilesWide = tilesWide;
+		this.tilesHigh = tilesHigh;
+		this.offset = offset;
+		
+		tileWidth = width/tilesWide;
+		tileHeight = height/tilesHigh;
 		
 		tiles = new char[] {'0', 'D'};
 		
-		Map = new char[tileWidth][tileHeight];
-		for (int i = 0; i < tileWidth; i++)
+		Map = new char[tilesWide][tilesHigh];
+		for (int i = 0; i < tilesWide; i++)
 		{
-			for(int j = 0; j < tileHeight; j++)
+			for(int j = 0; j < tilesHigh; j++)
 			{
 				Map[i][j] = returnTileType();
 			}
@@ -57,9 +67,9 @@ public class GameMap
 		int xPos, yPos;
 		char arrayContent;
 		
-		for (int i = 0; i < tileWidth; i++)
+		for (int i = 0; i < tilesWide; i++)
 		{
-			for(int j = 0; j < tileHeight; j++)
+			for(int j = 0; j < tilesHigh; j++)
 			{
 				xPos = i;
 				yPos = j;
@@ -68,13 +78,13 @@ public class GameMap
 				if (arrayContent == '0')
 				{
 					tile = Main.butt;
-					tile.draw(xPos*tileWidth, yPos*tileHeight, 
+					tile.draw(xPos*tileWidth+offset, yPos*tileHeight+offset, 
 							tileWidth, tileHeight);
 				}
 				else if (arrayContent == 'D')
 				{
 					tile = Main.doge;
-					tile.draw(xPos*tileWidth, yPos*tileHeight, 
+					tile.draw(xPos*tileWidth+offset, yPos*tileHeight+offset, 
 							tileWidth, tileHeight);
 				}
 			}
