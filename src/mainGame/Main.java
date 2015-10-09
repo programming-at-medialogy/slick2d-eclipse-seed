@@ -7,10 +7,13 @@ import org.newdawn.slick.*;
 
 public class Main extends BasicGame
 {
-	private static final int _screenWidth = 800;
-	private static final int _screenHeight = 600;
+	public static final int _screenWidth = 640;
+	public static final int _screenHeight = 480;
 	
-	Image butt;
+	public static Image butt;
+	public static Image doge;
+	
+	GameMap map;
 	
 	public Main(String gamename)
 	{
@@ -21,6 +24,8 @@ public class Main extends BasicGame
 	public void init(GameContainer gc) throws SlickException 
 	{
 		butt = new Image("resources/butt.png");
+		doge = new Image("resources/doge.png");
+		map = new GameMap(_screenWidth, _screenHeight);
 	}
 
 	@Override
@@ -32,8 +37,10 @@ public class Main extends BasicGame
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
-		butt.draw(50, 50, _screenWidth-100, _screenHeight-100);
-		butt.setFilter(Image.FILTER_LINEAR);
+		//butt.draw(50, 50, _screenWidth-100, _screenHeight-100);
+		//butt.setFilter(Image.FILTER_LINEAR);
+		map.drawMap(gc, g);
+		
 	}
 
 	public static void main(String[] args)
