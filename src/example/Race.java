@@ -29,7 +29,7 @@ public class Race implements Template {
 	}
 
 	/**
-	 * Returns the properties of the race card.
+	 * Returns the properties of the race card as a String .
 	 * 
 	 * @return name, unitAmount, effect, effectReq
 	 * @see Race

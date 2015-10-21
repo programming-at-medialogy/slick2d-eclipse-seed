@@ -7,11 +7,14 @@ public class Main {
 	public void initGame() {
 
 		gameController.initDb();
+		gameController.initializeStack();
+		gameController.shuffle();
 		gameController.createStack();
+
 		gameController.debugStack();
 
 		// Debug database
-		System.out.println(gameController.abilityDb.get(0).debugStats());
+		// System.out.println(gameController.abilityDb.get(0).debugStats());
 
 	}
 
