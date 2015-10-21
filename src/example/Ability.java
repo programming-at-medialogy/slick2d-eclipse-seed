@@ -1,16 +1,16 @@
 package example;
 
 public class Ability implements Template {
-	
+
 	String name;
 	int unitAmount;
-	
-	String effect; //Temporarily a 'String'
-	String effectReq; //Temporarily a 'String'
-	
+
+	String effect; // Temporarily a 'String'
+	String effectReq; // Temporarily a 'String'
+
 	Ability(String name, int unitAmount, String effect, String effectReq) {
 		this.name = name;
-		this.unitAmount = unitAmount; 
+		this.unitAmount = unitAmount;
 		this.effect = effect;
 		this.effectReq = effectReq;
 	}
