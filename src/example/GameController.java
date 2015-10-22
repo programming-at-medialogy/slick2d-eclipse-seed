@@ -3,6 +3,8 @@ package example;
 import java.lang.reflect.Array;
 import java.util.*;
 
+import com.sun.org.apache.bcel.internal.classfile.Code;
+
 /**
  *
  * The {@code GameController} is responsible for handling events during the game
@@ -54,6 +56,10 @@ public class GameController {
 		}
 	}
 
+	/**
+	 * The {@code shuffle()} method is responsible for shuffling the race id's and ability id's before creating the stack.
+	 */
+	
 	public void shuffle() {
 		long seed = System.nanoTime();
 		Collections.shuffle(raceId, new Random(seed));
