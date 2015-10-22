@@ -61,9 +61,11 @@ public class GameController {
 	 */
 	
 	public void shuffle() {
-		long seed = System.nanoTime();
-		Collections.shuffle(raceId, new Random(seed));
-		Collections.shuffle(abilityId, new Random(seed));
+		Random r1 = new Random(Double.doubleToLongBits(Math.random()));
+		Random r2 = new Random(Double.doubleToLongBits(Math.random()));
+		
+		Collections.shuffle(raceId, r1);
+		Collections.shuffle(abilityId, r2);
 	}
 
 	public void createStack() {
