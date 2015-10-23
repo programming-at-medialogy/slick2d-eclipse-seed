@@ -1,5 +1,6 @@
 package example;
 
+
 public class Main {
 
 	GameController gameController = new GameController();
@@ -8,13 +9,8 @@ public class Main {
 
 		gameController.initDb();
 		gameController.initializeStack();
-		gameController.shuffle();
-		gameController.createStack();
-
+		gameController.shuffleStack();
 		gameController.debugStack();
-
-		// Debug database
-		// System.out.println(gameController.abilityDb.get(0).debugStats());
 
 	}
 
