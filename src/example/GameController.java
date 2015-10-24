@@ -11,11 +11,8 @@ import java.util.*;
 public class GameController {
 
 	// Databases for races and abilities
-	ArrayList<Race> raceDb = new ArrayList<Race>();
-	ArrayList<Ability> abilityDb = new ArrayList<Ability>();
-
-	// Pair consisting of a Race and an Ability
-	ArrayList<Pair> pairs = new ArrayList<Pair>();
+	private ArrayList<Race> raceDb = new ArrayList<Race>();
+	private ArrayList<Ability> abilityDb = new ArrayList<Ability>();
 
 	// The id of races and abilities
 	ArrayList<Race> raceStack = new ArrayList<Race>();
@@ -24,10 +21,10 @@ public class GameController {
 	public void initDb() {
 
 		// Initialize races
-		raceDb.add(new Race("Race 1", 8, "backup", "conquer")); 
-		raceDb.add(new Race("Race 2", 8, "backup", "conquer")); 
-		raceDb.add(new Race("Race 3", 8, "backup", "conquer")); 
-		raceDb.add(new Race("Race 4", 8, "backup", "conquer")); 
+		raceDb.add(new Race("Race 1", 8, "backup", "conquer"));
+		raceDb.add(new Race("Race 2", 8, "backup", "conquer"));
+		raceDb.add(new Race("Race 3", 8, "backup", "conquer"));
+		raceDb.add(new Race("Race 4", 8, "backup", "conquer"));
 
 		// Initialize abilities
 		abilityDb.add(new Ability("Ability 1", 5, "fly", "none"));
@@ -64,12 +61,12 @@ public class GameController {
 		Collections.shuffle(raceStack, r1);
 		Collections.shuffle(abilityStack, r2);
 	}
-	
+
 	public void addPair(Race race, Ability ability) {
 		raceStack.add(race);
 		abilityStack.add(ability);
 	}
-	
+
 	public void removePair() {
 		raceStack.remove(0);
 		abilityStack.remove(0);

@@ -1,12 +1,6 @@
 package example;
 
-public class Ability implements Template {
-
-	String name;
-	int unitAmount;
-
-	String effect; // Temporarily a 'String'
-	String effectReq; // Temporarily a 'String'
+public class Ability extends Template {
 
 	Ability(String name, int unitAmount, String effect, String effectReq) {
 		this.name = name;

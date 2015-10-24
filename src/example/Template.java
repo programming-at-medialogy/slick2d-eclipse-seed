@@ -1,7 +1,11 @@
 package example;
 
-public interface Template {
+public abstract class Template {
 
-	String debugStats();
+	String name;
+	int unitAmount;
+
+	String effect; // Temporarily a 'String'
+	String effectReq; // Temporarily a 'String'
 
 }

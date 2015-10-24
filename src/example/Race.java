@@ -13,13 +13,7 @@ package example;
  *            the requirement for the effect to take place
  */
 
-public class Race implements Template {
-
-	String name;
-	int unitAmount;
-
-	String effect; // Temporarily a 'String'
-	String effectReq; // Temporarily a 'String'
+public class Race extends Template {
 
 	Race(String name, int unitAmount, String effect, String effectReq) {
 		this.name = name;
