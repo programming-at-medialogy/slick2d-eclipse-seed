@@ -3,14 +3,15 @@ package example;
 
 public class Main {
 
-	GameController gameController = new GameController();
+	Stack stack = new Stack();
+	Player player = new Player();
 
 	public void initGame() {
 
-		gameController.initDb();
-		gameController.initializeStack();
-		gameController.shuffleStack();
-		gameController.debugStack();
+		stack.initDb();
+		stack.initialize();
+		stack.shuffle();
+		stack.debugStack();
 
 	}
 
