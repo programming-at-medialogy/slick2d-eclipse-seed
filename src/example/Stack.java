@@ -8,7 +8,7 @@ import java.util.*;
  * session e.g. keeping track of the card stack.
  *
  */
-public class GameController {
+public class Stack {
 
 	// Databases for races and abilities
 	private ArrayList<Race> raceDb = new ArrayList<Race>();
@@ -38,7 +38,7 @@ public class GameController {
 
 	}
 
-	public void initializeStack() {
+	public void initialize() {
 
 		for (int i = 0; i < raceDb.size(); i++) {
 			raceStack.add(raceDb.get(i));
@@ -53,7 +53,7 @@ public class GameController {
 	 * The {@code shuffle()} method is responsible for shuffling the race id's
 	 * and ability id's before creating the stack.
 	 */
-	public void shuffleStack() {
+	public void shuffle() {
 
 		Random r1 = new Random(Double.doubleToLongBits(Math.random()));
 		Random r2 = new Random(Double.doubleToLongBits(Math.random()));
