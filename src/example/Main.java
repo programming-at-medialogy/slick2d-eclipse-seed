@@ -16,10 +16,13 @@ public class Main {
 		gameController.setPair(0, 2);
 		gameController.stack.debugStack();
 		System.out.println("Decline:");
-		gameController.decline(0);
-		gameController.stack.debugStack();
+		System.out.println(gameController.race.type.getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
 
-		
+
+		System.out.println(gameController.player.get(0).pair[1].units);
+		gameController.player.get(0).pair[1].effect();
+		System.out.println(gameController.player.get(0).pair[1].units);
+
 	
 	}
 

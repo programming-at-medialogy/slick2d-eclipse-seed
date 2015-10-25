@@ -15,12 +15,29 @@ package example;
 
 public class Race extends Template {
 
-	Race(String name, int unitAmount, String effect, String effectReq) {
+	Race(String name, int unitAmount, Effect type, String effect, int amount, String effectReq) {
 		this.name = name;
 		this.unitAmount = unitAmount;
+		this.type = type;
+		this.effect = effect;
+		this.amount = amount;
+		this.effectReq = effectReq;
+	}
+	
+	Race(String name, int unitAmount, Effect type, String effect, String effectReq) {
+		this.name = name;
+		this.unitAmount = unitAmount;
+		this.type = type;
 		this.effect = effect;
 		this.effectReq = effectReq;
 	}
+	
+	Race(String name, int unitAmount, Bonus bonus, String string, int i, String string2) {
+		this.name = name;
+		this.unitAmount = unitAmount;
+	}
+	
+	
 
 	/**
 	 * Returns the properties of the race card as a String .
