@@ -21,9 +21,9 @@ public class Main extends BasicGame{
 	boolean hasRequestedTrade; //Do we need this?
 	static boolean userInGame; 
 	
-	Main main((String gamename){
-		super gamename;
-	
+	public Main(String gamename) {
+		// TODO Auto-generated constructor stub
+		super(gamename);
 	}
 	
 	@Override
@@ -35,7 +35,7 @@ public class Main extends BasicGame{
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
-		g.drawString("Hello World!", 250, 200);
+		g.drawString("Works", 250, 200);
 	}
 
 	//Methods for initial phase
@@ -93,11 +93,10 @@ public class Main extends BasicGame{
 		
 		try
 		{
-			AppGameContainer game;
-			AppGameContainer = new AppGameContainer(new Main("Settlers"));
-			game.setTargetFramerate(60);
-			game.setMaximumUpdateInterval(60);
-			
+			AppGameContainer game = new AppGameContainer(new Main("Settlers"));
+			game.setTargetFrameRate(60);
+			game.setMaximumLogicUpdateInterval(60);
+			game.setVSync(true);
 			game.setDisplayMode(640, 480, false);
 			game.start();
 		}
