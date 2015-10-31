@@ -1,6 +1,13 @@
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
 
-public class Main {
+public class Main extends BasicGame{
 	int rolledNumber; //The number rolled by the dice
 	int longestRoad; //the index of the player in the player-ArraList with the longest road
 	int mostKnights; //the index of the player in the player-ArraList with the most knights
@@ -13,27 +20,24 @@ public class Main {
 	boolean[] tradeRequest; //Do we need this?
 	boolean hasRequestedTrade; //Do we need this?
 	static boolean userInGame; 
-
-
-	public static void main(String[] args) {
-		//Initial phase - only done once at game start
-		placeBuilding();
-		placeRoad();
-		
-		//While-loop containing game flow
-		while(userInGame){
-			//check for user or server input
-			//draw graphics
-			//send commands to the server
-		    //receive updates about the game from the server 
-			//draw graphics
-		}
-		
+	
+	Main main((String gamename){
+		super gamename;
+	
 	}
 	
-	
-	
-	
+	@Override
+	public void init(GameContainer gc) throws SlickException {}
+
+	@Override
+	public void update(GameContainer gc, int i) throws SlickException {}
+
+	@Override
+	public void render(GameContainer gc, Graphics g) throws SlickException
+	{
+		g.drawString("Hello World!", 250, 200);
+	}
+
 	//Methods for initial phase
 	
 	static void placeBuilding(){
@@ -43,10 +47,7 @@ public class Main {
 	static void placeRoad(){
 		//Method to place roads at game start
 	}
-	
-	
-	
-	
+
 	//Methods for trade-phase
 	
 	static void initiateTrade(){
@@ -57,8 +58,6 @@ public class Main {
 		//Method called when other users wants to trade resources
 	}
 
-	
-	
 	
 	// Methods for building-phase
 	
@@ -82,10 +81,39 @@ public class Main {
 		//Method used to notify server that user wants to use a developement card
 	}
 
-	
-	
-	
 	static void rollDice(){
 		//Method used to notify server that user wants to roll the dice
+	}
+	
+	public static void main(String[] args) {
+		//Initial phase - only done once at game start
+		placeBuilding();
+		placeRoad();
+		
+		
+		try
+		{
+			AppGameContainer game;
+			AppGameContainer = new AppGameContainer(new Main("Settlers"));
+			game.setTargetFramerate(60);
+			game.setMaximumUpdateInterval(60);
+			
+			game.setDisplayMode(640, 480, false);
+			game.start();
+		}
+		catch (SlickException ex)
+		{
+			Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		
+		//While-loop containing game flow
+		while(userInGame){
+			//check for user or server input
+			//draw graphics
+			//send commands to the server
+		    //receive updates about the game from the server 
+			//draw graphics
+		}
+		
 	}
 }
