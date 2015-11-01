@@ -5,7 +5,10 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+
+
 
 public class Main extends BasicGame{
 	int rolledNumber; //The number rolled by the dice
@@ -21,21 +24,33 @@ public class Main extends BasicGame{
 	boolean hasRequestedTrade; //Do we need this?
 	static boolean userInGame; 
 	
+
+	private Image img = null;
+
+	
 	public Main(String gamename) {
 		// TODO Auto-generated constructor stub
 		super(gamename);
+
 	}
 	
 	@Override
-	public void init(GameContainer gc) throws SlickException {}
+	public void init(GameContainer gc) throws SlickException {
 
+		 img = new Image("resources/cute-kitty.png");
+	}
+
+	
 	@Override
 	public void update(GameContainer gc, int i) throws SlickException {}
 
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
-		g.drawString("Works", 250, 200);
+		
+		img.draw(0, 0);
+		//g.setBackground(Color.WHITE);
+		//g.drawString("Works", 250, 200);
 	}
 
 	//Methods for initial phase
