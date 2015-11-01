@@ -40,7 +40,7 @@ public class Main extends BasicGame{
 		 img = new Image("resources/cute-kitty.png");
 	}
 
-	
+
 	@Override
 	public void update(GameContainer gc, int i) throws SlickException {}
 
