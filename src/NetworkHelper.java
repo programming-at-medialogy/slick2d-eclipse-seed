@@ -11,17 +11,17 @@ public class NetworkHelper {
 	private static InetAddress host;
 	private static final int PORT = 1234; 
 	
-	public static void client(){
-		
-	try{
-		host = InetAddress.getLocalHost();
-	}
-	catch(UnknownHostException uhEx)
-	{
-		System.out.println("HostID not found!");
-		System.exit(1);
-	}
-//	accessServer();
+	public static void main(String[] args){ //start client
+			
+		try{
+			host = InetAddress.getLocalHost();
+		}
+		catch(UnknownHostException uhEx)
+		{
+			System.out.println("HostID not found!");
+			System.exit(1);
+		}
+		accessServer();
 	}
 	
 	public static void accessServer()
