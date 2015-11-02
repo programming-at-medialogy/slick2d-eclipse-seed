@@ -23,16 +23,16 @@ public class Main extends BasicGame{
 	boolean[] tradeRequest; //Do we need this?
 	boolean hasRequestedTrade; //Do we need this?
 	static boolean userInGame; 
-	static int scHeight = 1400;
-	static int scWidth = 900;
+	
+	static int scWidth = 1400; // Game screen width
+	static int scHeight = 900; // Game screen height
 	
 	
-	private Image[] img= new Image[20];
+	private Image[] img= new Image[20]; // Array for hexagon images
 
 	
-	public Main(String gamename) {
-		// TODO Auto-generated constructor stub
-		super(gamename);
+	public Main(String gamename) { // inputs game name from slick2d
+		super(gamename); // to get game name
 		
 		//While-loop containing game flow
 		while(userInGame){
@@ -46,11 +46,11 @@ public class Main extends BasicGame{
 	}
 	
 	@Override
-	public void init(GameContainer gc) throws SlickException {
+	public void init(GameContainer gc) throws SlickException { // to initialize elements
 		
 		// to initialize multiple images
-		for(int i=0; i<hexagons.length; i++){
-			img[i] = new Image("resources/hexagon_" + (i+1) + ".png");
+		for(int i=0; i<hexagons.length; i++){ //goes trough hexagon array
+			img[i] = new Image("resources/hexagon_" + (i+1) + ".png"); //Assigns every hexagon a name
 		}
 	}
 	
@@ -62,23 +62,23 @@ public class Main extends BasicGame{
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
-		
+		// Move up!
 		float diameter = 90;
 		float angle = 0;
-		float x;
-		float y;
+		float xPos;
+		float yPos;
 		
 		for (int i = 0; i<hexagons.length-2; i++){
 			// center 
 			if(i==0){
-				img[i].draw(scHeight/2, scWidth/2);
+				img[i].draw(scWidth/2, scHeight/2);
 			}
 			//middle circle
 			if (i<6){
 				angle+=1.05;
-		        x = (float) (diameter * Math.cos (angle));
-		        y = (float) (diameter * Math.sin (angle));	      
-				img[i+1].draw(x+scHeight/2, y+scWidth/2);				
+				xPos = (float) (diameter * Math.cos (angle));
+				yPos = (float) (diameter * Math.sin (angle));	      
+				img[i+1].draw(xPos+scWidth/2, yPos+scHeight/2);				
 				if(i==5){
 					diameter += 89;
 					//cLength += i == 6 ?  1.05 : 0.50;
@@ -94,11 +94,10 @@ public class Main extends BasicGame{
 				}else{
 					diameter = 179;
 				}
-					
-				angle +=0.523;
-		        x = (float) (diameter * Math.cos (angle));
-		        y = (float) (diameter * Math.sin (angle));	      
-				img[i+1].draw(x+scHeight/2, y+scWidth/2);
+				angle +=0.524;
+		        xPos = (float) (diameter * Math.cos (angle));
+		        yPos = (float) (diameter * Math.sin (angle));	      
+				img[i+1].draw(xPos+scWidth/2, yPos+scHeight/2);		
 			}
 			
 
@@ -166,7 +165,7 @@ public class Main extends BasicGame{
 			game.setTargetFrameRate(60); // framerate
 			game.setMaximumLogicUpdateInterval(60); // maximum framerate
 			game.setVSync(true); // Vertical sync
-			game.setDisplayMode(scHeight, scWidth, false); // sets screen size, false or true for full screen
+			game.setDisplayMode(scWidth,scHeight, false); // sets screen size, false or true for full screen
 			game.start(); // to start Slick 2D
 		}
 		catch (SlickException ex)
