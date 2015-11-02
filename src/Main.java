@@ -148,7 +148,7 @@ public class Main extends BasicGame{
 		//Method used to notify server that user wants to roll the dice
 	}
 	
-	/*public static void main(String[] args) {
+	public static void main(String[] args) {
 		//Initial phase - only done once at game start
 		placeBuilding();
 		placeRoad();
@@ -170,5 +170,5 @@ public class Main extends BasicGame{
 		
 
 		
-	}*/
+	}
 }
