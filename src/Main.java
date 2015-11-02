@@ -26,8 +26,8 @@ public class Main extends BasicGame{
 	static int scHeight = 1400;
 	static int scWidth = 900;
 	
-
-	private Image img = null;
+	
+	private Image[] img= new Image[20];
 
 	
 	public Main(String gamename) {
@@ -47,55 +47,59 @@ public class Main extends BasicGame{
 	
 	@Override
 	public void init(GameContainer gc) throws SlickException {
-		//for(int i=0; i<hexagons.length; i++){
-			
-		 img = new Image("resources/hexagon.png");
-		//}
+		
+		// to initialize multiple images
+		for(int i=0; i<hexagons.length; i++){
+			img[i] = new Image("resources/hexagon_" + (i+1) + ".png");
+		}
 	}
-	/*
-	public Vector2d rotate(double angle)
-	{
-		double xPrime = this.x*Math.cos(angle) - this.y*Math.sin(angle);
-		double yPrime = this.x*Math.sin(angle) + this.y*Math.cos(angle);
-		return new Vector2d(xPrime, yPrime);
-	}
-	*/
-
 	
 	@Override
-	public void update(GameContainer gc, int i) throws SlickException {}
+	public void update(GameContainer gc, int i) throws SlickException {
+		
+	}
 
-	
-
-	
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
 		
-		float xLength = 150;
-		float yLength = 150;
-		float angle=0;
+		float diameter = 90;
+		float angle = 0;
 		float x;
 		float y;
 		
-		for (int i = 0; i<20; i++){
-			
-	        x = (float) (xLength * Math.cos (angle));
-	        y = (float) (yLength * Math.sin (angle));
-	        
-			img.draw(x+720, y+400);
-			
-			if (i<5){
+		for (int i = 0; i<hexagons.length-2; i++){
+			// center 
+			if(i==0){
+				img[i].draw(scHeight/2, scWidth/2);
+			}
+			//middle circle
+			if (i<6){
 				angle+=1.05;
-			} else{
-				angle +=0.45;
+		        x = (float) (diameter * Math.cos (angle));
+		        y = (float) (diameter * Math.sin (angle));	      
+				img[i+1].draw(x+scHeight/2, y+scWidth/2);				
+				if(i==5){
+					diameter += 89;
+					//cLength += i == 6 ?  1.05 : 0.50;
+				}
+
+			} 
+			// outer circle
+			else{
+				if(i%2==0){
+					diameter = 155;
+				}else{
+					diameter = 179;
+				}
+					
+				angle +=0.523;
+		        x = (float) (diameter * Math.cos (angle));
+		        y = (float) (diameter * Math.sin (angle));	      
+				img[i+1].draw(x+scHeight/2, y+scWidth/2);
 			}
 			
-			if(i==5){
-				xLength += 100;
-				yLength += 100;
-				
-			}
+
 		}
 		//g.setBackground(Color.WHITE);
 		//g.drawString("Works", 250, 200);
