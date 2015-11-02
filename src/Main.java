@@ -87,7 +87,9 @@ public class Main extends BasicGame{
 			} 
 			// outer circle
 			else{
-				if(i%2==0){
+				if (i == 6)
+					angle = 0.523f;
+				if(i%2!=0){
 					diameter = 155;
 				}else{
 					diameter = 179;
