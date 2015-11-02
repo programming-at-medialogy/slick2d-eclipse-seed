@@ -23,7 +23,7 @@ public class Main extends BasicGame{
 	boolean[] tradeRequest; //Do we need this?
 	boolean hasRequestedTrade; //Do we need this?
 	static boolean userInGame; 
-	 //testestest
+	
 
 	private Image img = null;
 
