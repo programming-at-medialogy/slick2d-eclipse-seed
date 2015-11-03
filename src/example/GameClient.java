@@ -9,12 +9,12 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Image;
 
 
-public class SimpleSlickGame extends BasicGame //My first comment
+public class GameClient extends BasicGame //My first comment
 {
 
     Image bg;
 
-	public SimpleSlickGame(String gamename)
+	public GameClient(String gamename)
 	{
 		super(gamename);
 	}
@@ -40,13 +40,13 @@ public class SimpleSlickGame extends BasicGame //My first comment
 		try
 		{
 			AppGameContainer appgc;
-			appgc = new AppGameContainer(new SimpleSlickGame("Simple Slick Game"));
+			appgc = new AppGameContainer(new GameClient("Simple Slick Game"));
 			appgc.setDisplayMode(1100, 778, false);
 			appgc.start();
 		}
 		catch (SlickException ex)
 		{
-			Logger.getLogger(SimpleSlickGame.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(GameClient.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
 }
