@@ -58,14 +58,15 @@ public class Position {
 		}
 		
 		// check if a building is at the same position
-		if (Building.getByPosition(inPos) != null) {
-			return 0;
+		for (int i = 0; i < positions.size(); i++) {
+			if (Position.comparePosition(positions.get(i), inPos)) {
+				return 0;
+			}
+			
+			if (Position.comparePosition(new Position(inPos.getDivision(), (inPos.getIndex() + 1) % maxIndex), positions.get(i)) ||
+				Position.comparePosition(new Position(inPos.getDivision(), (inPos.getIndex() + maxIndex - 1) % maxIndex), positions.get(i)))
+				return 1;
 		}
-				
-		// check for nearby buildings using index
-		if (Building.getByPosition(new Position(inPos.getDivision(), (inPos.getIndex() + 1) % maxIndex)) != null ||
-			Building.getByPosition(new Position(inPos.getDivision(), (inPos.getIndex() + maxIndex - 1) % maxIndex)) != null)
-			return 1;
 		
 		// get nearby hexagons
 		Hexagon[] nearbyHexagons = Building.getNearbyHexagons(inPos);
