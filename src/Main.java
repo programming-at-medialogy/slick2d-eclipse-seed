@@ -7,12 +7,12 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-
+import com.google.gson.Gson;
 
 
 public class Main extends BasicGame{
 	int rolledNumber; //The number rolled by the dice
-	int longestRoad; //the index of the player in the player-ArraList with the longest road
+	static int longestRoad; //the index of the player in the player-ArraList with the longest road
 	int mostKnights; //the index of the player in the player-ArraList with the most knights
 	int thief; //the placement of the thief
 	int ownIndex; //This particular clients index in the player-array
