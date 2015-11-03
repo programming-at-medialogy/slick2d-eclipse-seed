@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class Player {
 	Color color;
-	ArrayList<Buildings> buildings; //(both settlements and cities)
+	ArrayList<Building> buildings; //(both settlements and cities)
 	ArrayList<Road> roads;
 	ArrayList<Ressource> ressources;
 	ArrayList<devCard> devCard;
