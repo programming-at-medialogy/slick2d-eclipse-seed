@@ -13,6 +13,13 @@ public class Field {
 	private boolean containingMagic = false;
 	private boolean containingMines = false;
 	private boolean containingMountains = false;
+	
+	// boolean to check if a field is adjacent to border of map. BorderPosition is 
+	// set to false by default.
+	private boolean borderPosition = false;
+	
+	// Conquerable is true by default and must be set to false for water fields
+	private boolean conquerable = true;
 
 	// A string containing the terrain type of a field - forest, hill, water, etc. This is set 
 	// using an enumerator with a switch upon object construction to ensure that people can't 
@@ -32,6 +39,11 @@ public class Field {
 		setDefenceValue(2);
 
 		setTerrainType(terrainType);
+		
+		// If statements which sets conquerable to true if field is water
+		if (this.terrainType.equals("Water")) {
+			setConquerable(false);
+		}
 
 	}
 
@@ -101,6 +113,23 @@ public class Field {
 
 	void setContainsMountains(boolean containingMountains) {
 		this.containingMountains = containingMountains;
+	}
+
+	boolean isBorderPosition() {
+		return borderPosition;
+	}
+
+	void setBorderPosition(boolean borderPosition) {
+		this.borderPosition = borderPosition;
+	}
+
+	boolean isConquerable() {
+		return conquerable;
+	}
+
+	// This method is private as conquerable is defined only in constructor
+	private void setConquerable(boolean conquerable) {
+		this.conquerable = conquerable;
 	}
 
 }
