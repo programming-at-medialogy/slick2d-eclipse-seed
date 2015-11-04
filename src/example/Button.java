@@ -8,29 +8,35 @@ import org.newdawn.slick.*;
 
 public class Button extends BasicGame {
 
-    protected int mouseX,mouseY;
-    private Image img, accept, decline, medic;
+    protected int mouseX, mouseY;
+    private Image img, leave, medic;
+    Image [] roleArr = new Image[4];
     int imgX;
     int imgY;
+
+    int tempIndexNo;
 
     boolean playerReady;
 
 
-
-    public Button(String title, int x, int y) {
+    public Button(String title, int x, int y, int indexNo) {
         super(title);
 
         this.imgX = x;
         this.imgY = y;
-
+        this.tempIndexNo = indexNo;
     }
 
     @Override
     public void init(GameContainer gameContainer) throws SlickException {
         img = new Image("assets/button_players.png");
-        accept = new Image("assets/accept.png");
-        decline = new Image("assets/decline.png");
+        leave = new Image("assets/button_players_leave.png");
         medic = new Image("assets/medic.png");
+
+        for (int i = 0; i < roleArr.length; i++) {
+            roleArr[i] = new Image("assets/"+i+".png");
+        }
+
         playerReady = false;
     }
 
@@ -44,15 +50,17 @@ public class Button extends BasicGame {
     @Override
     public void render(GameContainer gc, Graphics g) throws SlickException {
 
-        g.drawImage(img, imgX, imgY);
 
 
         if (playerReady) {
-            g.drawImage(accept, imgX+img.getWidth()-accept.getWidth(),imgY);
-            g.drawImage(medic, 1000,150);
+            g.drawImage(leave, imgX,imgY);
+            g.drawImage(roleArr[tempIndexNo],43,535);
+
+
+            //g.drawImage(medic, 43, 535);
         }
         if (!playerReady) {
-            g.drawImage(decline, imgX+img.getWidth()-accept.getWidth(),imgY);
+            g.drawImage(img, imgX, imgY);
         }
 
     }
@@ -60,13 +68,13 @@ public class Button extends BasicGame {
     public boolean clickWithin(GameContainer gc) {
         org.newdawn.slick.Input input = gc.getInput();
 
-        if (mouseX > imgX && mouseX < imgX+img.getWidth() && mouseY > imgY && mouseY < imgY+img.getHeight() && input.isMousePressed(input.MOUSE_LEFT_BUTTON)) {
+        if (mouseX > imgX && mouseX < imgX + img.getWidth() && mouseY > imgY && mouseY < imgY + img.getHeight() && input.isMousePressed(input.MOUSE_LEFT_BUTTON)) {
             return true;
         } else {
             return false;
         }
 
-        }
+    }
 
     public boolean getPlayerReady() {
         return playerReady;

@@ -15,21 +15,26 @@ public class Lobby extends BasicGame{
 
     Image lobbyBackground;
     Button b1, b2, b3, b4;
-    Boolean toggle;
+    Boolean toggle, playerReady;
 
     public Lobby(String gamename)
     {
         super(gamename);
     }
 
-    //Player player1, player2, player3, player4;
+    Player p1, p2, p3, p4;
 
     public void init(GameContainer gc) throws SlickException {
         lobbyBackground = new Image("assets/lobby.png");
-        b1 = new Button("button1", 60, 150);
-        b2 = new Button("button2", 60, 300);
-        b3 = new Button("button3", 60, 450);
-        b4 = new Button("button4", 60, 600);
+        b1 = new Button("button1", 43, 130,0);
+        b2 = new Button("button2", 43, 200,1);
+        b3 = new Button("button3", 43, 270,2);
+        b4 = new Button("button4", 43, 340,3);
+        p1 = new Player("Player 1");
+        p2 = new Player("Player 2");
+        p3 = new Player("Player 3");
+        p4 = new Player("Player 4");
+        playerReady = false;
 
         b1.init(gc);
 
@@ -40,13 +45,13 @@ public class Lobby extends BasicGame{
 
     public void update(GameContainer gc, int i) throws SlickException {
         b1.update(gc, i);
-        togglePlayerStatus(gc, b1);
+        togglePlayerStatus(gc, b1, p1);
         b2.update(gc, i);
-        togglePlayerStatus(gc, b2);
+        togglePlayerStatus(gc, b2, p2);
         b3.update(gc, i);
-        togglePlayerStatus(gc, b3);
+        togglePlayerStatus(gc, b3, p3);
         b4.update(gc, i);
-        togglePlayerStatus(gc, b4);
+        togglePlayerStatus(gc, b4, p4);
 
 
     }
@@ -58,9 +63,10 @@ public class Lobby extends BasicGame{
         b2.render(gc, g);
         b3.render(gc, g);
         b4.render(gc, g);
+
     }
 
-    public void togglePlayerStatus(GameContainer gc, Button button) {
+    public void togglePlayerStatus(GameContainer gc, Button button, Player player) {
 
         toggle = button.getPlayerReady();
 

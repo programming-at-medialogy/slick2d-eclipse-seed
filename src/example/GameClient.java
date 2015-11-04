@@ -47,7 +47,7 @@ public class GameClient extends BasicGame //My first comment
 			AppGameContainer appgc;
 			appgc = new AppGameContainer(new GameClient("Pandemic"));
 			appgc.setShowFPS(false);
-			appgc.setDisplayMode(1366, 768, false);
+			appgc.setDisplayMode(1366, 768, true);
 			appgc.start();
 		}
 		catch (SlickException ex)
