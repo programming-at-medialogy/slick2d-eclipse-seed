@@ -9,17 +9,20 @@ import org.newdawn.slick.*;
 public class Button extends BasicGame {
 
     protected int mouseX,mouseY;
-    private Image img, accept, decline;
+    private Image img, accept, decline, medic;
     int imgX;
     int imgY;
 
     boolean playerReady;
+
+
 
     public Button(String title, int x, int y) {
         super(title);
 
         this.imgX = x;
         this.imgY = y;
+
     }
 
     @Override
@@ -27,6 +30,7 @@ public class Button extends BasicGame {
         img = new Image("assets/button_players.png");
         accept = new Image("assets/accept.png");
         decline = new Image("assets/decline.png");
+        medic = new Image("assets/medic.png");
         playerReady = false;
     }
 
@@ -35,8 +39,6 @@ public class Button extends BasicGame {
         org.newdawn.slick.Input input = gameContainer.getInput();
         mouseX = input.getMouseX();
         mouseY = input.getMouseY();
-        System.out.println();
-        clickWithin(input);
     }
 
     @Override
@@ -46,20 +48,31 @@ public class Button extends BasicGame {
 
 
         if (playerReady) {
-            g.drawImage(accept, imgX+img.getWidth()+20,imgY);
-            update(gc,1);
+            g.drawImage(accept, imgX+img.getWidth()-accept.getWidth(),imgY);
+            g.drawImage(medic, 1000,150);
         }
         if (!playerReady) {
-            g.drawImage(decline, imgX+img.getWidth()+20,imgY);
+            g.drawImage(decline, imgX+img.getWidth()-accept.getWidth(),imgY);
         }
 
     }
 
-    public void clickWithin(Input input) {
-        if (mouseX > imgX && mouseX < imgX+img.getWidth() && mouseY > imgY && mouseY < imgY+img.getHeight() && input.isMousePressed(input.MOUSE_LEFT_BUTTON) && !playerReady) {
-            System.out.println("IS WITHIN");
-            playerReady = true;
-        }
+    public boolean clickWithin(GameContainer gc) {
+        org.newdawn.slick.Input input = gc.getInput();
+
+        if (mouseX > imgX && mouseX < imgX+img.getWidth() && mouseY > imgY && mouseY < imgY+img.getHeight() && input.isMousePressed(input.MOUSE_LEFT_BUTTON)) {
+            return true;
+        } else {
+            return false;
         }
 
+        }
+
+    public boolean getPlayerReady() {
+        return playerReady;
+    }
+
+    public void setPlayerReady(boolean setPlayerReady) {
+        this.playerReady = setPlayerReady;
+    }
 }
