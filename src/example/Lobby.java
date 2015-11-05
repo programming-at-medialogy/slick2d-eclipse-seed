@@ -1,8 +1,7 @@
 package example;
 
-import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -15,43 +14,42 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Lobby extends BasicGameState{
 
     Image lobbyBackground;
-    Button b1, b2, b3, b4;
     Boolean toggle, playerReady;
 
     public Lobby()     {    }
 
     Player p1, p2, p3, p4;
+    Roles role;
+    Button[] buttons;
 
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
         lobbyBackground = new Image("assets/lobby.png");
-        b1 = new Button("button1", 43, 130,0);
-        b2 = new Button("button2", 43, 200,1);
-        b3 = new Button("button3", 43, 270,2);
-        b4 = new Button("button4", 43, 340,3);
+        buttons = new Button[4];
+        for (int i = 0; i < buttons.length; i++) {
+            buttons[i] = new Button("LOBBY BUTTON", 43, 70*i+130, 0);
+        }
+
         p1 = new Player("Player 1");
         p2 = new Player("Player 2");
         p3 = new Player("Player 3");
         p4 = new Player("Player 4");
         playerReady = false;
 
-        b1.init(gc);
+        role = new Roles("TEST",1);
 
-        b2.init(gc);
-        b3.init(gc);
-        b4.init(gc);
+        for (int i = 0; i < buttons.length; i++) {
+            buttons[i].init(gc);
+        }
 
+        role.init(gc);
     }
 
     public void update(GameContainer gc, StateBasedGame sbg, int i) throws SlickException {
-        b1.update(gc, i);
-        togglePlayerStatus(gc, b1, p1);
-        b2.update(gc, i);
-        togglePlayerStatus(gc, b2, p2);
-        b3.update(gc, i);
-        togglePlayerStatus(gc, b3, p3);
-        b4.update(gc, i);
-        togglePlayerStatus(gc, b4, p4);
 
+        for (int j = 0; j < buttons.length; j++) {
+            buttons[j].update(gc, i);
+            togglePlayerStatus(gc, buttons, p1);
+        }
 
 
 
@@ -60,26 +58,29 @@ public class Lobby extends BasicGameState{
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException{
         g.drawImage(lobbyBackground, 0, 0);
 
-
-        b1.render(gc, g);
-        b2.render(gc, g);
-        b3.render(gc, g);
-        b4.render(gc, g);
-
-        g.drawString(NameScreen.tmpName,50,140);
-
+        for (int j = 0; j < buttons.length; j++) {
+            buttons[j].render(gc, g);
+            if (p1.getPlayerReady()) {
+                role.render(gc, g);
+            }
+        }
 
     }
 
-    public void togglePlayerStatus(GameContainer gc, Button button, Player player) {
+    public void togglePlayerStatus(GameContainer gc, Button[] button, Player player) {
 
-        toggle = button.getPlayerReady();
+        for (int i = 0; i < button.length; i++) {
+            toggle = player.getPlayerReady();
 
-        if (button.clickWithin(gc)) {
-            if (!toggle) {
-                button.setPlayerReady(true);
-            } else {
-                button.setPlayerReady(false);
+            if (button[i].clickWithin(gc)) {
+                if (!toggle) {
+                    player.setPlayerReady(true);
+                    button[i].setPicIndexNo(1);
+                } else {
+                    player.setPlayerReady(false);
+                    button[i].setPicIndexNo(0);
+
+                }
             }
         }
     }

@@ -15,6 +15,7 @@ public class Player extends BasicGame {
     boolean turn;
     int actionsLeft;
     boolean playerReady;
+    Roles[] roles;
 
 
 
