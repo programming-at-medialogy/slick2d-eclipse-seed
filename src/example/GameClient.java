@@ -2,14 +2,13 @@ package example;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.newdawn.slick.AppGameContainer;
-import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.state.StateBasedGame;
 
 
-public class GameClient extends BasicGame //My first comment
+public class GameClient extends StateBasedGame //My first comment
 {
 
     Image bg;
@@ -18,16 +17,28 @@ public class GameClient extends BasicGame //My first comment
 	public GameClient(String gamename)
 	{
 		super(gamename);
-		lobby = new Lobby(gamename);
 	}
 
+    /*
 	@Override
 	public void init(GameContainer gc) throws SlickException {
 		lobby.init(gc);
         bg = new Image("assets/bg.png");
     }//Comment 2
+    */
 
-	@Override
+    @Override
+    public void initStatesList(GameContainer gc) throws SlickException {
+        this.addState(new NameScreen());
+        this.addState(new Lobby());
+
+
+/*
+        this.getState(0).init(gc, this);
+        this.enterState(0);*/
+    }
+    /*
+    @Override
 	public void update(GameContainer gc, int i) throws SlickException {
         lobby.update(gc,i);
     }
@@ -38,7 +49,7 @@ public class GameClient extends BasicGame //My first comment
 		//g.drawString("Pandemic!",300 , 200);
         //g.drawImage(bg,0,0);
 		lobby.render(gc, g);
-	}
+	}*/
 
 	public static void main(String[] args)
 	{
