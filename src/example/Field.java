@@ -2,6 +2,12 @@ package example;
 
 import java.util.ArrayList;
 
+/**
+ * Creates a field, using the TerrainType enumerator as a parameter to set the terrain type.
+ * @param  TerrainType an enumerator which sets the type of water. 
+ * Example: Terraintype.WATER
+ * @see TerrainType
+ */
 public class Field {
 
 	// The innate defence value of a field. Starts at 2, which is set in the constructor below. 
@@ -14,61 +20,88 @@ public class Field {
 	private boolean containingMines = false;
 	private boolean containingMountains = false;
 	
-	// boolean to check if a field is adjacent to border of map. BorderPosition is 
-	// set to false by default.
+	/**
+	 * Boolean to check if a field is adjacent to border of map. Set to false  
+	 * by default.
+	 */
 	private boolean borderPosition = false;
 	
-	// Conquerable is true by default and must be set to false for water fields
+	/**
+	 * Conquerable is true by default and must be set to false for water fields
+	 */ 
 	private boolean conquerable = true;
 
-	// A string containing the terrain type of a field - forest, hill, water, etc. This is set 
-	// using an enumerator with a switch upon object construction to ensure that people can't 
-	// fuck around with it!
+	/**
+	 * The type of a terrain (water, swamp, farmland, etc.) is set here
+	 */ 
 	private String terrainType;
 
-	// The idea is that this ArrayList of fields will contain all the fields adjacent to this 
-	// given field, as per Paolo's chart instructions
+	/**
+	 * Contains all the fields adjacent to this field
+	 * @see Field.isAdjacentTo();
+	 */
 	ArrayList<Field> adjacencies = new ArrayList<Field>();
 
 	// This array is supposed to be an array of units, we used strings as we don't have the 
 	// unit class yet
 	ArrayList<String> amountOfUnits = new ArrayList<String>();
 
-	// Constructor
+	
+	/**
+	 * @param  terrainType an enumerator which sets the type of terrain. 
+	 * Example: Terraintype.WATER
+	 * @see TerrainType
+	 */	
 	public Field(TerrainType terrainType) {
+		// Constructor
+		
 		setDefenceValue(2);
 
 		setTerrainType(terrainType);
 		
-		// If statements which sets conquerable to true if field is water
+		// If statement which sets conquerable to true if field is water
 		if (this.terrainType.equals("Water")) {
 			setConquerable(false);
 		}
 
 	}
 
-	// Method that uses a switch and the construction parameters to set the terrain type for 
-	// the field via our enumerator
+	/**
+	 * Method that uses a switch and the construction parameters to set the terrain type for 
+	 * the field via our TerrainType enumerator.
+	 * @param  terrainType an enumerator which sets the type of terrain. 
+	 * Example: Terraintype.WATER
+	 */ 
 	private void setTerrainType(TerrainType terrainType) {
 		switch (terrainType) {
 		case WATER:
 			this.terrainType = "Water";
+			break;
 		case FOREST:
 			this.terrainType = "Forest";
+			break;
 		case HILL:
 			this.terrainType = "Hill";
+			break;
 		case SWAMP:
 			this.terrainType = "Swamp";
+			break;
 		case MOUNTAINLAND:
 			this.terrainType = "Mountainland";
+			break;
 		case FARMLAND:
 			this.terrainType = "Farmland";
+			break;
 
 
 		}
 	}
 
-	// Method which checks if the field is adjacent to another field
+	/**
+	 * Method which checks if this field is adjacent to another field
+	 * @param otherField The field it compares to
+	 * @return True or false
+	 */
 	public boolean isAdjacentTo(Field otherField) {
 		if (adjacencies.contains(otherField)) return true;
 		else return false;
