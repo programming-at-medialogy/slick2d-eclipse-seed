@@ -18,9 +18,10 @@ public class GameClient extends StateBasedGame //My first comment
 
     @Override
     public void initStatesList(GameContainer gc) throws SlickException {
-		this.addState(new Lobby());
 
-		this.addState(new NameScreen());
+		this.addState(new InputNameScreen());
+        this.addState(new Lobby());
+
 
 
 
