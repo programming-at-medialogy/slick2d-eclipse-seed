@@ -14,9 +14,8 @@ public class Player extends BasicGame {
     String pos, role;
     boolean turn;
     int actionsLeft;
-    boolean playerReady;
+    private boolean playerReady;
     Roles[] roles;
-
 
 
     public Player(String gametitle) {
@@ -46,8 +45,13 @@ public class Player extends BasicGame {
     }
 
     public void setPlayerReady(boolean setPlayerReady) {
+
         this.playerReady = setPlayerReady;
+        System.out.println(getTitle() + " is ready?: " + playerReady);
+
     }
+
+
 
 
 }

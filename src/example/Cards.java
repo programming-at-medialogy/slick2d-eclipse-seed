@@ -5,5 +5,6 @@ package example;
  */
 public class Cards {
 
-    Cards() {}
+    Cards() {
+    }
 }
