@@ -2,16 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="87c6429f-0d80-415e-a4c2-d6a5c504fbd0" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/buttons/button4.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/buttons/button5.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/buttons/button0.png" afterPath="$PROJECT_DIR$/assets/buttons/button0.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/buttons/button1.png" afterPath="$PROJECT_DIR$/assets/buttons/button1.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/example/Button.java" afterPath="$PROJECT_DIR$/src/example/Button.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/example/GameClient.java" afterPath="$PROJECT_DIR$/src/example/GameClient.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/example/InputNameScreen.java" afterPath="$PROJECT_DIR$/src/example/InputNameScreen.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/example/Lobby.java" afterPath="$PROJECT_DIR$/src/example/Lobby.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/example/Player.java" afterPath="$PROJECT_DIR$/src/example/Player.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/example/Roles.java" afterPath="$PROJECT_DIR$/src/example/Roles.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Game-PCS-Client.iws" />
@@ -607,7 +597,7 @@
       <workItem from="1446791897741" duration="929000" />
       <workItem from="1446796565989" duration="4618000" />
       <workItem from="1446802541838" duration="40485000" />
-      <workItem from="1446862906789" duration="1287000" />
+      <workItem from="1446862906789" duration="2084000" />
     </task>
     <task id="LOCAL-00001" summary="Background assets pushed">
       <created>1446542694544</created>
@@ -663,11 +653,17 @@
       <option name="project" value="LOCAL" />
       <updated>1446781433755</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Added a bunch of stuff. Most importantly added get and set methods for server integration. Works with the test server at https://github.com/ThomasMacdonaldArnskov/PandemicTestServer">
+      <created>1446864385083</created>
+      <option name="number" value="00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1446864385084</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="137211000" />
+    <option name="totallyTimeSpent" value="138008000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -747,7 +743,8 @@
     <MESSAGE value="Added a name-entering screen, changed project from BasicGame slick to StateBasedGame. The game client now jumps directly to name screen with button and textfield to go to the lobby" />
     <MESSAGE value="Cleaned up the Button function so that it can be used in other instances than just the lobby. Removed single instances of new classes and used arrays instead" />
     <MESSAGE value="Changes in multiple areas. Added a playstate class which doesn't do anything right now...&#10;&#10;We gotta make a change...&#10;It's time for us as a people to start makin' some changes.&#10;Let's change the way we eat, let's change the way we live&#10;and let's change the way we treat each other.&#10;You see the old way wasn't working so it's on us to do&#10;what we gotta do, to survive." />
-    <option name="LAST_COMMIT_MESSAGE" value="Changes in multiple areas. Added a playstate class which doesn't do anything right now...&#10;&#10;We gotta make a change...&#10;It's time for us as a people to start makin' some changes.&#10;Let's change the way we eat, let's change the way we live&#10;and let's change the way we treat each other.&#10;You see the old way wasn't working so it's on us to do&#10;what we gotta do, to survive." />
+    <MESSAGE value="Added a bunch of stuff. Most importantly added get and set methods for server integration. Works with the test server at https://github.com/ThomasMacdonaldArnskov/PandemicTestServer" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added a bunch of stuff. Most importantly added get and set methods for server integration. Works with the test server at https://github.com/ThomasMacdonaldArnskov/PandemicTestServer" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
