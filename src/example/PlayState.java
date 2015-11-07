@@ -8,7 +8,9 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 /**
- * Created by TMA on 06-11-2015.
+ * The play state of the game. The player enters this state when all 4 players are connected and have toggled their
+ * status to ready.
+ * Created by TMA.
  */
 public class PlayState extends BasicGameState {
 

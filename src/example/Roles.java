@@ -3,6 +3,7 @@ package example;
 import org.newdawn.slick.*;
 
 /**
+ * The roles class
  * Created by TMA on 05-11-2015.
  */
 

@@ -8,7 +8,9 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 /**
- * Created by TMA on 05-11-2015.
+ * Input Name Screen (terrible name, was originally going to be a textfield input screen) is the first state the player enters
+ * Here he is encouraged to enter the lobby
+ * Created by TMA.
  */
 
 public class InputNameScreen extends BasicGameState {

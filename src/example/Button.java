@@ -3,6 +3,7 @@ package example;
 import org.newdawn.slick.*;
 
 /**
+ * Button class that holds all different clickables in the game
  * Created by TMA on 04-11-2015.
  */
 
@@ -25,16 +26,13 @@ public class Button extends BasicGame {
     private Image[] images = new Image[4];
 
 
-
-
-
     public Button(String title, int x, int y, int picIndexNo) {
         super(title);
         this.imgX = x;
         this.imgY = y;
         isActive = false;
 
-        //Encapsulation of the indexNo used to access images specific images
+        //Encapsulation of the indexNo used to access specific images in the images[] array
         if (picIndexNo >= 0 && picIndexNo <= images.length - 1) {
         this.picIndexNo = picIndexNo;
         } else {
@@ -63,8 +61,10 @@ public class Button extends BasicGame {
     }
 
     /**
-    * Simple collision test. If the mouse is pressed within the confounds of the button the method returns true.
-    * Otherwise returns false. Takes GameContainer argument to use SLICK2D's Input function.
+     * Simple collision test. If the mouse is pressed within the confounds of the button the method returns true.
+     * Otherwise returns false. Takes GameContainer argument to use SLICK2D's Input function.
+     * @param gc the SlICK 2D game container
+     * @return boolean
      */
     public boolean clickWithin(GameContainer gc) {
         org.newdawn.slick.Input input = gc.getInput();
@@ -78,6 +78,11 @@ public class Button extends BasicGame {
         }
 
     }
+
+
+    /**
+     * GETTER and SETTER methods
+     */
 
     public int getPicIndexNo() {
         return picIndexNo;

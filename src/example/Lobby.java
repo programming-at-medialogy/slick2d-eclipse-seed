@@ -6,11 +6,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +17,7 @@ import java.util.List;
  * The Lobby handles player connections and makes sure that enough people are connected
  * in order to play the game. The status of the player (ready to play/not ready) is toggled through
  * the lobby
+ * Created by TMA.
  */
 
 public class Lobby extends BasicGameState {
@@ -30,16 +27,12 @@ public class Lobby extends BasicGameState {
     private Button readyToggle;
     private Button beginGame;
     private List<Player> players;
-    private String playerStatusOut;
     private int playerno = 0;
-    private boolean curPlayStatus;
 
     private Image waitingForPlayers, playersConnected;
 
     public Lobby() {
     }
-
-
 
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
         lobbyBackground = new Image("assets/backgrounds/lobby.png");
@@ -131,9 +124,14 @@ public class Lobby extends BasicGameState {
     }
 
     /**
+     * @param gc the game container passed through every instance of SLICK2D
+     * @param button - The button that is supposed to be toggled
+     * @param list - the Player
+     * @param indexNo - the position of the player within the array
      * togglePlayerStatus sees if a player in the player class is ready and
      * toggles the image of the button (ready/not ready) and sets the playerReady
      * status to the opposite of what it was
+
      */
     public void togglePlayerStatus(GameContainer gc, Button button, List<Player> list, int indexNo) {
 
@@ -142,13 +140,13 @@ public class Lobby extends BasicGameState {
         if (button.clickWithin(gc)) {
             if (!toggle) {
                 list.get(indexNo).setPlayerReady(true);
-                setPlayerStatusOnServer();
+                ServerCalls.setPlayerStatusOnServer(players, playerno);
 
                 button.setPicIndexNo(1);
             } else {
                 list.get(indexNo).setPlayerReady(false);
                 button.setPicIndexNo(0);
-                setPlayerStatusOnServer();
+                ServerCalls.setPlayerStatusOnServer(players, playerno);
 
 
             }
@@ -161,26 +159,4 @@ public class Lobby extends BasicGameState {
         return 1;
     }
 
-
-    //SHOULD BE MOVED TO SERVERCALL CLASS AND MADE STATIC
-    /**
-     *  Opens a connection to the server and sets the ready status of the player
-     */
-
-    public void setPlayerStatusOnServer() {
-        try {
-            Socket s = new Socket("localhost", 1234);
-            PrintWriter setPlayerStatus = new PrintWriter(s.getOutputStream(), true);
-            curPlayStatus = players.get(playerno).getPlayerReady();
-            setPlayerStatus.println("SET_PLAYER_STATUS: " + curPlayStatus + " " + playerno);
-
-            BufferedReader getPlayerStatus = new BufferedReader(new InputStreamReader(s.getInputStream()));
-            playerStatusOut = getPlayerStatus.readLine();
-            curPlayStatus = Boolean.valueOf(playerStatusOut);
-            System.out.println("FROM SET PLAY FUNCTION : Player With ID " + playerno + " is now active" + curPlayStatus);
-        } catch (IOException ioEx) {
-            ioEx.printStackTrace();
-        }
-
-    }
 }

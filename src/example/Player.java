@@ -6,6 +6,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
 /**
+ * The player class
  * Created by TMA on 03-11-2015.
  */
 public class Player extends BasicGame {
@@ -38,6 +39,10 @@ public class Player extends BasicGame {
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
 
     }
+
+    /**
+     * GETTER and SETTER Methods
+     */
 
     public boolean getPlayerReady() {
         return playerReady;
