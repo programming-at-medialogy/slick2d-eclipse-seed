@@ -7,19 +7,14 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.Socket;
-
 /**
  * Created by TMA on 05-11-2015.
  */
+
 public class InputNameScreen extends BasicGameState {
 
-    Image bg;
-    Button b;
+    private Image bg;
+    private Button b;
 
     public InputNameScreen() {
     }

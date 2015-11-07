@@ -26,20 +26,20 @@ import java.util.List;
 public class Lobby extends BasicGameState {
 
     private Image lobbyBackground;
+    private Roles role;
+    private Button readyToggle;
+    private Button beginGame;
+    private List<Player> players;
+    private String playerStatusOut;
+    private int playerno = 0;
+    private boolean curPlayStatus;
+
+    private Image waitingForPlayers, playersConnected;
 
     public Lobby() {
     }
 
-    Player p1, p2, p3, p4;
-    Roles role;
-    Button readyToggle;
-    Button beginGame;
-    List<Player> players;
-    String inputStream, playerStatusOut;
-    int playerno = 0;
-    boolean curPlayStatus;
 
-    Image waitingForPlayers, playersConnected;
 
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
         lobbyBackground = new Image("assets/backgrounds/lobby.png");
@@ -48,12 +48,6 @@ public class Lobby extends BasicGameState {
 
         waitingForPlayers = new Image("assets/buttons/button4.png");
         playersConnected = new Image("assets/buttons/button5.png");
-
-
-        p1 = new Player("Player 1");
-        p2 = new Player("Player 2");
-        p3 = new Player("Player 3");
-        p4 = new Player("Player 4");
 
         role = new Roles("TEST", 3);
 
@@ -68,16 +62,7 @@ public class Lobby extends BasicGameState {
         players.add(new Player("4"));
 
         try {
-            Socket s = new Socket("localhost", 1234);
-
-            PrintWriter out = new PrintWriter(s.getOutputStream(), true);
-            out.println("ASSIGN_PLAYER_ID");
-
-            BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
-            inputStream = in.readLine();
-            playerno = Integer.valueOf(inputStream);
-            System.out.println(inputStream);
-
+            playerno = ServerCalls.assignPlayerID();
         } catch (IOException ioEx) {
             ioEx.printStackTrace();
         }
@@ -88,58 +73,55 @@ public class Lobby extends BasicGameState {
 
     public void update(GameContainer gc, StateBasedGame sbg, int i) throws SlickException {
 
-
-        try {
-
-            if (players.get(playerno).getPlayerReady()) {
-                togglePlayerStatus(gc, readyToggle, players, playerno);
-
-            } else {
-                togglePlayerStatus(gc, readyToggle, players, playerno);
-            }
-            if (beginGame.clickWithin(gc) && beginGame.isActive()) {
-                System.out.println("PLAYER WITH ID " + playerno + " IS NOW ACTIVE: " + getPlayerStatusOnServer(playerno) + ". FROM A BOOL METHOD");
+            //TOGGLES YOUR STATUS BETWEEN TRUE AND FALSE
+            //IF BEGIN GAME IS ACTIVE (ALL PLAYERS HAVE JOINED) PRESS THE BUTTON TO ENTER THE GAME
+            togglePlayerStatus(gc,readyToggle,players,playerno);
+            if (beginGame.isActive() && beginGame.clickWithin(gc)) {
                 sbg.enterState(2);
             }
-        } catch (IOException ioEx) {
-            ioEx.printStackTrace();
-        }
+
+
     }
 
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
         g.drawImage(lobbyBackground, 0, 0);
 
-
-            if (players.get(playerno).getPlayerReady()) {
                 readyToggle.render(gc, g);
+        try {
+
+            //IF YOU ARE ACTIVE RENDER YOUR ASSIGNED ROLE
+            if (ServerCalls.getPlayerStatusOnServer(playerno)) {
                 role.render(gc, g);
-                beginGame.render(gc, g);
+            }
+
+            //IF ALL PEOPLE ARE READY RENDER THE BEGIN GAME BUTTON AND SET IT TO ACTIVE
+            if (ServerCalls.getPlayerStatusOnServer(0) && ServerCalls.getPlayerStatusOnServer(1) && ServerCalls.getPlayerStatusOnServer(2) && ServerCalls.getPlayerStatusOnServer(3)) {
+                beginGame.render(gc,g);
                 beginGame.setActive(true);
             } else {
-                readyToggle.render(gc,g);
                 beginGame.setActive(false);
             }
 
-        try {
-            if (getPlayerStatusOnServer(0) && playerno!= 0) {
+            //UPDATES THE VISUAL STATUS OF THE OTHER PLAYERS IN THE LOBBY FOR YOUR GAME CLIENT
+            if (ServerCalls.getPlayerStatusOnServer(0) && playerno!= 0) {
                 g.drawImage(waitingForPlayers, 43, 130);
-            } else if (!getPlayerStatusOnServer(0) && playerno!= 0) {
+            } else if (!ServerCalls.getPlayerStatusOnServer(0) && playerno!= 0) {
                 g.drawImage(playersConnected, 43, 130);
             }
-            if (getPlayerStatusOnServer(1) && playerno!= 1) {
+            if (ServerCalls.getPlayerStatusOnServer(1) && playerno!= 1) {
                 g.drawImage(waitingForPlayers, 43, 200);
-            } else if (!getPlayerStatusOnServer(1) && playerno!= 1) {
+            } else if (!ServerCalls.getPlayerStatusOnServer(1) && playerno!= 1) {
                 g.drawImage(playersConnected, 43, 200);
             }
-            if (getPlayerStatusOnServer(2) && playerno!= 2) {
+            if (ServerCalls.getPlayerStatusOnServer(2) && playerno!= 2) {
                 g.drawImage(waitingForPlayers, 43, 270);
-            } else if (!getPlayerStatusOnServer(2) && playerno!= 2) {
+            } else if (!ServerCalls.getPlayerStatusOnServer(2) && playerno!= 2) {
                 g.drawImage(playersConnected, 43, 270);
             }
-            if (getPlayerStatusOnServer(3) && playerno!= 3) {
+            if (ServerCalls.getPlayerStatusOnServer(3) && playerno!= 3) {
                 g.drawImage(waitingForPlayers, 43, 340);
-            } else if (!getPlayerStatusOnServer(3) && playerno!= 3) {
+            } else if (!ServerCalls.getPlayerStatusOnServer(3) && playerno!= 3) {
                 g.drawImage(playersConnected, 43, 340);
             }
         } catch (IOException ioEx) {
@@ -179,13 +161,12 @@ public class Lobby extends BasicGameState {
         return 1;
     }
 
-    public int returnPlayerNo() {
-        return playerno;
-    }
 
+    //SHOULD BE MOVED TO SERVERCALL CLASS AND MADE STATIC
     /**
      *  Opens a connection to the server and sets the ready status of the player
      */
+
     public void setPlayerStatusOnServer() {
         try {
             Socket s = new Socket("localhost", 1234);
@@ -201,28 +182,5 @@ public class Lobby extends BasicGameState {
             ioEx.printStackTrace();
         }
 
-    }
-
-
-    /**
-     *
-     * @param index sets the GET function to the specific player ID
-     * @return the current status of the player (if he is ready or not)
-     * @throws IOException
-     */
-    public boolean getPlayerStatusOnServer(int index) throws IOException {
-
-        boolean gO;
-        String oPSO;
-
-        Socket gP = new Socket("localhost", 1234);
-        PrintWriter gPs = new PrintWriter(gP.getOutputStream(), true);
-        gPs.println("GET_PLAYER_STATUS: "+index);
-
-        BufferedReader gettingThePlayerStatus = new BufferedReader(new InputStreamReader(gP.getInputStream()));
-        oPSO = gettingThePlayerStatus.readLine();
-        gO = Boolean.valueOf(oPSO);
-        //System.out.println("FROM GET FUNCTION : Player With ID " + index + " is active " + gO);
-        return gO;
     }
 }
