@@ -8,13 +8,13 @@ import org.newdawn.slick.*;
 
 public class Roles extends BasicGame {
 
-    /*
-    roleImg stores the different graphical elements that display the players role, indexNo is used for access
-                Index 0: Medic
-                Index 1: Dispatcher
-                Index 2: Quarantine Specialist
-                Index 3: Contingency Planner
-     */
+    /**
+    *   roleImg stores the different graphical elements that display the players role, indexNo is used for access
+    *            Index 0: Medic
+    *            Index 1: Dispatcher
+    *            Index 2: Quarantine Specialist
+    *            Index 3: Contingency Planner
+    */
     private Image[] roleImg = new Image[4];
     private int indexNo;
 

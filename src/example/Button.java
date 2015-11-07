@@ -13,7 +13,7 @@ public class Button extends BasicGame {
     *   images array stores graphical representation of different buttons, picIndexNo is used to locate a specific index in the array
     *        Index 0: Click to join button
     *        Index 1: Ready - Click to leave
-    *        Index 2: Begin example.Game
+    *        Index 2: Enter PlayState
     */
 
     private int imgX;
@@ -62,9 +62,9 @@ public class Button extends BasicGame {
 
     }
 
-    /*
-    Simple collision test. If the mouse is pressed within the confounds of the button the method returns true.
-    Otherwise returns false. Takes GameContainer argument to use SLICK2D's Input function.
+    /**
+    * Simple collision test. If the mouse is pressed within the confounds of the button the method returns true.
+    * Otherwise returns false. Takes GameContainer argument to use SLICK2D's Input function.
      */
     public boolean clickWithin(GameContainer gc) {
         org.newdawn.slick.Input input = gc.getInput();
@@ -95,4 +95,7 @@ public class Button extends BasicGame {
         this.isActive = setActive;
     }
 
+    public int getImgY() { return imgY; }
+
+    public void setImgY(int i) { this.imgY = i; }
 }

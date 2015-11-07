@@ -10,7 +10,6 @@ import org.newdawn.slick.SlickException;
  */
 public class Player extends BasicGame {
 
-    //Hand hand;
     String pos, role;
     boolean turn;
     int actionsLeft;
