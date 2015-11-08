@@ -5,6 +5,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 
+import java.io.IOException;
+
 /**
  * The player class
  * Created by TMA on 03-11-2015.
@@ -24,9 +26,9 @@ public class Player extends BasicGame {
 
     }
 
+    // SLICK2D METHODS
     @Override
     public void init(GameContainer gameContainer) throws SlickException {
-
 
     }
 
@@ -39,6 +41,8 @@ public class Player extends BasicGame {
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
 
     }
+
+
 
     /**
      * GETTER and SETTER Methods

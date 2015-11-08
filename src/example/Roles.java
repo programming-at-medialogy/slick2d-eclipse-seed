@@ -2,6 +2,8 @@ package example;
 
 import org.newdawn.slick.*;
 
+import java.util.Random;
+
 /**
  * The roles class
  * Created by TMA on 05-11-2015.
@@ -16,7 +18,7 @@ public class Roles extends BasicGame {
     *            Index 2: Quarantine Specialist
     *            Index 3: Contingency Planner
     */
-    private Image[] roleImg = new Image[4];
+    private Image[] roleImg = new Image[7];
     private int indexNo;
 
     public Roles(String title, int indexNo) {
@@ -31,6 +33,8 @@ public class Roles extends BasicGame {
         }
     }
 
+
+    //SLICK2D METHODS
     @Override
     public void init(GameContainer gameContainer) throws SlickException {
         for (int i = 0; i < roleImg.length; i++) {
@@ -46,6 +50,17 @@ public class Roles extends BasicGame {
     @Override
     public void render(GameContainer gameContainer, Graphics g) throws SlickException {
         g.drawImage(roleImg[indexNo], 43, 535);
+    }
+
+    public void rolesRandomGenerator() {
+        Random rnd = new Random();
+        int tmpRnd = rnd.nextInt(8);
+        //CONNECT TO SERVER
+        //SEND tmpRnd
+        //GET TRUE OR FALSE BACK
+        //IF FALSE TMPRANDOM = ROLENO
+        //IF TRUE NEW RANDOM
 
     }
 }
+

@@ -14,7 +14,7 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public class PlayState extends BasicGameState {
 
-    Image gameBoard;
+    private Image gameBoard;
 
 
     @Override
