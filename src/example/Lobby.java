@@ -74,11 +74,6 @@ public class Lobby extends BasicGameState {
         players.add(new Player("3"));
         players.add(new Player("4"));
 
-        for (int i = 0; i < players.size(); i++) {
-            players.get(i).init(gc);
-        }
-
-
         readyToggle.setImgY(playerno * 70 + 130);
         role = new Roles("TEST", roleNo);
         role.init(gc);
