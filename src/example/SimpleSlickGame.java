@@ -13,6 +13,7 @@ public class SimpleSlickGame extends BasicGame //My first comment
 {
 
     Image bg;
+    //City city = new City("test");
 
 	public SimpleSlickGame(String gamename)
 	{
@@ -21,12 +22,13 @@ public class SimpleSlickGame extends BasicGame //My first comment
 
 	@Override
 	public void init(GameContainer gc) throws SlickException {
-
         bg = new Image("assets/bg.png");
     }//Comment 2
 
 	@Override
-	public void update(GameContainer gc, int i) throws SlickException {}
+	public void update(GameContainer gc, int i) throws SlickException {
+        //city.update(gc,i);
+    }
 
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException
@@ -49,4 +51,6 @@ public class SimpleSlickGame extends BasicGame //My first comment
 			Logger.getLogger(SimpleSlickGame.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
+
+
 }
