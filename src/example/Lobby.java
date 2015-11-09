@@ -54,7 +54,6 @@ public class Lobby extends BasicGameState {
             gameBeginning[i] = new Image("assets/animation/" + i + ".png");
         }
 
-
         counter = 0;
         gameStateControl = false;
 
@@ -75,11 +74,10 @@ public class Lobby extends BasicGameState {
         players.add(new Player("4"));
 
         readyToggle.setImgY(playerno * 70 + 130);
-        role = new Roles("TEST", roleNo);
+        role = new Roles("PlayerRole", roleNo);
         role.init(gc);
 
         animation = new Animation(gameBeginning, 1000);
-
 
     }
 

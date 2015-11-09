@@ -1,10 +1,5 @@
 package example;
 
-import org.newdawn.slick.BasicGame;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.SlickException;
-
 /**
  * The player class
  * Created by TMA on 03-11-2015.
