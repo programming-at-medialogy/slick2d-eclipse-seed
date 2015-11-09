@@ -96,9 +96,9 @@ public class Main extends BasicGame{
 				if (i == 6)
 					angle = 0.523f;
 				if(i%2!=0){
-					diameter = 155;
+					diameter = 156;
 				}else{
-					diameter = 179;
+					diameter = 180;
 				}
 				angle +=0.524;
 		        xPos = (float) (diameter * Math.cos (angle));
