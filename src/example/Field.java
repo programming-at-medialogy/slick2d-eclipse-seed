@@ -113,6 +113,9 @@ public class Field {
 
 	void setContainsMountains(boolean containingMountains) {
 		this.containingMountains = containingMountains;
+		if(containingMountains==true){
+			setDefenceValue(getDefenceValue()+1);
+			}
 	}
 
 	boolean isBorderPosition() {
