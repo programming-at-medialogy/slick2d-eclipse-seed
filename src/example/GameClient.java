@@ -4,10 +4,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.newdawn.slick.AppGameContainer;
-import org.newdawn.slick.Game;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+
 
 /**
 *   Uses SLICK2D StateBasedGame in order to easily jump between states
@@ -27,7 +27,7 @@ public class GameClient extends StateBasedGame
     *   Index list:
     *            Index 0: InputNameScreen
     *            Index 1: Lobby
-     *           Index 2: example.Game
+     *           Index 2: PlayState
     */
     @Override
     public void initStatesList(GameContainer gc) throws SlickException {
@@ -42,14 +42,24 @@ public class GameClient extends StateBasedGame
 
     //The main
     public static void main(String[] args) {
+
         try {
             AppGameContainer appgc;
             appgc = new AppGameContainer(new GameClient("Pandemic"));
             appgc.setShowFPS(false);
-            appgc.setDisplayMode(1366, 768, false); //True for fullscreen goodness, kept false for testing
+            appgc.setTargetFrameRate(10);
+            appgc.setDisplayMode(1366, 768, true); //True for fullscreen goodness, kept false for testing
             appgc.start();
         } catch (SlickException ex) {
             Logger.getLogger(GameClient.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+
+
+
+        System.exit(0);
+
+
     }
+
 }

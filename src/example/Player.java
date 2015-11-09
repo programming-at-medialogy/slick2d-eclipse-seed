@@ -1,44 +1,29 @@
 package example;
 
-import org.newdawn.slick.BasicGame;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.SlickException;
-
 /**
+ * The player class
  * Created by TMA on 03-11-2015.
  */
-public class Player extends BasicGame {
+public class Player {
 
-    //Hand hand;
     String pos, role;
     boolean turn;
     int actionsLeft;
     private boolean playerReady;
     Roles[] roles;
 
+    String gametitle;
+
 
     public Player(String gametitle) {
-        super(gametitle);
+        this.gametitle = gametitle;
         playerReady = false;
 
     }
 
-    @Override
-    public void init(GameContainer gameContainer) throws SlickException {
-
-
-    }
-
-    @Override
-    public void update(GameContainer gameContainer, int i) throws SlickException {
-
-    }
-
-    @Override
-    public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
-
-    }
+    /**
+     * GETTER and SETTER Methods
+     */
 
     public boolean getPlayerReady() {
         return playerReady;
@@ -47,7 +32,7 @@ public class Player extends BasicGame {
     public void setPlayerReady(boolean setPlayerReady) {
 
         this.playerReady = setPlayerReady;
-        System.out.println(getTitle() + " is ready?: " + playerReady);
+        //System.out.println(getTitle() + " is ready?: " + playerReady);
 
     }
 
