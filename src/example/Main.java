@@ -4,8 +4,7 @@ package example;
 public class Main {
 
 	GameController gameController = new GameController(); 
-	
-	public void initGame() {
+ void initGame() {
 
 		gameController.createStack();
 		gameController.addPlayer();
@@ -22,12 +21,18 @@ public class Main {
 		System.out.println(gameController.player.get(0).pair[1].units);
 		gameController.player.get(0).pair[1].effect();
 		System.out.println(gameController.player.get(0).pair[1].units);
+		
 
 	
 	}
 
 	public static void main(String[] args) {
 
+		MapTwoPlayer mapTwoPlayer = new MapTwoPlayer();
+		System.out.println("defence value = " + mapTwoPlayer.field1pt4.getDefenceValue());
+		
+		
+		
 		Main m = new Main();
 		m.initGame();
 		
