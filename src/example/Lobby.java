@@ -5,6 +5,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,6 +23,8 @@ import java.util.List;
 
 public class Lobby extends BasicGameState {
 
+    private GameStateCommons gsc;
+
     private Image lobbyBackground;
     private Roles role;
     private Button readyToggle;
@@ -35,16 +39,19 @@ public class Lobby extends BasicGameState {
     int counter;
     boolean gameStateControl;
 
-    public Lobby() {
+    public Lobby(GameStateCommons gsc) {
+        this.gsc = gsc;
     }
 
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-        lobbyBackground = new Image("assets/backgrounds/lobby.png");
+
         readyToggle = new Button("READY", 43, 130, 0);
         beginGame = new Button("BEGIN_GAME", 763, 642, 2);
 
+        lobbyBackground = new Image("assets/backgrounds/lobby.png");
         playersConnected = new Image("assets/buttons/button4.png");
         waitingForPlayers = new Image("assets/buttons/button5.png");
+
         team = new Image[7];
         for (int i = 0; i < team.length; i++) {
             team[i] = new Image("assets/roles/team/" + i + ".png");
@@ -54,12 +61,18 @@ public class Lobby extends BasicGameState {
             gameBeginning[i] = new Image("assets/animation/" + i + ".png");
         }
 
+        animation = new Animation(gameBeginning, 1000);
+
+
         counter = 0;
         gameStateControl = false;
+
+
 
         beginGame.init(gc);
         readyToggle.init(gc);
 
+        //ASSIGN PLAYER NO. AND GET ROLE FROM SERVER
         try {
             playerno = ServerCalls.assignPlayerID();
             roleNo = ServerCalls.setPlayerRole(playerno);
@@ -67,17 +80,24 @@ public class Lobby extends BasicGameState {
             ioEx.printStackTrace();
         }
 
+        //STORE VALUES IN THE COMMON LIBRARY
+        gsc.setPlayers(players);
+        gsc.setPlayerNo(playerno);
+        gsc.setRoleNo(roleNo);
+
+        //CREATE THE PLAYERS
         players = new ArrayList<Player>(4);
         players.add(new Player("1"));
         players.add(new Player("2"));
         players.add(new Player("3"));
         players.add(new Player("4"));
 
+
         readyToggle.setImgY(playerno * 70 + 130);
-        role = new Roles("PlayerRole", roleNo);
+
+        role = new Roles("PlayerRole", roleNo,0);
         role.init(gc);
 
-        animation = new Animation(gameBeginning, 1000);
 
     }
 
@@ -91,19 +111,8 @@ public class Lobby extends BasicGameState {
         }
 
         if (gameStateControl) {
-            sbg.enterState(2);
-            ServerCalls.beginGame();
-        }
-
-        if (playerno != 0) {
-            try {
-                int gs = ServerCalls.hasGameBegun();
-                sbg.enterState(gs);
-
-            } catch (IOException IOex) {
-                IOex.printStackTrace();
-            }
-
+            gsc.setEnteringGameState(true,playerno);
+            sbg.enterState(2, new FadeOutTransition(),new FadeInTransition());
         }
 
 
@@ -131,7 +140,7 @@ public class Lobby extends BasicGameState {
             if (ServerCalls.getAnimationStatus()) {
                 g.drawAnimation(animation, 763, 642);
                 counter++;
-                if (counter > 48) {
+                if (counter > 45) {
                     gameStateControl = true;
                 }
             }
@@ -142,8 +151,6 @@ public class Lobby extends BasicGameState {
             } else if (ServerCalls.getPlayerStatusOnServer(0) && playerno != 0) {
                 g.drawImage(playersConnected, 43, 130);
                 g.drawImage(team[ServerCalls.getPlayerRole(0)], 851, 163);
-
-
             }
             if (!ServerCalls.getPlayerStatusOnServer(1) && playerno != 1) {
                 g.drawImage(waitingForPlayers, 43, 200);
@@ -197,6 +204,11 @@ public class Lobby extends BasicGameState {
             }
         }
     }
+
+    public int getPlayerNo() { return playerno; }
+    public int getRoleNo() { return roleNo; }
+
+    public List<Player> getPlayers(){ return players; }
 
 
     @Override

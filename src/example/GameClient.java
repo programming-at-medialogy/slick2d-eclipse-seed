@@ -1,5 +1,6 @@
 package example;
 
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,11 +33,11 @@ public class GameClient extends StateBasedGame
     @Override
     public void initStatesList(GameContainer gc) throws SlickException {
 
-        //this.addState(new InputNameScreen());
-        //this.addState(new Lobby());
-        //this.addState(new PlayState());
-        this.addState(new GameBoard());
+        GameStateCommons gsc = new GameStateCommons();
 
+        //this.addState(new InputNameScreen());
+        //this.addState(new Lobby(gsc));
+        this.addState(new GameBoard(gsc));
 
     }
 
@@ -49,7 +50,7 @@ public class GameClient extends StateBasedGame
             appgc = new AppGameContainer(new GameClient("Pandemic"));
             appgc.setShowFPS(false);
             appgc.setTargetFrameRate(10);
-            appgc.setDisplayMode(1366, 768, false); //True for fullscreen goodness, kept false for testing
+            appgc.setDisplayMode(1366, 768, true); //True for fullscreen goodness, kept false for testing
             appgc.start();
         } catch (SlickException ex) {
             Logger.getLogger(GameClient.class.getName()).log(Level.SEVERE, null, ex);
