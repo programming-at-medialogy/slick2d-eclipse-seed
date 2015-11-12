@@ -10,12 +10,13 @@ import org.newdawn.slick.*;
 public class Button extends BasicGame {
 
     /**
-    *   mouseX and mouseY stores the values of the mouse on the screen
-    *   images array stores graphical representation of different buttons, picIndexNo is used to locate a specific index in the array
-    *        Index 0: Click to join button
-    *        Index 1: Ready - Click to leave
-    *        Index 2: Enter PlayState
-    */
+     * mouseX and mouseY stores the values of the mouse on the screen
+     * images array stores graphical representation of different buttons, picIndexNo is used to locate a specific index in the array
+     * Index 0: Click to join button
+     * Index 1: Ready - Click to leave
+     * Index 2: Enter PlayState
+     * Index 3: Enter Lobby
+     */
 
     private int imgX;
     private int imgY;
@@ -23,7 +24,7 @@ public class Button extends BasicGame {
 
     private boolean isActive;
 
-    private Image[] images = new Image[4];
+    private Image[] images = new Image[19];
 
 
     public Button(String title, int x, int y, int picIndexNo) {
@@ -34,7 +35,7 @@ public class Button extends BasicGame {
 
         //Encapsulation of the indexNo used to access specific images in the images[] array
         if (picIndexNo >= 0 && picIndexNo <= images.length - 1) {
-        this.picIndexNo = picIndexNo;
+            this.picIndexNo = picIndexNo;
         } else {
             this.picIndexNo = 0;
             System.out.println("Index number is higher than the length of the array it is used to access. Highest value it can be is " + (images.length - 1));
@@ -63,6 +64,7 @@ public class Button extends BasicGame {
     /**
      * Simple collision test. If the mouse is pressed within the confounds of the button the method returns true.
      * Otherwise returns false. Takes GameContainer argument to use SLICK2D's Input function.
+     *
      * @param gc the SlICK 2D game container
      * @return boolean
      */
@@ -100,7 +102,11 @@ public class Button extends BasicGame {
         this.isActive = setActive;
     }
 
-    public int getImgY() { return imgY; }
+    public int getImgY() {
+        return imgY;
+    }
 
-    public void setImgY(int i) { this.imgY = i; }
+    public void setImgY(int i) {
+        this.imgY = i;
+    }
 }

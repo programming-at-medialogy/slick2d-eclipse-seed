@@ -15,11 +15,15 @@ public class Roles extends BasicGame {
     *            Index 1: Dispatcher
     *            Index 2: Quarantine Specialist
     *            Index 3: Contingency Planner
+    *            Index 4: Researcher
+    *            Index 5: Scientist
+     *           Index 6: OperationsExpert
     */
     private Image[] roleImg = new Image[7];
     private int indexNo;
+    private int gameState;
 
-    public Roles(String title, int indexNo) {
+    public Roles(String title, int indexNo, int gameState) {
         super(title);
 
         //Encapsulation of the indexNo so that it can never be outside of the bounds of the image array
@@ -29,14 +33,17 @@ public class Roles extends BasicGame {
             this.indexNo = 0;
             System.out.println("Index number is higher than the length of the array it is used to access. Highest value it can be is " + (roleImg.length - 1));
         }
+        this.gameState = gameState;
     }
 
 
     //SLICK2D METHODS
     @Override
     public void init(GameContainer gameContainer) throws SlickException {
-        for (int i = 0; i < roleImg.length; i++) {
-            roleImg[i] = new Image("assets/roles/" + i + ".png");
+        if (gameState == 0) {
+            for (int i = 0; i < roleImg.length; i++) {
+                roleImg[i] = new Image("assets/roles/" + i + ".png");
+            }
         }
     }
 

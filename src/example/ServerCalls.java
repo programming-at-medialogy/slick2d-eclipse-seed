@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class ServerCalls {
 
-    private static final String host = "localhost";
+    private static final String HOST = "localhost";
     private static final int PORT = 1234;
 
     public ServerCalls() {
@@ -30,10 +30,27 @@ public class ServerCalls {
         String inputStream;
         int playerID;
 
-        Socket s = new Socket(host, PORT);
+        Socket s = new Socket(HOST, PORT);
 
         PrintWriter out = new PrintWriter(s.getOutputStream(), true);
         out.println("ASSIGN_PLAYER_ID");
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+        inputStream = in.readLine();
+        playerID = Integer.valueOf(inputStream);
+        System.out.println(inputStream);
+
+        return playerID;
+    }
+
+    public static int getPlayerID() throws IOException {
+        String inputStream;
+        int playerID;
+
+        Socket s = new Socket(HOST, PORT);
+
+        PrintWriter out = new PrintWriter(s.getOutputStream(), true);
+        out.println("GET_PLAYER_ID");
 
         BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
         inputStream = in.readLine();
@@ -53,7 +70,7 @@ public class ServerCalls {
         boolean gO;
         String oPSO;
 
-        Socket gP = new Socket(host, PORT);
+        Socket gP = new Socket(HOST, PORT);
         PrintWriter gPs = new PrintWriter(gP.getOutputStream(), true);
         gPs.println("GET_PLAYER_STATUS: " + index);
 
@@ -75,7 +92,7 @@ public class ServerCalls {
         boolean curPlayStatus;
 
         try {
-            Socket s = new Socket(host, PORT);
+            Socket s = new Socket(HOST, PORT);
             PrintWriter setPlayerStatus = new PrintWriter(s.getOutputStream(), true);
             curPlayStatus = playerList.get(playerIdNo).getPlayerReady();
             setPlayerStatus.println("SET_PLAYER_STATUS: " + curPlayStatus + " " + playerIdNo);
@@ -94,7 +111,7 @@ public class ServerCalls {
         String playerRoleString;
         int playerRole;
 
-        Socket s = new Socket(host, PORT);
+        Socket s = new Socket(HOST, PORT);
 
         PrintWriter out = new PrintWriter(s.getOutputStream(), true);
         out.println("SET_PLAYER_ROLE: " + playerNo);
@@ -110,7 +127,7 @@ public class ServerCalls {
         String playerRoleString;
         int playerRole;
 
-        Socket s = new Socket(host, PORT);
+        Socket s = new Socket(HOST, PORT);
 
         PrintWriter out = new PrintWriter(s.getOutputStream(), true);
         out.println("GET_PLAYER_ROLE: " + playerNo);
@@ -122,43 +139,12 @@ public class ServerCalls {
         return playerRole;
     }
 
-
-    public static void beginGame() {
-
-        try {
-            Socket s = new Socket(host, PORT);
-
-            PrintWriter out = new PrintWriter(s.getOutputStream(), true);
-            out.println("BEGIN_GAME");
-
-        } catch (IOException IOEx) {
-            IOEx.printStackTrace();
-        }
-    }
-
-    public static int hasGameBegun() throws IOException {
-        String gameStateString;
-        int gameState;
-
-        Socket s = new Socket(host, PORT);
-
-        PrintWriter out = new PrintWriter(s.getOutputStream(), true);
-        out.println("CURRENT_GAME_STATE");
-
-        BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
-        gameStateString = in.readLine();
-        gameState = Integer.valueOf(gameStateString);
-
-        System.out.println(gameState);
-        return gameState;
-    }
-
     public static boolean getAnimationStatus() throws IOException {
 
         String animationStatusString;
         boolean animationStatus;
 
-        Socket s = new Socket(host, PORT);
+        Socket s = new Socket(HOST, PORT);
 
         PrintWriter out = new PrintWriter(s.getOutputStream(), true);
         out.println("GET_ANIMATION_STATUS");
@@ -173,7 +159,7 @@ public class ServerCalls {
     public static void setAnimationStatusTrue() {
 
         try {
-            Socket s = new Socket(host, PORT);
+            Socket s = new Socket(HOST, PORT);
 
             PrintWriter out = new PrintWriter(s.getOutputStream(), true);
             out.println("SET_ANIMATION_TRUE");
