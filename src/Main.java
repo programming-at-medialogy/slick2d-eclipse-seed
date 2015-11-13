@@ -8,6 +8,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import com.google.gson.Gson;
+import org.newdawn.slick.Color;
 
 
 public class Main extends BasicGame{
@@ -16,7 +17,7 @@ public class Main extends BasicGame{
 	int mostKnights; //the index of the player in the player-ArraList with the most knights
 	int thief; //the placement of the thief
 	int ownIndex; //This particular clients index in the player-array
-	ArrayList [] hexagons = new ArrayList[20]; //ArrayList containing the Hexagon-objects that defines the game board
+	ArrayList [] hexagons = new ArrayList[19]; //ArrayList containing the Hexagon-objects that defines the game board
 	ArrayList<Harbour> harbours; //ArrayList containing the Harbour-object that are also part of the game board
 	ArrayList<Player> players; //ArrayList containing all the player-objects
 	NetworkHelper networkHelper;
@@ -28,7 +29,7 @@ public class Main extends BasicGame{
 	static int scHeight = 900; // Game screen height
 	
 	
-	private Image[] img= new Image[20]; // Array for hexagon images
+	private Image[] img= new Image[19]; // Array for hexagon images
 
 	
 	public Main(String gamename) { // inputs game name from slick2d
@@ -51,7 +52,7 @@ public class Main extends BasicGame{
 		
 		// to initialize multiple images
 		for(int i=0; i<hexagons.length; i++){ //goes trough hexagon array
-			img[i] = new Image("resources/hexagon_" + (i+1) + ".png"); //Assigns every hexagon a name
+			img[i] = new Image("resources/hexagon_" + (i) + ".png"); //Assigns every hexagon a name
 		}
 	}
 	
@@ -63,33 +64,29 @@ public class Main extends BasicGame{
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
-		// Move up!
+		// move up!
+		Color bkColor = Color.decode("#e5cea1");
+		g.setBackground(bkColor);
 		float diameter = 90;
 		float angle = 0;
 		float xPos;
 		float yPos;
+		// Move up!
 		
-		for (int i = 0; i<hexagons.length-2; i++){
-			// center 
+		for (int i = 0; i<hexagons.length; i++){
+			// center hexagon
 			if(i==0){
 				img[i].draw(scWidth/2, scHeight/2);
 			}
-			//middle circle
-			if (i<6){
+			//middle circle of hexagons
+			if (i>0 && i<7){
 				angle+=1.05;
 				xPos = (float) (diameter * Math.cos (angle));
 				yPos = (float) (diameter * Math.sin (angle));	      
-				img[i+1].draw(xPos+scWidth/2, yPos+scHeight/2);				
-				if(i==5){
-					diameter += 89;
-					//cLength += i == 6 ?  1.05 : 0.50;
-				}
-
+				img[i].draw(xPos+scWidth/2, yPos+scHeight/2);				
 			} 
-			// outer circle
-			else{
-				if (i == 6)
-					angle = 0.523f;
+			// outer circle of hexagons
+			if(i>6){
 				if(i%2!=0){
 					diameter = 156;
 				}else{
@@ -98,13 +95,13 @@ public class Main extends BasicGame{
 				angle +=0.524;
 		        xPos = (float) (diameter * Math.cos (angle));
 		        yPos = (float) (diameter * Math.sin (angle));	      
-				img[i+1].draw(xPos+scWidth/2, yPos+scHeight/2);		
+				img[i].draw(xPos+scWidth/2, yPos+scHeight/2);		
 			}
 			
 
+			//g.drawString("Works", 250, 200);
 		}
-		//g.setBackground(Color.WHITE);
-		//g.drawString("Works", 250, 200);
+
 	}
 
 	//Methods for initial phase
@@ -159,12 +156,11 @@ public class Main extends BasicGame{
 		placeBuilding();
 		placeRoad();
 		
-		
 		try
 		{
 			AppGameContainer game = new AppGameContainer(new Main("Settlers"));
-			game.setTargetFrameRate(60); // framerate
-			game.setMaximumLogicUpdateInterval(60); // maximum framerate
+			game.setTargetFrameRate(24); // framerate
+			game.setMaximumLogicUpdateInterval(24); // maximum framerate
 			game.setVSync(true); // Vertical sync
 			game.setDisplayMode(scWidth,scHeight, false); // sets screen size, false or true for full screen
 			game.start(); // to start Slick 2D
