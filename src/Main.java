@@ -28,7 +28,8 @@ public class Main extends BasicGame{
 	
 	
 	
-	private Image[] img = new Image[19]; // Array for hexagon images
+	private Image[] hexImg = new Image[19]; // Array for hexagon images
+	private Image[] roadImg = new Image[4]; // Array for road images
 	static int scWidth = 1920; // Game screen width
 	static int scHeight = 1080; // Game screen height
 
@@ -65,7 +66,10 @@ public class Main extends BasicGame{
 	public void init(GameContainer gc) throws SlickException { // to initialize elements
 		// to initialize multiple images
 		for(int i=0; i<hexagons.length; i++){ //goes trough hexagon array
-			img[i] = new Image("resources/hexagon_" + (i) + ".png"); //Assigns every hexagon a name
+			hexImg[i] = new Image("resources/hexagon_" + (i) + ".png"); //Assigns every hexagon a name
+		}
+		for(int r=1; r<4; r++){
+			roadImg[r] = new Image("resources/road_" + (r) + ".png"); //initializing road images
 		}
 	}
 	
@@ -75,56 +79,69 @@ public class Main extends BasicGame{
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
-		Color bkColor = Color.decode("#e5cea1"); // create custom color
-		g.setBackground(Color.black); // set background color
+		Color bkColor = Color.decode("#638fde"); // create custom color
+		g.setBackground(bkColor); // set background color
 		
 		// move out, since used only once in setup
 		float scFactor = 0.4f; // Dynamic setup: scales images according this value 
-		float padding = img[0].getWidth()/22*scFactor; // Dynamic setup: space between polygons
-		diameter = (img[0].getWidth()+ padding)*scFactor; // Dynamic setup: diameter according image width, + padding for space in between
-
+		float padding = hexImg[0].getWidth()/22*scFactor; // Dynamic setup: space between polygons
+		diameter = (hexImg[0].getWidth()+ padding)*scFactor; // Dynamic setup: diameter according image width, + padding for space in between
 		//end. move out, since used only once in setup
 		
+			// To display hexagons	
 			for (int i = 0; i<hexagons.length; i++){
 				
 				// center hexagon
 				if(i==0){
-					img[i].draw(scWidth/2-img[0].getWidth()/2*scFactor, scHeight/2-img[0].getHeight()/2*scFactor, scFactor); // draw center hexagon
+					hexImg[i].draw(scWidth/2-hexImg[0].getWidth()/2*scFactor, scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor); // draw center hexagon
 				}
 				
 				//middle circle of hexagons
 				if (i>0 && i<7){
 					xPos = (float) (diameter * Math.cos (angle(i))); // draw hexagon in curcular manner
 					yPos = (float) (diameter * Math.sin (angle(i)));	      
-					img[i].draw(xPos+scWidth/2-img[0].getWidth()/2*scFactor, yPos+scHeight/2-img[0].getHeight()/2*scFactor, scFactor);		
+					hexImg[i].draw(xPos+scWidth/2-hexImg[0].getWidth()/2*scFactor, yPos+scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor);	
+					
 					//myImage.draw(55, 66, 1.2f);
 				} 
 				
 				//outer circle of hexagons
 				if(i>6){
 					if(i%2!=0){
-						diameter = ( ((img[0].getWidth()*2)+padding) - img[0].getWidth()/4f )*scFactor; // Dynamic setup : diameter for outer polygons according image width. 3.8 is ~third of image that gets inside the cricle
+						diameter = ( ((hexImg[0].getWidth()*2)+padding) - hexImg[0].getWidth()/4f )*scFactor; // Dynamic setup : diameter for outer polygons according image width. 3.8 is ~third of image that gets inside the cricle
 						//diameter = 156;
 					}else{
-					diameter = (img[0].getWidth()*2)*scFactor+padding; // SOMETHING WRONG WIT HTHIS. Dynamic setup : diameter for outer polygons according image width
+					diameter = (hexImg[0].getWidth()*2)*scFactor+padding; // SOMETHING WRONG WIT HTHIS. Dynamic setup : diameter for outer polygons according image width
 					}
 					//angle +=0.524f;
 					
 			        xPos = (float) (diameter * Math.cos (angle(i))); 
 			        yPos = (float) (diameter * Math.sin (angle(i)));	      
-					img[i].draw(xPos+scWidth/2-img[0].getWidth()/2*scFactor, yPos+scHeight/2-img[0].getHeight()/2*scFactor, scFactor);	
+					hexImg[i].draw(xPos+scWidth/2-hexImg[0].getWidth()/2*scFactor, yPos+scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor);	
 				}
 				//g.drawString("Text", 250, 200);
-			}
+				
+				
+				//To display roads
+				for (int r =1; r<=36; r++){ //36 because there are 6 hexagons in middle circle and there can be 6 road for each 
+					xPos = (float) (diameter * Math.cos (angle(i))); // draw hexagon in circular manner
+					yPos = (float) (diameter * Math.sin (angle(i)));
+					
+					//roadImg[1].draw(xPos+scWidth/2, yPos+scHeight/2, scFactor);	
+					roadImg[1].setRotation(60f);
+					
+				}
+			} // End of display hexagons
+
 		}
 	// Function to calculate angle for each polygon
 	private float angle(int hexIndex){
 		if (hexIndex <=6){
 			// for inner
-			angle  = hexIndex * 1.048f; // 1.05f is specific angle for all polygons up to 7th.
+			angle  = hexIndex * 1.0472f; // 1.05f = 360/6 is specific angle for all polygons up to 7th.
 		}else
 			// for outer
-			angle  = hexIndex * 0.524f; // 0.524 for hexagons from 7th
+			angle  = hexIndex * 0.523599f; // 0.523599f = 360/12 for hexagons from 7th
 		return angle;
 	}
 
