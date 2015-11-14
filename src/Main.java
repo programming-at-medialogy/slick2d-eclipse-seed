@@ -29,8 +29,8 @@ public class Main extends BasicGame{
 	
 	
 	private Image[] img = new Image[19]; // Array for hexagon images
-	static int scWidth = 1400; // Game screen width
-	static int scHeight = 900; // Game screen height
+	static int scWidth = 1920; // Game screen width
+	static int scHeight = 1080; // Game screen height
 
 	float diameter; // diameter for hexagon placement
 	boolean hexReady = false; // NOT USED NOW, discuss! To draw hexagons once in rendered. If not used remove // NOT USED NOW, discuss!
@@ -86,29 +86,29 @@ public class Main extends BasicGame{
 		//end. move out, since used only once in setup
 		
 			for (int i = 0; i<hexagons.length; i++){
+				
 				// center hexagon
-	
 				if(i==0){
 					img[i].draw(scWidth/2-img[0].getWidth()/2*scFactor, scHeight/2-img[0].getHeight()/2*scFactor, scFactor); // draw center hexagon
 				}
-				//middle circle of hexagons
 				
+				//middle circle of hexagons
 				if (i>0 && i<7){
 					xPos = (float) (diameter * Math.cos (angle(i))); // draw hexagon in curcular manner
 					yPos = (float) (diameter * Math.sin (angle(i)));	      
 					img[i].draw(xPos+scWidth/2-img[0].getWidth()/2*scFactor, yPos+scHeight/2-img[0].getHeight()/2*scFactor, scFactor);		
 					//myImage.draw(55, 66, 1.2f);
 				} 
-				// outer circle of hexagons
+				
+				//outer circle of hexagons
 				if(i>6){
 					if(i%2!=0){
 						diameter = ( ((img[0].getWidth()*2)+padding) - img[0].getWidth()/4f )*scFactor; // Dynamic setup : diameter for outer polygons according image width. 3.8 is ~third of image that gets inside the cricle
 						//diameter = 156;
 					}else{
-					diameter = (img[0].getWidth()*2)*scFactor+padding; // Dynamic setup : diameter for outer polygons according image width
+					diameter = (img[0].getWidth()*2)*scFactor+padding; // SOMETHING WRONG WIT HTHIS. Dynamic setup : diameter for outer polygons according image width
 					}
 					//angle +=0.524f;
-					 
 					
 			        xPos = (float) (diameter * Math.cos (angle(i))); 
 			        yPos = (float) (diameter * Math.sin (angle(i)));	      
@@ -186,7 +186,7 @@ public class Main extends BasicGame{
 			game.setTargetFrameRate(24); // framerate
 			game.setMaximumLogicUpdateInterval(24); // maximum framerate
 			game.setVSync(true); // Vertical sync
-			game.setDisplayMode(scWidth,scHeight, false); // sets screen size, false or true for full screen
+			game.setDisplayMode(scWidth,scHeight, true); // sets screen size, false or true for full screen
 			game.start(); // to start Slick 2D
 		}
 		catch (SlickException ex)
