@@ -88,13 +88,10 @@ public class Main extends BasicGame{
 		Color bkColor = Color.decode("#638fde"); // create custom color
 		g.setBackground(bkColor); // set background color
 		
-		// move out, since used only once in setup
-<<<<<<< HEAD
-=======
+		// move out, since used only once in setu
 		float scFactor = 0.4f; // Dynamic setup: scales images according this value 
 		float padding = hexImg[0].getWidth()/22*scFactor; // Dynamic setup: space between polygons
 		diameter = (hexImg[0].getWidth()+ padding)*scFactor; // Dynamic setup: diameter according image width, + padding for space in between
->>>>>>> origin/master
 		//end. move out, since used only once in setup
 		
 		drawHexagons();
@@ -115,7 +112,6 @@ public class Main extends BasicGame{
 			angle  = hexIndex * 0.523599f; // 0.523599f = 360/12 for hexagons from 7th
 		return angle;
 	}
-<<<<<<< HEAD
 	
 	//Methods for initial phase
 	
@@ -189,8 +185,6 @@ public class Main extends BasicGame{
 	static void rollDice(){
 		//Method used to notify server that user wants to roll the dice
 	}
-=======
->>>>>>> origin/master
 	
 	public static void main(String[] args) {
 		//Initial phase - only done once at game start
