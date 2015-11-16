@@ -84,7 +84,7 @@ public class Main extends BasicGame{
 		g.setBackground(bkColor); // set background color
 		
 		// move out, since used only once in setup
-		float scFactor = 1f; // Dynamic setup: scales images according this value 
+		float scFactor = 0.4f; // Dynamic setup: scales images according this value 
 		float padding = hexImg[0].getWidth()/22*scFactor; // Dynamic setup: space between polygons
 		diameter = (hexImg[0].getWidth()+ padding)*scFactor; // Dynamic setup: diameter according image width, + padding for space in between
 		//end. move out, since used only once in setup
@@ -145,58 +145,9 @@ public class Main extends BasicGame{
 			angle  = hexIndex * 0.523599f; // 0.523599f = 360/12 for hexagons from 7th
 		return angle;
 	}
-
-	//Methods for initial phase
-	
-	static void placeBuilding(){
-		//Method to place buildings at game start
-	}
-	
-	static void placeRoad(){
-		//Method to place roads at game start
-	}
-
-	//Methods for trade-phase
-	
-	static void initiateTrade(){
-		//Method to use when the player wants to trade with other players
-	}
-	
-	static void getTradeResponse(TradeObject tradeObject){
-		//Method called when other users wants to trade resources
-	}
-
-	
-	// Methods for building-phase
-	
-	static void BuyCard(){
-		//Method used to notify server that user wants to buy a development card
-	}
-	
-	static void buyRoad(){
-		//Method used to notify server that user wants to buy a road
-	}
-	
-	static void buyCity(){
-		//Method used to notify server that user wants to buy a city
-	}
-	
-	static void upgradeCity(){
-		//Method used to notify server that user wants to upgrade a city
-	}
-	
-	static void useDevelopment(){
-		//Method used to notify server that user wants to use a developement card
-	}
-
-	static void rollDice(){
-		//Method used to notify server that user wants to roll the dice
-	}
 	
 	public static void main(String[] args) {
 		//Initial phase - only done once at game start
-		placeBuilding();
-		placeRoad();
 		
 		try
 		{
