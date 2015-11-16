@@ -84,7 +84,7 @@ public class Main extends BasicGame{
 		g.setBackground(bkColor); // set background color
 		
 		// move out, since used only once in setup
-		float scFactor = 0.4f; // Dynamic setup: scales images according this value 
+		float scFactor = 1f; // Dynamic setup: scales images according this value 
 		float padding = hexImg[0].getWidth()/22*scFactor; // Dynamic setup: space between polygons
 		diameter = (hexImg[0].getWidth()+ padding)*scFactor; // Dynamic setup: diameter according image width, + padding for space in between
 		//end. move out, since used only once in setup
@@ -109,10 +109,10 @@ public class Main extends BasicGame{
 				//outer circle of hexagons
 				if(i>6){
 					if(i%2!=0){
-						diameter = ( ((hexImg[0].getWidth()*2)+padding) - hexImg[0].getWidth()/4f )*scFactor; // Dynamic setup : diameter for outer polygons according image width. 3.8 is ~third of image that gets inside the cricle
+						diameter = ( ((hexImg[0].getWidth()*2)+padding/2+padding) - hexImg[0].getWidth()/3.85f )*scFactor; // 3.85 CHECK. Dynamic setup : diameter for outer polygons according image width. 3.8 is ~third of image that gets inside the cricle
 						//diameter = 156;
 					}else{
-					diameter = (hexImg[0].getWidth()*2)*scFactor+padding; // SOMETHING WRONG WIT HTHIS. Dynamic setup : diameter for outer polygons according image width
+					diameter = ( ((hexImg[0].getWidth()*2)+padding*2))*scFactor; // Dynamic setup : diameter for outer polygons according image width
 					}
 					//angle +=0.524f;
 					
