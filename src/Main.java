@@ -197,7 +197,7 @@ public class Main extends BasicGame{ //Is not the actually main.
 		//Method used to notify server that user wants to roll the dice
 	}
 	
-	public static void main(String[] args) {
+	public static void start() {
 		//Initial phase - only done once at game start
 		
 		try

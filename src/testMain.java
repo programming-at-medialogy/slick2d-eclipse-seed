@@ -10,7 +10,7 @@ public class testMain extends StateBasedGame{
 		super("settlers");
 	}
 
-	public static void main(String[] args) {
+	public static void start() {
 		//Initial phase - only done once at game start
 		
 		try
@@ -36,4 +36,5 @@ public class testMain extends StateBasedGame{
 		this.addState(new IntroState());
 		//this.addState(new gameState());
 	}
+
 }
