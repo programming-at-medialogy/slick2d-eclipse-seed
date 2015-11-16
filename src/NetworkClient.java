@@ -1,74 +1,48 @@
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class NetworkClient {
 	
-	//Port number
-	private static final int PORT = 80;
+	private static final int PORT = 82;
 	
-	private static InetAddress serverIP;
-	private static String hostIPName; 
+	private static int num;
+	private static int temp;
 	
-	/**Active objects
-	 * 
-	 * clientSocket grants access to the server.
-	 */
+	private static InetAddress host;
+	
+	private static Scanner userInput;
 	private static Socket clientSocket;
-	private static BufferedReader serverReader;
-	private static PrintWriter serverOutput;
+	private static Scanner socketReader;
 	
-	public static void main(String arg[]) {
+	private static PrintWriter clientOutput;
 	
-		try {
-			
-			serverIP = InetAddress.getLocalHost();
-			hostIPName = serverIP.getHostName();
-			hostIPName = serverIP.getHostAddress();
-			
-			System.out.println("The IP is " + serverIP);
-			System.out.println("The host is " + hostIPName);
-			
-			Scanner userInput = new Scanner(System.in); //Test
-			
-			int number = userInput.nextInt(); //Test
-			
-			System.out.println(number); //Test
-			
-			clientSocket = new Socket(serverIP, PORT);
-			serverReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-			
-			serverOutput = new PrintWriter(clientSocket.getOutputStream());
-			
-			String temp = serverReader.readLine();
-			
-			serverOutput.println("Host: " + serverIP);
-			
-			//String used to print each line in the document until the document ends.
-			String modifiedSentence;
-			
-			while((modifiedSentence = serverReader.readLine()) != null) {
-				
-				System.out.println(modifiedSentence);
-				
-			}
-			
-			clientSocket.close();
-			
-		} 
+	public static void main(String[] args) throws IOException, UnknownHostException {
 		
-		catch (IOException e){
-			
-			System.out.println("Error connecting to client.");
-			
-			e.printStackTrace();
-			
-		}
-	
+		//This currently gets the IP of the local host. 
+		host = InetAddress.getLocalHost();
+		
+		//This sets up the program's ability to read any input that is parsed into it.
+		userInput = new Scanner(System.in);
+		clientSocket = new Socket(host, PORT);
+		socketReader = new Scanner(clientSocket.getInputStream());
+		
+		//This is to prompt the user to provide an input.
+		System.out.println("Enter a number: ");
+		num = userInput.nextInt();
+		
+		//This parses information from the client to the server.
+		clientOutput = new PrintWriter(clientSocket.getOutputStream());
+		clientOutput.println(num);
+		clientOutput.flush();
+		
+		//This prints out what is parsed back to the client from  the server.
+		temp = socketReader.nextInt();
+		System.out.println(temp);
+		
 	}
-	
+
 }
