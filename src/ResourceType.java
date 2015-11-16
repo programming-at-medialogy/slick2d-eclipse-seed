@@ -42,4 +42,21 @@ public enum ResourceType {
 		}
 		return null;
 	}
+	
+	public int toInt() {
+		switch(this) {
+		case SPACEDEBRIS:
+			return 0;
+		case MOONWATER:
+			return 1;
+		case ALIENDNA:
+			return 2;
+		case SPACEHAY:
+			return 3;
+		case MARSSAND:
+			return 4;		
+		}
+		
+		return 5;
+	}
 }

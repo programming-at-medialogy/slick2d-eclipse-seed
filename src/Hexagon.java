@@ -94,7 +94,7 @@ public class Hexagon {
 	 * @param hexagons the hexagon array to use
 	 * @return the hexagon(s) with the specific number
 	 */
-	public static Hexagon[] getHexagonByNumber(int number, Hexagon[] hexagons) {
+	public static Hexagon[] getHexagonByNumber(int number) {
 		// find the hexagons
 		Hexagon[] foundHexagons = new Hexagon[2];
 		int index = 0;

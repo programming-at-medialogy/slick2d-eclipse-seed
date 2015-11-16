@@ -18,7 +18,7 @@ public class Main extends BasicGame{
 	int mostKnights; //the index of the player in the player-ArraList with the most knights
 	int thief; //the placement of the thief
 	int ownIndex; //This particular clients index in the player-array
-	ArrayList [] hexagons = new ArrayList[19]; //ArrayList containing the Hexagon-objects that defines the game board
+	//ArrayList [] hexagons = new ArrayList[19]; //ArrayList containing the Hexagon-objects that defines the game board
 	ArrayList<Harbour> harbours; //ArrayList containing the Harbour-object that are also part of the game board
 	ArrayList<Player> players; //ArrayList containing all the player-objects
 	NetworkHelper networkHelper;
@@ -28,10 +28,10 @@ public class Main extends BasicGame{
 	
 	
 	
-	private Image[] hexImg = new Image[19]; // Array for hexagon images
+	private Image[] hexImg = new Image[6]; // Array for hexagon images
 	private Image[] roadImg = new Image[4]; // Array for road images
-	static int scWidth = 1920; // Game screen width
-	static int scHeight = 1080; // Game screen height
+	static int scWidth = 1440; // Game screen width
+	static int scHeight = 900; // Game screen height
 
 	float diameter; // diameter for hexagon placement
 	boolean hexReady = false; // NOT USED NOW, discuss! To draw hexagons once in rendered. If not used remove // NOT USED NOW, discuss!
@@ -64,8 +64,9 @@ public class Main extends BasicGame{
 	
 	@Override
 	public void init(GameContainer gc) throws SlickException { // to initialize elements
+		Hexagon.generateMap();
 		// to initialize multiple images
-		for(int i=0; i<hexagons.length; i++){ //goes trough hexagon array
+		for(int i=0; i<hexImg.length; i++){ //goes trough hexagon array
 			hexImg[i] = new Image("resources/hexagon_" + (i) + ".png"); //Assigns every hexagon a name
 		}
 		for(int r=1; r<4; r++){
@@ -89,18 +90,18 @@ public class Main extends BasicGame{
 		//end. move out, since used only once in setup
 		
 			// To display hexagons	
-			for (int i = 0; i<hexagons.length; i++){
+			for (int i = 0; i<Hexagon.getHexagons().length; i++){
 				
 				// center hexagon
 				if(i==0){
-					hexImg[i].draw(scWidth/2-hexImg[0].getWidth()/2*scFactor, scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor); // draw center hexagon
+					hexImg[Hexagon.getHexagons()[i].getType().toInt()].draw(scWidth/2-hexImg[0].getWidth()/2*scFactor, scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor); // draw center hexagon
 				}
 				
 				//middle circle of hexagons
 				if (i>0 && i<7){
 					xPos = (float) (diameter * Math.cos (angle(i))); // draw hexagon in curcular manner
 					yPos = (float) (diameter * Math.sin (angle(i)));	      
-					hexImg[i].draw(xPos+scWidth/2-hexImg[0].getWidth()/2*scFactor, yPos+scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor);	
+					hexImg[Hexagon.getHexagons()[i].getType().toInt()].draw(xPos+scWidth/2-hexImg[0].getWidth()/2*scFactor, yPos+scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor);	
 					
 					//myImage.draw(55, 66, 1.2f);
 				} 
@@ -117,7 +118,7 @@ public class Main extends BasicGame{
 					
 			        xPos = (float) (diameter * Math.cos (angle(i))); 
 			        yPos = (float) (diameter * Math.sin (angle(i)));	      
-					hexImg[i].draw(xPos+scWidth/2-hexImg[0].getWidth()/2*scFactor, yPos+scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor);	
+					hexImg[Hexagon.getHexagons()[i].getType().toInt()].draw(xPos+scWidth/2-hexImg[0].getWidth()/2*scFactor, yPos+scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor);	
 				}
 				//g.drawString("Text", 250, 200);
 				
