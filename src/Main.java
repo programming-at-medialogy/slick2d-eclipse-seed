@@ -12,7 +12,7 @@ import com.google.gson.Gson;
 
 
 
-public class Main extends BasicGame{
+public class Main extends BasicGame{ //should be edited to StateBasedGame
 	int rolledNumber; //The number rolled by the dice
 	static int longestRoad; //the index of the player in the player-ArraList with the longest road
 	int mostKnights; //the index of the player in the player-ArraList with the most knights
