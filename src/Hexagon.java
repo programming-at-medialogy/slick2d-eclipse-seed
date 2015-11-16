@@ -220,24 +220,6 @@ public class Hexagon {
 		}
 		return false;
 	}
-	
-	/**
-	 * Used to get information about how many resources each player should get from the hexagon.
-	 * @param players the player array
-	 * @return array containing how many resources each player should get 
-	 * @see Hexagon#getNearbyBuildings(Building[])
-	 */
-	public int[] getNearbyPlayers(Player[] players) {
-		int[] amount = new int[players.length];
-		for (int i = 0; i < players.length; i++) {
-			// player class needs to be updated for this to work
-			// amount[i] = getNearbyBuildings(players[i].getBuildings());
-			
-			amount[i] = getNearbyBuildings(players[i].getBuildings());
-		}
-		
-		return amount;
-	}
 
 	/**
 	 * @return the id

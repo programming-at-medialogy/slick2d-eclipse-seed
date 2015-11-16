@@ -52,7 +52,22 @@ public class Player implements DevelopmentCardIF {
 
 	}
 
-
+	/**
+	 * Collect the resources for a given player.
+	 * @param dieRoll The number that was rolled by the die
+	 */
+	public void collectResources(int dieRoll) {
+		for (int i = 0; i < buildings.size(); i++) {
+			Hexagon[] nearbyHexagons = buildings.get(i).getNearbyHexagons();
+			for (int j = 0; j < nearbyHexagons.length; j++) {
+				if (nearbyHexagons[j].getNumber() == dieRoll) {
+					if (buildings.get(i).isUpgraded())
+						resources[nearbyHexagons[j].getType().toInt()]+=2;
+					resources[nearbyHexagons[j].getType().toInt()]++;
+				}
+			}
+		}
+	}
 
 	/**
 	 * Method for drawing a resourcecard
