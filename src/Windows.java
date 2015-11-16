@@ -1,6 +1,6 @@
 
 public class Windows {
 
-	public static int scWidth = 1440; // Game screen width
-	public static int scHeight = 900; // Game screen height
+	public static int scWidth = 1000; // Game screen width
+	public static int scHeight = 800; // Game screen height
 }

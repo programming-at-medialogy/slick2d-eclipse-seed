@@ -8,7 +8,6 @@ public class testMain extends StateBasedGame{
 	
 	public testMain() {
 		super("settlers");
-		// TODO Auto-generated constructor stub
 	}
 
 	public static void main(String[] args) {
@@ -35,6 +34,6 @@ public class testMain extends StateBasedGame{
 		gc.setVSync(true);		
 			
 		this.addState(new IntroState());
+		//this.addState(new gameState());
 	}
-	
 }
