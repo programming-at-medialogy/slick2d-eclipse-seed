@@ -79,7 +79,7 @@ public class Main extends BasicGame{ //Is not the actually main.
 		}
 
 	
-		scFactor = 0.5f; // Dynamic setup: scales images according this value 
+		scFactor = 0.3f; // Dynamic setup: scales images according this value 
 		padding = hexImg[0].getWidth()/22*scFactor; // Dynamic setup: space between polygons
 	
 	}
@@ -129,7 +129,7 @@ public class Main extends BasicGame{ //Is not the actually main.
 		for (int i = 0; i < Hexagon.getHexagons().length; i++){
 			if(i == 0){			// center hexagon
 				hexImg[Hexagon.getHexagons()[i].getType().toInt()].draw(scWidth/2-hexImg[0].getWidth()/2*scFactor, scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor); // draw center hexagon
-				g.drawString(Integer.toString(Hexagon.getHexagons()[i].getNumber()), scWidth/2, scHeight/2);
+				//g.drawString(Integer.toString(Hexagon.getHexagons()[i].getNumber()), scWidth/2, scHeight/2);
 				numImg[Hexagon.getHexagons()[i].getNumber()-2].draw(scWidth/2-numImg[2].getWidth()/2*scFactor,scHeight/2-numImg[2].getHeight()/2*scFactor, scFactor);
 			} else if (i < 7){ 	//middle circle of hexagons
 				xPos = Hexagon.getHexagons()[i].getX() * diameter;
@@ -146,7 +146,6 @@ public class Main extends BasicGame{ //Is not the actually main.
 				xPos = Hexagon.getHexagons()[i].getX() * diameter;
 				yPos = Hexagon.getHexagons()[i].getY() * diameter;	      
 				hexImg[Hexagon.getHexagons()[i].getType().toInt()].draw(xPos+scWidth/2-hexImg[0].getWidth()/2*scFactor, yPos+scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor);
-				g.drawString(Integer.toString(Hexagon.getHexagons()[i].getNumber()), xPos + scWidth/2, yPos + scHeight/2);
 				numImg[Hexagon.getHexagons()[i].getNumber()-2].draw(xPos+scWidth/2-numImg[2].getWidth()/2*scFactor, yPos+scHeight/2-numImg[2].getHeight()/2*scFactor, scFactor);
 				
 			}
@@ -198,7 +197,7 @@ public class Main extends BasicGame{ //Is not the actually main.
 		//Method used to notify server that user wants to roll the dice
 	}
 	
-	/*public static void main(String[] args) {
+	public static void main(String[] args) {
 		//Initial phase - only done once at game start
 		
 		try
@@ -214,5 +213,5 @@ public class Main extends BasicGame{ //Is not the actually main.
 		{
 			//Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
 		}
-	}*/
+	}
 }
