@@ -7,12 +7,14 @@ import java.util.ArrayList;
 
 public class Building {
 	
-	private boolean upgraded;
+	static boolean upgraded;
 	Position position;
+	static int player;
 	static ArrayList<Building> buildings = new ArrayList<Building>();
 	
-	private Building(Position inPos) {
+	private Building(Position inPos, int player) {
 		position = inPos;
+		this.player = player;
 	}
 
 	/**
@@ -37,11 +39,11 @@ public class Building {
 	 * @param index the index
 	 * @return the constructed building; returns null if no building can be built
 	 */
-	public static Building build(Position inPos) {
+	public static Building build(Position inPos, int player) {
 		// error checking
 		if (Position.getLength(getBuildingPositions(), inPos) == 2) {
 			System.out.println("Building here:    " + inPos.getDivision() + ", " + inPos.getIndex());
-			Building building = new Building(inPos);
+			Building building = new Building(inPos, player);
 			buildings.add(building);
 			Road.longestRoad();
 			return building;

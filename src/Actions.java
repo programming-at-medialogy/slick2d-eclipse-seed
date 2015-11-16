@@ -67,22 +67,40 @@ public class Actions {
 			//Send message to server
 		}
 		
-		static void buyRoad(){
+		static void buyRoad(Position start, Position end, int player){
 			//Check if player have funds
-			//Check if request is possible
-			//Send message to server
+			if(Player.resources[ResourceType.MARSSAND.toInt()]>=1 && 
+			   Player.resources[ResourceType.SPACEDEBRIS.toInt()]>=1){
+				//Check if request is possible and send message
+				placeRoad(start, end, player);
+			}
 		}
 		
-		static void buyCity(){
+		static void buyCity(Position pos, int player){
 			//Check if player have funds
-			//Check if request is possible
-			//Send message to server
+			if(Player.resources[ResourceType.MARSSAND.toInt()]>=1 && 
+			   Player.resources[ResourceType.SPACEDEBRIS.toInt()]>=1 && 
+			   Player.resources[ResourceType.ALIENDNA.toInt()]>=1 && 
+			   Player.resources[ResourceType.MOONWATER.toInt()]>=1){
+				//Check if request is possible and send message
+				placeBuilding(pos, player);
+			}
 		}
 		
-		static void upgradeCity(){
+		static void upgradeCity(Position pos, int player){
 			//Check if player have funds
-			//Check if request is possible
-			//Send message to server
+			if(Player.resources[ResourceType.MARSSAND.toInt()]>=2 && 
+			   Player.resources[ResourceType.SPACEDEBRIS.toInt()]>=3){
+				//Check if request is possible
+				for(int i = 0; i < Building.buildings.size(); i++){
+					if(pos==Building.buildings.get(i).position && 
+					   player == Building.buildings.get(i).player &&
+					   Building.buildings.get(i).upgraded == false){
+						//Send message to server. Something like:
+						//networkHelper.sendMessage("Roll dice", player);
+					}
+				}
+			}
 		}
 		
 		static void useDevelopment(){
@@ -91,5 +109,7 @@ public class Actions {
 
 		static void rollDice(){
 			//Method used to notify server that user wants to roll the dice
+			//Send message to server. Something like:
+			//networkHelper.sendMessage("Roll dice", player);
 		}
 }

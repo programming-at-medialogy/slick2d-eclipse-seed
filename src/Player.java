@@ -12,7 +12,7 @@ public class Player implements DevelopmentCardIF {
 	private ArrayList<Building> buildings;
 	//private Road[] road;
 	//ressources
-	private int [] resources = new int[5];
+	static int [] resources = new int[5];
 	//Number of knights
 	private int knights;
 	//Number of points
@@ -39,7 +39,7 @@ public class Player implements DevelopmentCardIF {
 		this.playerName = playerName;
 		this.playerNumber = playerNumber;
 		points = 0;
-		buildings = new ArrayList<>();
+		buildings = new ArrayList();
 		int[] resources = new int[5];
 
 		//road = 0;
@@ -84,10 +84,6 @@ public class Player implements DevelopmentCardIF {
 
 		}
 
-	}
-
-	public void addBuilding(Position position) {
-		buildings.add(Building.build(position));
 	}
 
 
