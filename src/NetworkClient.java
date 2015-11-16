@@ -20,7 +20,7 @@ public class NetworkClient {
 	
 	private static PrintWriter clientOutput;
 	
-	public NetworkClient() throws IOException, UnknownHostException {
+	public static void main(String args[]) throws IOException, UnknownHostException {
 		
 		//This currently gets the IP of the local host. 
 		//Should not get local host, but the actual host, which is on a separate computer.
