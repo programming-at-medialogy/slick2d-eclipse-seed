@@ -69,7 +69,7 @@ public class Position {
 		}
 		
 		// get nearby hexagons
-		Hexagon[] nearbyHexagons = Building.getNearbyHexagons(inPos);
+		Hexagon[] nearbyHexagons = getNearbyHexagons(inPos);
 		
 		// comment
 		ArrayList<Hexagon> upwardHexagons = new ArrayList<Hexagon>();

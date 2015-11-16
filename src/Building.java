@@ -14,98 +14,6 @@ public class Building {
 	private Building(Position inPos) {
 		position = inPos;
 	}
-	
-	/**
-	 * Finds the nearby hexagons.
-	 * @param hexagons the hexagon array to search
-	 * @return the found hexagons
-	 */
-	public static Hexagon[] getNearbyHexagons(Position inPos) {
-		ArrayList<Hexagon> foundHexagons = new ArrayList<Hexagon>();
-		
-		for (int i = 0; i < Hexagon.getHexagons().length; i++) {
-			// check division
-			int hexDivision = Hexagon.getHexagons()[i].getDivision();
-			if (hexDivision == inPos.getDivision() || hexDivision == inPos.getDivision() + 1) {
-				// get maxBuildingIndex
-				int maxBuildingIndex;
-				switch(inPos.getDivision()) {
-					case 0:
-						maxBuildingIndex = 6;
-						break;
-					case 1:
-						maxBuildingIndex = 18;
-						break;
-					case 2:
-						maxBuildingIndex = 30;
-						break;
-					default:
-						System.out.println("Error in building division");
-						maxBuildingIndex = 1;
-				}
-				
-				// get maxHexIndex
-				int maxHexIndex;
-				switch(hexDivision) {
-					case 0:
-						maxHexIndex = 1;
-						break;
-					case 1:
-						maxHexIndex = 6;
-						break;
-					case 2:
-						maxHexIndex = 12;
-						break;
-					default:
-						System.out.println("Error in hex division: " + hexDivision);
-						maxHexIndex = 1;
-				}
-				
-				float dividor = maxBuildingIndex / (float)maxHexIndex;
-				
-				// check if same position
-				if ((int)(inPos.getIndex() / dividor) == Hexagon.getHexagons()[i].getIndex()) {
-					foundHexagons.add(Hexagon.getHexagons()[i]);
-				} else if (Math.round(inPos.getIndex() / dividor) % maxHexIndex == Hexagon.getHexagons()[i].getIndex()) {
-					foundHexagons.add(Hexagon.getHexagons()[i]);
-				} else if ((inPos.getIndex()*2) % (int)(dividor*2) == 0 && hexDivision > inPos.getDivision() && (int)(inPos.getIndex() / dividor) == (Hexagon.getHexagons()[i].getIndex() + 1) % maxHexIndex) {
-					foundHexagons.add(Hexagon.getHexagons()[i]);
-				}
-			}
-		}
-		
-		// copy arrayList into array
-		Hexagon[] returnHexagons = new Hexagon[foundHexagons.size()];
-		for (int i = 0; i < returnHexagons.length; i++) {
-			returnHexagons[i] = foundHexagons.get(i);
-		}
-		
-		return returnHexagons;
-	}
-	
-	/**
-	 * Finds the nearby hexagons.
-	 * @return The nearby hexagons as an array
-	 */
-	public Hexagon[] getNearbyHexagons() {
-		return getNearbyHexagons(position);
-	}
-	
-	/**
-	 * Checks if a single hexagon is near the building.
-	 * Uses {@link Building#getNearbyHexagons(Hexagon[])} to calculate this.
-	 * @param hexagon the hexagon
-	 * @return true if the hexagon is near the building; otherwise false
-	 */
-	public boolean isNearby(Hexagon hexagon) {
-		Hexagon[] hexArray = new Hexagon[1];
-		hexArray[0] = hexagon;
-		hexArray = getNearbyHexagons();
-		
-		if (hexArray.length == 0)
-			return false;
-		return true;
-	}
 
 	/**
 	 * Upgrades a building.
@@ -135,7 +43,7 @@ public class Building {
 			System.out.println("Building here:    " + inPos.getDivision() + ", " + inPos.getIndex());
 			Building building = new Building(inPos);
 			buildings.add(building);
-			// check longest road
+			Road.longestRoad();
 			return building;
 		}
 		

@@ -1,6 +1,3 @@
-package com.company;
-
-
 import java.util.ArrayList;
 
 /**
@@ -58,7 +55,7 @@ public class Player implements DevelopmentCardIF {
 	 */
 	public void collectResources(int dieRoll) {
 		for (int i = 0; i < buildings.size(); i++) {
-			Hexagon[] nearbyHexagons = buildings.get(i).getNearbyHexagons();
+			Hexagon[] nearbyHexagons = buildings.get(i).getPosition().getNearbyHexagons();
 			for (int j = 0; j < nearbyHexagons.length; j++) {
 				if (nearbyHexagons[j].getNumber() == dieRoll) {
 					if (buildings.get(i).isUpgraded())
