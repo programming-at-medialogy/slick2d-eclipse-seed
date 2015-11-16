@@ -136,5 +136,13 @@ public class Road {
 			}
 		}
 	}
+	
+	/**
+	 * TODO
+	 * @return
+	 */
+	public static ArrayList<Road> getRoads() {
+		return roads;
+	}
 
 }

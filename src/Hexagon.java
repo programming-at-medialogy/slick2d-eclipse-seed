@@ -262,4 +262,25 @@ public class Hexagon {
 	public static Hexagon[] getHexagons() {
 		return hexagons;
 	}
+	
+	public float getX() {
+		return (float)Math.cos(angle());
+	}
+	
+	public float getY() {
+		return (float)Math.sin(angle());
+	}
+	
+	/**
+	 * Function to calculate angle for each polygon
+	 * @return
+	 */
+	private float angle(){
+		float angle;
+		if (indexInArray <=6) 					// for inner
+			angle  = indexInArray * 1.0472f; 	// 1.05f = 360/6 is specific angle for all polygons up to 7th.
+		else 									// for outer
+			angle  = indexInArray * 0.523599f; 	// 0.523599f = 360/12 for hexagons from 7th
+		return angle;
+	}
 }
