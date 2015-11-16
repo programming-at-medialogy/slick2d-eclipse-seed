@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class Building {
 	
 	private boolean upgraded;
-	private Position position;
-	private static ArrayList<Building> buildings = new ArrayList<Building>();
+	Position position;
+	static ArrayList<Building> buildings = new ArrayList<Building>();
 	
 	private Building(Position inPos) {
 		position = inPos;
