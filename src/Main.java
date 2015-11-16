@@ -32,6 +32,7 @@ public class Main extends BasicGame{
 	
 	private Image[] hexImg = new Image[6]; // Array for hexagon images
 	private Image[] roadImg = new Image[4]; // Array for road images
+	private Image[] numImg = new Image [19]; // Array for numbers
 	static int scWidth = 1920; // Game screen width
 	static int scHeight = 1080; // Game screen height
 
@@ -74,6 +75,11 @@ public class Main extends BasicGame{
 		for(int r=1; r<4; r++){
 			roadImg[r] = new Image("resources/road_" + (r) + ".png"); //initializing road images
 		}
+		/*
+		for (int n=0; n<19; n++){
+			numImg[n] = new Image("resources/numImg_" + (n) + ".png"); //initializing number images
+		}
+		*/
 		
 		scFactor = 0.5f; // Dynamic setup: scales images according this value 
 		padding = hexImg[0].getWidth()/22*scFactor; // Dynamic setup: space between polygons
@@ -88,7 +94,7 @@ public class Main extends BasicGame{
 		Color bkColor = Color.decode("#638fde"); // create custom color
 		g.setBackground(bkColor); // set background color
 		
-		// move out, since used only once in setu
+		// move out, since used only once in setup
 		float scFactor = 0.4f; // Dynamic setup: scales images according this value 
 		float padding = hexImg[0].getWidth()/22*scFactor; // Dynamic setup: space between polygons
 		diameter = (hexImg[0].getWidth()+ padding)*scFactor; // Dynamic setup: diameter according image width, + padding for space in between
@@ -126,7 +132,8 @@ public class Main extends BasicGame{
 			} else if (i < 7){ 	//middle circle of hexagons
 				xPos = Hexagon.getHexagons()[i].getX() * diameter;
 				yPos = Hexagon.getHexagons()[i].getY() * diameter;
-				hexImg[Hexagon.getHexagons()[i].getType().toInt()].draw(xPos+scWidth/2-hexImg[0].getWidth()/2*scFactor, yPos+scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor);	
+				hexImg[Hexagon.getHexagons()[i].getType().toInt()].draw(xPos+scWidth/2-hexImg[0].getWidth()/2*scFactor, yPos+scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor);
+				//numImg[i].draw(xPos+scWidth/2-hexImg[0].getWidth()/2*scFactor, yPos+scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor);
 			} else {			//outer circle of hexagons
 				if(i%2 != 0){ 	// maybe move to a different variable
 					diameter = ( ((hexImg[0].getWidth()*2)+padding/2+padding) - hexImg[0].getWidth()/3.85f )*scFactor; // 3.85 CHECK. Dynamic setup : diameter for outer polygons according image width. 3.8 is ~third of image that gets inside the cricle
@@ -195,7 +202,7 @@ public class Main extends BasicGame{
 			game.setTargetFrameRate(24); // framerate
 			game.setMaximumLogicUpdateInterval(24); // maximum framerate
 			game.setVSync(true); // Vertical sync
-			game.setDisplayMode(scWidth,scHeight, true); // sets screen size, false or true for full screen
+			game.setDisplayMode(scWidth,scHeight, false); // sets screen size, false or true for full screen
 			game.start(); // to start Slick 2D
 		}
 		catch (SlickException ex)
