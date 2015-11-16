@@ -18,7 +18,6 @@ public class Main extends BasicGame{ //should be edited to StateBasedGame
 	int mostKnights; //the index of the player in the player-ArraList with the most knights
 	int thief; //the placement of the thief
 	int ownIndex; //This particular clients index in the player-array
-	//ArrayList [] hexagons = new ArrayList[19]; //ArrayList containing the Hexagon-objects that defines the game board
 	ArrayList<Harbour> harbours; //ArrayList containing the Harbour-object that are also part of the game board
 	ArrayList<Player> players; //ArrayList containing all the player-objects
 	NetworkHelper networkHelper;
@@ -32,9 +31,9 @@ public class Main extends BasicGame{ //should be edited to StateBasedGame
 	
 	private Image[] hexImg = new Image[6]; // Array for hexagon images
 	private Image[] roadImg = new Image[4]; // Array for road images
-	private Image[] numImg = new Image [19]; // Array for numbers
-	static int scWidth = 1920; // Game screen width
-	static int scHeight = 1080; // Game screen height
+	private Image[] numImg = new Image [11]; // Array for numbers
+	static int scWidth = 1440; // Game screen width
+	static int scHeight = 900; // Game screen height
 
 	float diameter; // diameter for hexagon placement
 	boolean hexReady = false; // NOT USED NOW, discuss! To draw hexagons once in rendered. If not used remove // NOT USED NOW, discuss!
@@ -75,14 +74,14 @@ public class Main extends BasicGame{ //should be edited to StateBasedGame
 		for(int r=1; r<4; r++){
 			roadImg[r] = new Image("resources/road_" + (r) + ".png"); //initializing road images
 		}
-		/*
-		for (int n=0; n<19; n++){
-			numImg[n] = new Image("resources/numImg_" + (n) + ".png"); //initializing number images
+		for (int n=2; n<=12; n++){
+			numImg[n-2] = new Image("resources/numImg_" + (n) + ".png"); //initializing number images
 		}
-		*/
-		
+
+	
 		scFactor = 0.5f; // Dynamic setup: scales images according this value 
 		padding = hexImg[0].getWidth()/22*scFactor; // Dynamic setup: space between polygons
+	
 	}
 	
 	@Override
@@ -131,12 +130,12 @@ public class Main extends BasicGame{ //should be edited to StateBasedGame
 			if(i == 0){			// center hexagon
 				hexImg[Hexagon.getHexagons()[i].getType().toInt()].draw(scWidth/2-hexImg[0].getWidth()/2*scFactor, scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor); // draw center hexagon
 				g.drawString(Integer.toString(Hexagon.getHexagons()[i].getNumber()), scWidth/2, scHeight/2);
+				numImg[Hexagon.getHexagons()[i].getNumber()-2].draw(scWidth/2-numImg[2].getWidth()/2*scFactor,scHeight/2-numImg[2].getHeight()/2*scFactor, scFactor);
 			} else if (i < 7){ 	//middle circle of hexagons
 				xPos = Hexagon.getHexagons()[i].getX() * diameter;
 				yPos = Hexagon.getHexagons()[i].getY() * diameter;
 				hexImg[Hexagon.getHexagons()[i].getType().toInt()].draw(xPos+scWidth/2-hexImg[0].getWidth()/2*scFactor, yPos+scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor);
-				g.drawString(Integer.toString(Hexagon.getHexagons()[i].getNumber()), xPos + scWidth/2, yPos + scHeight/2);
-				//numImg[i].draw(xPos+scWidth/2-hexImg[0].getWidth()/2*scFactor, yPos+scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor);
+				numImg[Hexagon.getHexagons()[i].getNumber()-2].draw(xPos + scWidth/2-numImg[2].getWidth()/2*scFactor,yPos + scHeight/2-numImg[2].getHeight()/2*scFactor, scFactor);
 			} else {			//outer circle of hexagons
 				if(i%2 == 0){ 	// maybe move to a different variable
 					diameter = ( ((hexImg[0].getWidth()*2)+padding/2+padding) - hexImg[0].getWidth()/3.85f )*scFactor; // 3.85 CHECK. Dynamic setup : diameter for outer polygons according image width. 3.8 is ~third of image that gets inside the cricle
@@ -148,6 +147,7 @@ public class Main extends BasicGame{ //should be edited to StateBasedGame
 				yPos = Hexagon.getHexagons()[i].getY() * diameter;	      
 				hexImg[Hexagon.getHexagons()[i].getType().toInt()].draw(xPos+scWidth/2-hexImg[0].getWidth()/2*scFactor, yPos+scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor);
 				g.drawString(Integer.toString(Hexagon.getHexagons()[i].getNumber()), xPos + scWidth/2, yPos + scHeight/2);
+				numImg[Hexagon.getHexagons()[i].getNumber()-2].draw(xPos+scWidth/2-numImg[2].getWidth()/2*scFactor, yPos+scHeight/2-numImg[2].getHeight()/2*scFactor, scFactor);
 				
 			}
 		}
@@ -212,7 +212,7 @@ public class Main extends BasicGame{ //should be edited to StateBasedGame
 		}
 		catch (SlickException ex)
 		{
-			Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+			//Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		
 
