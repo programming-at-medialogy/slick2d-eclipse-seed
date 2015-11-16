@@ -1,6 +1,9 @@
-
-
 import java.util.ArrayList;
+
+/**
+ * Class describing a Building.
+ * @author Anders Frederik Elmholdt
+ */
 
 public class Building {
 	
@@ -81,8 +84,8 @@ public class Building {
 	}
 	
 	/**
-	 * TODO
-	 * @return
+	 * Finds the nearby hexagons.
+	 * @return The nearby hexagons as an array
 	 */
 	public Hexagon[] getNearbyHexagons() {
 		return getNearbyHexagons(position);
@@ -193,24 +196,24 @@ public class Building {
 	}
 	
 	/**
-	 * TODO
-	 * @return
+	 * Gets the current buildings.
+	 * @return The buildings as an ArrayList
 	 */
 	public static ArrayList<Building> getBuildings() {
 		return buildings;
 	}
 	
 	/**
-	 * TODO
-	 * @return
+	 * Gets the position of a building.
+	 * @return The position
 	 */
 	public Position getPosition() {
 		return position;
 	}
 	
 	/**
-	 * TODO
-	 * @return
+	 * Gets the position of all buildings.
+	 * @return The positions as an ArrayList
 	 */
 	public static ArrayList<Position> getBuildingPositions() {
 		ArrayList<Position> positions = new ArrayList<Position>();

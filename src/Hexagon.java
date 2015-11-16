@@ -1,7 +1,10 @@
-
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Class describing a Hexagon for the game Settlers.
+ * @author Anders Frederik Elmholdt
+ */
 public class Hexagon {
 	
 	private int indexInArray;
@@ -194,11 +197,11 @@ public class Hexagon {
 	}
 	
 	/**
-	 * TODO
-	 * @param hexagonList
-	 * @param positions
-	 * @param excludePosition
-	 * @return
+	 * Finds the shared positions of two hexagons, if any.
+	 * @param hexagonList The two hexagons to use
+	 * @param positions The positions to look at
+	 * @param excludePosition A position chosen to be excluded
+	 * @return true if they contain a shared position; false otherwise
 	 */
 	public static boolean hasSharedPositions(ArrayList<Hexagon> hexagonList, ArrayList<Position> positions, Position excludePosition) {
 		if (hexagonList.size() == 2) {
@@ -229,6 +232,8 @@ public class Hexagon {
 		for (int i = 0; i < players.length; i++) {
 			// player class needs to be updated for this to work
 			// amount[i] = getNearbyBuildings(players[i].getBuildings());
+			
+			amount[i] = getNearbyBuildings(players[i].getBuildings());
 		}
 		
 		return amount;
@@ -256,8 +261,8 @@ public class Hexagon {
 	}
 	
 	/**
-	 * TODO
-	 * @return
+	 * Get the hexagon array.
+	 * @return the hexagon array
 	 */
 	public static Hexagon[] getHexagons() {
 		return hexagons;
@@ -285,9 +290,9 @@ public class Hexagon {
 	 */
 	private float angle(){
 		float angle;
-		if (indexInArray <=6) 					// for inner
-			angle  = (indexInArray + 3) * 1.0472f; 	// 1.05f = 360/6 is specific angle for all polygons up to 7th.
-		else 									// for outer
+		if (indexInArray <=6) 							// for inner
+			angle  = (indexInArray + 3) * 1.0472f; 		// 1.05f = 360/6 is specific angle for all polygons up to 7th.
+		else 											// for outer
 			angle  = (indexInArray + 1) * 0.523599f; 	// 0.523599f = 360/12 for hexagons from 7th
 		return angle;
 	}
