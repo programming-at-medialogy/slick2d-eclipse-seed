@@ -263,24 +263,32 @@ public class Hexagon {
 		return hexagons;
 	}
 	
+	/**
+	 * Gets the x position of the hexagon. Used to draw it.
+	 * @return the x coordinate
+	 */
 	public float getX() {
 		return (float)Math.cos(angle());
 	}
 	
+	/**
+	 * Gets the y position of the hexagon. Used to draw it.
+	 * @return the y coordinate
+	 */
 	public float getY() {
 		return (float)Math.sin(angle());
 	}
 	
 	/**
 	 * Function to calculate angle for each polygon
-	 * @return
+	 * @return the angle in radians
 	 */
 	private float angle(){
 		float angle;
 		if (indexInArray <=6) 					// for inner
-			angle  = indexInArray * 1.0472f; 	// 1.05f = 360/6 is specific angle for all polygons up to 7th.
+			angle  = (indexInArray + 3) * 1.0472f; 	// 1.05f = 360/6 is specific angle for all polygons up to 7th.
 		else 									// for outer
-			angle  = indexInArray * 0.523599f; 	// 0.523599f = 360/12 for hexagons from 7th
+			angle  = (indexInArray + 1) * 0.523599f; 	// 0.523599f = 360/12 for hexagons from 7th
 		return angle;
 	}
 }
