@@ -106,7 +106,7 @@ public class Actions {
 					   player == Building.buildings.get(i).player &&
 					   Building.buildings.get(i).upgraded == false){
 						//Send message to server. Something like:
-						//networkHelper.sendMessage("Roll dice", player);
+						//networkHelper.sendMessage("upgrade", player, pos);
 					}
 				}
 			}

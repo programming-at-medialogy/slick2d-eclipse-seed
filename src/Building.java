@@ -20,16 +20,13 @@ public class Building {
 	/**
 	 * Upgrades a building.
 	 * Contains error checking to check if the building is already upgraded.
-	 * @return true if successfully upgraded; otherwise false
 	 */
-	public boolean upgrade() {
+	public  void upgrade() {
 		if (!upgraded) {
 			upgraded = true;
-			return true;
 		}
 		else {
 			System.out.println("Building is already upgraded!");
-			return false;
 		}
 	}
 	
