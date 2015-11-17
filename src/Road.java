@@ -147,5 +147,31 @@ public class Road {
 	public static ArrayList<Road> getRoads() {
 		return roads;
 	}
+	
+	/**
+	 * Gets the center x coordinate of the road.
+	 * @return the center x
+	 */
+	public float getCenterX() {
+		return (start.getX() + end.getX()) / 2;
+	}
+	
+	/**
+	 * Gets the center y coordinate of the road.
+	 * @return the center x
+	 */
+	public float getCenterY() {
+		return (start.getY() + end.getY()) / 2;
+	}
+	
+	/**
+	 * Gets the angle of the road.
+	 * @return the angle in degrees
+	 */
+	public float getAngle() {
+		float deltaY = start.getY() - end.getY();
+		float deltaX = start.getX() - end.getX();
+		return (float)Math.toDegrees(Math.atan2(deltaY, deltaX) + Math.PI / 2);
+	}
 
 }

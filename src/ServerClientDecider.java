@@ -1,6 +1,6 @@
 public class ServerClientDecider {
 	
-	static final boolean isServer = true;
+	static final boolean isServer = false;
 	
 	public static void main(String[] args) {
 		if (isServer)

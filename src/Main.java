@@ -49,11 +49,11 @@ public class Main extends BasicGame{ //Is not the actually main.
 	public Main(String gamename) { // inputs game name from slick2d
 		super(gamename); // to get game name
 		Hexagon.generateMap();
-		Road.buildRoad(new Position(0,0), new Position(1,17), 0);
+		/*Road.buildRoad(new Position(0,0), new Position(1,17), 0);
 		Road.buildRoad(new Position(1,17), new Position(1,16), 0);
 		Road.buildRoad(new Position(0,0), new Position(0,1), 0);
 		Road.buildRoad(new Position(0,1), new Position(0,2), 0);
-		Road.buildRoad(new Position(0,2), new Position(0,3), 0);
+		Road.buildRoad(new Position(0,2), new Position(0,3), 0);*/
 		
 		//While-loop containing game flow
 		while(userInGame){
@@ -87,10 +87,13 @@ public class Main extends BasicGame{ //Is not the actually main.
 		
 		// just for testing
 		testPositions[0] = new Position(0, 1);
-		testPositions[1] = new Position(2, 20);
-		testPositions[2] = new Position(1, 11);
-		testPositions[3] = new Position(1, 5);
+		testPositions[1] = new Position(0, 2);
+		testPositions[2] = new Position(2, 11);
+		testPositions[3] = new Position(2, 12);
 		testPositions[4] = new Position(2, 0);
+		
+		Road.buildRoad(testPositions[0], testPositions[1], 0);
+		Road.buildRoad(testPositions[2], testPositions[3], 0);
 	}
 	
 	@Override
@@ -112,8 +115,16 @@ public class Main extends BasicGame{ //Is not the actually main.
 		
 		//g.drawString("Test", 100, 100);
 		
+		// testing road methods - feel free to rewrite this part as it was just testing the methods i made for the roads :)
 		for (int i = 0; i < Road.getRoads().size(); i++) {
-			// ROADS
+			float x = Road.getRoads().get(i).getCenterX();
+			float y = Road.getRoads().get(i).getCenterY();
+			
+			// i am not sure how this is going to be done, just wanted to prototype it though, and it works but is a bit ugly code
+			g.pushTransform();
+				g.rotate(x + scWidth/2, y + scHeight/2, Road.getRoads().get(i).getAngle());
+				roadImg[1].draw(x + scWidth/2 - roadImg[1].getWidth()/2*scFactor, y + scHeight/2  - roadImg[1].getHeight()/2*scFactor, scFactor);
+			g.popTransform();
 		}
 		
 		// just testing the position XY methods
