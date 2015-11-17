@@ -212,10 +212,12 @@ public class Hexagon {
 					}
 				}
 			}
-		}
+		} 
+		
+		// ensure proper usage
 		else {
 			System.out.println("ArrayList needs to contain 2 objects");
-			System.out.println("Currently containing: \n" + hexagonList.get(0).getDivision() + ", " + hexagonList.get(0).getIndex());
+			System.out.println("Currently containing: " + hexagonList.size());
 			return true;
 		}
 		return false;
