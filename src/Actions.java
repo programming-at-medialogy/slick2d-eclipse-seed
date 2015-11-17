@@ -46,26 +46,35 @@ public class Actions {
 		}
 		
 		
-		
-
 		//Methods for trade-phase
 		
-		static void initiateTrade(){
+		static void initiateTrade(TradeObject trade, int player){
 			//Method to use when the player wants to trade with other players
+			//Check if player have funds
+			int type  = trade.has[0];
+			if(Player.resources[type]>=trade.has.length){
+				//Send message to server. Something like:
+				//networkHelper.sendMessage("Trade Offer",trade, player);
+			}
 		}
 		
-		static void getTradeResponse(TradeObject tradeObject){
+		static void receiveTrade(TradeObject trade, int player){
 			//Method called when other users wants to trade resources
+			//Update graphics
+		}
+		
+		static void acceptTrade(TradeObject trade,int thisPlayer,int opponent){
+			//Method called when user accept trade
+			//Check if player have funds
+			int type  = trade.wants[0];
+			if(Player.resources[type]>=trade.wants.length){
+				//Send message to server. Something like:
+				//networkHelper.sendMessage("TradeAccept",trade, thisPlayer, opponent);
+			}
 		}
 
 		
 		// Methods for building-phase
-		
-		static void BuyCard(){
-			//Check if player have funds
-			//Check if request is possible
-			//Send message to server
-		}
 		
 		static void buyRoad(Position start, Position end, int player){
 			//Check if player have funds
@@ -101,6 +110,12 @@ public class Actions {
 					}
 				}
 			}
+		}
+		
+		static void BuyCard(){
+			//Check if player have funds
+			//Check if request is possible
+			//Send message to server
 		}
 		
 		static void useDevelopment(){
