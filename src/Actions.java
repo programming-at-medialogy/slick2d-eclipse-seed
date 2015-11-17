@@ -104,7 +104,7 @@ public class Actions {
 				for(int i = 0; i < Building.buildings.size(); i++){
 					if(pos==Building.buildings.get(i).position && 
 					   player == Building.buildings.get(i).player &&
-					   Building.buildings.get(i).upgraded == false){
+					   Building.buildings.get(i).isUpgraded() == false){
 						//Send message to server. Something like:
 						//networkHelper.sendMessage("upgrade", player, pos);
 					}

@@ -26,6 +26,7 @@ public class Main extends BasicGame{ //Is not the actually main.
 	static boolean userInGame; 
 	static float padding;
 	static float scFactor;
+	Position[] testPositions = new Position[5];
 	
 	
 	
@@ -42,8 +43,8 @@ public class Main extends BasicGame{ //Is not the actually main.
 	float yPos; // hexagon position Y
 	float angle; // hexagon angle
 	
-	float hexHeight; // to get height of hexagon
-	float hexWidth; // to get width of hexagon
+	static float hexHeight; // to get height of hexagon
+	static float hexWidth; // to get width of hexagon
 	
 	public Main(String gamename) { // inputs game name from slick2d
 		super(gamename); // to get game name
@@ -81,7 +82,15 @@ public class Main extends BasicGame{ //Is not the actually main.
 	
 		scFactor = 0.3f; // Dynamic setup: scales images according this value 
 		padding = hexImg[0].getWidth()/22*scFactor; // Dynamic setup: space between polygons
-	
+		hexWidth = hexImg[0].getWidth();
+		hexHeight = hexImg[0].getHeight();
+		
+		// just for testing
+		testPositions[0] = new Position(0, 1);
+		testPositions[1] = new Position(2, 20);
+		testPositions[2] = new Position(1, 11);
+		testPositions[3] = new Position(1, 5);
+		testPositions[4] = new Position(2, 0);
 	}
 	
 	@Override
@@ -94,22 +103,28 @@ public class Main extends BasicGame{ //Is not the actually main.
 		g.setBackground(bkColor); // set background color
 		
 		// move out, since used only once in setup
-		float scFactor = 0.4f; // Dynamic setup: scales images according this value 
+		/*float scFactor = 0.4f; // Dynamic setup: scales images according this value 
 		float padding = hexImg[0].getWidth()/22*scFactor; // Dynamic setup: space between polygons
-		diameter = (hexImg[0].getWidth()+ padding)*scFactor; // Dynamic setup: diameter according image width, + padding for space in between
+		diameter = (hexImg[0].getWidth()+ padding)*scFactor; // Dynamic setup: diameter according image width, + padding for space in between*/
 		//end. move out, since used only once in setup
 		
 		drawHexagons(g);
+		
 		//g.drawString("Test", 100, 100);
 		
 		for (int i = 0; i < Road.getRoads().size(); i++) {
 			// ROADS
 		}
+		
+		// just testing the position XY methods
+		for (int i = 0; i < testPositions.length; i++) {
+			g.drawString("Pos: " + i, testPositions[i].getX() + scWidth/2, testPositions[i].getY() + scHeight/2);
+		}
 
 	}
 	
 	// Deprecated
-	private float angle(int hexIndex){
+	/*private float angle(int hexIndex){
 		if (hexIndex <=6){
 			// for inner
 			angle  = hexIndex * 1.0472f; // 1.05f = 360/6 is specific angle for all polygons up to 7th.
@@ -117,7 +132,7 @@ public class Main extends BasicGame{ //Is not the actually main.
 			// for outer
 			angle  = hexIndex * 0.523599f; // 0.523599f = 360/12 for hexagons from 7th
 		return angle;
-	}
+	}*/
 	
 	//Methods for initial phase
 	
@@ -125,30 +140,40 @@ public class Main extends BasicGame{ //Is not the actually main.
 	 * TODO
 	 */
 	private void drawHexagons(Graphics g) {
-		diameter = (hexImg[0].getWidth()+ padding)*scFactor; // Dynamic setup: diameter according image width, + padding for space in between
-		for (int i = 0; i < Hexagon.getHexagons().length; i++){
+		//diameter = (hexImg[0].getWidth()+ padding)*scFactor; // Dynamic setup: diameter according image width, + padding for space in between
+		Hexagon[] hexagons = Hexagon.getHexagons();
+		for (int i = 0; i < hexagons.length; i++){
+			xPos = hexagons[i].getX();
+			yPos = hexagons[i].getY();
+			
+			// could maybe also store the center in a variable so we do not have to calculate for each frame
+			hexImg[hexagons[i].getType().toInt()].draw(xPos + scWidth/2-hexImg[0].getWidth()/2*scFactor, yPos + scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor);
+			numImg[hexagons[i].getNumber()-2].draw(xPos + scWidth/2-numImg[2].getWidth()/2*scFactor, yPos + scHeight/2-numImg[2].getHeight()/2*scFactor, scFactor);
+			
+			// old code - moved to the Hexagon.getX() and Hexagon.getY() methods.
+			/*
 			if(i == 0){			// center hexagon
 				hexImg[Hexagon.getHexagons()[i].getType().toInt()].draw(scWidth/2-hexImg[0].getWidth()/2*scFactor, scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor); // draw center hexagon
 				//g.drawString(Integer.toString(Hexagon.getHexagons()[i].getNumber()), scWidth/2, scHeight/2);
 				numImg[Hexagon.getHexagons()[i].getNumber()-2].draw(scWidth/2-numImg[2].getWidth()/2*scFactor,scHeight/2-numImg[2].getHeight()/2*scFactor, scFactor);
 			} else if (i < 7){ 	//middle circle of hexagons
-				xPos = Hexagon.getHexagons()[i].getX() * diameter;
-				yPos = Hexagon.getHexagons()[i].getY() * diameter;
+				xPos = Hexagon.getHexagons()[i].getX();
+				yPos = Hexagon.getHexagons()[i].getY();
 				hexImg[Hexagon.getHexagons()[i].getType().toInt()].draw(xPos+scWidth/2-hexImg[0].getWidth()/2*scFactor, yPos+scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor);
 				numImg[Hexagon.getHexagons()[i].getNumber()-2].draw(xPos + scWidth/2-numImg[2].getWidth()/2*scFactor,yPos + scHeight/2-numImg[2].getHeight()/2*scFactor, scFactor);
 			} else {			//outer circle of hexagons
-				if(i%2 == 0){ 	// maybe move to a different variable
+				/*if(i%2 == 0){ 	// maybe move to a different variable
 					diameter = ( ((hexImg[0].getWidth()*2)+padding/2+padding) - hexImg[0].getWidth()/3.85f )*scFactor; // 3.85 CHECK. Dynamic setup : diameter for outer polygons according image width. 3.8 is ~third of image that gets inside the cricle
 				}else{
 					diameter = ( ((hexImg[0].getWidth()*2)+padding*2))*scFactor; // Dynamic setup : diameter for outer polygons according image width
-				}
+				}*//*
 				
 				xPos = Hexagon.getHexagons()[i].getX() * diameter;
 				yPos = Hexagon.getHexagons()[i].getY() * diameter;	      
 				hexImg[Hexagon.getHexagons()[i].getType().toInt()].draw(xPos+scWidth/2-hexImg[0].getWidth()/2*scFactor, yPos+scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor);
 				numImg[Hexagon.getHexagons()[i].getNumber()-2].draw(xPos+scWidth/2-numImg[2].getWidth()/2*scFactor, yPos+scHeight/2-numImg[2].getHeight()/2*scFactor, scFactor);
 				
-			}
+			}*/
 		}
 	}
 	

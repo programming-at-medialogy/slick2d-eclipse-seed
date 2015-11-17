@@ -7,9 +7,14 @@ import java.util.ArrayList;
 
 public class Building {
 	
-	static boolean upgraded;
+	private boolean upgraded;
 	Position position;
-	static int player;
+	/* I don't where this is used, but the player should not be static.
+	 * By making the player static every single building will share the
+	 * same player, which is certainly not what is intended.
+	 * I changed it, so some of the code might need to be rewritten now.
+	 * Same goes for the boolean upgraded. */
+	int player; 
 	static ArrayList<Building> buildings = new ArrayList<Building>();
 	
 	private Building(Position inPos, int player) {

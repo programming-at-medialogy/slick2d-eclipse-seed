@@ -2,6 +2,9 @@ import java.util.ArrayList;
 
 public class Road {
 	
+	/* Again, just like in the building class, the player should not be static.
+	 * However, if i change it to non static i screw up the code. The code therefore needs to be rewritten a bit.
+	 * See building class for elaboration. */
 	static int player;	
 	Position start;
 	Position end;

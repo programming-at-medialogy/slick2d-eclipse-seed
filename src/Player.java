@@ -39,7 +39,7 @@ public class Player implements DevelopmentCardIF {
 		this.playerName = playerName;
 		this.playerNumber = playerNumber;
 		points = 0;
-		buildings = new ArrayList();
+		buildings = new ArrayList<Building>();
 		int[] resources = new int[5];
 
 		//road = 0;

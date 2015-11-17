@@ -255,7 +255,10 @@ public class Hexagon {
 	 * @return the x coordinate
 	 */
 	public float getX() {
-		return (float)Math.cos(angle());
+		float diameter = (Main.hexWidth + Main.padding)*getDivision()*Main.scFactor;
+		if (getDivision() == 2 && getIndex() % 2 != 0)
+			diameter = (float)Math.sqrt(Math.pow(Main.hexWidth + Main.padding, 2) - Math.pow((Main.hexWidth + Main.padding) / 2, 2)) * 2 * Main.scFactor;
+		return (float)Math.cos(angle()) * diameter;
 	}
 	
 	/**
@@ -263,7 +266,10 @@ public class Hexagon {
 	 * @return the y coordinate
 	 */
 	public float getY() {
-		return (float)Math.sin(angle());
+		float diameter = (Main.hexWidth + Main.padding)*getDivision()*Main.scFactor;
+		if (getDivision() == 2 && getIndex() % 2 != 0)
+			diameter = (float)Math.sqrt(Math.pow(Main.hexWidth + Main.padding, 2) - Math.pow((Main.hexWidth + Main.padding) / 2, 2)) * 2 * Main.scFactor;
+		return (float)Math.sin(angle()) * diameter;
 	}
 	
 	/**
