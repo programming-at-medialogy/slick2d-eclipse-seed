@@ -45,8 +45,8 @@ public class GameClient extends StateBasedGame
         players.add(new Player("3"));
         players.add(new Player("4"));
 
-        this.addState(new InputNameScreen());
-        this.addState(new Lobby(gsc, players));
+        //this.addState(new InputNameScreen());
+        //this.addState(new Lobby(gsc, players));
         this.addState(new GameBoard(gsc, players));
 
     }

@@ -29,15 +29,9 @@ public class City extends BasicGame {
 
     int color;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> MarianneKelstrup
     Button button;
 
     Image[] cityImage = new Image[48];
->>>>>>> MarianneKelstrup
     Image image;
 
     public City(String title, String cityName, int xPos, int yPos, String[] neighborCities, int color) {
@@ -52,11 +46,6 @@ public class City extends BasicGame {
     @Override
     public void init(GameContainer gc) throws SlickException {
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> MarianneKelstrup
         if (color == 0) {
             button = new Button("cityButton", xPos, yPos, 19);
             //image = new Image("assets/cities/bluecities.png");
@@ -74,8 +63,6 @@ public class City extends BasicGame {
         }
 
         button.init(gc);
-
->>>>>>> MarianneKelstrup
     }
 
     @Override
@@ -89,13 +76,11 @@ public class City extends BasicGame {
 
     @Override
     public void render(GameContainer gc, Graphics g) throws SlickException {
-<<<<<<< HEAD
 
         //g.drawImage(image, xPos, yPos);
         button.render(gc,g);
         g.setColor(Color.white);
         g.drawString(cityName, xPos, yPos + 25);
-=======
 
         //g.drawImage(image, xPos, yPos);
         button.render(gc,g);
@@ -167,73 +152,7 @@ public class City extends BasicGame {
             g.drawString("3", xPos-20, yPos+15);
         }
     }
->>>>>>> MarianneKelstrup
 
-
-        if(button.clickWithin(gc)) {
-            System.out.println("NU ER DET EN KNAP");
-        }
-
-        if (cubeBlue == 1){
-            g.setColor(Color.blue);
-            g.fillRect(xPos-20, yPos+15, 15,15);
-        } else if(cubeBlue == 2){
-            g.setColor(Color.blue);
-            g.fillRect(xPos-20, yPos+15, 15, 15);
-            g.setColor(Color.white);
-            g.drawString("2", xPos-20, yPos+15);
-        } else if(cubeBlue == 3){
-            g.setColor(Color.blue);
-            g.fillRect(xPos-20, yPos+15, 15, 15);
-            g.setColor(Color.white);
-            g.drawString("3", xPos-20, yPos+15);
-        }
-
-        if (cubeYellow == 1){
-            g.setColor(Color.yellow);
-            g.fillRect(xPos-20, yPos+15, 15, 15);
-        } else if(cubeYellow == 2){
-            g.setColor(Color.yellow);
-            g.fillRect(xPos-20, yPos+15, 15, 15);
-            g.setColor(Color.white);
-            g.drawString("2", xPos-20, yPos+15);
-        } else if(cubeYellow == 3){
-            g.setColor(Color.yellow);
-            g.fillRect(xPos-20, yPos+15, 15, 15);
-            g.setColor(Color.white);
-            g.drawString("3", xPos-20, yPos+15);
-        }
-
-        if (cubeBlack == 1){
-            g.setColor(Color.black);
-            g.fillRect(xPos-20, yPos+15, 15, 15);
-        } else if(cubeBlack == 2){
-            g.setColor(Color.black);
-            g.fillRect(xPos-20, yPos+15, 15, 15);
-            g.setColor(Color.white);
-            g.drawString("2", xPos-20, yPos+15);
-        } else if(cubeRed == 3){
-            g.setColor(Color.black);
-            g.fillRect(xPos-20, yPos+15, 15, 15);
-            g.setColor(Color.white);
-            g.drawString("3", xPos-20, yPos+15);
-        }
-
-        if (cubeRed == 1){
-            g.setColor(Color.red);
-            g.fillRect(xPos-20, yPos+15, 15, 15);
-        } else if(cubeRed == 2){
-            g.setColor(Color.red);
-            g.fillRect(xPos-20, yPos+15, 15, 15);
-            g.setColor(Color.white);
-            g.drawString("2", xPos-20, yPos+15);
-        } else if(cubeRed == 3){
-            g.setColor(Color.red);
-            g.fillRect(xPos-20, yPos+15, 15, 15);
-            g.setColor(Color.white);
-            g.drawString("3", xPos-20, yPos+15);
-        }
-    }
 
     //functions:
     //placeResearchSt ()
