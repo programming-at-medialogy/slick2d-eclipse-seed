@@ -23,7 +23,7 @@ public class Button extends BasicGame {
 
     private boolean isActive;
 
-    private Image[] images = new Image[4];
+    private Image[] images = new Image[23];
 
 
     public Button(String title, int x, int y, int picIndexNo) {
