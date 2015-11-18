@@ -25,7 +25,11 @@ public class Button extends BasicGame {
     private boolean isActive;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     private Image[] images = new Image[19];
+=======
+    private Image[] images = new Image[23];
+>>>>>>> MarianneKelstrup
 =======
     private Image[] images = new Image[23];
 >>>>>>> MarianneKelstrup

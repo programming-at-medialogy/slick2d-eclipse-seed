@@ -37,6 +37,7 @@ public class GameBoard extends BasicGameState {
 
         cities = new City[48];
 <<<<<<< HEAD
+<<<<<<< HEAD
         cities[0] = new City("pandemic", "atlanta", 230, 293, new String[]{"miami", "washington", "chicago"}, 0);
         cities[1] = new City("pandemic", "chicago", 189, 243, new String[]{"atlanta", "sanfrancisco", "montreal"}, 0);
         cities[2] = new City("pandemic", "sanfrancisco", 93, 272, new String[]{"losangeles", "chicago", "tokyo", "manila"}, 0);
@@ -86,6 +87,8 @@ public class GameBoard extends BasicGameState {
         cities[46] = new City("pandemic", "osaka", 1178, 302, new String[]{"tokyo", "taipei"}, 3);
         cities[47] = new City("pandemic", "taipei", 1139, 332, new String[]{"hongkong", "shanghai", "osaka"}, 3);
 =======
+=======
+>>>>>>> MarianneKelstrup
         cities[0] = new City("pandemic","atlanta",230,300, new String[]{"miami","washington","chicago"},0);
         cities[1] = new City("pandemic","chicago",189,243, new String[]{"atlanta", "sanfrancisco","montreal"},0);
         cities[2] = new City("pandemic", "sanfrancisco",93,272, new String[]{"losangeles","chicago","tokyo","manila"},0);
@@ -134,6 +137,9 @@ public class GameBoard extends BasicGameState {
         cities[45] = new City("pandemic","tokyo",1240,263, new String[]{"seoul","shanghai","osaka"},3);
         cities[46] = new City("pandemic","osaka",1178,290, new String[]{"tokyo","taipei"},3);
         cities[47] = new City("pandemic","taipei",1190,340, new String[]{"hongkong","shanghai","osaka"},3);
+<<<<<<< HEAD
+>>>>>>> MarianneKelstrup
+=======
 >>>>>>> MarianneKelstrup
 
         for (int i = 0; i < cities.length; i++) {
@@ -203,6 +209,9 @@ public class GameBoard extends BasicGameState {
         cities[4].setCubeBlack(2);
         cities[28].setCubeYellow(3);
         cities[10].setCubeRed(1);
+<<<<<<< HEAD
+>>>>>>> MarianneKelstrup
+=======
 >>>>>>> MarianneKelstrup
     }
 }
