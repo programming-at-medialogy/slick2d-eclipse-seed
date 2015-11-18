@@ -1,6 +1,5 @@
 package example;
 
-import com.sun.xml.internal.ws.api.pipe.SyncStartForAsyncFeature;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -24,8 +23,10 @@ public class GameBoard extends BasicGameState {
     List<Player> players;
     int playerNo, roleNo;
 
-    public GameBoard(GameStateCommons gsc) {
+    public GameBoard(GameStateCommons gsc, List<Player> players) {
+
         this.gsc = gsc;
+        this.players = players;
     }
 
 
@@ -98,7 +99,6 @@ public class GameBoard extends BasicGameState {
         player3.init(gc);
         player4.init(gc);
 
-        players = gsc.getPlayers();
         playerNo = gsc.getPlayerNo();
         roleNo = gsc.getRoleNo();
 

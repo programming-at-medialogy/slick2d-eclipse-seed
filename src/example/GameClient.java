@@ -1,6 +1,8 @@
 package example;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,6 +17,7 @@ import org.newdawn.slick.state.StateBasedGame;
 */
 public class GameClient extends StateBasedGame
 {
+
 
 
 
@@ -35,9 +38,16 @@ public class GameClient extends StateBasedGame
 
         GameStateCommons gsc = new GameStateCommons();
 
-        //this.addState(new InputNameScreen());
-        //this.addState(new Lobby(gsc));
-        this.addState(new GameBoard(gsc));
+        //CREATE THE PLAYERS
+        List<Player> players = new ArrayList<Player>(4);
+        players.add(new Player("1"));
+        players.add(new Player("2"));
+        players.add(new Player("3"));
+        players.add(new Player("4"));
+
+        this.addState(new InputNameScreen());
+        this.addState(new Lobby(gsc, players));
+        this.addState(new GameBoard(gsc, players));
 
     }
 
