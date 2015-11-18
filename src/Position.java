@@ -1,14 +1,13 @@
-
-
 import java.util.ArrayList;
 
 /**
  * Position class used to determine the position of buildings and roads.
- * @author Anders Elmholdt
  */
 public class Position {
-	private int division;
-	private int index;
+	// these variables are declared public final, since they cannot change after being initialized
+	public final int DIVISION;
+	public final int INDEX;
+	
 	private float x;
 	private float y;
 	private Hexagon[] nearbyHexagons;
@@ -18,9 +17,22 @@ public class Position {
 	 * @param division the division
 	 * @param index the index
 	 */
-	Position(int division, int index) {
-		this.division = division;
-		this.index = index;
+	public Position(int division, int index) {
+		DIVISION = division;
+		INDEX = index;
+	}
+	
+	/**
+	 * Checks whether two position objects are equal to eachother
+	 * @param pos1 the first Position
+	 * @param pos2 the second Position
+	 * @return true if they are equal; otherwise false
+	 */
+	static public boolean comparePosition(Position pos1, Position pos2) {
+		// checks if division and index are equal
+		if (pos1.DIVISION == pos2.DIVISION && pos1.INDEX == pos2.INDEX)
+			return true;
+		return false;
 	}
 	
 	/**
@@ -33,7 +45,7 @@ public class Position {
 		/* MaxIndex is the maximum index in a division.
 		 * It varies with division, hence a switch is used to compute it. */
 		int maxIndex;
-		switch(inPos.getDivision()) {
+		switch(inPos.DIVISION) {
 			case 0:
 				maxIndex = 6;
 				break;
@@ -58,8 +70,8 @@ public class Position {
 			/* Check if distance is 1.
 			 * NOTE: this only checks for 2/3 possible nearby Positions with distance = 1.
 			 * The last 1/3 is found in the lines below. */
-			if (Position.comparePosition(new Position(inPos.getDivision(), (inPos.getIndex() + 1) % maxIndex), positions.get(i)) ||
-				Position.comparePosition(new Position(inPos.getDivision(), (inPos.getIndex() + maxIndex - 1) % maxIndex), positions.get(i)))
+			if (Position.comparePosition(new Position(inPos.DIVISION, (inPos.INDEX + 1) % maxIndex), positions.get(i)) ||
+				Position.comparePosition(new Position(inPos.DIVISION, (inPos.INDEX + maxIndex - 1) % maxIndex), positions.get(i)))
 				return 1;
 		}
 		
@@ -72,7 +84,7 @@ public class Position {
 		ArrayList<Hexagon> upwardHexagons = new ArrayList<Hexagon>();
 		ArrayList<Hexagon> downwardHexagons = new ArrayList<Hexagon>();
 		for (int i = 0; i < nearbyHexagons.length; i++) {
-			if (nearbyHexagons[i].getDivision() > inPos.getDivision())
+			if (nearbyHexagons[i].getDivision() > inPos.DIVISION)
 				upwardHexagons.add(nearbyHexagons[i]);
 			else
 				downwardHexagons.add(nearbyHexagons[i]);
@@ -116,10 +128,10 @@ public class Position {
 			for (int i = 0; i < Hexagon.getHexagons().length; i++) {
 				// check division
 				int hexDivision = Hexagon.getHexagons()[i].getDivision();
-				if (hexDivision == inPos.getDivision() || hexDivision == inPos.getDivision() + 1) {
+				if (hexDivision == inPos.DIVISION || hexDivision == inPos.DIVISION + 1) {
 					// get maxPositionIndex
 					int maxPositionIndex;
-					switch(inPos.getDivision()) {
+					switch(inPos.DIVISION) {
 						case 0:
 							maxPositionIndex = 6;
 							break;
@@ -154,11 +166,11 @@ public class Position {
 					float dividor = maxPositionIndex / (float)maxHexIndex;
 					
 					// check if same position
-					if ((int)(inPos.getIndex() / dividor) == Hexagon.getHexagons()[i].getIndex()) {
+					if ((int)(inPos.INDEX / dividor) == Hexagon.getHexagons()[i].getIndex()) {
 						foundHexagons.add(Hexagon.getHexagons()[i]);
-					} else if (Math.round(inPos.getIndex() / dividor) % maxHexIndex == Hexagon.getHexagons()[i].getIndex()) {
+					} else if (Math.round(inPos.INDEX / dividor) % maxHexIndex == Hexagon.getHexagons()[i].getIndex()) {
 						foundHexagons.add(Hexagon.getHexagons()[i]);
-					} else if ((inPos.getIndex()*2) % (int)(dividor*2) == 0 && hexDivision > inPos.getDivision() && (int)(inPos.getIndex() / dividor) == (Hexagon.getHexagons()[i].getIndex() + 1) % maxHexIndex) {
+					} else if ((inPos.INDEX*2) % (int)(dividor*2) == 0 && hexDivision > inPos.DIVISION && (int)(inPos.DIVISION / dividor) == (Hexagon.getHexagons()[i].getIndex() + 1) % maxHexIndex) {
 						foundHexagons.add(Hexagon.getHexagons()[i]);
 					}
 				}
@@ -198,73 +210,27 @@ public class Position {
 	}
 	
 	/**
-	 * Checks whether two position objects are equal to eachother
-	 * @param pos1 the first Position
-	 * @param pos2 the second Position
-	 * @return true if they are equal; otherwise false
-	 */
-	static public boolean comparePosition(Position pos1, Position pos2) {
-		// checks if division and index are equal
-		if (pos1.division == pos2.division && pos1.index == pos2.index)
-			return true;
-		return false;
-	}
-	
-	/**
-	 * Gets the division
-	 * @return the division
-	 */
-	public int getDivision() {
-		return division;
-	}
-	
-	/**
-	 * Gets the index
-	 * @return the index
-	 */
-	public int getIndex() {
-		return index;
-	}
-	
-	/**
-	 * Sets the division
-	 * @param division the new division
-	 */
-	public void setDivision(int division) {
-		this.division = division;
-	}
-	
-	/**
-	 * Sets the index
-	 * @param index the new index
-	 */
-	public void setIndex(int index) {
-		this.index = index;
-	}
-	
-	/**
 	 * Gets the x and y position of a Position
 	 * @return a float array containing the x position as index 0; y position as index 1
 	 */
-	public float[] getXY() {
+	private float[] getXY() {
 		Hexagon positionHexagon = null;
 		int hexOffsetIndex = 0;
 		
 		// if the Position has division 0, then it should just use its index as the hexOffsetIndex
-		if (division == 0) {
-			hexOffsetIndex = index;
+		if (DIVISION == 0) {
+			hexOffsetIndex = INDEX;
 			
 			// just chose the center hexagon to be the reference for positions on division 0
-			positionHexagon = Hexagon.getHexagonByDivision(0, 0, Hexagon.getHexagons()); // update this method
-		}
-		else {
+			positionHexagon = Hexagon.getHexagonByDivision(0, 0);
+		} else {
 			// get nearby hexagons
 			Hexagon[] nearbyHexagons = getNearbyHexagons();
 			
 			/* Chose a random hexagon at the same division
 			 * This hexagon is used as a relative position to describe the Position objects position */
 			for (int i = 0; i < nearbyHexagons.length; i++) {
-				if (nearbyHexagons[i].getDivision() == division) {
+				if (nearbyHexagons[i].getDivision() == DIVISION) {
 					positionHexagon = nearbyHexagons[i];
 					break;
 				}
@@ -272,7 +238,7 @@ public class Position {
 			
 			// calculate hexOffsetIndex
 			if (positionHexagon != null)
-				hexOffsetIndex = (index - positionHexagon.getIndex() * 2) % 6;
+				hexOffsetIndex = (INDEX - positionHexagon.getIndex() * 2) % 6;
 			else
 				System.out.println("getVector ERROR");
 		}
@@ -325,6 +291,6 @@ public class Position {
 	 */
 	@Override
 	public String toString() {
-		return this.getDivision() + ", " + this.getIndex();
+		return DIVISION + ", " + INDEX;
 	}
 }

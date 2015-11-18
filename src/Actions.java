@@ -4,7 +4,10 @@ public class Actions {
 	
 		static void placeBuilding(Position pos, int player){
 			//Check if request is possible
-			boolean canBuild = false;
+			
+			// no need to do this, just use the Building.canBuild() method
+			
+			/*boolean canBuild = false;
 			for(int i = 0; i < Building.buildings.size(); i++){
 				if(pos==Building.buildings.get(i).position){
 					System.out.println("There is already a building here!");
@@ -22,6 +25,11 @@ public class Actions {
 				//Send message to server. Something like:
 				//networkHelper.sendMessage("Build building", pos, player);
 				
+			}*/
+			
+			if (Building.canBuild(pos)) {
+				//Send message to server. Something like:
+				//networkHelper.sendMessage("Build building", pos, player);
 			}
 		}
 		
@@ -29,8 +37,8 @@ public class Actions {
 			//Check if request is possible
 			boolean canBuild = false;
 			for(int i = 0; i < Road.roads.size(); i++){
-				if((start==Road.roads.get(i).start && end==Road.roads.get(i).end)||
-				   (end==Road.roads.get(i).start && start==Road.roads.get(i).end)){
+				if((Position.comparePosition(start, Road.roads.get(i).start) && Position.comparePosition(end, Road.roads.get(i).end))||
+				   (Position.comparePosition(end, Road.roads.get(i).start) && Position.comparePosition(start, Road.roads.get(i).end))){
 					System.out.println("There is already a road here!");
 					canBuild =false;
 					break;
@@ -101,10 +109,10 @@ public class Actions {
 			if(Player.resources[ResourceType.MARSSAND.toInt()]>=2 && 
 			   Player.resources[ResourceType.SPACEDEBRIS.toInt()]>=3){
 				//Check if request is possible
-				for(int i = 0; i < Building.buildings.size(); i++){
-					if(pos==Building.buildings.get(i).position && 
-					   player == Building.buildings.get(i).player &&
-					   Building.buildings.get(i).isUpgraded() == false){
+				for(int i = 0; i < Building.getBuildings().size(); i++){
+					if(Position.comparePosition(pos, Building.getBuildings().get(i).POSITION) && 
+					   player == Building.getBuildings().get(i).PLAYER &&
+					   Building.getBuildings().get(i).isUpgraded() == false){
 						//Send message to server. Something like:
 						//networkHelper.sendMessage("upgrade", player, pos);
 					}

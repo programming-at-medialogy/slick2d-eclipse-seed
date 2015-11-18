@@ -54,9 +54,9 @@ public class ServerActions {
 		//Remove ressources from player
 		Player.resources[ResourceType.MARSSAND.toInt()]=Player.resources[ResourceType.MARSSAND.toInt()]-2; 
 		Player.resources[ResourceType.SPACEDEBRIS.toInt()]=Player.resources[ResourceType.SPACEDEBRIS.toInt()]-3;
-		for(int i = 0; i < Building.buildings.size(); i++){
-			if (Building.buildings.get(i).position == pos){
-				Building.buildings.get(i).upgrade();
+		for(int i = 0; i < Building.getBuildings().size(); i++){
+			if (Position.comparePosition(Building.getBuildings().get(i).POSITION, pos)){
+				Building.getBuildings().get(i).upgrade();
 			}
 		}
 		//update all clients!

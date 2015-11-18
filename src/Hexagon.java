@@ -3,29 +3,32 @@ import java.util.Random;
 
 /**
  * Class describing a Hexagon for the game Settlers.
- * @author Anders Frederik Elmholdt
  */
 public class Hexagon {
 	
+	public final ResourceType TYPE;
+	public final int NUMBER;
+	
+	private float x = 0.1f;
+	private float y = 0.1f;
 	private int indexInArray;
-	private int number;
-	private static Hexagon[] hexagons;
-	private ResourceType type;
 	private boolean robbed;
+	private static Hexagon[] hexagons;
 
 	/**
-	 * Constructor for a Hexagon.
+	 * Private constructor for a Hexagon.
+	 * This constructor should only be called by the generateMap method.
 	 * The boolean hasRobber is inferred from the type of the resource.
 	 * @param resourceType the type of resource the hexagon contains
 	 * @param position the position of the hexagon
 	 * @param number the number that has to be rolled for the hexagon to yield resources
 	 */
-	Hexagon(ResourceType resourceType, int number) {
-		this.type = resourceType;
-		this.number = number;
+	private Hexagon(ResourceType resourceType, int number) {
+		TYPE = resourceType;
+		NUMBER = number;
 		
 		// the robber always starts on the antimatter block
-		if (type == ResourceType.ANTIMATTER)
+		if (TYPE == ResourceType.ANTIMATTER)
 			this.robbed = true;
 		else
 			this.robbed = false;
@@ -61,11 +64,46 @@ public class Hexagon {
 		
 		// set indexes
 		for (int i = 0; i < hexagons.length; i++) {
-			hexagons[i].setIndexInArray(i);
+			hexagons[i].indexInArray = i;
 		}
 		
 		Hexagon.hexagons = hexagons;
 		
+		return hexagons;
+	}
+	
+	/**
+	 * Finds the shared positions of two hexagons, if any.
+	 * @param hexagonList The two hexagons to use
+	 * @param positions The positions to look at
+	 * @param excludePosition A position chosen to be excluded
+	 * @return true if they contain a shared position; false otherwise
+	 */
+	public static boolean hasSharedPositions(ArrayList<Hexagon> hexagonList, ArrayList<Position> positions, Position excludePosition) {
+		if (hexagonList.size() == 2) {
+			for (int i = 0; i < positions.size(); i++) {
+				if (positions.get(i).isNearby(hexagonList.get(0)) && positions.get(i).isNearby(hexagonList.get(1))) {
+					if (!Position.comparePosition(excludePosition, positions.get(i))) {
+						return true;
+					}
+				}
+			}
+		} 
+		
+		// ensure proper usage
+		else {
+			System.out.println("ArrayList needs to contain 2 objects");
+			System.out.println("Currently containing: " + hexagonList.size());
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Get the hexagon array.
+	 * @return the hexagon array
+	 */
+	public static Hexagon[] getHexagons() {
 		return hexagons;
 	}
 	
@@ -76,7 +114,7 @@ public class Hexagon {
 	 * @param hexagons the hexagon array to use
 	 * @return the hexagon at (division, index)
 	 */
-	public static Hexagon getHexagonByDivision(int division, int index, Hexagon[] hexagons) {
+	public static Hexagon getHexagonByDivision(int division, int index) {
 		switch(division) {
 			case 0:
 				return hexagons[0];
@@ -102,7 +140,7 @@ public class Hexagon {
 		Hexagon[] foundHexagons = new Hexagon[2];
 		int index = 0;
 		for (int i = 0; i < hexagons.length; i++) {
-			if (hexagons[i].getNumber() == number) {
+			if (hexagons[i].NUMBER == number) {
 				foundHexagons[index++] = hexagons[i];
 				if (index > 1)
 					break;
@@ -117,6 +155,35 @@ public class Hexagon {
 		}
 		
 		return foundHexagons;
+	}
+	
+	/**
+	 * Shuffles an array using the Fisher-Yates shuffle.
+	 * @param array the array to be shuffled
+	 * @param length the amount of numbers to be shuffled
+	 */
+	private static void shuffle(int[] array, int length) {
+		Random r = new Random();
+		for (int i = length - 1; i > 0; i--) {
+			int index = r.nextInt(i + 1);
+			int temp = array[index];
+			array[index] = array[i];
+			array[i] = temp;
+		}
+	}
+	
+	/**
+	 * Works just like {@link Hexagon#shuffle(int[], int)} except the array is of type Hexagon.
+	 * @see Hexagon#shuffle(int[], int)
+	 */
+	private static void shuffle(Hexagon[] array, int length) {
+		Random r = new Random();
+		for (int i = length - 1; i > 0; i--) {
+			int index = r.nextInt(i + 1);
+			Hexagon temp = array[index];
+			array[index] = array[i];
+			array[i] = temp;
+		}
 	}
 	
 	/**
@@ -158,84 +225,6 @@ public class Hexagon {
 	public int getIndexInArray() {
 		return indexInArray;
 	}
-	
-	/**
-	 * Method used to set the current hexagon's position in the array
-	 * @param index the index
-	 */
-	private void setIndexInArray(int index) {
-		this.indexInArray = index;
-	}
-	
-	/**
-	 * Shuffles an array using the Fisher-Yates shuffle.
-	 * @param array the array to be shuffled
-	 * @param length the amount of numbers to be shuffled
-	 */
-	private static void shuffle(int[] array, int length) {
-		Random r = new Random();
-		for (int i = length - 1; i > 0; i--) {
-			int index = r.nextInt(i + 1);
-			int temp = array[index];
-			array[index] = array[i];
-			array[i] = temp;
-		}
-	}
-	
-	/**
-	 * Works just like {@link Hexagon#shuffle(int[], int)} except the array is of type Hexagon.
-	 * @see Hexagon#shuffle(int[], int)
-	 */
-	private static void shuffle(Hexagon[] array, int length) {
-		Random r = new Random();
-		for (int i = length - 1; i > 0; i--) {
-			int index = r.nextInt(i + 1);
-			Hexagon temp = array[index];
-			array[index] = array[i];
-			array[i] = temp;
-		}
-	}
-	
-	/**
-	 * Finds the shared positions of two hexagons, if any.
-	 * @param hexagonList The two hexagons to use
-	 * @param positions The positions to look at
-	 * @param excludePosition A position chosen to be excluded
-	 * @return true if they contain a shared position; false otherwise
-	 */
-	public static boolean hasSharedPositions(ArrayList<Hexagon> hexagonList, ArrayList<Position> positions, Position excludePosition) {
-		if (hexagonList.size() == 2) {
-			for (int i = 0; i < positions.size(); i++) {
-				if (positions.get(i).isNearby(hexagonList.get(0)) && positions.get(i).isNearby(hexagonList.get(1))) {
-					if (!Position.comparePosition(excludePosition, positions.get(i))) {
-						return true;
-					}
-				}
-			}
-		} 
-		
-		// ensure proper usage
-		else {
-			System.out.println("ArrayList needs to contain 2 objects");
-			System.out.println("Currently containing: " + hexagonList.size());
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * @return the id
-	 */
-	public int getNumber() {
-		return number;
-	}
-
-	/**
-	 * @return the type
-	 */
-	public ResourceType getType() {
-		return type;
-	}
 
 	/**
 	 * @return true if robbed, false otherwise
@@ -245,37 +234,45 @@ public class Hexagon {
 	}
 	
 	/**
-	 * Get the hexagon array.
-	 * @return the hexagon array
+	 * Gets the x and y position of a Hexagon
+	 * @return a float array containing the x position as index 0; y position as index 1
 	 */
-	public static Hexagon[] getHexagons() {
-		return hexagons;
+	private float[] getXY() {
+		float diameter = (Main.hexWidth + Main.padding)*getDivision()*Main.scFactor;
+		if (getDivision() == 2 && getIndex() % 2 != 0)
+			diameter = (float)Math.sqrt(Math.pow(Main.hexWidth + Main.padding, 2) - Math.pow((Main.hexWidth + Main.padding) / 2, 2)) * 2 * Main.scFactor;
+		float[] position = new float[2];
+		position[0] = (float)Math.cos(angle()) * diameter;
+		position[1] = (float)Math.sin(angle()) * diameter;
+		x = position[0];
+		y = position[1];
+		return position;
 	}
 	
 	/**
 	 * Gets the x position of the hexagon. Used to draw it.
+	 * Uses {@link Hexagon#getXY()} to do this.
 	 * @return the x coordinate
 	 */
 	public float getX() {
-		float diameter = (Main.hexWidth + Main.padding)*getDivision()*Main.scFactor;
-		if (getDivision() == 2 && getIndex() % 2 != 0)
-			diameter = (float)Math.sqrt(Math.pow(Main.hexWidth + Main.padding, 2) - Math.pow((Main.hexWidth + Main.padding) / 2, 2)) * 2 * Main.scFactor;
-		return (float)Math.cos(angle()) * diameter;
+		if (x == 0.1f)
+			return getXY()[0];
+		return x;
 	}
 	
 	/**
 	 * Gets the y position of the hexagon. Used to draw it.
+	 * Uses {@link Hexagon#getXY()} to do this.
 	 * @return the y coordinate
 	 */
 	public float getY() {
-		float diameter = (Main.hexWidth + Main.padding)*getDivision()*Main.scFactor;
-		if (getDivision() == 2 && getIndex() % 2 != 0)
-			diameter = (float)Math.sqrt(Math.pow(Main.hexWidth + Main.padding, 2) - Math.pow((Main.hexWidth + Main.padding) / 2, 2)) * 2 * Main.scFactor;
-		return (float)Math.sin(angle()) * diameter;
+		if (y == 0.1f)
+			return getXY()[1];
+		return y;
 	}
 	
 	/**
-	 * Function to calculate angle for each polygon
+	 * Function to calculate angle for each Hexagon.
 	 * @return the angle in radians
 	 */
 	private float angle(){

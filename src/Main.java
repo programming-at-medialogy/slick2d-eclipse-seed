@@ -158,8 +158,8 @@ public class Main extends BasicGame{ //Is not the actually main.
 			yPos = hexagons[i].getY();
 			
 			// could maybe also store the center in a variable so we do not have to calculate for each frame
-			hexImg[hexagons[i].getType().toInt()].draw(xPos + scWidth/2-hexImg[0].getWidth()/2*scFactor, yPos + scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor);
-			numImg[hexagons[i].getNumber()-2].draw(xPos + scWidth/2-numImg[2].getWidth()/2*scFactor, yPos + scHeight/2-numImg[2].getHeight()/2*scFactor, scFactor);
+			hexImg[hexagons[i].TYPE.toInt()].draw(xPos + scWidth/2-hexImg[0].getWidth()/2*scFactor, yPos + scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor);
+			numImg[hexagons[i].NUMBER-2].draw(xPos + scWidth/2-numImg[2].getWidth()/2*scFactor, yPos + scHeight/2-numImg[2].getHeight()/2*scFactor, scFactor);
 			
 			// old code - moved to the Hexagon.getX() and Hexagon.getY() methods.
 			/*

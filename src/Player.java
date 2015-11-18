@@ -55,12 +55,12 @@ public class Player implements DevelopmentCardIF {
 	 */
 	public void collectResources(int dieRoll) {
 		for (int i = 0; i < buildings.size(); i++) {
-			Hexagon[] nearbyHexagons = buildings.get(i).getPosition().getNearbyHexagons();
+			Hexagon[] nearbyHexagons = buildings.get(i).POSITION.getNearbyHexagons();
 			for (int j = 0; j < nearbyHexagons.length; j++) {
-				if (nearbyHexagons[j].getNumber() == dieRoll) {
+				if (nearbyHexagons[j].NUMBER == dieRoll) {
 					if (buildings.get(i).isUpgraded())
-						resources[nearbyHexagons[j].getType().toInt()]+=2;
-					resources[nearbyHexagons[j].getType().toInt()]++;
+						resources[nearbyHexagons[j].TYPE.toInt()]+=2;
+					resources[nearbyHexagons[j].TYPE.toInt()]++;
 				}
 			}
 		}
