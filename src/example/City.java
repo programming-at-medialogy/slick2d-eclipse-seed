@@ -28,7 +28,6 @@ public class City extends BasicGame {
 
     int color;
 
-    Image[] cityImage = new Image[48];
     Image image;
 
     public City(String title, String cityName, int xPos, int yPos, String[] neighborCities, int color) {
@@ -52,26 +51,6 @@ public class City extends BasicGame {
         else
             image = new Image("assets/cities/redcities.png");
 
-
-/*
-        for (int i = 0; i < 12; i++) {
-            cityImage[i] = new Image("assets/cities/bluecities.png");
-        }
-        for (int j = 12; j < 24; j++){
-            cityImage[j] = new Image("assets/cities/yellowcities.png");
-        }
-        for (int i = 24; i < 36; i++){
-            cityImage[i] = new Image("assets/cities/blackcities.png");
-        }
-        for (int i = 36; i < 48; i++){
-            cityImage[i] = new Image("assets/cities/redcities.png");
-        }
-
-        /*
-        for (int i = 0; i < cityImage.length; i++) {
-            cityImage[i] = new Image("assets/cities/bluecities.png");
-        }*/
-
     }
 
     @Override
@@ -86,10 +65,6 @@ public class City extends BasicGame {
     public void render(GameContainer gameContainer, Graphics g) throws SlickException {
 
         g.drawImage(image, xPos, yPos);
-    }
-
-    public void mousePressed() {
-
     }
 
     //functions:

@@ -39,7 +39,9 @@ public class Lobby extends BasicGameState {
     int counter;
     boolean gameStateControl;
 
-    public Lobby(GameStateCommons gsc) {
+    public Lobby(GameStateCommons gsc, List<Player> players) {
+
+        this.players = players;
         this.gsc = gsc;
     }
 
@@ -85,12 +87,7 @@ public class Lobby extends BasicGameState {
         gsc.setPlayerNo(playerno);
         gsc.setRoleNo(roleNo);
 
-        //CREATE THE PLAYERS
-        players = new ArrayList<Player>(4);
-        players.add(new Player("1"));
-        players.add(new Player("2"));
-        players.add(new Player("3"));
-        players.add(new Player("4"));
+
 
 
         readyToggle.setImgY(playerno * 70 + 130);
