@@ -11,15 +11,81 @@ public class Position {
 	private float x;
 	private float y;
 	private Hexagon[] nearbyHexagons;
+	private static Position[] positions;
 	
 	/**
 	 * Constructor for a position.
+	 * Private since it should only be called from {@link Position#initializePositions()}.
 	 * @param division the division
 	 * @param index the index
 	 */
-	public Position(int division, int index) {
+	private Position(int division, int index) {
 		DIVISION = division;
 		INDEX = index;
+	}
+	
+	/**
+	 * Used to initialize all possible Positions and save them in an array.
+	 */
+	public static void initializePositions() {
+		// initializes the positions
+		positions = new Position[6 + 12 + 30];
+		for (int i = 0; i < positions.length; i++) {
+			if (i < 6)
+				positions[i] = new Position(0, i);
+			else if (i < 24)
+				positions[i] = new Position(1, i - 6);
+			else
+				positions[i] = new Position(2, i - 24);
+		}
+	}
+	
+	/**
+	 * This should be used instead of a constructor, since all possible Positions are created from {@link Position#initializePositions()}.
+	 * @param division the division to retrieve
+	 * @param index the index to retrieve
+	 * @return the position object with the given division and index
+	 */
+	public static Position assignPosition(int division, int index) {
+		// error checking
+		if (positions == null)
+			initializePositions();
+		if (division == 0)
+			return positions[index];
+		else if (division == 1)
+			return positions[index + 6];
+		else
+			return positions[index + 24];
+	}
+	
+	/**
+	 * Finds the closest position from a given x and y coordinate.
+	 * @param x the x coordinate
+	 * @param y the y coordinate
+	 * @return the closest position
+	 */
+	public static Position findPosition(float x, float y) {
+		// error checking
+		if (positions == null)
+			initializePositions();
+		
+		// finds the closest position
+		float closestX = 0.0f;
+		float closestY = 0.0f;
+		int closestIndex = -1;
+		for (int i = 0; i < positions.length; i++) {
+			if (Math.abs(positions[i].getX() - x) + Math.abs(positions[i].getY() - y) <
+				Math.abs(closestX - x) + Math.abs(closestY - y)) {
+				closestX = positions[i].getX();
+				closestY = positions[i].getY();
+				closestIndex = i;
+			}
+		}
+		
+		// returns the closest position
+		if (closestIndex < 0)
+			return null;
+		return positions[closestIndex];
 	}
 	
 	/**
@@ -28,7 +94,7 @@ public class Position {
 	 * @param pos2 the second Position
 	 * @return true if they are equal; otherwise false
 	 */
-	static public boolean comparePosition(Position pos1, Position pos2) {
+	public static boolean comparePosition(Position pos1, Position pos2) {
 		// checks if division and index are equal
 		if (pos1.DIVISION == pos2.DIVISION && pos1.INDEX == pos2.INDEX)
 			return true;
