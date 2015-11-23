@@ -10,7 +10,6 @@ public class Building {
 	static boolean upgraded;
 	Position position;
 	static int player;
-	static ArrayList<Building> buildings = new ArrayList<Building>();
 	
 	private Building(Position inPos, int player) {
 		position = inPos;
@@ -41,7 +40,7 @@ public class Building {
 		if (Position.getLength(getBuildingPositions(), inPos) == 2) {
 			System.out.println("Building here:    " + inPos.getDivision() + ", " + inPos.getIndex());
 			Building building = new Building(inPos, player);
-			buildings.add(building);
+			GameData.buildings.add(building);
 			Road.longestRoad();
 			return building;
 		}
@@ -57,9 +56,9 @@ public class Building {
 	 * @return the found building; null if no building is found
 	 */
 	public static Building getByPosition(Position inPos) {
-		for (int i = 0; i < buildings.size(); i++) {
-			if (buildings.get(i).getDivision() == inPos.getDivision() && buildings.get(i).getIndex() == inPos.getIndex())
-				return buildings.get(i);
+		for (int i = 0; i < GameData.buildings.size(); i++) {
+			if (GameData.buildings.get(i).getDivision() == inPos.getDivision() && GameData.buildings.get(i).getIndex() == inPos.getIndex())
+				return GameData.buildings.get(i);
 		}
 		
 		return null;
@@ -107,7 +106,7 @@ public class Building {
 	 * @return The buildings as an ArrayList
 	 */
 	public static ArrayList<Building> getBuildings() {
-		return buildings;
+		return GameData.buildings;
 	}
 	
 	/**
@@ -124,8 +123,8 @@ public class Building {
 	 */
 	public static ArrayList<Position> getBuildingPositions() {
 		ArrayList<Position> positions = new ArrayList<Position>();
-		for (int i = 0; i < buildings.size(); i++) {
-			positions.add(buildings.get(i).getPosition());
+		for (int i = 0; i < GameData.buildings.size(); i++) {
+			positions.add(GameData.buildings.get(i).getPosition());
 		}
 		return positions;
 	}

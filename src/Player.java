@@ -9,22 +9,23 @@ public class Player implements DevelopmentCardIF {
 	//player number
 	private float playerNumber;
 	//Buildings
-	private ArrayList<Building> buildings;
+	//private ArrayList<Building> buildings;
 	//private Road[] road;
 	//ressources
 	static int [] resources = new int[5];
 	//Number of knights
 	private int knights;
 	//Number of points
-	private int points;
+	public int points;
 	//turn
-	private static int turn;
+	//private static int turn;
 	//How many developmentcards the players has
 	private DevelopmentCard devCard;
 	//Checks whether the player has to discard resourcecards or not
 	private boolean hasToDiscard;
 	//Haswon
 	private boolean hasWon;
+	
 
 	DevelopmentCard developmentCard = new DevelopmentCard();
 
@@ -39,12 +40,8 @@ public class Player implements DevelopmentCardIF {
 		this.playerName = playerName;
 		this.playerNumber = playerNumber;
 		points = 0;
-		buildings = new ArrayList();
 		int[] resources = new int[5];
-
-		//road = 0;
 		knights = 0;
-		turn = 0;
 		hasToDiscard = false;
 
 	}
@@ -54,13 +51,15 @@ public class Player implements DevelopmentCardIF {
 	 * @param dieRoll The number that was rolled by the die
 	 */
 	public void collectResources(int dieRoll) {
-		for (int i = 0; i < buildings.size(); i++) {
-			Hexagon[] nearbyHexagons = buildings.get(i).getPosition().getNearbyHexagons();
-			for (int j = 0; j < nearbyHexagons.length; j++) {
-				if (nearbyHexagons[j].getNumber() == dieRoll) {
-					if (buildings.get(i).isUpgraded())
-						resources[nearbyHexagons[j].getType().toInt()]+=2;
-					resources[nearbyHexagons[j].getType().toInt()]++;
+		for (int i = 0; i < GameData.buildings.size(); i++) {
+			if(GameData.buildings.get(i).player==playerNumber){
+				Hexagon[] nearbyHexagons = GameData.buildings.get(i).getPosition().getNearbyHexagons();
+				for (int j = 0; j < nearbyHexagons.length; j++) {
+					if (nearbyHexagons[j].getNumber() == dieRoll) {
+						if (GameData.buildings.get(i).isUpgraded())
+							resources[nearbyHexagons[j].getType().toInt()]+=2;
+						resources[nearbyHexagons[j].getType().toInt()]++;
+					}
 				}
 			}
 		}
