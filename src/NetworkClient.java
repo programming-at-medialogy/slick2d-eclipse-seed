@@ -7,12 +7,14 @@ import java.util.Scanner;
 
 public class NetworkClient {
 	
-	private static final int PORT = 82;
+	private static final int PORT = 57216;
 	
 	private static String sentence;
 	private static String tempSentence;
 	
-	private static InetAddress host;
+	private static boolean hasJoined;
+	
+	private static String ipAddress;
 	
 	private static Scanner userInput;
 	private static Socket clientSocket;
@@ -22,13 +24,15 @@ public class NetworkClient {
 	
 	public static void main(String args[]) throws IOException, UnknownHostException {
 		
+		ipAddress = "130.225.198.209";
+		
 		//This currently gets the IP of the local host. 
 		//Should not get local host, but the actual host, which is on a separate computer.
-		host = InetAddress.getLocalHost();
+		//host = InetAddress.;
 		
 		//This sets up the program's ability to read any input that is parsed into it.
 		userInput = new Scanner(System.in);
-		clientSocket = new Socket(host, PORT);
+		clientSocket = new Socket(ipAddress, PORT);
 		socketReader = new Scanner(clientSocket.getInputStream());
 		
 		//This is to prompt the user to provide an input.
@@ -44,6 +48,7 @@ public class NetworkClient {
 		tempSentence = socketReader.nextLine();
 		System.out.println(tempSentence);
 		
-	}
+		
+	}	
 
 }
