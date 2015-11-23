@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class NetworkClient {
 	
-	private static final int PORT = 58802;
+	private static final int PORT = 59482;
 	
 	private static String sentence;
 	private static String tempSentence;
@@ -27,6 +27,8 @@ public class NetworkClient {
 		System.out.println(hostName);
 		
 		hostAddress = InetAddress.getByName(hostName);
+		
+		System.out.println(hostAddress.getHostAddress());
 		
 		
 		//This currently gets the IP of the local host. 
