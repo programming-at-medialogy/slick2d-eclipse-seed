@@ -10,7 +10,7 @@ public class Road {
 	Position end;
 	static int roadLength;
 	static int tempLength;
-	static ArrayList<Road> roads = new ArrayList<Road>();
+	//static ArrayList<Road> roads = new ArrayList<Road>();
 	boolean startTouch;
 	boolean endTouch;
 	boolean visited;
@@ -31,7 +31,7 @@ public class Road {
 		if(Position.getLength(startPos, endPos) == 1){
 			System.out.println("Constructing road");
 			Road road = new Road(startPos,endPos,playerIndex);
-			roads.add(road);
+			GameData.roads.add(road);
 			longestRoad();
 		}
 		else {
@@ -52,14 +52,14 @@ public class Road {
 		roadLength = 1;
 		int thisRoad = 0;
 
-		for(int i = 0; i<Road.roads.size(); i++){
+		for(int i = 0; i<GameData.roads.size(); i++){
 			tempLength = 0;
-			if(Road.roads.get(i).player == player){ // we only want to look at this players roads
-				if(Road.roads.get(i).endTouch == true){
-					thisRoad = roadLength(Road.roads.get(i),"end");
+			if(GameData.roads.get(i).player == player){ // we only want to look at this players roads
+				if(GameData.roads.get(i).endTouch == true){
+					thisRoad = roadLength(GameData.roads.get(i),"end");
 				}
-				else if(Road.roads.get(i).startTouch == true){
-					thisRoad = roadLength(Road.roads.get(i),"start");
+				else if(GameData.roads.get(i).startTouch == true){
+					thisRoad = roadLength(GameData.roads.get(i),"start");
 				}
 			}	
 		}		
@@ -76,23 +76,23 @@ public class Road {
 	static int roadLength(Road theRoad, String endOrStart){
 		ArrayList<Integer> nearbyRoads = new ArrayList<Integer>();
 		
-		for (int i = 0; i < Road.roads.size(); i++){
-			if (theRoad != Road.roads.get(i)) {
+		for (int i = 0; i < GameData.roads.size(); i++){
+			if (theRoad != GameData.roads.get(i)) {
 				
 				if (endOrStart == "end") {
-					if (Position.comparePosition(theRoad.end, Road.roads.get(i).start)) {
-						nearbyRoads.add(roadLength(Road.roads.get(i), "end"));
-					} else if (Position.comparePosition(theRoad.end, Road.roads.get(i).end)) {
-						nearbyRoads.add(roadLength(Road.roads.get(i), "start"));
+					if (Position.comparePosition(theRoad.end, GameData.roads.get(i).start)) {
+						nearbyRoads.add(roadLength(GameData.roads.get(i), "end"));
+					} else if (Position.comparePosition(theRoad.end, GameData.roads.get(i).end)) {
+						nearbyRoads.add(roadLength(GameData.roads.get(i), "start"));
 					}
 				}
 				
 				else if (endOrStart == "start") {
-					if (Position.comparePosition(theRoad.start, Road.roads.get(i).start)) {
-						nearbyRoads.add(roadLength(Road.roads.get(i), "end"));
+					if (Position.comparePosition(theRoad.start, GameData.roads.get(i).start)) {
+						nearbyRoads.add(roadLength(GameData.roads.get(i), "end"));
 					}
-					else if (Position.comparePosition(theRoad.start, Road.roads.get(i).end)) {
-						nearbyRoads.add(roadLength(Road.roads.get(i), "start"));
+					else if (Position.comparePosition(theRoad.start, GameData.roads.get(i).end)) {
+						nearbyRoads.add(roadLength(GameData.roads.get(i), "start"));
 					}
 				}
 			}
@@ -117,23 +117,23 @@ public class Road {
 	
 	
 	void checkEnds(Road theRoad){
-		for(int i = 0; i<Road.roads.size(); i++){
-			if(theRoad != Road.roads.get(i)){
-				if(Position.comparePosition(theRoad.end, Road.roads.get(i).start)){
+		for(int i = 0; i<GameData.roads.size(); i++){
+			if(theRoad != GameData.roads.get(i)){
+				if(Position.comparePosition(theRoad.end, GameData.roads.get(i).start)){
 					endTouch = true;
-					Road.roads.get(i).startTouch = true;
+					GameData.roads.get(i).startTouch = true;
 				}
-				if(Position.comparePosition(theRoad.end, Road.roads.get(i).end)){
+				if(Position.comparePosition(theRoad.end, GameData.roads.get(i).end)){
 					endTouch = true;
-					Road.roads.get(i).endTouch = true;
+					GameData.roads.get(i).endTouch = true;
 				}
-				if(Position.comparePosition(theRoad.start, Road.roads.get(i).start)){
+				if(Position.comparePosition(theRoad.start, GameData.roads.get(i).start)){
 					startTouch = true;
-					Road.roads.get(i).startTouch = true;
+					GameData.roads.get(i).startTouch = true;
 				}
-				if(Position.comparePosition(theRoad.start, Road.roads.get(i).end)){
+				if(Position.comparePosition(theRoad.start, GameData.roads.get(i).end)){
 					startTouch = true;
-					Road.roads.get(i).endTouch = true;
+					GameData.roads.get(i).endTouch = true;
 				}
 			}
 		}
@@ -144,7 +144,7 @@ public class Road {
 	 * @return
 	 */
 	public static ArrayList<Road> getRoads() {
-		return roads;
+		return GameData.roads;
 	}
 	
 	/**

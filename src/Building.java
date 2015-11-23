@@ -15,7 +15,7 @@ public class Building {
 	 * same player, which is certainly not what is intended.
 	 * I changed it, so some of the code might need to be rewritten now.
 	 * Same goes for the boolean upgraded. */
-	private static ArrayList<Building> buildings = new ArrayList<Building>();
+	//private static ArrayList<Building> buildings = new ArrayList<Building>();
 	
 	/**
 	 * Private constructor. One should use {@link Building#build(Position, int)} instead, since it contains error checking.
@@ -38,7 +38,7 @@ public class Building {
 		if (canBuild(inPos)) {
 			System.out.println("Building here:    " + inPos.DIVISION + ", " + inPos.INDEX);
 			Building building = new Building(inPos, player);
-			buildings.add(building);
+			GameData.buildings.add(building);
 			Road.longestRoad();
 			return building;
 		}
@@ -53,8 +53,8 @@ public class Building {
 	 */
 	public static ArrayList<Position> getBuildingPositions() {
 		ArrayList<Position> positions = new ArrayList<Position>();
-		for (int i = 0; i < buildings.size(); i++) {
-			positions.add(buildings.get(i).POSITION);
+		for (int i = 0; i < GameData.buildings.size(); i++) {
+			positions.add(GameData.buildings.get(i).POSITION);
 		}
 		return positions;
 	}
@@ -77,9 +77,9 @@ public class Building {
 	 * @return the found building; null if no building is found
 	 */
 	public static Building getByPosition(Position inPos) {
-		for (int i = 0; i < buildings.size(); i++) {
-			if (Position.comparePosition(buildings.get(i).POSITION, inPos))
-				return buildings.get(i);
+		for (int i = 0; i < GameData.buildings.size(); i++) {
+			if (Position.comparePosition(GameData.buildings.get(i).POSITION, inPos))
+				return GameData.buildings.get(i);
 		}
 		return null;
 	}
@@ -89,7 +89,7 @@ public class Building {
 	 * @return The buildings as an ArrayList
 	 */
 	public static ArrayList<Building> getBuildings() {
-		return buildings;
+		return GameData.buildings;
 	}
 
 	/**

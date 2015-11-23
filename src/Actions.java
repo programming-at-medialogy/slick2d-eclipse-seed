@@ -36,9 +36,9 @@ public class Actions {
 		static void placeRoad(Position start, Position end, int player){
 			//Check if request is possible
 			boolean canBuild = false;
-			for(int i = 0; i < Road.roads.size(); i++){
-				if((Position.comparePosition(start, Road.roads.get(i).start) && Position.comparePosition(end, Road.roads.get(i).end))||
-				   (Position.comparePosition(end, Road.roads.get(i).start) && Position.comparePosition(start, Road.roads.get(i).end))){
+			for(int i = 0; i < GameData.roads.size(); i++){
+				if((Position.comparePosition(start, GameData.roads.get(i).start) && Position.comparePosition(end, GameData.roads.get(i).end))||
+				   (Position.comparePosition(end, GameData.roads.get(i).start) && Position.comparePosition(start, GameData.roads.get(i).end))){
 					System.out.println("There is already a road here!");
 					canBuild =false;
 					break;
@@ -60,7 +60,7 @@ public class Actions {
 			//Method to use when the player wants to trade with other players
 			//Check if player have funds
 			int type  = trade.has[0];
-			if(Player.resources[type]>=trade.has.length){
+			if(GameData.players.get(player).resources[type]>=trade.has.length){
 				//Send message to server. Something like:
 				//networkHelper.sendMessage("Trade Offer",trade, player);
 			}
@@ -75,7 +75,7 @@ public class Actions {
 			//Method called when user accept trade
 			//Check if player have funds
 			int type  = trade.wants[0];
-			if(Player.resources[type]>=trade.wants.length){
+			if(GameData.players.get(thisPlayer).resources[type]>=trade.wants.length){
 				//Send message to server. Something like:
 				//networkHelper.sendMessage("TradeAccept",trade, thisPlayer, opponent);
 			}
@@ -86,8 +86,8 @@ public class Actions {
 		
 		static void buyRoad(Position start, Position end, int player){
 			//Check if player have funds
-			if(Player.resources[ResourceType.MARSSAND.toInt()]>=1 && 
-			   Player.resources[ResourceType.SPACEDEBRIS.toInt()]>=1){
+			if(GameData.players.get(player).resources[ResourceType.MARSSAND.toInt()]>=1 && 
+				GameData.players.get(player).resources[ResourceType.SPACEDEBRIS.toInt()]>=1){
 				//Check if request is possible and send message
 				placeRoad(start, end, player);
 			}
@@ -95,10 +95,10 @@ public class Actions {
 		
 		static void buyCity(Position pos, int player){
 			//Check if player have funds
-			if(Player.resources[ResourceType.MARSSAND.toInt()]>=1 && 
-			   Player.resources[ResourceType.SPACEDEBRIS.toInt()]>=1 && 
-			   Player.resources[ResourceType.ALIENDNA.toInt()]>=1 && 
-			   Player.resources[ResourceType.MOONWATER.toInt()]>=1){
+			if(GameData.players.get(player).resources[ResourceType.MARSSAND.toInt()]>=1 && 
+			   GameData.players.get(player).resources[ResourceType.SPACEDEBRIS.toInt()]>=1 && 
+			   GameData.players.get(player).resources[ResourceType.ALIENDNA.toInt()]>=1 && 
+			   GameData.players.get(player).resources[ResourceType.MOONWATER.toInt()]>=1){
 				//Check if request is possible and send message
 				placeBuilding(pos, player);
 			}
@@ -106,8 +106,8 @@ public class Actions {
 		
 		static void upgradeCity(Position pos, int player){
 			//Check if player have funds
-			if(Player.resources[ResourceType.MARSSAND.toInt()]>=2 && 
-			   Player.resources[ResourceType.SPACEDEBRIS.toInt()]>=3){
+			if(GameData.players.get(player).resources[ResourceType.MARSSAND.toInt()]>=2 && 
+				GameData.players.get(player).resources[ResourceType.SPACEDEBRIS.toInt()]>=3){
 				//Check if request is possible
 				for(int i = 0; i < Building.getBuildings().size(); i++){
 					if(Position.comparePosition(pos, Building.getBuildings().get(i).POSITION) && 
