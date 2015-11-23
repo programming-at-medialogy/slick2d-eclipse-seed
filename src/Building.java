@@ -2,35 +2,29 @@ import java.util.ArrayList;
 
 /**
  * Class describing a Building.
- * @author Anders Frederik Elmholdt
  */
-
 public class Building {
 	
-	static boolean upgraded;
-	Position position;
-	static int player;
-	static ArrayList<Building> buildings = new ArrayList<Building>();
+	// these variables are declared public final, since they cannot change after being initialized
+	public final Position POSITION;
+	public final int PLAYER;
 	
-	private Building(Position inPos, int player) {
-		position = inPos;
-		this.player = player;
-	}
-
+	private boolean upgraded;
+	/* I don't where this is used, but the player should not be static.
+	 * By making the player static every single building will share the
+	 * same player, which is certainly not what is intended.
+	 * I changed it, so some of the code might need to be rewritten now.
+	 * Same goes for the boolean upgraded. */
+	private static ArrayList<Building> buildings = new ArrayList<Building>();
+	
 	/**
-	 * Upgrades a building.
-	 * Contains error checking to check if the building is already upgraded.
-	 * @return true if successfully upgraded; otherwise false
+	 * Private constructor. One should use {@link Building#build(Position, int)} instead, since it contains error checking.
+	 * @param inPos the Position to place the building at
+	 * @param player the player index
 	 */
-	public boolean upgrade() {
-		if (!upgraded) {
-			upgraded = true;
-			return true;
-		}
-		else {
-			System.out.println("Building is already upgraded!");
-			return false;
-		}
+	private Building(Position inPos, int player) {
+		POSITION = inPos;
+		PLAYER = player;
 	}
 	
 	/**
@@ -41,16 +35,39 @@ public class Building {
 	 */
 	public static Building build(Position inPos, int player) {
 		// error checking
-		if (Position.getLength(getBuildingPositions(), inPos) == 2) {
-			System.out.println("Building here:    " + inPos.getDivision() + ", " + inPos.getIndex());
+		if (canBuild(inPos)) {
+			System.out.println("Building here:    " + inPos.DIVISION + ", " + inPos.INDEX);
 			Building building = new Building(inPos, player);
 			buildings.add(building);
 			Road.longestRoad();
 			return building;
 		}
 		
-		System.out.println("Can't build here: " + inPos.getDivision() + ", " + inPos.getIndex());
+		System.out.println("Can't build here: " + inPos.DIVISION + ", " + inPos.INDEX);
 		return null;
+	}
+	
+	/**
+	 * Gets the Position of all built buildings.
+	 * @return The positions as an ArrayList
+	 */
+	public static ArrayList<Position> getBuildingPositions() {
+		ArrayList<Position> positions = new ArrayList<Position>();
+		for (int i = 0; i < buildings.size(); i++) {
+			positions.add(buildings.get(i).POSITION);
+		}
+		return positions;
+	}
+	
+	/**
+	 * Checks whether it is legal to place a building at a specific position.
+	 * @param inPos the position to be checked
+	 * @return true if a building can be built; otherwise false
+	 */
+	public static boolean canBuild(Position inPos) {
+		if (Position.getLength(getBuildingPositions(), inPos) < 2)
+			return false;
+		return true;
 	}
 	
 	/**
@@ -61,75 +78,53 @@ public class Building {
 	 */
 	public static Building getByPosition(Position inPos) {
 		for (int i = 0; i < buildings.size(); i++) {
-			if (buildings.get(i).getDivision() == inPos.getDivision() && buildings.get(i).getIndex() == inPos.getIndex())
+			if (Position.comparePosition(buildings.get(i).POSITION, inPos))
 				return buildings.get(i);
 		}
-		
 		return null;
 	}
 	
 	/**
-	 * @return upgraded
-	 */
-	public boolean isUpgraded() {
-		return upgraded;
-	}
-
-	/**
-	 * @return the division of the building
-	 */
-	public int getDivision() {
-		return position.getDivision();
-	}
-	
-	/**
-	 * @return the index of the building
-	 */
-	public int getIndex() {
-		return position.getIndex();
-	}
-	
-	/**
-	 * Sets the division
-	 * @param division the division
-	 */
-	public void setDivision(int division) {
-		position.setDivision(division);
-	}
-	
-	/**
-	 * Sets the index
-	 * @param index the index
-	 */
-	public void setIndex(int index) {
-		position.setIndex(index);
-	}
-	
-	/**
-	 * Gets the current buildings.
+	 * Gets the built buildings.
 	 * @return The buildings as an ArrayList
 	 */
 	public static ArrayList<Building> getBuildings() {
 		return buildings;
 	}
-	
+
 	/**
-	 * Gets the position of a building.
-	 * @return The position
+	 * Upgrades a building.
+	 * Contains error checking to check if the building is already upgraded.
 	 */
-	public Position getPosition() {
-		return position;
+	public void upgrade() {
+		if (!upgraded) {
+			upgraded = true;
+		} else {
+			System.out.println("Building is already upgraded!");
+		}
 	}
 	
 	/**
-	 * Gets the position of all buildings.
-	 * @return The positions as an ArrayList
+	 * Gets the division of the buildings position.
+	 * @return the division of the building
 	 */
-	public static ArrayList<Position> getBuildingPositions() {
-		ArrayList<Position> positions = new ArrayList<Position>();
-		for (int i = 0; i < buildings.size(); i++) {
-			positions.add(buildings.get(i).getPosition());
-		}
-		return positions;
+	public int getDivision() {
+		return POSITION.DIVISION;
+	}
+	
+	/**
+	 * Gets the index of the buildings position.
+	 * @return the index of the building
+	 */
+	public int getIndex() {
+		return POSITION.INDEX;
+	}
+	
+	/**
+	 * Checks whether a building is upgraded.
+	 * @return true if it is upgraded; otherwise false
+	 */
+	public boolean isUpgraded() {
+		return upgraded;
 	}
 }
