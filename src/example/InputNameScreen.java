@@ -9,6 +9,8 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
+import java.io.IOException;
+
 /**
  * Input Name Screen (terrible name, was originally going to be a textfield input screen) is the first state the player enters
  * Here he is encouraged to enter the lobby
@@ -19,8 +21,14 @@ public class InputNameScreen extends BasicGameState {
 
     private Image bg;
     private Button b;
+    private int playerno;
+    private int roleNo;
 
-    public InputNameScreen() {
+    GameStateCommons gsc;
+
+    public InputNameScreen(GameStateCommons gsc) {
+
+        this.gsc = gsc;
     }
 
     @Override
@@ -49,7 +57,7 @@ public class InputNameScreen extends BasicGameState {
     public void update(GameContainer gc, StateBasedGame sbg, int i) throws SlickException {
         b.update(gc, i);
         if (b.clickWithin(gc)) {
-            sbg.enterState(1);
+            sbg.enterState(1, new FadeOutTransition(), new FadeInTransition());
         }
 
     }

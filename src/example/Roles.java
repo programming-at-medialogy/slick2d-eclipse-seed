@@ -17,7 +17,7 @@ public class Roles extends BasicGame {
     *            Index 3: Contingency Planner
     *            Index 4: Researcher
     *            Index 5: Scientist
-     *           Index 6: OperationsExpert
+    *           Index 6: OperationsExpert
     */
     private Image[] roleImg = new Image[7];
     private int indexNo;
