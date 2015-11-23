@@ -86,14 +86,19 @@ public class Main extends BasicGame{ //Is not the actually main.
 		hexHeight = hexImg[0].getHeight();
 		
 		// just for testing
-		testPositions[0] = Position.assignPosition(0, 1);
-		testPositions[1] = Position.assignPosition(0, 2);
+		testPositions[0] = Position.assignPosition(0, 3);
+		testPositions[1] = Position.assignPosition(1, 8);
 		testPositions[2] = Position.assignPosition(2, 11);
 		testPositions[3] = Position.assignPosition(2, 12);
 		testPositions[4] = Position.assignPosition(2, 0);
 		
-		Road.buildRoad(testPositions[0], testPositions[1], 0);
-		Road.buildRoad(testPositions[2], testPositions[3], 0);
+		Road.buildRoad(Position.assignPosition(0, 1), Position.assignPosition(0, 2), 0);
+		Road.buildRoad(Position.assignPosition(0, 2), Position.assignPosition(0, 3), 0);
+		Road.buildRoad(Position.assignPosition(0, 3), Position.assignPosition(1, 8), 0);
+		Road.buildRoad(Position.assignPosition(1, 8), Position.assignPosition(1, 9), 0);
+		Road.buildRoad(Position.assignPosition(1, 8), Position.assignPosition(1, 7), 0);
+		Road.buildRoad(Position.assignPosition(1, 7), Position.assignPosition(1, 6), 0);
+		Road.longestRoad();
 	}
 	
 	@Override
