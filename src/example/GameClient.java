@@ -1,6 +1,5 @@
 package example;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -45,8 +44,8 @@ public class GameClient extends StateBasedGame
         players.add(new Player("3"));
         players.add(new Player("4"));
 
-        //this.addState(new InputNameScreen());
-        //this.addState(new Lobby(gsc, players));
+        this.addState(new InputNameScreen(gsc));
+        this.addState(new Lobby(gsc, players));
         this.addState(new GameBoard(gsc, players));
 
     }
@@ -60,7 +59,7 @@ public class GameClient extends StateBasedGame
             appgc = new AppGameContainer(new GameClient("Pandemic"));
             appgc.setShowFPS(false);
             appgc.setTargetFrameRate(10);
-            appgc.setDisplayMode(1366, 768, true); //True for fullscreen goodness, kept false for testing
+            appgc.setDisplayMode(1366, 768, false); //True for fullscreen goodness, kept false for testing
             appgc.start();
         } catch (SlickException ex) {
             Logger.getLogger(GameClient.class.getName()).log(Level.SEVERE, null, ex);

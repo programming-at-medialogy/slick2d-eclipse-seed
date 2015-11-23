@@ -8,31 +8,22 @@ import org.newdawn.slick.*;
  */
 public class City extends BasicGame {
 
-    //String city-name
     String cityName;
-    //int xpos
     int xPos;
-    //int ypos
     int yPos;
-    //int cubesYellow
     int cubeYellow = 0;
-    //int cubesBlue
     int cubeBlue = 0;
-    //int cubesRed
     int cubeRed = 0;
-    //int cubesBlack
     int cubeBlack = 0;
-    //bool hasResearchSt
     boolean hasResearchSt;
-    //String neighborCities
     String[] neighborCities;
 
     int color;
 
     Button button;
 
-    Image[] cityImage = new Image[48];
-    Image image;
+    private boolean isMovableTo;
+    private Image nonMovableCity;
 
     public City(String title, String cityName, int xPos, int yPos, String[] neighborCities, int color) {
         super(title);
@@ -62,35 +53,26 @@ public class City extends BasicGame {
             button = new Button("cityButton", xPos, yPos, 22);
         }
 
+        nonMovableCity = new Image("assets/cities/notmovablecities.png");
+
         button.init(gc);
     }
 
     @Override
     public void update(GameContainer gc, int i) throws SlickException {
-        org.newdawn.slick.Input input = gc.getInput();
-        System.out.println("X : " + input.getMouseX());
-        System.out.println("Y : " + input.getMouseY());
-
 
     }
 
     @Override
     public void render(GameContainer gc, Graphics g) throws SlickException {
 
-        //g.drawImage(image, xPos, yPos);
-        button.render(gc,g);
-        g.setColor(Color.white);
-        g.drawString(cityName, xPos, yPos + 25);
 
-        //g.drawImage(image, xPos, yPos);
-        button.render(gc,g);
-        g.setColor(Color.white);
-        g.drawString(cityName, xPos, yPos + 25);
-
-
-        if(button.clickWithin(gc)) {
-            System.out.println("NU ER DET EN KNAP");
+        button.render(gc, g);
+        if (!isMovableTo) {
+            g.drawImage(nonMovableCity,xPos,yPos);
         }
+        g.setColor(Color.white);
+        g.drawString(cityName, xPos, yPos + 25);
 
         if (cubeBlue == 1){
             g.setColor(Color.blue);
@@ -262,6 +244,24 @@ public class City extends BasicGame {
     public void setNeighborCities(String[] neighborCities) {
         this.neighborCities = neighborCities;
     }
+
+    public Button getButton() {
+        return button;
+    }
+
+    public void setButton(Button button) {
+        this.button = button;
+    }
+
+    public void setMovableTo (boolean value) {
+        this.isMovableTo = value;
+    }
+
+    public boolean getMovableTo () {
+        return isMovableTo;
+    }
+
+
 }
 
 
