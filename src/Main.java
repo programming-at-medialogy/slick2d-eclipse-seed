@@ -13,13 +13,6 @@ import com.google.gson.Gson;
 
 
 public class Main extends BasicGame{ //Is not the actually main.
-	int rolledNumber; //The number rolled by the dice
-	static int longestRoad; //the index of the player in the player-ArraList with the longest road
-	int mostKnights; //the index of the player in the player-ArraList with the most knights
-	int thief; //the placement of the thief
-	int ownIndex; //This particular clients index in the player-array
-	ArrayList<Harbour> harbours; //ArrayList containing the Harbour-object that are also part of the game board
-	ArrayList<Player> players; //ArrayList containing all the player-objects
 	NetworkHelper networkHelper;
 	boolean[] tradeRequest; //Do we need this?
 	boolean hasRequestedTrade; //Do we need this?

@@ -66,7 +66,7 @@ public class Road {
 		
 		if (thisRoad > Road.longestRoad){
 			Road.longestRoad = thisRoad;
-			Main.longestRoad = player;
+			GameData.longestRoad = player;
 			System.out.println("Longest road is " + thisRoad);
 		}
 	}

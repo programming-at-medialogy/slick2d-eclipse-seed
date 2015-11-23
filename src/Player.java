@@ -9,7 +9,6 @@ public class Player implements DevelopmentCardIF {
 	//player number
 	private float playerNumber;
 	//Buildings
-	private ArrayList<Building> buildings;
 	//private Road[] road;
 	//ressources
 	static int [] resources = new int[5];
@@ -17,8 +16,6 @@ public class Player implements DevelopmentCardIF {
 	private int knights;
 	//Number of points
 	private int points;
-	//turn
-	private static int turn;
 	//How many developmentcards the players has
 	private DevelopmentCard devCard;
 	//Checks whether the player has to discard resourcecards or not
@@ -39,12 +36,10 @@ public class Player implements DevelopmentCardIF {
 		this.playerName = playerName;
 		this.playerNumber = playerNumber;
 		points = 0;
-		buildings = new ArrayList<Building>();
 		int[] resources = new int[5];
 
 		//road = 0;
 		knights = 0;
-		turn = 0;
 		hasToDiscard = false;
 
 	}
@@ -54,11 +49,11 @@ public class Player implements DevelopmentCardIF {
 	 * @param dieRoll The number that was rolled by the die
 	 */
 	public void collectResources(int dieRoll) {
-		for (int i = 0; i < buildings.size(); i++) {
-			Hexagon[] nearbyHexagons = buildings.get(i).POSITION.getNearbyHexagons();
+		for (int i = 0; i <  GameData.buildings.size(); i++) {
+			Hexagon[] nearbyHexagons =  GameData.buildings.get(i).POSITION.getNearbyHexagons();
 			for (int j = 0; j < nearbyHexagons.length; j++) {
 				if (nearbyHexagons[j].NUMBER == dieRoll) {
-					if (buildings.get(i).isUpgraded())
+					if ( GameData.buildings.get(i).isUpgraded())
 						resources[nearbyHexagons[j].TYPE.toInt()]+=2;
 					resources[nearbyHexagons[j].TYPE.toInt()]++;
 				}
