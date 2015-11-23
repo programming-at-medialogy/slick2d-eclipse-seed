@@ -34,6 +34,10 @@ public class Road {
 			roads.add(road);
 			longestRoad();
 		}
+		else {
+			System.out.println("ERROR");
+			System.out.println("Length: " + Position.getLength(startPos, endPos));
+		}
 	}
 	
 	/**
@@ -63,56 +67,51 @@ public class Road {
 		if (thisRoad > Road.longestRoad){
 			Road.longestRoad = thisRoad;
 			Main.longestRoad = player;
-			System.out.println(thisRoad);
+			System.out.println("Longest road is " + thisRoad);
 		}
 	}
 	
 	
 	
 	static int roadLength(Road theRoad, String endOrStart){
+		ArrayList<Integer> nearbyRoads = new ArrayList<Integer>();
+		
 		for (int i = 0; i < Road.roads.size(); i++){
-			if (theRoad != Road.roads.get(i)){ 
+			if (theRoad != Road.roads.get(i)) {
 				
-				if(endOrStart == "end"){
-					if(Position.comparePosition(theRoad.end, Road.roads.get(i).start)){
-						tempLength ++;
-						roadLength(Road.roads.get(i), "en");
-					}
-					if(Position.comparePosition(theRoad.end, Road.roads.get(i).end)){
-						tempLength ++;
-						roadLength(Road.roads.get(i), "start");
-					}
-					else{
-						if (tempLength >= roadLength){
-							roadLength = tempLength;
-							System.out.println(roadLength);
-						}
-						tempLength --;
+				if (endOrStart == "end") {
+					if (Position.comparePosition(theRoad.end, Road.roads.get(i).start)) {
+						nearbyRoads.add(roadLength(Road.roads.get(i), "end"));
+					} else if (Position.comparePosition(theRoad.end, Road.roads.get(i).end)) {
+						nearbyRoads.add(roadLength(Road.roads.get(i), "start"));
 					}
 				}
 				
-				if(endOrStart == "start"){
-					if(Position.comparePosition(theRoad.start, Road.roads.get(i).start)){
-						tempLength ++;
-						roadLength(Road.roads.get(i), "end");
+				else if (endOrStart == "start") {
+					if (Position.comparePosition(theRoad.start, Road.roads.get(i).start)) {
+						nearbyRoads.add(roadLength(Road.roads.get(i), "end"));
 					}
-					if(Position.comparePosition(theRoad.start, Road.roads.get(i).end)){
-						tempLength ++;
-						roadLength(Road.roads.get(i), "start");
-					}
-					}
-					else{
-						if (tempLength >= roadLength){
-							roadLength = tempLength;
-							System.out.println(roadLength);
-						}
-						tempLength --;
+					else if (Position.comparePosition(theRoad.start, Road.roads.get(i).end)) {
+						nearbyRoads.add(roadLength(Road.roads.get(i), "start"));
 					}
 				}
-					
-					
+			}
 		}
-		return roadLength;
+		
+		// return the length
+		if (nearbyRoads.size() == 0)
+			return 1;
+		if (nearbyRoads.size() == 1)
+			return nearbyRoads.get(0) + 1;
+		if (nearbyRoads.size() == 2) {
+			if (nearbyRoads.get(0) > nearbyRoads.get(1))
+				return nearbyRoads.get(0) + 1;
+			return nearbyRoads.get(1) + 1;
+		}
+		
+		// error
+		System.out.println("Error");
+		return 0;
 	}
 	
 	

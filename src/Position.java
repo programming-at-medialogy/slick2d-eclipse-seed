@@ -236,7 +236,7 @@ public class Position {
 						foundHexagons.add(Hexagon.getHexagons()[i]);
 					} else if (Math.round(inPos.INDEX / dividor) % maxHexIndex == Hexagon.getHexagons()[i].getIndex()) {
 						foundHexagons.add(Hexagon.getHexagons()[i]);
-					} else if ((inPos.INDEX*2) % (int)(dividor*2) == 0 && hexDivision > inPos.DIVISION && (int)(inPos.DIVISION / dividor) == (Hexagon.getHexagons()[i].getIndex() + 1) % maxHexIndex) {
+					} else if ((inPos.INDEX*2) % (int)(dividor*2) == 0 && hexDivision > inPos.DIVISION && (int)(inPos.INDEX / dividor) == (Hexagon.getHexagons()[i].getIndex() + 1) % maxHexIndex) {
 						foundHexagons.add(Hexagon.getHexagons()[i]);
 					}
 				}
@@ -267,7 +267,6 @@ public class Position {
 	 */
 	public boolean isNearby(Hexagon hexagon) {
 		Hexagon[] hexArray = getNearbyHexagons();
-		
 		for (int i = 0; i < hexArray.length; i++) {
 			if (hexArray[i] == hexagon)
 				return true;
