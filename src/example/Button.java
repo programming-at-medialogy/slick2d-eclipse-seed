@@ -83,6 +83,19 @@ public class Button extends BasicGame {
 
     }
 
+    public boolean hoverOver(GameContainer gc) {
+        org.newdawn.slick.Input input = gc.getInput();
+        float mouseX = input.getMouseX();
+        float mouseY = input.getMouseY();
+
+        if (mouseX > imgX && mouseX < imgX + images[picIndexNo].getWidth() && mouseY > imgY && mouseY < imgY + images[picIndexNo].getHeight()) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
 
     /**
      * GETTER and SETTER methods
