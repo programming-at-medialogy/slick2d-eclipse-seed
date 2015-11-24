@@ -38,3 +38,14 @@ local.properties
 # text files
 .txt
 *.txt
+*.xml
+
+*.xml
+
+*.xml
+
+src/.idea/workspace.xml
+
+src/.idea/vcs.xml
+
+*.iml
