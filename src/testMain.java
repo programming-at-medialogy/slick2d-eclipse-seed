@@ -1,4 +1,4 @@
-
+//importing libs
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -12,8 +12,7 @@ public class testMain extends StateBasedGame{
 	
 	public static void init() throws SlickException{
 AppGameContainer game = new AppGameContainer(new testMain());
-			game.setDisplayMode(Windows.scWidth,Windows.scHeight, false); // sets screen size, false or true for full screen
-			
+			game.setDisplayMode(Windows.scWidth,Windows.scHeight, false); // sets screen size, false or true for full screen		
 			game.start(); 
 	}
 	
@@ -21,17 +20,15 @@ AppGameContainer game = new AppGameContainer(new testMain());
 		
 	}
 
-
 	@Override
 	public void initStatesList(GameContainer gc) throws SlickException {
 		gc.setMaximumLogicUpdateInterval(60);		
-//		gc.setTargetFrameRate(60);
+		gc.setTargetFrameRate(60);
 		gc.setAlwaysRender(true);
-//		gc.setShowFPS(false);
+		gc.setShowFPS(false);
 		gc.setVSync(true);		
 			
 		this.addState(new IntroState());
 		this.addState(new LobbyState());
 	}
-
 }

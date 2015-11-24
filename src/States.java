@@ -1,4 +1,6 @@
 public class States {
+	
+	//administrates the state of the program (menu, chat etc)
 
 	public static final int IntroState = 0;
 	public static final int LobbyState = 1;
