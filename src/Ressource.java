@@ -8,22 +8,25 @@ import org.newdawn.slick.SpriteSheet;
 
 public class Ressource {
 
-	private static Map<String, Image> images;
-	private static Map<String, SpriteSheet> sprites;
+//	private static Map<String, Image> images; 
+//	private static Map<String, SpriteSheet> sprites;
+	
 
-	public Ressource(){
-		images = new HashMap<String, Image>();
+
+	public Ressource() throws SlickException{
+
+/*		images = new HashMap<String, Image>();
 		sprites = new HashMap<String, SpriteSheet>();
 		
 		try {
-			images.put("background", loadImage("resources/Settlers.jpg"));
+			images.put("button", loadImage("resources/hexagon_0.png"));
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
-	private Image loadImage(String path)throws SlickException{
+/*	private Image loadImage(String path)throws SlickException{
 		return new Image(path, false, Image.FILTER_NEAREST);
 	}
 	
@@ -33,5 +36,5 @@ public class Ressource {
 	
 	public static Image getImage(String getter){
 		return images.get(getter);
-	}
+	}*/
 }

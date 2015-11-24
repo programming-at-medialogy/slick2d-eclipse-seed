@@ -21,12 +21,17 @@ public class NetworkClient {
 	
 	private static PrintWriter clientOutput;
 	
-	public static void main(String args[]) throws IOException, UnknownHostException {
+	public static void main(String args[])  {
 		
 		hostName = "ThatGuyWithTheBeard";
 		System.out.println(hostName);
 		
-		hostAddress = InetAddress.getByName(hostName);
+		try {
+			hostAddress = InetAddress.getByName(hostName);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		System.out.println(hostAddress.getHostAddress());
 		
@@ -37,15 +42,29 @@ public class NetworkClient {
 		
 		//This sets up the program's ability to read any input that is parsed into it.
 		userInput = new Scanner(System.in);
-		clientSocket = new Socket(hostAddress, PORT);
-		socketReader = new Scanner(clientSocket.getInputStream());
+		
+		try {
+			clientSocket = new Socket(hostAddress, PORT);
+			socketReader = new Scanner(clientSocket.getInputStream());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 		//This is to prompt the user to provide an input.
 		System.out.println("Enter a sentence : ");
 		sentence = userInput.nextLine();
 		
 		//This parses information from the client to the server.
-		clientOutput = new PrintWriter(clientSocket.getOutputStream());
+		
+		try {
+			clientOutput = new PrintWriter(clientSocket.getOutputStream());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		clientOutput.println(sentence);
 		clientOutput.flush();
 		
@@ -54,6 +73,12 @@ public class NetworkClient {
 		System.out.println(tempSentence);
 		
 		
-	}	
-
+	}
+	
+	public void send(String message) {
+		
+		
+		
+	}
+	
 }

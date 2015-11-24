@@ -1,69 +1,86 @@
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
-/**
- * NetworkHelper for client
- * @author frede_000
- *
- */
 public class NetworkHelper {
-	private static InetAddress host;
-	private static final int PORT = 1234; 
 	
-	public static void client(){
+	public NetworkHelper() {
+		System.out.println("Checking hosts");
+		String localIp = null;
 		
-	try{
-		host = InetAddress.getLocalHost();
+		try {
+			localIp = InetAddress.getLocalHost().getHostAddress();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(localIp);
+		String[] ipTemp = localIp.split("\\."); 
+		//System.out.println(ipTemp[0]);
+		String ip = "";
+		
+		for(int i = 0; i < ipTemp.length - 1; i++) {
+			
+			ip += ipTemp[i] + ".";
+			
+		}
+		
+		//System.out.println(ip);
+		
+		checkHosts(ip);
 	}
-	catch(UnknownHostException uhEx)
-	{
-		System.out.println("HostID not found!");
-		System.exit(1);
-	}
-//	accessServer();
+
+	public static void main(String[] args) {
+		NetworkHelper net = new NetworkHelper();
 	}
 	
-	public static void accessServer()
-	{
-		Socket link = null;
-		Scanner input = null;
-		Scanner userEntry = null;
+	public void checkHosts(String subnet){
+	   for (int i=0;i<255;i++){
+	       String host=subnet + i;
+	       Thread thread = new Thread(new HostChecker(host));
+	       thread.start();
+       }
+   }
+	
+	public class HostChecker implements Runnable {
+		boolean isReal;
+		int timeout;
+		String host;
 		
-		try{
-			link = new Socket(host,PORT);
-			input = new Scanner(link.getInputStream());
-			
-			PrintWriter output = new PrintWriter(link.getOutputStream(), true);
-			
-			userEntry = new Scanner(System.in);
-			
-			String message, response; 
-			do{
-				System.out.print("Enter message: ");
-				message = userEntry.nextLine();
-				output.println(message);
-				response = input.nextLine();
-				System.out.println("\nSERVER> "+response);
-			}while (!message.equals("***CLOSE***"));
+		HostChecker(String host) {
+			isReal = true;
+			timeout = 5000;
+			this.host = host;
 		}
-		catch(IOException ioEx)
-		{
-			ioEx.printStackTrace();
-		}
-		finally
-		{
-			try
-			{
-				System.out.println("\n* Closing connection *");
-				link.close();
-				input.close();
-				userEntry.close();
-			}
-			catch(IOException ioEx){
-				System.out.println("Unable to disconnect!");
-				System.exit(1);
+		
+		@Override
+		public void run() {
+			Socket socket = new Socket();
+		    try {
+				socket.connect(new InetSocketAddress(host, 80), timeout);
+				socket.setSoTimeout(100);
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				if (e.getMessage().equals("connect timed out"))
+					isReal = false;
+				else if (e.getMessage().equals("Connection refused: connect"))
+					isReal = false;
+				else e.printStackTrace();
+			} 
+		      
+		    if (isReal) 
+		    	System.out.println("Found host: " + host);
+		    
+		    try {
+				socket.close();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
+		
 	}
+	
 }

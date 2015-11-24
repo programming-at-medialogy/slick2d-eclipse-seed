@@ -3,10 +3,14 @@ import java.util.ArrayList;
 /**
  * Created by kristianhjensen on 02/11/2015.
  */
+<<<<<<< HEAD
 public class Player {
 	//This particular clients index in the player-array
 	public final int ownIndex;
 	
+=======
+public class Player implements DevelopmentCardIF {
+>>>>>>> origin/master
 	//player name
 	private String playerName;
 	
