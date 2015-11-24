@@ -8,7 +8,6 @@ import org.newdawn.slick.*;
  */
 public class City extends BasicGame {
 
-<<<<<<< HEAD
     /**
      * Declaring the variables used in the City class. String cityName:
      * The name of ny given city on the game map stored as a String.
@@ -25,23 +24,6 @@ public class City extends BasicGame {
      */
 
     String cityName;
-
-    int xPos;
-
-    int yPos;
-
-    int cubeYellow = 0;
-
-    int cubeBlue = 0;
-
-    int cubeRed = 0;
-
-    int cubeBlack = 0;
-
-    boolean hasResearchSt;
-
-=======
-    String cityName;
     int xPos;
     int yPos;
     int cubeYellow = 0;
@@ -49,7 +31,6 @@ public class City extends BasicGame {
     int cubeRed = 0;
     int cubeBlack = 0;
     boolean hasResearchSt;
->>>>>>> master
     String[] neighborCities;
 
     int color;
