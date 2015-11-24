@@ -9,5 +9,6 @@ public class GameData {
 	static int longestRoad; //the index of the player in the player-ArraList with the longest road
 	int mostKnights; //the index of the player in the player-ArraList with the most knights
 	int thief; //the placement of the thief
+	int ownIndex; //This particular clients index in the player-array
 	ArrayList<Harbour> harbours; //ArrayList containing the Harbour-object that are also part of the game board
 }
