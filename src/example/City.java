@@ -8,23 +8,37 @@ import org.newdawn.slick.*;
  */
 public class City extends BasicGame {
 
-    //String city-name
+    /**
+     * Declaring the variables used in the City class. String cityName:
+     * The name of ny given city on the game map stored as a String.
+     * xPos and yPos are both integers that refer to the x and why coordinates respectively.
+     * They are used to define the position of each city on the game map.
+     * The integers cubeBlue, cubeYellow, cubeBlack and cubeRed are used:
+     * To represent the number of cubes of each individual color present at any given city, starting with a value of 0.
+     * The boolean hadResearchSt is used to return either true or false depending
+     * on whether or not a research station is present at a given city.
+     * The String array neighborCities defines the neighbor-cities of a any given city as a list of Strings
+     * with the names of the neighbor cities.
+     * The integer color is used to represent the colors: blue, yellow, back and red.
+     * Button calls an instance of the button class, it is used to make the cities buttons that react to mouse click.
+     */
+
     String cityName;
-    //int xpos
+
     int xPos;
-    //int ypos
+
     int yPos;
-    //int cubesYellow
+
     int cubeYellow = 0;
-    //int cubesBlue
+
     int cubeBlue = 0;
-    //int cubesRed
+
     int cubeRed = 0;
-    //int cubesBlack
+
     int cubeBlack = 0;
-    //bool hasResearchSt
+
     boolean hasResearchSt;
-    //String neighborCities
+
     String[] neighborCities;
 
     int color;
@@ -34,6 +48,10 @@ public class City extends BasicGame {
     Image[] cityImage = new Image[48];
     Image image;
 
+    /**
+     * The constructor for the city class, defining the parameters needed to create a city object
+     * in the Gameboard class.
+    **/
     public City(String title, String cityName, int xPos, int yPos, String[] neighborCities, int color) {
         super(title);
         this.cityName = cityName;
@@ -45,20 +63,23 @@ public class City extends BasicGame {
 
     @Override
     public void init(GameContainer gc) throws SlickException {
+        /**
+         *
+        **/
 
         if (color == 0) {
             button = new Button("cityButton", xPos, yPos, 19);
-            //image = new Image("assets/cities/bluecities.png");
+
         } else if (color == 1) {
-            //image = new Image("assets/cities/yellowcities.png");
+
             button = new Button("cityButton", xPos, yPos, 20);
         }
         else if (color == 2) {
-            //image = new Image("assets/cities/blackcities.png");
+
             button = new Button("cityButton", xPos, yPos, 21);
         }
         else {
-            //image = new Image("assets/cities/redcities.png");
+
             button = new Button("cityButton", xPos, yPos, 22);
         }
 
