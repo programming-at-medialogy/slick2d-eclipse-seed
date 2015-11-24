@@ -73,6 +73,8 @@ public class Main extends BasicGame{ //Is not the actually main.
 		}
 
 	
+		GameData.roads = new ArrayList<Road>();
+		
 		scFactor = 0.3f; // Dynamic setup: scales images according this value 
 		padding = hexImg[0].getWidth()/22*scFactor; // Dynamic setup: space between polygons
 		hexWidth = hexImg[0].getWidth();
