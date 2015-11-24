@@ -117,6 +117,9 @@ public class GameBoard extends BasicGameState {
         //cities[0].placeCube("blue",2);
         //cities[0].update(gc,i);
         cities[0].setCubeBlue(2);
+        cities[0].setCubeYellow(1);
+        cities[0].setCubeBlack(1);
+        cities[0].setCubeRed(1);
         cities[4].setCubeBlack(2);
         cities[28].setCubeYellow(3);
         cities[10].setCubeRed(1);
