@@ -4,7 +4,6 @@ import java.util.ArrayList;
  * Created by kristianhjensen on 02/11/2015.
  */
 public class Player implements DevelopmentCardIF {
-	public final int ownIndex; //This particular clients index in the player-array
 	//player name
 	private String playerName;
 	//player number
