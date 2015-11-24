@@ -53,8 +53,6 @@ public class IntroState extends BasicGameState{
 			}
 		}
 		//if(gc.getInput().isKeyPressed(Input.KEY_ENTER)) s.enterState(States.gameState);
-		
-	
 	}
 
 	@Override
