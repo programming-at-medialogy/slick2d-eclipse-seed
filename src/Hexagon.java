@@ -28,7 +28,7 @@ public class Hexagon {
 		NUMBER = number;
 		
 		// the robber always starts on the antimatter block
-		if (TYPE == ResourceType.ANTIMATTER)
+		if (TYPE == ResourceType.DESERT)
 			this.robbed = true;
 		else
 			this.robbed = false;
@@ -57,7 +57,7 @@ public class Hexagon {
 		for (int i = 0; i < HEXAMOUNT - 1; i++) {
 			hexagons[i] = new Hexagon(ResourceType.fromInteger(i % 5), numbers[i]);
 		}
-		hexagons[HEXAMOUNT - 1] = new Hexagon(ResourceType.ANTIMATTER, numbers[HEXAMOUNT - 1]);
+		hexagons[HEXAMOUNT - 1] = new Hexagon(ResourceType.DESERT, numbers[HEXAMOUNT - 1]);
 		
 		// shuffle hexagons
 		shuffle(hexagons, HEXAMOUNT);
