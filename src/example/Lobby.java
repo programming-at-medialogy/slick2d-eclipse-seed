@@ -1,5 +1,6 @@
 package example;
 
+import com.sun.corba.se.spi.activation.Server;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -74,6 +75,10 @@ public class Lobby extends BasicGameState {
         beginGame.init(gc);
         readyToggle.init(gc);
 
+        playerno = gsc.getPlayerNo();
+        roleNo = gsc.getRoleNo();
+
+
         //ASSIGN PLAYER NO. AND GET ROLE FROM SERVER
         try {
             playerno = ServerCalls.assignPlayerID();
@@ -81,6 +86,8 @@ public class Lobby extends BasicGameState {
         } catch (IOException ioEx) {
             ioEx.printStackTrace();
         }
+
+        readyToggle.setImgY(playerno * 70 + 130);
 
         //STORE VALUES IN THE COMMON LIBRARY
         gsc.setPlayers(players);
@@ -90,7 +97,6 @@ public class Lobby extends BasicGameState {
 
 
 
-        readyToggle.setImgY(playerno * 70 + 130);
 
         role = new Roles("PlayerRole", roleNo,0);
         role.init(gc);
@@ -108,7 +114,7 @@ public class Lobby extends BasicGameState {
         }
 
         if (gameStateControl) {
-            gsc.setEnteringGameState(true,playerno);
+            gsc.setEnteringGameState(true, playerno);
             sbg.enterState(2, new FadeOutTransition(),new FadeInTransition());
         }
 
