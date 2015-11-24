@@ -32,8 +32,8 @@ public class ServerActions {
 	
 	static void buyRoad(Position start, Position end, int player){
 		//Remove ressources from player
-		GameData.players.get(player).resources[ResourceType.MARSSAND.toInt()]--;
-		GameData.players.get(player).resources[ResourceType.SPACEDEBRIS.toInt()]--;
+		GameData.players.get(player).resources[ResourceType.BRICK.toInt()]--;
+		GameData.players.get(player).resources[ResourceType.TREE.toInt()]--;
 		//Place road
 		placeRoad(start,end,player);
 		//update all clients!
@@ -41,10 +41,10 @@ public class ServerActions {
 	
 	static void buyCity(Position pos, int player){
 		//Remove ressources from player
-		GameData.players.get(player).resources[ResourceType.MARSSAND.toInt()]--; 
-		GameData.players.get(player).resources[ResourceType.SPACEDEBRIS.toInt()]--; 
-		GameData.players.get(player).resources[ResourceType.ALIENDNA.toInt()]--; 
-		GameData.players.get(player).resources[ResourceType.MOONWATER.toInt()]--;
+		GameData.players.get(player).resources[ResourceType.CORN.toInt()]-=2; 
+		GameData.players.get(player).resources[ResourceType.ROCK.toInt()]--; 
+		GameData.players.get(player).resources[ResourceType.TREE.toInt()]--; 
+		GameData.players.get(player).resources[ResourceType.BRICK.toInt()]--;
 		//Place building
 		placeBuilding(pos,player);
 		//update all clients!
@@ -52,8 +52,8 @@ public class ServerActions {
 	
 	static void upgradeCity(Position pos, int player){
 		//Remove ressources from player
-		GameData.players.get(player).resources[ResourceType.MARSSAND.toInt()]=Player.resources[ResourceType.MARSSAND.toInt()]-2; 
-		GameData.players.get(player).resources[ResourceType.SPACEDEBRIS.toInt()]=Player.resources[ResourceType.SPACEDEBRIS.toInt()]-3;
+		GameData.players.get(player).resources[ResourceType.CORN.toInt()]-=2; 
+		GameData.players.get(player).resources[ResourceType.ROCK.toInt()]-=3;
 		for(int i = 0; i < GameData.buildings.size(); i++){
 			if (Position.comparePosition(GameData.buildings.get(i).POSITION, pos)){
 				 GameData.buildings.get(i).upgrade();

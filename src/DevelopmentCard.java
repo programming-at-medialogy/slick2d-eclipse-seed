@@ -1,41 +1,54 @@
+import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * This class represents a full deck of developmentcards
  */
-public class DevelopmentCard implements DevelopmentCardIF {
-
-    /**
-     * OLD = old card, NEW = new card
-     */
-
-    private static final int OLD = 0;
-    private static final int NEW = 1;
-
+public class DevelopmentCard  {
 
     /**
      * Empty developmentcard deck
      */
-
-    public int [][] devCard;
-
-    public DevelopmentCard() {
-        devCard = new int[2][DevelopmentCardIF.Max];
-        clear();
-
-    }
-
-
+    private int[] devCard;
+    
+    private ArrayList<CardType> cards;
+   
     /**
      * Make a copy of the developmentcardDeck
      */
-
-    public DevelopmentCard(DevelopmentCard set){
-        for (int i = DevelopmentCard.Min;
-             i < DevelopmentCard.Max; i++){
-            devCard[OLD][i] = set.devCard[OLD][i];
-            devCard[NEW][i] = set.devCard[NEW][i];
-        }
+    public DevelopmentCard(int kn, int vp, int rb, int yp){
+    	/*devCard = new int[5];
+    	devCard[CardType.KNIGHT.toInt()] = kn;
+    	devCard[CardType.VICTORYPOINT.toInt()] = vp;
+    	devCard[CardType.ROADBUILD.toInt()] = rb;
+    	devCard[CardType.YEAROFPLENTY.toInt()] = yp;*/
+    	
+    	cards = new ArrayList();
+    	for (int i = 0; i < kn; i++) {
+    		cards.add(CardType.KNIGHT);
+    	}
+    	for (int i = kn; i < kn + vp; i++) {
+    		cards.add(CardType.VICTORYPOINT);
+    	}
+    	for (int i = kn + vp; i < kn + vp + rb; i++) {
+    		cards.add(CardType.ROADBUILD);
+    	}
+    	for (int i = kn + vp + rb; i < kn + vp + rb + yp; i++) {
+    		cards.add(CardType.YEAROFPLENTY);
+    	}
+    	
+    	shuffle(cards, cards.size() - 1);
     }
+
+    private static void shuffle(ArrayList<CardType> array, int length) {
+		Random r = new Random();
+		for (int i = length - 1; i > 0; i--) {
+			int index = r.nextInt(i + 1);
+			CardType temp = array.get(index);
+			array.set(index, array.get(i));
+			array.set(i, temp);
+		}
+	}
 
     /**
      * Returns the amount of a desired card.
@@ -44,8 +57,8 @@ public class DevelopmentCard implements DevelopmentCardIF {
      * @return the number of the given gard
      */
 
-    public int getAmountOfCards(int age, int type ){
-        return devCard[age][type];
+    public int getAmountOfCards(int type ){
+        return devCard[type];
     }
 
     /**
@@ -54,10 +67,8 @@ public class DevelopmentCard implements DevelopmentCardIF {
 
     public int getTotal(){
         int sum = 0;
-        for (int i = DevelopmentCard.Min;
-             i < DevelopmentCard.Max; i++)
-        {
-            sum += (devCard[OLD][i] + devCard[NEW][i]);
+        for (int i = 0;i < devCard.length; i++){
+            sum += (devCard[i]);
         }
 
         return sum;
@@ -69,8 +80,8 @@ public class DevelopmentCard implements DevelopmentCardIF {
      * @param type Type of card
      * @param age New or Old
      */
-    public void setAmount(int amount, int type, int age) {
-        devCard[age][type] = amount;
+    public void setAmount(int amount, int type) {
+        devCard[type] = amount;
     }
 
     /**
@@ -79,8 +90,8 @@ public class DevelopmentCard implements DevelopmentCardIF {
      * @param age New or Old
      * @param type Type of card, see Interface.
      */
-    public void add(int amount, int age, int type) {
-        devCard[age][type] += amount;
+    public void add(int amount, int type) {
+        devCard[type] += amount;
     }
 
     /**
@@ -89,16 +100,15 @@ public class DevelopmentCard implements DevelopmentCardIF {
      * @param age new or old
      * @param type type of card.
      */
-
-    public void subtract(int amount, int age, int type) {
-        if (amount <= devCard[age][type]) {
-            devCard[age][type] -= amount;
-        } else {
-            devCard[age][type] = 0;
-            devCard[age][DevelopmentCard.Unknown] -= amount;
-        }
+    public CardType BuyCard() {
+    	if(cards.size() != 0){
+    	CardType returnCard = cards.get(0);
+    	cards.remove(0);
+        return returnCard;
+    	}
+    	System.out.println("No card");
+    	return null;
     }
-
     /**
      * Some cards stay in hand, this method counts both old and new
      * @return
@@ -106,24 +116,14 @@ public class DevelopmentCard implements DevelopmentCardIF {
 
     public int getUnplayed() {
         int sum = 0;
-        sum += devCard[OLD][DevelopmentCardIF.Blackhole];
-        sum += devCard[OLD][DevelopmentCardIF.Road];
-        sum += devCard[OLD][DevelopmentCardIF.Mono];
-        sum += devCard[OLD][DevelopmentCardIF.Unknown];
-        sum += devCard[NEW][DevelopmentCardIF.Blackhole];
-        sum += devCard[NEW][DevelopmentCardIF.Road];
-        sum += devCard[NEW][DevelopmentCardIF.Mono];
-        sum += devCard[NEW][DevelopmentCardIF.Unknown];
+        sum += devCard[CardType.KNIGHT.toInt()];
+        sum += devCard[CardType.VICTORYPOINT.toInt()];
+        sum += devCard[CardType.ROADBUILD.toInt()];
+        sum += devCard[CardType.MONOPOLY.toInt()];
+        sum += devCard[CardType.YEAROFPLENTY.toInt()];
         return sum;
     }
 
-    public void newToOld() {
-        for (int i = DevelopmentCardIF.Min;
-             i < DevelopmentCardIF.Max; i++) {
-            devCard[OLD][i] += devCard[NEW][i];
-            devCard[NEW][i] = 0;
-        }
-    }
 
 
     /**
@@ -131,11 +131,19 @@ public class DevelopmentCard implements DevelopmentCardIF {
      */
     public void clear()
     {
-        for (int i = DevelopmentCard.Min;
-             i < DevelopmentCard.Max; i++) {
-            devCard[OLD][i] = 0;
-            devCard[NEW][i] = 0;
+        for (int i = 0; i < 8; i++) {
+            devCard[i] = 0;
         }
     }
+    
+    public static void main(String[] args) {
+    	DevelopmentCard dev = new DevelopmentCard(15,15,15,15);
+    	System.out.println(dev.BuyCard());
+    	System.out.println(dev.BuyCard());
+    	System.out.println(dev.BuyCard());
 
+
+	
 }
+}
+

@@ -13,12 +13,12 @@ public enum ResourceType {
 	 * resources[ResourceType.MARSSAND.toInt()];
 	 */
 	
-	SPACEDEBRIS,
-	MOONWATER,
-	ALIENDNA,
-	SPACEHAY,
-	MARSSAND,
-	ANTIMATTER;
+	ROCK,
+	BRICK,
+	TREE,
+	SHEEP,
+	CORN,
+	DESERT;
 	
 	/**
 	 * Initializes a ResourceType from an integer
@@ -28,35 +28,36 @@ public enum ResourceType {
 	public static ResourceType fromInteger(int i) {
 		switch(i) {
 		case 0:
-			return SPACEDEBRIS;
+			return ROCK;
 		case 1:
-			return MOONWATER;
+			return BRICK;
 		case 2:
-			return ALIENDNA;
+			return TREE;
 		case 3:
-			return SPACEHAY;
+			return SHEEP;
 		case 4:
-			return MARSSAND;
+			return CORN;
 		case 5:
-			return ANTIMATTER;
+			return DESERT;
 		}
 		return null;
 	}
 	
 	public int toInt() {
 		switch(this) {
-		case SPACEDEBRIS:
+		case ROCK:
 			return 0;
-		case MOONWATER:
+		case BRICK:
 			return 1;
-		case ALIENDNA:
+		case TREE:
 			return 2;
-		case SPACEHAY:
+		case SHEEP:
 			return 3;
-		case MARSSAND:
+		case CORN:
 			return 4;	
-		default:
+		case DESERT:
 			return 5;
 		}
+		return 6;
 	}
 }

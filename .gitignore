@@ -36,11 +36,7 @@ local.properties
 .texlipse
 
 # text files
-.txt
 *.txt
-*.xml
-
-*.xml
 
 *.xml
 
@@ -52,6 +48,4 @@ src/.idea/vcs.xml
 
 *.xml
 
-*.xml
-
-*.xml
+*.txt
