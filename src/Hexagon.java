@@ -243,7 +243,7 @@ public class Hexagon {
 			diameter = (float)Math.sqrt(Math.pow(Main.hexWidth + Main.padding, 2) - Math.pow((Main.hexWidth + Main.padding) / 2, 2)) * 2 * Main.scFactor;
 		float[] position = new float[2];
 		position[0] = (float)Math.cos(angle()) * diameter;
-		position[1] = (float)Math.sin(angle()) * diameter;
+		position[1] = (float)Math.sin(angle()) * diameter-(Main.hexHeight*Main.scFactor)/1.5f;
 		x = position[0];
 		y = position[1];
 		return position;
