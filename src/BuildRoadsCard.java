@@ -12,6 +12,5 @@ public class BuildRoadsCard extends Card {
 	@Override
 	public void effect (){
 		// should trigger the button for allowing the player to place 2 roads
-		System.out.println("testGithub");
 	}
 }

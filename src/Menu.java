@@ -11,8 +11,6 @@ public class Menu extends BasicGameState {
 
 	private int screenHeight = 700;
 	
-	Image backGroundImg;
-	
 	Image playGame;
 	Image exitGame;
 	
@@ -39,7 +37,6 @@ public class Menu extends BasicGameState {
 	
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 			
-			backGroundImg = new Image("images/menuBackground.png");
 		
 			playGame = new Image("images/playGame.png");
 			exitGame = new Image("images/exitGame.png");
@@ -58,9 +55,6 @@ public class Menu extends BasicGameState {
 
 	
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-		
-		backGroundImg.draw(0,0);
-		
 		playGame.draw(870, 420);
 		exitGame.draw(10, 570);
 		
@@ -82,6 +76,8 @@ public class Menu extends BasicGameState {
 		if(playerFourReady == true) {
 			playerFourReadyImg.draw(1010, 100);
 		}
+
+		
 		
 	}
 
