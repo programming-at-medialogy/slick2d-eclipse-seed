@@ -101,7 +101,7 @@ public class DevelopmentCardDeck  {
      * @param type type of card.
      */
     public static CardType BuyCard() {
-    	if(cards.size() != 0){
+    	if(cards.size() != 0 && Player.resources[ResourceType.CORN.toInt()]>=1 && Player.resources[ResourceType.ROCK.toInt()]>=1 && Player.resources[ResourceType.SHEEP.toInt()]>=1){
     	CardType returnCard = cards.get(0);
     	cards.remove(0);
         return returnCard;
