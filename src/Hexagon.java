@@ -5,7 +5,7 @@ import java.util.Random;
  * Class describing a Hexagon for the game Settlers.
  */
 public class Hexagon {
-	
+
 	public final ResourceType TYPE;
 	public final int NUMBER;
 	
@@ -39,7 +39,7 @@ public class Hexagon {
 	 * @return an array containing the hexagons for the map
 	 */
 	public static Hexagon[] generateMap() {
-		final int HEXAMOUNT = 19;
+		final int HEXAMOUNT = 38;
 		
 		// initialize numbers
 		int[] numbers = new int[HEXAMOUNT];
@@ -122,6 +122,8 @@ public class Hexagon {
 				return hexagons[index + 1];
 			case 2:
 				return hexagons[index + 7];
+			case 3:
+				return hexagons[index + 12];
 		}
 		
 		// print error
@@ -193,10 +195,14 @@ public class Hexagon {
 	public int getDivision() {
 		if (indexInArray == 0) {
 			return 0;
-		} else if (indexInArray < 7) {
+		} 
+		if (indexInArray < 7) {
 			return 1;
 		}
-		return 2;
+		if (indexInArray < 19) {
+			return 2;
+		}
+		return 3;
 	}
 	
 	/**
@@ -211,6 +217,8 @@ public class Hexagon {
 				return indexInArray - 1;
 			case 2:
 				return indexInArray - 7;
+			case 3:
+				return indexInArray - 19;
 		}
 		
 		// this should never happen since the code is pretty error proof... but just in case
@@ -241,6 +249,9 @@ public class Hexagon {
 		float diameter = (Main.hexWidth + Main.padding)*getDivision()*Main.scFactor;
 		if (getDivision() == 2 && getIndex() % 2 != 0)
 			diameter = (float)Math.sqrt(Math.pow(Main.hexWidth + Main.padding, 2) - Math.pow((Main.hexWidth + Main.padding) / 2, 2)) * 2 * Main.scFactor;
+		else if (getDivision() == 3 && getIndex() % 2 != 0){
+			diameter = 300f;
+		}
 		float[] position = new float[2];
 		position[0] = (float)Math.cos(angle()) * diameter;
 		position[1] = (float)Math.sin(angle()) * diameter-(Main.hexHeight*Main.scFactor)/1.5f;
@@ -279,8 +290,12 @@ public class Hexagon {
 		float angle;
 		if (indexInArray <=6) 							// for inner
 			angle  = (indexInArray + 3) * 1.0472f; 		// 1.05f = 360/6 is specific angle for all polygons up to 7th.
-		else 											// for outer
+		else if (indexInArray<=19 && indexInArray > 6){ 										// for center
 			angle  = (indexInArray + 1) * 0.523599f; 	// 0.523599f = 360/12 for hexagons from 7th
+		}
+		else
+			angle = (indexInArray + 1)*0.349066f;
+		
 		return angle;
 	}
 }
