@@ -1,4 +1,7 @@
 
+import java.util.Arrays;
+import java.util.Collections;
+
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
 
@@ -8,7 +11,12 @@ public class Play extends BasicGameState {
 	HouseClickArea houseArea;
 	RoadClickArea roadArea;
 	OnScreenButton buttoms;
-
+	OnScreenTextField textField;
+	
+	public Card cardHelp;
+	public Card[] developmentPile = new Card[25];
+	
+	
 	public Play(int state) {
 
 	}
@@ -18,6 +26,15 @@ public class Play extends BasicGameState {
 		houseArea = new HouseClickArea();
 		roadArea = new RoadClickArea();
 		buttoms = new OnScreenButton();
+		textField = new OnScreenTextField();
+		textField.create(gc);
+		
+		cardHelp = new Card();
+		cardHelp.createDevPile(developmentPile);
+		Collections.shuffle(Arrays.asList(developmentPile));
+		/*for(int i = 0; i < developmentPile.length; i++){
+			System.out.println(developmentPile[i]);
+		}*/
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
@@ -26,7 +43,7 @@ public class Play extends BasicGameState {
 		roadArea.render(gc, g);
 		houseArea.render(gc, g);
 		buttoms.render(gc, g);
-
+		textField.render(gc, g);
 	}
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
@@ -57,13 +74,29 @@ public class Play extends BasicGameState {
 				}
 			}
 		};
+		
+		Thread t3 = new Thread(){
+			@Override
+			public void run() {
+				synchronized (textField) {
+					try {
+						textField.update(gc, delta);
+					} catch (SlickException e) {
+						//e.printStackTrace();
+					}
+				}	
+			}
+			
+		};
 
 		t1.start();
 		t2.start();
+		t3.start();
 
 		try {
 			t1.join();
 			t2.join();
+			t3.join();
 		} catch (InterruptedException e) {
 		}
 
