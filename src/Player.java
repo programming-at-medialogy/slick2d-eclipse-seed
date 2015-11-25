@@ -3,20 +3,18 @@ import java.util.ArrayList;
 /**
  * Created by kristianhjensen on 02/11/2015.
  */
-public class Player {
-	//This particular clients index in the player-array
-	public final int ownIndex;
+public class Player  {
 	//player name
 	private String playerName;
 	
 	//player number
-	private float playerNumber;
+	public final int NUMBER;
 	
 	//Buildings
 	//private Road[] road;
 	
 	//ressources
-	int [] resources = new int[5];
+	static int [] resources = new int[5];
 	
 	int resourceAmount;
 	
@@ -27,10 +25,10 @@ public class Player {
 	private int points;
 	
 	//How many developmentcards the players has
-	private DevelopmentCard devCard;
+	private int[] devCard;
 	
 	//Checks whether the player has to discard resourcecards or not
-	boolean hasToDiscard;
+	static boolean hasToDiscard;
 	
 	//Haswon
 	private boolean hasWon;
@@ -44,10 +42,9 @@ public class Player {
 	 * a new player object for the game.
 	 */
 
-	public Player (String playerName, int playerNumber, int ownIndex){
-		this.ownIndex = ownIndex;
+	public Player (String playerName, int playerNumber){
 		this.playerName = playerName;
-		this.playerNumber = playerNumber;
+		this.NUMBER = playerNumber;
 		points = 0;
 		int[] resources = new int[5];
 		//road = 0;
@@ -86,17 +83,69 @@ public class Player {
 	/**
 	 * Method for checking whether the player needs to discard resourcecards
 	 */
-	public void setHasToDiscard(){
-		//Needs a resource class to be created.
+	public static void setHasToDiscard(){
+		if(GameData.rolledNumber == 7){
+			for(int i = 0; i < GameData.players.size(); i++){
+				if(GameData.players.get(i).resourceAmount > 7){
+					hasToDiscard = true;
+				} else {
+					hasToDiscard = false;
+				}
+				if( hasToDiscard == true){
+					//Main.showCards()
+				}
+			}
+			
 		}
+		
+		}
+	
+	public void discard(int[] index) {
+		for (int i = 0; i < index.length; i++) {
+			resources[index[i]]--;
+			resourceAmount--;
+		}
+	}
+	
+	
+	public void addDevelopmentCard(CardType type) {
+		devCard[type.toInt()]++;
+	}
+	
+	public void PlayDevCard(CardType type){
+		switch(type) {
+		case KNIGHT:
+			//Move Robber
+			//Take 1 resourceCard
+			break;
+		case VICTORYPOINT:
+			++points;
+			break;
+		case YEAROFPLENTY:
+			//show resource bank
+			break;
+		case ROADBUILD:
+			//Build a road
+			break;
+		case MONOPOLY:
+			//Select a resource whicht the other players must hand over.
+			break;
+		}
+	}
+	
+	public void addResource(int[] index) {
+		for (int i = 0; i < index.length; i++) {
+			resources[index[i]]++;
+			resourceAmount++;
+	}
+	}
 	
 
 
 
 
-
 	public static void main(String[] args) {
-		Player player1 = new Player("Lord",2,2);
+		Player player1 = new Player("Lord",2);
 		
 
 
