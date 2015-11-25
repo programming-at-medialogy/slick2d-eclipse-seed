@@ -11,11 +11,13 @@ import java.util.List;
  */
 public class Player extends BasicGame {
 
-    private Image [] playerImage = new Image[7];
-    private City currentLocation = new City("pandemic", "TEST", 230, 300, new String[]{"miami", "washington", "chicago"}, 0);
+    private Image[] playerImage = new Image[7];
+    private City currentLocation = new City("pandemic", "atlanta", 230, 300, new String[]{"miami", "washington", "chicago"}, 0);
 
     private int xPos;
     private int yPos;
+    private int relativeXpos;
+    private int relativeYpos;
 
     private int playerRoleNo;
 
@@ -37,8 +39,24 @@ public class Player extends BasicGame {
     public void init(GameContainer gameContainer) throws SlickException {
 
         for (int i = 0; i < playerImage.length; i++) {
-            playerImage[i] = new Image("assets/guielements/players/"+i+".png"); //PLACEHOLDER IMAGE
+            playerImage[i] = new Image("assets/guielements/players/" + i + ".png"); //PLACEHOLDER IMAGE
         }
+    }
+
+    @Override
+    public void update(GameContainer gameContainer, int i) throws SlickException {
+        xPos = currentLocation.getxPos();
+        yPos = currentLocation.getyPos();
+        if (playerID == 0 || playerID == 2)
+            relativeXpos = xPos - 50;
+        if (playerID == 1 || playerID == 3)
+            relativeXpos = xPos + 20;
+        if (playerID == 0 || playerID == 1)
+            relativeYpos = yPos + 130;
+        if (playerID == 2 || playerID == 3)
+            relativeYpos = yPos + 180;
+
+
 
 
     }
@@ -46,14 +64,14 @@ public class Player extends BasicGame {
     @Override
     public void render(GameContainer gc, Graphics g) throws SlickException {
 
-        g.drawImage(playerImage[playerRoleNo], (xPos - 20), yPos - 15); //PLAYER ROLE NEEDED
-
+            g.drawImage(playerImage[playerRoleNo], relativeXpos, relativeYpos);
     }
 
-    @Override
-    public void update(GameContainer gameContainer, int i) throws SlickException {
-        xPos = currentLocation.getxPos();
-        yPos = currentLocation.getyPos();
+    public boolean checkMovability(City city) {
+        if (getNeighborCityAsList().contains(city.getCityName()))
+            return true;
+        else
+            return false;
     }
 
     /**
@@ -70,7 +88,7 @@ public class Player extends BasicGame {
 
     public void setPlayerPosition(City city) {
 
-        if(checkMovability(city)) {
+        if (checkMovability(city)) {
             this.currentLocation = city;
             System.out.println(currentLocation.getCityName());
         } else {
@@ -83,21 +101,23 @@ public class Player extends BasicGame {
     }
 
     public void showHand(Graphics g) {
-
-    }
-
-    public boolean checkMovability(City city) {
-        if (getNeighborCityAsList().contains(city.getCityName()))
-            return true;
-        else
-            return false;
     }
 
     public List<String> getNeighborCityAsList() {
         return Arrays.asList(currentLocation.getNeighborCities());
     }
 
-    public void setPlayerRoleNo (int index) { this.playerRoleNo = index; }
+    public void setPlayerRoleNo(int index) {
+        this.playerRoleNo = index;
+    }
+
+    public int getPlayerID() {
+        return playerID;
+    }
+
+    public void setPlayerID(int index) {
+        this.playerID = index;
+    }
 
 
 }
