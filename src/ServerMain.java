@@ -7,13 +7,12 @@ public class ServerMain {
 		try {
 			NetworkServer.startServer();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
 	public static void received(int clientId, String message) {
-		//NetworkServer.sendToAll("Message received from " + clientId + ":\n" + message);
+		NetworkServer.sendToAll("Message received from " + clientId + ":\n" + message);
 		/*if (GameData.players.get(clientId).getPlayerName() == null) {
 			GameData.players.get(clientId).setPlayerName(message);
 		}*/
