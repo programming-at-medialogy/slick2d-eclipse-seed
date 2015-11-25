@@ -3,18 +3,18 @@ package example;
 import org.newdawn.slick.*;
 
 /**
- * Created by Marianne on 03-11-2015.
+ * Created by Marianne on 25-11-2015.
  */
-public class Infection_Marker extends BasicGame {
+public class Outbreak_Marker extends BasicGame {
 
-    private int count;
-    private int xPos = 795;
+    private int outBreakcount;
+    private int xPos = 301;
     private int yPos = 670;
     Image ratemarker;
 
-    public Infection_Marker(String title, int count){
+    public Outbreak_Marker(String title, int outBreakcount){
         super(title);
-        this.count = count;
+        this.outBreakcount = outBreakcount;
     }
 
     @Override
@@ -25,14 +25,14 @@ public class Infection_Marker extends BasicGame {
 
     @Override
     public void update(GameContainer gameContainer, int i) throws SlickException {
-
-       xPos=795+count*40;
-
+        xPos=301+outBreakcount*40;
     }
 
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
 
         graphics.drawImage(ratemarker,xPos,yPos);
+
     }
+
 }

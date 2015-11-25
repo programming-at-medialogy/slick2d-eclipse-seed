@@ -20,6 +20,9 @@ public class GameBoard extends BasicGameState {
     private City[] cities;
     private Image gameBoard;
     private Button player1Hand, player2Hand, player3Hand, player4Hand;
+    private Infection_Marker infectionMarker;
+    private Outbreak_Marker outbreakMarker;
+    private ActionMenu actionMenu;
 
     private List<Player> players;
     int playerNo;
@@ -35,6 +38,12 @@ public class GameBoard extends BasicGameState {
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 
         gameBoard = new Image("assets/backgrounds/bg.png");
+        infectionMarker = new Infection_Marker("infectionmarker", 0);
+        infectionMarker.init(gc);
+        outbreakMarker = new Outbreak_Marker("outbreakmarker", 0);
+        outbreakMarker.init(gc);
+        actionMenu = new ActionMenu("actionMenu");
+        actionMenu.init(gc);
 
         cities = new City[48];
         cities[0] = new City("pandemic", "atlanta", 230, 300, new String[]{"miami", "washington", "chicago"}, 0);
@@ -111,6 +120,10 @@ public class GameBoard extends BasicGameState {
     @Override
     public void update(GameContainer gc, StateBasedGame sbg, int i) throws SlickException {
 
+        infectionMarker.update(gc,i);
+        outbreakMarker.update(gc,i);
+        actionMenu.update(gc, i);
+
         //cities[0].placeCube("blue",2);
         //cities[0].update(gc,i);
         cities[0].setCubeBlue(2);
@@ -151,6 +164,9 @@ public class GameBoard extends BasicGameState {
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 
         g.drawImage(gameBoard, 0, 0);
+        infectionMarker.render(gc,g);
+        outbreakMarker.render(gc,g);
+        actionMenu.render(gc, g);
 
         player1Hand.render(gc, g);
         player2Hand.render(gc, g);
