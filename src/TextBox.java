@@ -6,13 +6,12 @@ import org.newdawn.slick.state.BasicGameState;
 
 public abstract class TextBox {
 	
+	private final int MAX_CHARS;
+	private final int FONT_SIZE;
 	private static final int PADDING = 3;
 	
 	private int x, y;
 	private int width, height;
-	
-	private int fontSize;
-	private int maxChars;
 	
 	private String content;
 	
@@ -32,7 +31,7 @@ public abstract class TextBox {
 		this.width = width;
 		this.height = height;
 		this.state = state;
-		this.fontSize = fontSize;
+		this.FONT_SIZE = fontSize;
 		
 		this.isActive = false;
 		this.isAlpha = true;
@@ -41,7 +40,7 @@ public abstract class TextBox {
 		this.content = "";
 		
 		// sets a max chars based on the 
-		this.maxChars = (int)(width / fontSize * 1.2);
+		this.MAX_CHARS = (int)(width / FONT_SIZE * 1.2);
 		
 		textBoxs.add(this);
 	}
@@ -62,7 +61,7 @@ public abstract class TextBox {
 					g.setColor(new Color(200, 200, 200));
 				g.fillRect(textBox.x + PADDING, textBox.y + PADDING, textBox.width - PADDING * 2, textBox.height - PADDING * 2);
 				g.setColor(new Color(0, 0, 0));
-				g.drawString(textBox.content, textBox.x + PADDING * 2, textBox.y + textBox.height / 2 - textBox.fontSize / 2);
+				g.drawString(textBox.content, textBox.x + PADDING * 2, textBox.y + textBox.height / 2 - textBox.FONT_SIZE / 2);
 			}
 		}
 	}
@@ -98,7 +97,7 @@ public abstract class TextBox {
 		for (TextBox textBox : textBoxs) { 
 			if (state == textBox.state) {
 				if (textBox.isActive) {
-					if (textBox.maxChars > textBox.content.length()) {
+					if (textBox.MAX_CHARS > textBox.content.length()) {
 						if (Character.isAlphabetic(c) && textBox.isAlpha) {
 							textBox.content += c;
 						} else if ((Character.isDigit(c) || key == 52) && textBox.isNumeric) { // 52 is '.'
