@@ -5,7 +5,7 @@ public class Road {
 	/* Again, just like in the building class, the player should not be static.
 	 * However, if i change it to non static i screw up the code. The code therefore needs to be rewritten a bit.
 	 * See building class for elaboration. */
-	static int player;	
+	public final int PLAYER_INDEX;	
 	Position start;
 	Position end;
 	static int roadLength;
@@ -22,12 +22,12 @@ public class Road {
 		endTouch = false;
 		start = startPos;
 		end = endPos;
-		player = playerIndex;
+		PLAYER_INDEX = playerIndex;
 		checkEnds(this);
 		visited = false;
 	}
 	
-	public static void buildRoad(Position startPos, Position endPos,int playerIndex){
+	public static void buildRoad(Position startPos, Position endPos, int playerIndex){
 		if(Position.getLength(startPos, endPos) == 1){
 			System.out.println("Constructing road");
 			Road road = new Road(startPos,endPos,playerIndex);
@@ -54,7 +54,7 @@ public class Road {
 
 		for(int i = 0; i<GameData.roads.size(); i++){
 			tempLength = 0;
-			if(GameData.roads.get(i).player == player){ // we only want to look at this players roads
+			if(GameData.roads.get(i).PLAYER_INDEX != 50000){ // needs fixing frede
 				if(GameData.roads.get(i).endTouch == true){
 					thisRoad = roadLength(GameData.roads.get(i),"end");
 				}
@@ -66,7 +66,7 @@ public class Road {
 		
 		if (thisRoad > Road.longestRoad){
 			Road.longestRoad = thisRoad;
-			GameData.longestRoad = player;
+			GameData.longestRoad = 5000; // needs fixing frede
 			System.out.println("Longest road is " + thisRoad);
 		}
 	}

@@ -14,7 +14,7 @@ public class Player  {
 	//private Road[] road;
 	
 	//ressources
-	static int [] resources = new int[5];
+	public int [] resources = new int[5];
 	
 	int resourceAmount;
 	
@@ -28,7 +28,7 @@ public class Player  {
 	private int[] devCard;
 	
 	//Checks whether the player has to discard resourcecards or not
-	static boolean hasToDiscard;
+	//public boolean hasToDiscard;
 	
 	//Haswon
 	private boolean hasWon;
@@ -49,7 +49,6 @@ public class Player  {
 		int[] resources = new int[5];
 		//road = 0;
 		knights = 0;
-		hasToDiscard = false;
 
 	}
 	
@@ -84,21 +83,15 @@ public class Player  {
 	 * Method for checking whether the player needs to discard resourcecards
 	 */
 	public static void setHasToDiscard(){
+		boolean hasToDiscard;
 		if(GameData.rolledNumber == 7){
 			for(int i = 0; i < GameData.players.size(); i++){
 				if(GameData.players.get(i).resourceAmount > 7){
-					hasToDiscard = true;
-				} else {
-					hasToDiscard = false;
-				}
-				if( hasToDiscard == true){
-					//Main.showCards()
-				}
-			}
-			
+					// main.show()
+				} 
+			}	
 		}
-		
-		}
+	}
 	
 	public void discard(int[] index) {
 		for (int i = 0; i < index.length; i++) {
@@ -123,9 +116,11 @@ public class Player  {
 			break;
 		case YEAROFPLENTY:
 			//show resource bank
+			//addResource(); - method er lavet.
 			break;
 		case ROADBUILD:
 			//Build a road
+			//roadBuild();
 			break;
 		case MONOPOLY:
 			//Select a resource whicht the other players must hand over.
@@ -138,6 +133,11 @@ public class Player  {
 			resources[index[i]]++;
 			resourceAmount++;
 	}
+	}
+	
+	public void roadBuild (Position startPos, Position endPos) {
+		Road.buildRoad(startPos, endPos, NUMBER);
+		
 	}
 	
 
