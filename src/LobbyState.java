@@ -1,3 +1,4 @@
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -7,35 +8,42 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class LobbyState extends BasicGameState{
 	//image objects
-	Image background, joinGame, searchForGame, backButton;
-	
+	Image background, joinGame, joinGameHighlighted, searchForGame, searchForGameHighlighted, backButton, backButtonHighlighted;
+	int boxMovement;
+	//initializing and instantiating 
 	@Override
 	public void init(GameContainer gc, StateBasedGame s) throws SlickException {
+		
 		//loading images used in the lobbystate
 		background = new Image("resources/background.png");
 		joinGame = new Image("resources/joinGame.png");
+		joinGameHighlighted = new Image("resources/joinGameHighlighted.png");
 		searchForGame = new Image("resources/searchForGame.png");
+		searchForGameHighlighted = new Image("resources/searchForGameHighlighted.png");
 		backButton = new Image("resources/back.png");
+		backButtonHighlighted = new Image("resources/backHighlighted.png");
+		boxMovement = Windows.scWidth/2;
 
 		//creating the appropriate buttons at the appropriate locations
-		Button Back = new Button(10, 310, backButton, this) {
+		Button Back = new Button(boxMovement - backButton.getWidth()/2, Windows.scHeight/2 + 10, backButton, backButtonHighlighted, this) {
 			@Override
 			public void isClicked() {
 				s.enterState(States.IntroState);
 			}
 		};
 		
-		Button Join = new Button(10, 100, joinGame, this) {
+		Button Join = new Button(boxMovement - joinGame.getWidth()/2, Windows.scHeight/2 - 210, joinGame, joinGameHighlighted,this) {
 			@Override
 			public void isClicked() {
+				s.enterState(States.PreGameState);
 				System.out.println("join the game already");
 			}
 		};
 		
-		Button SearchForGame = new Button(10, 210, searchForGame, this) {
+		Button SearchForGame = new Button(boxMovement - searchForGame.getWidth()/2, Windows.scHeight/2 - 100, searchForGame, searchForGameHighlighted,this) {
 			@Override
 			public void isClicked() {
-				System.out.println("searcing for game");
+					System.out.println("searcing for game");
 			}
 		};
 
@@ -46,43 +54,20 @@ public class LobbyState extends BasicGameState{
 	public void render(GameContainer gc, StateBasedGame s, Graphics g) throws SlickException {
 		//draw background
 		g.drawImage(background, 0, 0, Windows.scWidth, Windows.scHeight, 0, 0, 1366, 768);
+		//draw title
+		g.setColor(Color.black);
+		g.drawString("WELCOME TO SETTLERS, THE GOOD EDITION", Windows.scWidth/2 - 150, 10);	
 		//draw buttons
 			Button.draw(g, this);
-		/*joinGame.draw(10, 100);
-		searchForGame.draw(10, 210);
-		backButton.draw(10, 310);*/
+
 	}
 	
 	//updating new events
 	@Override
 	public void update(GameContainer gc, StateBasedGame s, int delta) throws SlickException {
 		Button.update(this);
-	//	if(back == true)
-			//s.enterState(States.IntroState);
-	}
-	
-/*	@Override
-	public void mouseReleased(int button, int xPos, int yPos) {
-		System.out.println("Test");
-		//mouse x and y is stored
-		//subtracting the mouse Y because it is inverted
-		//int xPos = Mouse.getX();
-		//int yPos = Windows.scHeight - Mouse.getY();
-		
-		//hard coded button position for join game
-		if((xPos > 10 && xPos < 337)&&(yPos > 100 && yPos < 185)){
-				//Starting the game from main
-				//ServerClientDecider.isTest = false;
-		}	
-		//hard coded button position for search for game
-		if((xPos > 10 && xPos < 337)&&(yPos > 210 && yPos < 295)){
-		}
-		//hard coded button position for back
-		if((xPos > 10 && xPos < 337)&&(yPos > 320 && yPos < 405)){
-			back = true;
-		}
-	}*/
 
+	}
 	//Returns the appropriate state ID
 	@Override
 	public int getID() {

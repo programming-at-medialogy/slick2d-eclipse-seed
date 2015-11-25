@@ -9,18 +9,20 @@ import org.newdawn.slick.state.BasicGameState;
 public abstract class Button {
 	//class variables 
 	int x, y, width, height;
-	Image image;
+	Image image, highlight;
 	static boolean mouseDown;
 	static ArrayList<Button> buttons = new ArrayList();
 	BasicGameState state;
+	static int yPos, xPos;
 
 	//constructor
-	Button(int x, int y, Image image, BasicGameState state){
+	Button(int x, int y, Image image, Image highlight, BasicGameState state){
 		this.x = x;
 		this.y = y;
 		this.width = image.getWidth();
 		this.height = image.getHeight();
 		this.image = image;
+		this.highlight = highlight;
 		mouseDown = false;
 		buttons.add(this);
 		this.state = state;
@@ -29,15 +31,22 @@ public abstract class Button {
 	//drawing the buttons
 	public static void draw(Graphics g, BasicGameState state){
 		for(int i = 0; i < buttons.size(); i++){
-			if (buttons.get(i).state == state)
-				buttons.get(i).image.draw(buttons.get(i).x, buttons.get(i).y);
+			if (buttons.get(i).state == state){
+				if((xPos > buttons.get(i).x && xPos < buttons.get(i).x + buttons.get(i).width)&& (yPos > buttons.get(i).y && yPos < buttons.get(i).y + buttons.get(i).height) && mouseDown == true){
+					buttons.get(i).highlight.draw(buttons.get(i).x, buttons.get(i).y);
+					//System.out.println("test");
+			}
+				 else {
+						buttons.get(i).image.draw(buttons.get(i).x, buttons.get(i).y);
+				 }
+			}
 		}
 	}
 	
 	//updating the mouse position and lets us know whether the mouse is clicked or not
 	public static void update(BasicGameState state){
-		int xPos = Mouse.getX();
-		int yPos = Windows.scHeight - Mouse.getY();
+		xPos = Mouse.getX();
+		yPos = Windows.scHeight - Mouse.getY();
 		for(int i = 0; i < buttons.size(); i++){
 			if((xPos > buttons.get(i).x && xPos < buttons.get(i).x + buttons.get(i).width)&& (yPos > buttons.get(i).y && yPos < buttons.get(i).y + buttons.get(i).height)){
 				if(mouseDown == true && Mouse.isButtonDown(0) != true) {

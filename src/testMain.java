@@ -27,8 +27,9 @@ AppGameContainer game = new AppGameContainer(new testMain());
 		gc.setAlwaysRender(true);
 		gc.setShowFPS(false);
 		gc.setVSync(true);		
-			
+		
 		this.addState(new IntroState());
 		this.addState(new LobbyState());
+		this.addState(new PreGameState());
 	}
 }
