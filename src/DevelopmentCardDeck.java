@@ -4,19 +4,19 @@ import java.util.Random;
 /**
  * This class represents a full deck of developmentcards
  */
-public class DevelopmentCard  {
+public class DevelopmentCardDeck  {
 
     /**
      * Empty developmentcard deck
      */
     private int[] devCard;
     
-    private ArrayList<CardType> cards;
+    private static ArrayList<CardType> cards;
    
     /**
      * Make a copy of the developmentcardDeck
      */
-    public DevelopmentCard(int kn, int vp, int rb, int yp){
+    public DevelopmentCardDeck(int kn, int vp, int rb, int yp){
     	/*devCard = new int[5];
     	devCard[CardType.KNIGHT.toInt()] = kn;
     	devCard[CardType.VICTORYPOINT.toInt()] = vp;
@@ -100,7 +100,7 @@ public class DevelopmentCard  {
      * @param age new or old
      * @param type type of card.
      */
-    public CardType BuyCard() {
+    public static CardType BuyCard() {
     	if(cards.size() != 0){
     	CardType returnCard = cards.get(0);
     	cards.remove(0);
@@ -137,7 +137,7 @@ public class DevelopmentCard  {
     }
     
     public static void main(String[] args) {
-    	DevelopmentCard dev = new DevelopmentCard(15,15,15,15);
+    	DevelopmentCardDeck dev = new DevelopmentCardDeck(15,15,15,15);
     	System.out.println(dev.BuyCard());
     	System.out.println(dev.BuyCard());
     	System.out.println(dev.BuyCard());

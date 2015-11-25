@@ -14,7 +14,7 @@ public class Player  {
 	//private Road[] road;
 	
 	//ressources
-	public int [] resources = new int[5];
+	public static int [] resources = new int[5];
 	
 	int resourceAmount;
 	
@@ -46,9 +46,9 @@ public class Player  {
 		this.playerName = playerName;
 		this.NUMBER = playerNumber;
 		points = 0;
-		int[] resources = new int[5];
 		//road = 0;
 		knights = 0;
+		devCard = new int[5];
 
 	}
 	
@@ -68,10 +68,13 @@ public class Player  {
 					if ( GameData.buildings.get(i).isUpgraded()) {
 						resources[nearbyHexagons[j].TYPE.toInt()]+=2;
 						resourceAmount += 2;
+						
 					}
-					resources[nearbyHexagons[j].TYPE.toInt()]++;
-					resourceAmount++;
-				}
+					if (nearbyHexagons[j].TYPE.toInt() != 5) {
+						resources[nearbyHexagons[j].TYPE.toInt()]++;
+						resourceAmount++;
+					}
+					}
 				}
 			}
 		}
@@ -82,12 +85,12 @@ public class Player  {
 	/**
 	 * Method for checking whether the player needs to discard resourcecards
 	 */
-	public static void setHasToDiscard(){
-		boolean hasToDiscard;
+	public void setHasToDiscard(){
 		if(GameData.rolledNumber == 7){
 			for(int i = 0; i < GameData.players.size(); i++){
 				if(GameData.players.get(i).resourceAmount > 7){
 					// main.show()
+					System.out.println("HELLLO DISCARD MOFO");
 				} 
 			}	
 		}
@@ -101,8 +104,10 @@ public class Player  {
 	}
 	
 	
-	public void addDevelopmentCard(CardType type) {
-		devCard[type.toInt()]++;
+	public void addDevelopmentCard() {
+		if(Player.resources[ResourceType.CORN.toInt()]>=1 && Player.resources[ResourceType.ROCK.toInt()]>=1 && Player.resources[ResourceType.SHEEP.toInt()]>=1 ){
+			devCard[DevelopmentCardDeck.BuyCard().toInt()]++;
+		}
 	}
 	
 	public void PlayDevCard(CardType type){
@@ -142,14 +147,12 @@ public class Player  {
 	
 
 
+/*	@Override
+	public String toString() {
+		return playerName + ": " + NUMBER;
+	}*/
 
-
-	public static void main(String[] args) {
-		Player player1 = new Player("Lord",2);
-		
-
-
-	}
+	
 
 
 }

@@ -120,15 +120,8 @@ public class Actions {
 			}
 		}
 		
-		static void BuyCard(){
-			//Check if player have funds
-			//Check if request is possible
-			//Send message to server
-		}
+
 		
-		static void useDevelopment(){
-			//Method used to notify server that user wants to use a developement card
-		}
 
 		static void rollDice(){
 			//Method used to notify server that user wants to roll the dice
