@@ -86,8 +86,8 @@ public class Actions {
 		
 		static void buyRoad(Position start, Position end, int player){
 			//Check if player have funds
-			if(GameData.players.get(player).resources[ResourceType.MARSSAND.toInt()]>=1 && 
-				GameData.players.get(player).resources[ResourceType.SPACEDEBRIS.toInt()]>=1){
+			if(GameData.players.get(player).resources[ResourceType.BRICK.toInt()]>=1 && 
+				GameData.players.get(player).resources[ResourceType.TREE.toInt()]>=1){
 				//Check if request is possible and send message
 				placeRoad(start, end, player);
 			}
@@ -95,10 +95,10 @@ public class Actions {
 		
 		static void buyCity(Position pos, int player){
 			//Check if player have funds
-			if(GameData.players.get(player).resources[ResourceType.MARSSAND.toInt()]>=1 && 
-			   GameData.players.get(player).resources[ResourceType.SPACEDEBRIS.toInt()]>=1 && 
-			   GameData.players.get(player).resources[ResourceType.ALIENDNA.toInt()]>=1 && 
-			   GameData.players.get(player).resources[ResourceType.MOONWATER.toInt()]>=1){
+			if(GameData.players.get(player).resources[ResourceType.BRICK.toInt()]>=1 && 
+			   GameData.players.get(player).resources[ResourceType.CORN.toInt()]>=2 && 
+			   GameData.players.get(player).resources[ResourceType.ROCK.toInt()]>=1 && 
+			   GameData.players.get(player).resources[ResourceType.TREE.toInt()]>=1){
 				//Check if request is possible and send message
 				placeBuilding(pos, player);
 			}
@@ -106,8 +106,8 @@ public class Actions {
 		
 		static void upgradeCity(Position pos, int player){
 			//Check if player have funds
-			if(GameData.players.get(player).resources[ResourceType.MARSSAND.toInt()]>=2 && 
-				GameData.players.get(player).resources[ResourceType.SPACEDEBRIS.toInt()]>=3){
+			if(GameData.players.get(player).resources[ResourceType.CORN.toInt()]>=2 && 
+				GameData.players.get(player).resources[ResourceType.ROCK.toInt()]>=3){
 				//Check if request is possible
 				for(int i = 0; i < Building.getBuildings().size(); i++){
 					if(Position.comparePosition(pos, Building.getBuildings().get(i).POSITION) && 

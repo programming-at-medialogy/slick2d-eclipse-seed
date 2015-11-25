@@ -13,7 +13,6 @@ import com.google.gson.Gson;
 
 
 public class Main extends BasicGame{ //Is not the actually main.
-	NetworkHelper networkHelper;
 	boolean[] tradeRequest; //Do we need this?
 	boolean hasRequestedTrade; //Do we need this?
 	static boolean userInGame; 
@@ -205,6 +204,10 @@ public class Main extends BasicGame{ //Is not the actually main.
 
 	static void rollDice(){
 		//Method used to notify server that user wants to roll the dice
+	}
+	
+	public static void received(String message) {
+		System.out.println(message);
 	}
 	
 	public static void start() {
