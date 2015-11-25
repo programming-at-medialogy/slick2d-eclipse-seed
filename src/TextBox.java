@@ -144,4 +144,8 @@ public abstract class TextBox {
 	 * Abstract method that gets called when the enter key is pressed.
 	 */
 	public abstract void onSubmit();
+	
+	public static void remove(){
+		textBoxs = new ArrayList();
+	}
 }

@@ -2,11 +2,12 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.KeyListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class LobbyState extends BasicGameState{
+public class LobbyState extends BasicGameState implements KeyListener{
 	//image objects
 	Image background, joinGame, joinGameHighlighted, searchForGame, searchForGameHighlighted, backButton, backButtonHighlighted;
 	int boxMovement;
@@ -28,6 +29,7 @@ public class LobbyState extends BasicGameState{
 		Button Back = new Button(boxMovement - backButton.getWidth()/2, Windows.scHeight/2 + 10, backButton, backButtonHighlighted, this) {
 			@Override
 			public void isClicked() {
+				TextBox.remove();
 				s.enterState(States.IntroState);
 			}
 		};
@@ -43,10 +45,17 @@ public class LobbyState extends BasicGameState{
 		Button SearchForGame = new Button(boxMovement - searchForGame.getWidth()/2, Windows.scHeight/2 - 100, searchForGame, searchForGameHighlighted,this) {
 			@Override
 			public void isClicked() {
-					System.out.println("searcing for game");
+				TextBox IpBox = new TextBox(0,0, 100, 20, 12, this.state){
+
+					@Override
+					public void onSubmit() {
+						System.out.println(this.getContent());
+					}
+				};
+				IpBox.setPermissions(false, true, false);
+				System.out.println("searcing for game");
 			}
 		};
-
 	}
 
 	//draw the appropriate objects on the state
@@ -59,6 +68,7 @@ public class LobbyState extends BasicGameState{
 		g.drawString("WELCOME TO SETTLERS, THE GOOD EDITION", Windows.scWidth/2 - 150, 10);	
 		//draw buttons
 			Button.draw(g, this);
+			TextBox.draw(g, this);
 
 	}
 	
@@ -66,6 +76,7 @@ public class LobbyState extends BasicGameState{
 	@Override
 	public void update(GameContainer gc, StateBasedGame s, int delta) throws SlickException {
 		Button.update(this);
+		TextBox.update(this);
 
 	}
 	//Returns the appropriate state ID
@@ -73,5 +84,9 @@ public class LobbyState extends BasicGameState{
 	public int getID() {
 		return States.LobbyState;
 	}
-
+	
+	@Override
+	public void keyPressed(int key, char c) {
+		TextBox.keyPress(key, c, this);
+	}
 }
