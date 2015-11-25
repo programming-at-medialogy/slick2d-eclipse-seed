@@ -137,7 +137,8 @@ public class Player  {
 		for (int i = 0; i < index.length; i++) {
 			resources[index[i]]++;
 			resourceAmount++;
-	}
+			
+		}
 	}
 	
 	public void roadBuild (Position startPos, Position endPos) {
@@ -145,7 +146,31 @@ public class Player  {
 		
 	}
 	
-
+	public void stealResource(int stolenResource, Player playerBeingRobbed) {
+		
+		//playerBeingRobbed.discard(stolenResource);
+		
+		//addResource(stolenResource);
+		
+	}
+	
+	public void playMonopoly(int chosenResource) {
+		
+		for(int i = 0; i < GameData.players.size() - 1; i++) {
+			
+			if(i != Player.this.NUMBER) {
+				
+				while(GameData.players.get(i).resources[chosenResource] != 0) {
+					
+					stealResource(GameData.players.get(i).resources[chosenResource], GameData.players.get(i));
+					
+				}
+				
+			}
+			
+		}
+		
+	}
 
 /*	@Override
 	public String toString() {
