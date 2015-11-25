@@ -20,9 +20,11 @@ public class GameBoard extends BasicGameState {
     private City[] cities;
     private Image gameBoard;
     private Button player1Hand, player2Hand, player3Hand, player4Hand;
+    private boolean showHand1, showHand2, showHand3, showHand4;
     private Infection_Marker infectionMarker;
     private Outbreak_Marker outbreakMarker;
     private ActionMenu actionMenu;
+    private Image handToggle;
 
     private List<Player> players;
     int playerNo;
@@ -44,6 +46,7 @@ public class GameBoard extends BasicGameState {
         outbreakMarker.init(gc);
         actionMenu = new ActionMenu("actionMenu");
         actionMenu.init(gc);
+        handToggle = new Image("assets/cards/blue1.png");
 
         cities = new City[48];
         cities[0] = new City("pandemic", "atlanta", 230, 300, new String[]{"miami", "washington", "chicago"}, 0);
@@ -134,6 +137,22 @@ public class GameBoard extends BasicGameState {
         cities[28].setCubeYellow(3);
         cities[10].setCubeRed(1);
 
+        if (player1Hand.clickWithin(gc)) {
+            showHand1 =! showHand1;
+        }
+
+        if (player2Hand.clickWithin(gc)) {
+            showHand2 =! showHand2;
+        }
+
+        if (player3Hand.clickWithin(gc)) {
+            showHand3 =! showHand3;
+        }
+
+        if (player4Hand.clickWithin(gc)) {
+            showHand4 =! showHand4;
+        }
+
 
         for (int j = 0; j < players.size(); j++) {
             players.get(j).update(gc, i);
@@ -172,6 +191,20 @@ public class GameBoard extends BasicGameState {
         player2Hand.render(gc, g);
         player3Hand.render(gc, g);
         player4Hand.render(gc, g);
+
+        if (showHand1){
+            g.drawImage(handToggle, 100, 100);
+        }
+        if (showHand2){
+            g.drawImage(handToggle, 300, 100);
+        }
+        if (showHand3){
+            g.drawImage(handToggle, 500, 100);
+        }
+        if (showHand4){
+            g.drawImage(handToggle, 700, 100);
+        }
+
 
         for (int i = 0; i < cities.length; i++) {
             if (cities[i].getButton().clickWithin(gc)) {
