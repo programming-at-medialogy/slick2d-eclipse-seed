@@ -1,84 +1,88 @@
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.Scanner;
+import java.io.*;
+import java.net.*;
+import java.util.*;
 
-public class NetworkClient {
+public class NetworkClient
+{
+	private static InetAddress host;
+	private static int port;
+	private static Scanner userEntry;
+	private static ServerHandler handler;
 	
-	private static final int PORT = 59482;
-	
-	private static String sentence;
-	private static String tempSentence;
-	
-	private static String hostName;
-	private static InetAddress hostAddress;
-	
-	private static Scanner userInput;
-	private static Socket clientSocket;
-	private static Scanner socketReader;
-	
-	private static PrintWriter clientOutput;
-	
-	public static void main(String args[])  {
+	public static void startClient() throws IOException {
+		// setup user input scanner
+		userEntry = new Scanner(System.in);
 		
-		hostName = "ThatGuyWithTheBeard";
-		System.out.println(hostName);
-		
+		// get host ip
 		try {
-			hostAddress = InetAddress.getByName(hostName);
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Enter host IP: ");
+			host = InetAddress.getByName(userEntry.nextLine());
+		} catch(UnknownHostException uhEx) {
+			System.out.println("\nHost ID not found!\n");
+			System.exit(1);
 		}
 		
-		System.out.println(hostAddress.getHostAddress());
+		// get host port
+		System.out.print("Enter host port: ");
+		port = Integer.parseInt(userEntry.nextLine());
 		
+		//setup socket
+		Socket socket = new Socket(host, port);
 		
-		//This currently gets the IP of the local host. 
-		//Should not get local host, but the actual host, which is on a separate computer.
-		//host = InetAddress.;
-		
-		//This sets up the program's ability to read any input that is parsed into it.
-		userInput = new Scanner(System.in);
-		
-		try {
-			clientSocket = new Socket(hostAddress, PORT);
-			socketReader = new Scanner(clientSocket.getInputStream());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-		//This is to prompt the user to provide an input.
-		System.out.println("Enter a sentence : ");
-		sentence = userInput.nextLine();
-		
-		//This parses information from the client to the server.
-		
-		try {
-			clientOutput = new PrintWriter(clientSocket.getOutputStream());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		clientOutput.println(sentence);
-		clientOutput.flush();
-		
-		//This prints out what is parsed back to the client from  the server.
-		tempSentence = socketReader.nextLine();
-		System.out.println(tempSentence);
-		
-		
+		// start serverhandler
+		handler = new ServerHandler(socket);
+		handler.start();
 	}
 	
-	public void send(String message) {
-		
-		
-		
+	public static void sendMessage(String message) {
+		handler.sendMessage(message);
 	}
 	
+	public static void sendMessage() {
+		System.out.print("Enter the line to send to the server: ");
+		String message = userEntry.nextLine();
+		handler.sendMessage(message);
+	}
+}
+
+class ServerHandler extends Thread {
+	
+	private static Socket server;
+	private Scanner input;
+	private PrintWriter output;
+	private static final String exitCode = "QUIT";
+	
+	ServerHandler(Socket socket) {
+		server = socket;
+		
+		try {
+			input = new Scanner(server.getInputStream());
+			output = new PrintWriter(server.getOutputStream(),true);
+		} catch(IOException ioEx) {
+			ioEx.printStackTrace();
+		}
+	}
+	
+	@Override
+	public void run() {
+		// listen for messages
+		String received;
+		do {
+			received = input.nextLine();
+			Main.received(received);
+		} while (!received.equals(exitCode));
+		
+		try {
+			if (server!=null) {
+				System.out.println("Closing down connection…");
+				server.close();
+			}
+		} catch(IOException ioEx) {
+			System.out.println("Unable to disconnect!");
+		}
+	}
+	
+	public void sendMessage(String message) {
+		output.println(message);
+	}
 }

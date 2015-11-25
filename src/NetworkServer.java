@@ -71,6 +71,8 @@ class ClientHandler extends Thread {
 			ServerMain.received(id, received);
 		} while (!received.equals(exitCode));
 		
+		NetworkServer.sendToAll(exitCode);
+		
 		try {
 			if (client!=null) {
 				System.out.println("Closing down connection…");
