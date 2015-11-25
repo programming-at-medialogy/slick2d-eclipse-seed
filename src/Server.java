@@ -16,6 +16,7 @@ public class Server
 		try
 		{
 			serverSocket = new ServerSocket(9000);
+			System.out.println("Server is running");
 			clientSocket = serverSocket.accept();
 			
 			// Create a reader
