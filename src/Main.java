@@ -20,11 +20,10 @@ public class Main extends BasicGame{ //Is not the actually main.
 	static float scFactor;
 	Position[] testPositions = new Position[5];
 	
-	
-	
 	private Image[] hexImg = new Image[6]; // Array for hexagon images
 	private Image[] roadImg = new Image[4]; // Array for road images
 	private Image[] numImg = new Image [11]; // Array for numbers
+	private Image[] crdImg = new Image [7]; // Array for resource cards. Change 7 to how many cards specific player has.
 	static int scWidth = 1440; // Game screen width
 	static int scHeight = 900; // Game screen height
 
@@ -37,6 +36,8 @@ public class Main extends BasicGame{ //Is not the actually main.
 	
 	static float hexHeight; // to get height of hexagon
 	static float hexWidth; // to get width of hexagon
+	static float crdHeight;
+	static float crdWidth;
 	
 	public Main(String gamename) { // inputs game name from slick2d
 		super(gamename); // to get game name
@@ -70,6 +71,9 @@ public class Main extends BasicGame{ //Is not the actually main.
 		for (int n=2; n<=12; n++){
 			numImg[n-2] = new Image("resources/numImg_" + (n) + ".png"); //initializing number images
 		}
+		for (int c=0; c<7; c++){
+			crdImg[c] = new Image ("resources/r_card_1.jpg");
+		}
 
 	
 		GameData.roads = new ArrayList<Road>();
@@ -78,6 +82,8 @@ public class Main extends BasicGame{ //Is not the actually main.
 		padding = hexImg[0].getWidth()/22*scFactor; // Dynamic setup: space between polygons
 		hexWidth = hexImg[0].getWidth();
 		hexHeight = hexImg[0].getHeight();
+		crdHeight = crdImg[0].getHeight();
+		crdWidth = crdImg[0].getWidth();
 		
 		// just for testing
 		testPositions[0] = Position.assignPosition(0, 3);
@@ -132,24 +138,14 @@ public class Main extends BasicGame{ //Is not the actually main.
 		}
 
 	}
-	
-	// Deprecated
-	/*private float angle(int hexIndex){
-		if (hexIndex <=6){
-			// for inner
-			angle  = hexIndex * 1.0472f; // 1.05f = 360/6 is specific angle for all polygons up to 7th.
-		}else
-			// for outer
-			angle  = hexIndex * 0.523599f; // 0.523599f = 360/12 for hexagons from 7th
-		return angle;
-	}*/
-	
+
 	//Methods for initial phase
 	
 	/**
 	 * TODO
 	 */
 	private void drawHexagons(Graphics g) {
+
 		//diameter = (hexImg[0].getWidth()+ padding)*scFactor; // Dynamic setup: diameter according image width, + padding for space in between
 		Hexagon[] hexagons = Hexagon.getHexagons();
 		for (int i = 0; i < hexagons.length; i++){
@@ -159,31 +155,9 @@ public class Main extends BasicGame{ //Is not the actually main.
 			// could maybe also store the center in a variable so we do not have to calculate for each frame
 			hexImg[hexagons[i].TYPE.toInt()].draw(xPos + scWidth/2-hexImg[0].getWidth()/2*scFactor, yPos + scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor);
 			numImg[hexagons[i].NUMBER-2].draw(xPos + scWidth/2-numImg[2].getWidth()/2*scFactor, yPos + scHeight/2-numImg[2].getHeight()/2*scFactor, scFactor);
-			
-			// old code - moved to the Hexagon.getX() and Hexagon.getY() methods.
-			/*
-			if(i == 0){			// center hexagon
-				hexImg[Hexagon.getHexagons()[i].getType().toInt()].draw(scWidth/2-hexImg[0].getWidth()/2*scFactor, scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor); // draw center hexagon
-				//g.drawString(Integer.toString(Hexagon.getHexagons()[i].getNumber()), scWidth/2, scHeight/2);
-				numImg[Hexagon.getHexagons()[i].getNumber()-2].draw(scWidth/2-numImg[2].getWidth()/2*scFactor,scHeight/2-numImg[2].getHeight()/2*scFactor, scFactor);
-			} else if (i < 7){ 	//middle circle of hexagons
-				xPos = Hexagon.getHexagons()[i].getX();
-				yPos = Hexagon.getHexagons()[i].getY();
-				hexImg[Hexagon.getHexagons()[i].getType().toInt()].draw(xPos+scWidth/2-hexImg[0].getWidth()/2*scFactor, yPos+scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor);
-				numImg[Hexagon.getHexagons()[i].getNumber()-2].draw(xPos + scWidth/2-numImg[2].getWidth()/2*scFactor,yPos + scHeight/2-numImg[2].getHeight()/2*scFactor, scFactor);
-			} else {			//outer circle of hexagons
-				/*if(i%2 == 0){ 	// maybe move to a different variable
-					diameter = ( ((hexImg[0].getWidth()*2)+padding/2+padding) - hexImg[0].getWidth()/3.85f )*scFactor; // 3.85 CHECK. Dynamic setup : diameter for outer polygons according image width. 3.8 is ~third of image that gets inside the cricle
-				}else{
-					diameter = ( ((hexImg[0].getWidth()*2)+padding*2))*scFactor; // Dynamic setup : diameter for outer polygons according image width
-				}*//*
-				
-				xPos = Hexagon.getHexagons()[i].getX() * diameter;
-				yPos = Hexagon.getHexagons()[i].getY() * diameter;	      
-				hexImg[Hexagon.getHexagons()[i].getType().toInt()].draw(xPos+scWidth/2-hexImg[0].getWidth()/2*scFactor, yPos+scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor);
-				numImg[Hexagon.getHexagons()[i].getNumber()-2].draw(xPos+scWidth/2-numImg[2].getWidth()/2*scFactor, yPos+scHeight/2-numImg[2].getHeight()/2*scFactor, scFactor);
-				
-			}*/
+		}
+		for (int c = 0; c<7;  c++){ // to display resource cards
+			crdImg[0].draw(scWidth/2*scFactor, scHeight-crdHeight*scFactor, scFactor);
 		}
 	}
 	
