@@ -126,4 +126,7 @@ public class Button extends BasicGame {
     }
 
     public int getImageWidth() { return images[picIndexNo].getWidth(); }
+
+    public int getImageHeight() { return images[picIndexNo].getHeight(); }
+
 }

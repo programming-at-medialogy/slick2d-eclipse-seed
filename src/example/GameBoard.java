@@ -106,9 +106,6 @@ public class GameBoard extends BasicGameState {
         player4Hand.init(gc);
 
         playerNo = gsc.getPlayerNo();
-
-
-
     }
 
     @Override
@@ -131,6 +128,7 @@ public class GameBoard extends BasicGameState {
 
         if (gsc.isEnteringGameState(playerNo)) {
             try {
+                players.get(playerNo).setPlayerID(ServerCalls.getPlayerID()); //MAYBE NOT FOR TESTING RIGHT NOW
                 player1Hand.setPicIndexNo(ServerCalls.getPlayerRole(0) + 12);
                 players.get(0).setPlayerRoleNo(ServerCalls.getPlayerRole(0));
                 player2Hand.setPicIndexNo(ServerCalls.getPlayerRole(1) + 12);
@@ -153,20 +151,17 @@ public class GameBoard extends BasicGameState {
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 
         g.drawImage(gameBoard, 0, 0);
+
         player1Hand.render(gc, g);
         player2Hand.render(gc, g);
         player3Hand.render(gc, g);
         player4Hand.render(gc, g);
-
 
         for (int i = 0; i < cities.length; i++) {
             if (cities[i].getButton().clickWithin(gc)) {
                 players.get(playerNo).setPlayerPosition(cities[i]);
             }
         }
-
-
-        //cities[1].placeCube("blue", 3);
 
         for (int i = 0; i < cities.length; i++) {
             if (players.get(playerNo).getNeighborCityAsList().contains(cities[i].getCityName())) {
@@ -178,12 +173,19 @@ public class GameBoard extends BasicGameState {
             }
         }
 
-        for (int i = 0; i < players.size(); i++) {
-            players.get(i).render(gc, g);
+        for (int i = 0; i < cities.length; i++) {
+            cities[i].displayCityOverview(gc,g);
         }
 
-
+        for (int i = 0; i < cities.length; i++) {
+            for (int j = 0; j < players.size(); j++) {
+                if (players.get(j).getPlayerPosition().getCityName().equals(cities[i].getCityName()) && cities[i].getButton().hoverOver(gc)) {
+                    players.get(j).render(gc,g);
+                }
+            }
+        }
     }
+
 
     @Override
     public int getID() {

@@ -40,11 +40,12 @@ public class City extends BasicGame {
 
     int color;
 
-    Button button;
+    private Button button;
 
     private boolean isMovableTo;
     private Image nonMovableCity;
     private Image cityOverview;
+    private Image cityOverviewName;
 
     /**
      * The constructor for the city class, defining the parameters needed to create a city object
@@ -83,6 +84,7 @@ public class City extends BasicGame {
 
         nonMovableCity = new Image("assets/cities/notmovablecities.png");
         cityOverview = new Image("assets/guielements/cityoverview.png");
+        cityOverviewName = new Image("assets/cities/"+cityName+".png");
 
         button.init(gc);
     }
@@ -102,7 +104,7 @@ public class City extends BasicGame {
             g.drawImage(nonMovableCity, xPos, yPos);
         }
 
-        displayCityOverview(gc,g);
+        //displayCityOverview(gc,g);
 
 
 
@@ -147,89 +149,96 @@ public class City extends BasicGame {
 
     public void displayCityOverview(GameContainer gc, Graphics g){
 
+        int cubeSize = 15;
+        int firstRowX = xPos -50;
+        int firstRowY = yPos +84;
+        int secondRowX = xPos + 20;
+        int secondRowY = yPos +105;
+        int stringPosX = 20;
+
         if (button.hoverOver(gc)) {
-            g.drawImage(cityOverview, xPos - 37, yPos + 30);
+            g.drawImage(cityOverview, ((xPos - (cityOverview.getWidth()/2))+(button.getImageWidth()/2) -4), yPos + button.getImageHeight() + 5);
             g.setColor(Color.white);
-            g.drawString(cityName, xPos - 32, yPos + 50);
+            g.drawImage(cityOverviewName, firstRowX, yPos +65);
 
             if(cubeBlue == 0){
                 g.setColor(Color.blue);
-                g.fillRect(xPos -32, yPos + 70, 15, 15);
+                g.fillRect(firstRowX, firstRowY, cubeSize, cubeSize);
             } else if (cubeBlue == 1) {
                 g.setColor(Color.blue);
-                g.fillRect(xPos - 32, yPos + 70, 15, 15);
+                g.fillRect(firstRowX, firstRowY, cubeSize, cubeSize);
                 g.setColor(Color.white);
-                g.drawString("x 1", xPos-15, yPos+70);
+                g.drawString("x 1", firstRowX+stringPosX, firstRowY);
             } else if (cubeBlue == 2) {
                 g.setColor(Color.blue);
-                g.fillRect(xPos - 32, yPos + 70, 15, 15);
+                g.fillRect(firstRowX, firstRowY, cubeSize, cubeSize);
                 g.setColor(Color.white);
-                g.drawString("x 2", xPos-15, yPos + 70);
+                g.drawString("x 2", firstRowX+stringPosX, firstRowY);
             } else if (cubeBlue == 3) {
                 g.setColor(Color.blue);
-                g.fillRect(xPos - 32, yPos + 70, 15, 15);
+                g.fillRect(firstRowX, firstRowY, cubeSize, cubeSize);
                 g.setColor(Color.white);
-                g.drawString("x 3", xPos - 15, yPos + 70);
+                g.drawString("x 3", firstRowX+stringPosX, firstRowY);
             }
 
             if(cubeYellow == 0){
                 g.setColor(Color.yellow);
-                g.fillRect(xPos + 20, yPos + 70, 15, 15);
+                g.fillRect(secondRowX, firstRowY, cubeSize, cubeSize);
             } else if (cubeYellow == 1) {
                 g.setColor(Color.yellow);
-                g.fillRect(xPos + 20, yPos + 70, 15, 15);
+                g.fillRect(secondRowX, firstRowY, cubeSize, cubeSize);
                 g.setColor(Color.white);
-                g.drawString("x 1", xPos+40, yPos+70);
+                g.drawString("x 1", secondRowX+stringPosX, firstRowY);
             } else if (cubeYellow == 2) {
                 g.setColor(Color.yellow);
-                g.fillRect(xPos + 20, yPos + 70, 15, 15);
+                g.fillRect(secondRowX, firstRowY, cubeSize, cubeSize);
                 g.setColor(Color.white);
-                g.drawString("x 2", xPos + 40, yPos + 70);
+                g.drawString("x 2", secondRowX+stringPosX, firstRowY);
             } else if (cubeYellow == 3) {
                 g.setColor(Color.yellow);
-                g.fillRect(xPos + 20, yPos + 70, 15, 15);
+                g.fillRect(secondRowX, firstRowY, cubeSize, cubeSize);
                 g.setColor(Color.white);
-                g.drawString("x 3", xPos + 40, yPos + 70);
+                g.drawString("x 3", secondRowX+stringPosX, firstRowY);
             }
 
             if(cubeBlack == 0){
                 g.setColor(Color.black);
-                g.fillRect(xPos - 32, yPos + 90, 15, 15);
+                g.fillRect(firstRowX, secondRowY, cubeSize, cubeSize);
             } else if (cubeBlack == 1) {
                 g.setColor(Color.black);
-                g.fillRect(xPos - 32, yPos + 90, 15, 15);
+                g.fillRect(firstRowX, secondRowY, cubeSize, cubeSize);
                 g.setColor(Color.white);
-                g.drawString("x 1", xPos-15, yPos+90);
+                g.drawString("x 1", firstRowX+stringPosX, secondRowY);
             } else if (cubeBlack == 2) {
                 g.setColor(Color.black);
-                g.fillRect(xPos - 32, yPos + 90, 15, 15);
+                g.fillRect(firstRowX, secondRowY, cubeSize, cubeSize);
                 g.setColor(Color.white);
-                g.drawString("x 2", xPos - 15, yPos + 90);
+                g.drawString("x 2", firstRowX+stringPosX, secondRowY);
             } else if (cubeRed == 3) {
                 g.setColor(Color.black);
-                g.fillRect(xPos - 32, yPos + 90, 15, 15);
+                g.fillRect(firstRowX, secondRowY, cubeSize, cubeSize);
                 g.setColor(Color.white);
-                g.drawString("x 3", xPos - 15, yPos + 90);
+                g.drawString("x 3", firstRowX+stringPosX, secondRowY);
             }
 
             if(cubeRed == 0){
                 g.setColor(Color.red);
-                g.fillRect(xPos + 20, yPos + 90, 15, 15);
+                g.fillRect(secondRowX, secondRowY, cubeSize, cubeSize);
             } else if (cubeRed == 1) {
                 g.setColor(Color.red);
-                g.fillRect(xPos + 20, yPos + 90, 15, 15);
+                g.fillRect(secondRowX, secondRowY, cubeSize, cubeSize);
                 g.setColor(Color.white);
-                g.drawString("x 1", xPos+40, yPos+90);
+                g.drawString("x 1", secondRowX+stringPosX, secondRowY);
             } else if (cubeRed == 2) {
                 g.setColor(Color.red);
-                g.fillRect(xPos + 20, yPos + 90, 15, 15);
+                g.fillRect(secondRowX, secondRowY, cubeSize, cubeSize);
                 g.setColor(Color.white);
-                g.drawString("x 2", xPos + 40, yPos + 90);
+                g.drawString("x 2", secondRowX+stringPosX, secondRowY);
             } else if (cubeRed == 3) {
                 g.setColor(Color.red);
-                g.fillRect(xPos + 20, yPos + 90, 15, 15);
+                g.fillRect(secondRowX, secondRowY, cubeSize, cubeSize);
                 g.setColor(Color.white);
-                g.drawString("x 3", xPos + 40, yPos + 90);
+                g.drawString("x 3", secondRowX+stringPosX, secondRowY);
             }
         }
 
