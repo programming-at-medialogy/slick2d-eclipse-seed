@@ -30,6 +30,6 @@ AppGameContainer game = new AppGameContainer(new testMain());
 		
 		this.addState(new IntroState());
 		this.addState(new LobbyState());
-		this.addState(new PreGameState());
+		//this.addState(new PreGameState());
 	}
 }

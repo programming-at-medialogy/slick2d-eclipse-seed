@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -45,14 +47,28 @@ public class LobbyState extends BasicGameState implements KeyListener{
 		Button SearchForGame = new Button(boxMovement - searchForGame.getWidth()/2, Windows.scHeight/2 - 100, searchForGame, searchForGameHighlighted,this) {
 			@Override
 			public void isClicked() {
-				TextBox IpBox = new TextBox(0,0, 100, 20, 12, this.state){
+				TextBox IpBox = new TextBox(0, 0, 300, 40, 12, this.state){
 
 					@Override
 					public void onSubmit() {
-						System.out.println(this.getContent());
+						//System.out.println(this.getContent());
 					}
 				};
 				IpBox.setPermissions(false, true, false);
+				
+				TextBox portBox = new TextBox(0, 50, 300, 40, 12, this.state){
+					
+					@Override
+					public void onSubmit() {
+						try {
+							NetworkClient.startClient(IpBox.getContent(), this.getContent());
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				};
+				portBox.setPermissions(false, true, false);
 				System.out.println("searcing for game");
 			}
 		};

@@ -9,22 +9,24 @@ public class NetworkClient
 	private static Scanner userEntry;
 	private static ServerHandler handler;
 	
-	public static void startClient() throws IOException {
+	public static void startClient(String hostIP, String hostPort) throws IOException {
 		// setup user input scanner
 		userEntry = new Scanner(System.in);
 		
 		// get host ip
-		try {
+		/*try {
 			System.out.println("Enter host IP: ");
 			host = InetAddress.getByName(userEntry.nextLine());
 		} catch(UnknownHostException uhEx) {
 			System.out.println("\nHost ID not found!\n");
 			System.exit(1);
-		}
+		}*/
+		
+		host = InetAddress.getByName(hostIP);
 		
 		// get host port
-		System.out.print("Enter host port: ");
-		port = Integer.parseInt(userEntry.nextLine());
+		//System.out.print("Enter host port: ");
+		port = Integer.parseInt(hostPort);
 		
 		//setup socket
 		Socket socket = new Socket(host, port);
