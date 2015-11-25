@@ -3,7 +3,7 @@ import java.net.Socket;
 
 
 public class ServerThread {
-
+	
     Socket socket;
     ObjectInputStream in;
     ObjectOutputStream out;
@@ -48,6 +48,6 @@ public class ServerThread {
         }
         catch(IOException e){ e.printStackTrace(); }
     }
-
+	
 
 }

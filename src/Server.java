@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Server {
-
+	
     protected ServerSocket serverSocket = null;
     protected boolean listening = true;
     protected List<ServerThread> clientSockets;
@@ -56,6 +56,6 @@ public class Server {
     public static void main(String[] args) throws IOException {
         new Server(4444);
     }
-
+	
 
 }
