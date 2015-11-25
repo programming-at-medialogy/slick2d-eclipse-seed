@@ -23,7 +23,7 @@ public class Main extends BasicGame{ //Is not the actually main.
 	private Image[] hexImg = new Image[6]; // Array for hexagon images
 	private Image[] roadImg = new Image[4]; // Array for road images
 	private Image[] numImg = new Image [11]; // Array for numbers
-	private Image[] crdImg = new Image [7]; // Array for resource cards. Change 7 to how many cards specific player has.
+	private Image[] crdImg = new Image [5]; // Array for resource cards
 	static int scWidth = 1440; // Game screen width
 	static int scHeight = 900; // Game screen height
 
@@ -33,6 +33,8 @@ public class Main extends BasicGame{ //Is not the actually main.
 	float xPos; // hexagon position X
 	float yPos; // hexagon position Y
 	float angle; // hexagon angle
+	float crdPosX; // card position x
+	float crdPosY; // card position y
 	
 	static float hexHeight; // to get height of hexagon
 	static float hexWidth; // to get width of hexagon
@@ -71,7 +73,7 @@ public class Main extends BasicGame{ //Is not the actually main.
 		for (int n=2; n<=12; n++){
 			numImg[n-2] = new Image("resources/numImg_" + (n) + ".png"); //initializing number images
 		}
-		for (int c=0; c<7; c++){
+		for (int c=0; c<5; c++){
 			crdImg[c] = new Image ("resources/r_card_1.jpg");
 		}
 
@@ -156,9 +158,16 @@ public class Main extends BasicGame{ //Is not the actually main.
 			hexImg[hexagons[i].TYPE.toInt()].draw(xPos + scWidth/2-hexImg[0].getWidth()/2*scFactor, yPos + scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor);
 			numImg[hexagons[i].NUMBER-2].draw(xPos + scWidth/2-numImg[2].getWidth()/2*scFactor, yPos + scHeight/2-numImg[2].getHeight()/2*scFactor, scFactor);
 		}
-		for (int c = 0; c<7;  c++){ // to display resource cards
-			crdImg[0].draw(scWidth/2*scFactor, scHeight-crdHeight*scFactor, scFactor);
+		for (int c = 0; c<5;  c++){ // to display resource cards/ number 5 has to be replaced with number of cards player has 
+			crdImg[c].draw(crdPosX+(scWidth/2-crdWidth/2*scFactor), crdPosY+(scHeight-crdHeight*scFactor)-crdHeight/100, scFactor);
+			crdPosX = cardPosition(c, 5); // 5 is to change - amount of resource cards
 		}
+	}
+	
+	// Method to get resource cards positions
+	float cardPosition(int cardIndex, int cardAmount){
+		crdPosX = cardIndex*(crdWidth/2*scFactor)-cardAmount/2*(crdWidth/2*scFactor);
+		return crdPosX;
 	}
 	
 	static void placeBuilding(){
