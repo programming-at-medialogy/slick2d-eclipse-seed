@@ -4,16 +4,18 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.KeyListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 
-public class IntroState extends BasicGameState{
+public class IntroState extends BasicGameState implements KeyListener{
 	//class variables
 	Image playNow, playNowHighlighted, background, exitGame, exitGameHighlighted;
-	boolean play = false;
-	boolean exit = false;
+	//need to implement a none static bool
+	static boolean startGame;
+	String playerName;
 
 	//initializing and instantiating 
 	@Override
@@ -27,13 +29,23 @@ public class IntroState extends BasicGameState{
 		Button PlayNow = new Button(Windows.scWidth/2 - playNow.getWidth()/2, Windows.scHeight/2 - 210, playNow, playNowHighlighted,this) {
 			@Override
 			public void isClicked() {
-				s.enterState(States.LobbyState);
+				startGame = true;
+				TextBox nameBox = new TextBox(Windows.scWidth/2 - 255, 330, 500, 50, 12, this.state){
+					@Override
+					public void onSubmit() {
+						playerName = this.getContent();
+						System.out.println(playerName);
+						s.enterState(States.LobbyState);
+					}
+				};
+				nameBox.setPermissions(true, true, true);				
 			}
 		};
 		
 		Button ExitGame = new Button(Windows.scWidth/2 - exitGame.getWidth()/2, Windows.scHeight/2 - 10, exitGame, exitGameHighlighted,this) {
 			@Override
 			public void isClicked() {
+				startGame = false;
 				gc.exit();
 			}
 		};
@@ -47,17 +59,35 @@ public class IntroState extends BasicGameState{
 		g.setColor(Color.black);
 		g.drawString("WELCOME TO SETTLERS, THE GOOD EDITION", Windows.scWidth/2 - 150, 10);	
 		Button.draw(g, this); 
+		
+		if(startGame == true){
+			g.setColor(new Color(150, 150, 150, 100));
+			g.fillRect(0, 0, Windows.scWidth, Windows.scHeight);
+			g.setColor(Color.black);
+			g.drawString("Write your name in the textbos and hit 'ENTER'", Windows.scWidth/2 - 220, Windows.scHeight/3 + 35);	
+
+		}
+		TextBox.draw(g, this);
 	}
 	
 	//updating new events
 	@Override
 	public void update(GameContainer gc, StateBasedGame s, int delta) throws SlickException {
+		if(startGame != true){
 		Button.update(this);
+		}
+		
+		TextBox.update(this);
 	}
 
 	//Returns the appropriate state ID
 	@Override
 	public int getID() {
 		return States.IntroState;
+	}
+	
+	@Override
+	public void keyPressed(int key, char c) {
+		TextBox.keyPress(key, c, this);
 	}
 }

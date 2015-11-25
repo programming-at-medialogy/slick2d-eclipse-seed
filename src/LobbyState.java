@@ -31,6 +31,8 @@ public class LobbyState extends BasicGameState implements KeyListener{
 		Button Back = new Button(boxMovement - backButton.getWidth()/2, Windows.scHeight/2 + 10, backButton, backButtonHighlighted, this) {
 			@Override
 			public void isClicked() {
+				//need to implement a non-static bool
+				IntroState.startGame = false;
 				TextBox.remove();
 				s.enterState(States.IntroState);
 			}
