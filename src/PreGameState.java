@@ -3,12 +3,13 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.KeyListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 //class
-public class PreGameState extends BasicGameState{
+public class PreGameState extends BasicGameState implements KeyListener{
 	//image objects 
 	Image background, backButton, backButtonHighlighted;
 	
@@ -26,6 +27,17 @@ public class PreGameState extends BasicGameState{
 				s.enterState(States.LobbyState);
 			}
 		};
+		
+		ListBox box = new ListBox(Windows.scWidth / 2 - 200, 50, 400, 500, this);
+		TextBox textField = new TextBox(Windows.scWidth / 2 - 200, 550, 400, 50, this) {
+			@Override
+			public void onSubmit() {
+				box.addString(IntroState.playerName + ": " + this.getContent(), 0);
+				this.clear();
+			}
+		};
+		textField.activate();
+		box.activate();
 	}
 	//draws all objects
 	@Override
@@ -37,6 +49,8 @@ public class PreGameState extends BasicGameState{
 		g.drawString("WELCOME TO SETTLERS, THE GOOD EDITION", Windows.scWidth/2 - 150, 10);	
 		//draw buttons
 		Button.draw(g, this);
+		ListBox.draw(g, this);
+		TextBox.draw(g, this);
 	}
 
 	//updates the flow
@@ -44,12 +58,19 @@ public class PreGameState extends BasicGameState{
 	public void update(GameContainer gc, StateBasedGame s, int delta) throws SlickException {
 		//update buttons
 		Button.update(this);
+		ListBox.update(this);
+		TextBox.update(this);
 	}
 
 	//State ID
 	@Override
 	public int getID() {
 		return States.PreGameState;
+	}
+	
+	@Override
+	public void keyPressed(int key, char c) {
+		TextBox.keyPress(key, c, this);
 	}
 
 }
