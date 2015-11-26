@@ -83,12 +83,13 @@ public class LobbyState extends BasicGameState implements KeyListener{
 		//draw background
 		g.drawImage(background, 0, 0, Windows.scWidth, Windows.scHeight, 0, 0, 1366, 768);
 		//draw title
-		g.setColor(Color.black);
-		g.drawString("WELCOME TO SETTLERS, THE GOOD EDITION", Windows.scWidth/2 - 150, 10);	
+		
+//		g.drawString("WELCOME TO SETTLERS, THE GOOD EDITION", Windows.scWidth/2 - 150, 10);	
 		//draw buttons
-			Button.draw(g, this);
-			TextBox.draw(g, this);
-
+		Button.draw(g, this);
+		TextBox.draw(g, this);
+		//draw title
+		Resource.titleFont.drawString(Windows.scWidth/2 - 165, 10, "Welcome to Settlers", new Color(0, 0, 0));
 	}
 	
 	//updating new events
