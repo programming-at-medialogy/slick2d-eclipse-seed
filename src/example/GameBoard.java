@@ -1,6 +1,5 @@
 package example;
 
-import org.lwjgl.Sys;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -8,7 +7,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -27,10 +25,12 @@ public class GameBoard extends BasicGameState {
     private ActionMenu actionMenu;
     private Image handToggle;
 
-    private List<Player> players;
-    int playerNo;
+    private int playerNo;
+    private int roleNo;
 
-    public GameBoard(GameStateCommons gsc, ServerCalls serverCalls,List<Player> players) {
+    private List<Player> players;
+
+    public GameBoard(GameStateCommons gsc, ServerCalls serverCalls, List<Player> players) {
 
         this.gsc = gsc;
         this.serverCalls = serverCalls;
@@ -48,11 +48,11 @@ public class GameBoard extends BasicGameState {
         outbreakMarker.init(gc);
         actionMenu = new ActionMenu("actionMenu");
         actionMenu.init(gc);
-        handToggle = new Image("assets/cards/blue1.png");
+        handToggle = new Image("assets/cards/handtmp.png");
 
         cities = new City[48];
         cities[0] = new City("pandemic", "atlanta", 230, 300, new String[]{"miami", "washington", "chicago"}, 0);
-        cities[1] = new City("pandemic", "chicago", 189, 243, new String[]{"atlanta", "sanfrancisco", "montreal"}, 0);
+        cities[1] = new City("pandemic", "chicago", 189, 243, new String[]{"atlanta", "sanfrancisco", "montreal", "mexicocity"}, 0);
         cities[2] = new City("pandemic", "sanfrancisco", 93, 272, new String[]{"losangeles", "chicago", "tokyo", "manila"}, 0);
         cities[3] = new City("pandemic", "montreal", 280, 205, new String[]{"chicago", "washington", "newyork"}, 0);
         cities[4] = new City("pandemic", "newyork", 312, 252, new String[]{"montreal", "washington", "madrid", "london"}, 0);
@@ -113,24 +113,26 @@ public class GameBoard extends BasicGameState {
         player3Hand = new Button("Player3", 485, 11, 12);
         player4Hand = new Button("Player4", 715, 11, 12);
 
-
         player1Hand.init(gc);
         player2Hand.init(gc);
         player3Hand.init(gc);
         player4Hand.init(gc);
 
-        playerNo = gsc.getPlayerNo();
+        //PLACE THE CDC IN ATLANTA
+        cities[0].setHasResearchSt(true);
+        cities[38].setHasResearchSt(true);
     }
 
     @Override
     public void update(GameContainer gc, StateBasedGame sbg, int i) throws SlickException {
 
-        infectionMarker.update(gc,i);
-        outbreakMarker.update(gc,i);
+        updateLibrary();
+        moveAction();
+
+        infectionMarker.update(gc, i);
+        outbreakMarker.update(gc, i);
         actionMenu.update(gc, i);
 
-        //cities[0].placeCube("blue",2);
-        //cities[0].update(gc,i);
         cities[0].setCubeBlue(2);
         cities[0].setCubeYellow(1);
         cities[0].setCubeBlack(1);
@@ -140,43 +142,25 @@ public class GameBoard extends BasicGameState {
         cities[10].setCubeRed(1);
 
         if (player1Hand.clickWithin(gc)) {
-            showHand1 =! showHand1;
+            showHand1 = !showHand1;
         }
 
         if (player2Hand.clickWithin(gc)) {
-            showHand2 =! showHand2;
+            showHand2 = !showHand2;
         }
 
         if (player3Hand.clickWithin(gc)) {
-            showHand3 =! showHand3;
+            showHand3 = !showHand3;
         }
 
         if (player4Hand.clickWithin(gc)) {
-            showHand4 =! showHand4;
+            showHand4 = !showHand4;
         }
 
 
         for (int j = 0; j < players.size(); j++) {
             players.get(j).update(gc, i);
         }
-        /*
-        if (gsc.isEnteringGameState(playerNo)) {
-            try {
-                players.get(playerNo).setPlayerID(ServerCalls.getPlayerID()); //MAYBE NOT FOR TESTING RIGHT NOW
-                player1Hand.setPicIndexNo(ServerCalls.getPlayerRole(0) + 12);
-                players.get(0).setPlayerRoleNo(ServerCalls.getPlayerRole(0));
-                player2Hand.setPicIndexNo(ServerCalls.getPlayerRole(1) + 12);
-                players.get(1).setPlayerRoleNo(ServerCalls.getPlayerRole(1));
-                player3Hand.setPicIndexNo(ServerCalls.getPlayerRole(2) + 12);
-                players.get(2).setPlayerRoleNo(ServerCalls.getPlayerRole(2));
-                player4Hand.setPicIndexNo(ServerCalls.getPlayerRole(3) + 12);
-                players.get(3).setPlayerRoleNo(ServerCalls.getPlayerRole(3));
-                gsc.setEnteringGameState(false, playerNo);
-            } catch (IOException ioEx) {
-                ioEx.printStackTrace();
-            }
-
-        } */
 
         cities[0].update(gc, i);
     }
@@ -185,8 +169,8 @@ public class GameBoard extends BasicGameState {
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 
         g.drawImage(gameBoard, 0, 0);
-        infectionMarker.render(gc,g);
-        outbreakMarker.render(gc,g);
+        infectionMarker.render(gc, g);
+        outbreakMarker.render(gc, g);
         actionMenu.render(gc, g);
 
         player1Hand.render(gc, g);
@@ -194,28 +178,9 @@ public class GameBoard extends BasicGameState {
         player3Hand.render(gc, g);
         player4Hand.render(gc, g);
 
-        if (showHand1){
-            g.drawImage(handToggle, 100, 100);
-        }
-        if (showHand2){
-            g.drawImage(handToggle, 300, 100);
-        }
-        if (showHand3){
-            g.drawImage(handToggle, 500, 100);
-        }
-        if (showHand4){
-            g.drawImage(handToggle, 700, 100);
-        }
-
 
         for (int i = 0; i < cities.length; i++) {
-            if (cities[i].getButton().clickWithin(gc)) {
-                players.get(playerNo).setPlayerPosition(cities[i]);
-            }
-        }
-
-        for (int i = 0; i < cities.length; i++) {
-            if (players.get(playerNo).getNeighborCityAsList().contains(cities[i].getCityName())) {
+            if ((players.get(playerNo).getNeighborCityAsList().contains(cities[i].getCityName())) || (players.get(playerNo).getPlayerPosition().isHasResearchSt() && cities[i].isHasResearchSt())) {
                 cities[i].setMovableTo(true);
                 cities[i].render(gc, g);
             } else {
@@ -224,17 +189,112 @@ public class GameBoard extends BasicGameState {
             }
         }
 
+        //DISPLAY THE LOCATION OF THE OTHER PLAYERS WITH A LITTLE BLUE FLAG
+        if (playerNo != 0)
+            players.get(0).displayOthersLocation(g);
+        if (playerNo != 1)
+            players.get(1).displayOthersLocation(g);
+        if (playerNo != 2)
+            players.get(1).displayOthersLocation(g);
+        if (playerNo != 3)
+            players.get(1).displayOthersLocation(g);
+
+
+        //DISPLAY THE LOCATION OF YOU WITH A LITTLE ORANGE FLAG
+        players.get(playerNo).displayCurrentLocation(g);
+
         for (int i = 0; i < cities.length; i++) {
-            cities[i].displayCityOverview(gc,g);
+            cities[i].displayResearchCenter(g);
+        }
+
+
+        for (int i = 0; i < cities.length; i++) {
+            cities[i].displayCityOverview(gc, g);
         }
 
         for (int i = 0; i < cities.length; i++) {
-            for (int j = 0; j < players.size(); j++) {
-                if (players.get(j).getPlayerPosition().getCityName().equals(cities[i].getCityName()) && cities[i].getButton().hoverOver(gc)) {
-                    players.get(j).render(gc,g);
+            if (players.get(0).getPlayerPosition().getCityName().equals(cities[i].getCityName()) && cities[i].getButton().hoverOver(gc)) {
+                players.get(0).setPlayerID(0);
+                players.get(0).render(gc, g);
+            }
+        }
+
+        for (int i = 0; i < cities.length; i++) {
+            if (players.get(1).getPlayerPosition().getCityName().equals(cities[i].getCityName()) && cities[i].getButton().hoverOver(gc)) {
+                players.get(1).setPlayerID(1);
+                players.get(1).render(gc, g);
+            }
+        }
+
+        for (int i = 0; i < cities.length; i++) {
+            if (players.get(2).getPlayerPosition().getCityName().equals(cities[i].getCityName()) && cities[i].getButton().hoverOver(gc)) {
+                players.get(2).setPlayerID(2);
+                players.get(2).render(gc, g);
+            }
+        }
+
+        for (int i = 0; i < cities.length; i++) {
+            if (players.get(3).getPlayerPosition().getCityName().equals(cities[i].getCityName()) && cities[i].getButton().hoverOver(gc)) {
+                players.get(3).setPlayerID(3);
+                players.get(3).render(gc, g);
+            }
+        }
+
+        if (actionMenu.getIsMoveActive()) {
+            for (int i = 0; i < cities.length; i++) {
+                if (cities[i].getButton().clickWithin(gc)) {
+                    players.get(playerNo).setPlayerPosition(cities[i]);
                 }
             }
         }
+
+
+        if (showHand1) {
+            g.drawImage(handToggle, 25, 76);
+        }
+        if (showHand2) {
+            g.drawImage(handToggle, 255, 76);
+        }
+        if (showHand3) {
+            g.drawImage(handToggle, 485, 76);
+        }
+        if (showHand4) {
+            g.drawImage(handToggle, 715, 76);
+        }
+
+
+    }
+
+    public void updateLibrary() {
+
+        playerNo = gsc.getPlayerNo();
+        roleNo = gsc.getPlayers().get(playerNo).getRole().getRoleNumber();
+
+        player1Hand.setPicIndexNo(gsc.getPlayers().get(0).getRole().getRoleNumber() + 12);
+        player2Hand.setPicIndexNo(gsc.getPlayers().get(1).getRole().getRoleNumber() + 12);
+        player3Hand.setPicIndexNo(gsc.getPlayers().get(2).getRole().getRoleNumber() + 12);
+        player4Hand.setPicIndexNo(gsc.getPlayers().get(3).getRole().getRoleNumber() + 12);
+
+        players.get(0).setRoleP1(gsc.getPlayers().get(0).getRole().getRoleNumber());
+        players.get(1).setRoleP2(gsc.getPlayers().get(1).getRole().getRoleNumber());
+        players.get(2).setRoleP3(gsc.getPlayers().get(2).getRole().getRoleNumber());
+        players.get(3).setRoleP4(gsc.getPlayers().get(3).getRole().getRoleNumber());
+
+
+    }
+
+    public void moveAction() {
+        boolean move = actionMenu.getIsMoveActive();
+        for (int i = 0; i < cities.length; i++) {
+            if (move) {
+                cities[i].setMoveButtonSelected(true);
+                players.get(playerNo).setMoveSelected(true);
+            } else {
+                cities[i].setMoveButtonSelected(false);
+                players.get(playerNo).setMoveSelected(false);
+            }
+        }
+
     }
 
 

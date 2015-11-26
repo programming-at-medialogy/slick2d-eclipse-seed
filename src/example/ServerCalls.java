@@ -16,10 +16,6 @@ public class ServerCalls extends Thread {
     private static Socket socket = GameClient.socket;
     private static PrintWriter out = GameClient.out;
 
-    private int roleNo;
-    public boolean player1status,player2status,player3status,player4status;
-
-
     public ServerCalls(GameStateCommons gsc) {
         this.gsc = gsc;
     }
@@ -32,18 +28,6 @@ public class ServerCalls extends Thread {
     public void getPlayerID() throws IOException {
         out.println("GET_PLAYER_ID");
         out.flush();
-
-        /*
-        inputStream = in.readLine();
-        System.out.println(inputStream);
-
-        if (inputStream.equals("GET_PLAYER_ID@0") || inputStream.equals("GET_PLAYER_ID@1") || inputStream.equals("GET_PLAYER_ID@2") || inputStream.equals("GET_PLAYER_ID@3")) {
-            String [] value = inputStream.split("@");
-            String tmpInt = value[1];
-            System.out.println("IT ACCESSES THIS IF STATEMENT AT SPLITS THE STRING INTO " +value[0]+ "AND THE EVERMORE USEFUL ID: " +value[1]);
-            playerID = Integer.valueOf(tmpInt);
-        }
-        return playerID;*/
     }
 
     /**
@@ -98,7 +82,6 @@ public class ServerCalls extends Thread {
 
     public void run() {
 
-
         try {
             boolean running = true;
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -112,10 +95,10 @@ public class ServerCalls extends Thread {
                     System.out.println("QUITTER");
                 }
 
-                if (    serverCommands.equals("GET_PLAYER_ID@0") ||
-                        serverCommands.equals("GET_PLAYER_ID@1") ||
-                        serverCommands.equals("GET_PLAYER_ID@2") ||
-                        serverCommands.equals("GET_PLAYER_ID@3")) {
+                if (       serverCommands.equals("GET_PLAYER_ID@0")
+                        || serverCommands.equals("GET_PLAYER_ID@1")
+                        || serverCommands.equals("GET_PLAYER_ID@2")
+                        || serverCommands.equals("GET_PLAYER_ID@3")) {
 
                     String[] value = serverCommands.split("@");
                     int tmpInt = Integer.valueOf(value[1]);
@@ -158,14 +141,14 @@ public class ServerCalls extends Thread {
                 }
 
 
-                if (    serverCommands.equals("GET_PLAYER_STATUS@true@0") ||
-                        serverCommands.equals("GET_PLAYER_STATUS@false@0") ||
-                        serverCommands.equals("GET_PLAYER_STATUS@true@1") ||
-                        serverCommands.equals("GET_PLAYER_STATUS@false@1") ||
-                        serverCommands.equals("GET_PLAYER_STATUS@true@2") ||
-                        serverCommands.equals("GET_PLAYER_STATUS@false@2") ||
-                        serverCommands.equals("GET_PLAYER_STATUS@true@3") ||
-                        serverCommands.equals("GET_PLAYER_STATUS@false@3")) {
+                if (       serverCommands.equals("GET_PLAYER_STATUS@true@0")
+                        || serverCommands.equals("GET_PLAYER_STATUS@false@0")
+                        || serverCommands.equals("GET_PLAYER_STATUS@true@1")
+                        || serverCommands.equals("GET_PLAYER_STATUS@false@1")
+                        || serverCommands.equals("GET_PLAYER_STATUS@true@2")
+                        || serverCommands.equals("GET_PLAYER_STATUS@false@2")
+                        || serverCommands.equals("GET_PLAYER_STATUS@true@3")
+                        || serverCommands.equals("GET_PLAYER_STATUS@false@3")) {
 
                     String[] tmpValue = serverCommands.split("@");
                     int identifier = Integer.valueOf(tmpValue[2]);
@@ -188,49 +171,5 @@ public class ServerCalls extends Thread {
             ioEx.printStackTrace();
         }
 
-    }
-
-    public int getServerReturnedRole() {
-        return roleNo;
-    }
-
-    private void setServerReturnedRole(int role) {
-        this.roleNo = role;
-    }
-
-    public int getServerReturnedPlayerNo() {
-        return 1;
-    }
-
-    public boolean isPlayer1status() {
-        return player1status;
-    }
-
-    public void setPlayer1status(boolean player1status) {
-        this.player1status = player1status;
-    }
-
-    public boolean isPlayer2status() {
-        return player2status;
-    }
-
-    public void setPlayer2status(boolean player2status) {
-        this.player2status = player2status;
-    }
-
-    public boolean isPlayer3status() {
-        return player3status;
-    }
-
-    public void setPlayer3status(boolean player3status) {
-        this.player3status = player3status;
-    }
-
-    public boolean isPlayer4status() {
-        return player4status;
-    }
-
-    public void setPlayer4status(boolean player4status) {
-        this.player4status = player4status;
     }
 }

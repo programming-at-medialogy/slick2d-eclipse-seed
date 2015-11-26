@@ -28,17 +28,18 @@ public class City extends BasicGame {
      * Button calls an instance of the button class, it is used to make the cities buttons that react to mouse click.
      */
 
-    String cityName;
-    int xPos;
-    int yPos;
-    int cubeYellow = 0;
-    int cubeBlue = 0;
-    int cubeRed = 0;
-    int cubeBlack = 0;
-    boolean hasResearchSt;
-    String[] neighborCities;
+    private String cityName;
+    private int xPos;
+    private int yPos;
+    private int cubeYellow = 0;
+    private int cubeBlue = 0;
+    private int cubeRed = 0;
+    private int cubeBlack = 0;
+    private boolean hasResearchSt;
+    private boolean moveButtonSelected;
+    private String[] neighborCities;
 
-    int color;
+    private int color;
 
     private Button button;
 
@@ -46,6 +47,7 @@ public class City extends BasicGame {
     private Image nonMovableCity;
     private Image cityOverview;
     private Image cityOverviewName;
+    private Image researchStation;
 
     /**
      * The constructor for the city class, defining the parameters needed to create a city object
@@ -85,6 +87,8 @@ public class City extends BasicGame {
         nonMovableCity = new Image("assets/cities/notmovablecities.png");
         cityOverview = new Image("assets/guielements/cityoverview.png");
         cityOverviewName = new Image("assets/cities/"+cityName+".png");
+        researchStation = new Image("assets/guielements/researchstation.png");
+
 
         button.init(gc);
     }
@@ -97,11 +101,11 @@ public class City extends BasicGame {
     @Override
     public void render(GameContainer gc, Graphics g) throws SlickException {
 
-
-
         button.render(gc, g);
-        if (!isMovableTo) {
-            g.drawImage(nonMovableCity, xPos, yPos);
+        if (moveButtonSelected) {
+            if (!isMovableTo) {
+                g.drawImage(nonMovableCity, xPos, yPos);
+            }
         }
 
         //displayCityOverview(gc,g);
@@ -244,6 +248,13 @@ public class City extends BasicGame {
 
     }
 
+    public void displayResearchCenter(Graphics g) {
+        if (hasResearchSt) {
+            g.drawImage(researchStation, xPos+button.getImageWidth()/2,yPos+button.getImageHeight()/2);
+        }
+
+    }
+
     public int getCubeYellow() {
         return cubeYellow;
     }
@@ -312,10 +323,6 @@ public class City extends BasicGame {
         return neighborCities;
     }
 
-    public void setNeighborCities(String[] neighborCities) {
-        this.neighborCities = neighborCities;
-    }
-
     public Button getButton() {
         return button;
     }
@@ -332,7 +339,13 @@ public class City extends BasicGame {
         return isMovableTo;
     }
 
+    public boolean isMoveButtonSelected() {
+        return moveButtonSelected;
+    }
 
+    public void setMoveButtonSelected(boolean moveButtonSelected) {
+        this.moveButtonSelected = moveButtonSelected;
+    }
 }
 
 

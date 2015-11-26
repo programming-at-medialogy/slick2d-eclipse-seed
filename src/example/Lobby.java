@@ -28,18 +28,14 @@ public class Lobby extends BasicGameState {
     private ServerCalls serverCalls;
 
     private Image lobbyBackground;
-    private Roles role;
     private Button readyToggle;
     private Button beginGame;
     private List<Player> players;
     private int playerno = 0;
     private int roleNo = 0;
 
-    private boolean statusP1 = false, statusP2 = false, statusP3 = false, statusP4 = false;
-
-
     private Image waitingForPlayers, playersConnected;
-    private Image[] team, gameBeginning;
+    private Image[] team;
     Animation animation;
     int counter;
     boolean gameStateControl;
@@ -60,6 +56,8 @@ public class Lobby extends BasicGameState {
         playersConnected = new Image("assets/buttons/button4.png");
         waitingForPlayers = new Image("assets/buttons/button5.png");
 
+        Image[] gameBeginning;
+
         team = new Image[7];
         for (int i = 0; i < team.length; i++) {
             team[i] = new Image("assets/roles/team/" + i + ".png");
@@ -70,19 +68,11 @@ public class Lobby extends BasicGameState {
         }
 
         animation = new Animation(gameBeginning, 1000);
-
-
         counter = 0;
         gameStateControl = false;
 
-
         beginGame.init(gc);
         readyToggle.init(gc);
-
-
-        //role = new Roles("PlayerRole", roleNo, 0);
-        //role.init(gc);
-
 
     }
 
@@ -97,15 +87,13 @@ public class Lobby extends BasicGameState {
         } catch (IOException ioex) {
             ioex.printStackTrace();
         }
+
         //TOGGLES YOUR STATUS BETWEEN TRUE AND FALSE
         //IF BEGIN GAME IS ACTIVE (ALL PLAYERS HAVE JOINED) PRESS THE BUTTON TO ENTER THE GAME
-
         togglePlayerStatus(gc, readyToggle, players, playerno);
         if (beginGame.isActive() && beginGame.clickWithin(gc)) {
-
             serverCalls.setAnimationStatusTrue();
         }
-
         if (gameStateControl) {
             gsc.setEnteringGameState(true, playerno);
             sbg.enterState(2, new FadeOutTransition(), new FadeInTransition());
@@ -119,7 +107,6 @@ public class Lobby extends BasicGameState {
         readyToggle.render(gc, g);
 
         try {
-
             updateLibrary();
 
             //IF YOU ARE ACTIVE, RENDER YOUR ASSIGNED ROLE
@@ -208,20 +195,6 @@ public class Lobby extends BasicGameState {
 
 
     }
-
-
-    public int getPlayerNo() {
-        return playerno;
-    }
-
-    public int getRoleNo() {
-        return roleNo;
-    }
-
-    public List<Player> getPlayers() {
-        return players;
-    }
-
 
     @Override
     public int getID() {

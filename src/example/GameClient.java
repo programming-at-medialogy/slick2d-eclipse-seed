@@ -1,8 +1,6 @@
 package example;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -22,7 +20,9 @@ import org.newdawn.slick.state.StateBasedGame;
 public class GameClient extends StateBasedGame {
 
     private static final String HOST = "localhost";
+    //private static final String HOST = "172.30.211.158";
     private static final int PORT = 1234;
+    //private static final int PORT = 2555;
     public static Socket socket;
     public static PrintWriter out;
 
@@ -57,8 +57,8 @@ public class GameClient extends StateBasedGame {
 
 
 
-        this.addState(new InputNameScreen(gsc));
-        this.addState(new Lobby(gsc, serverCalls,players));
+        //this.addState(new InputNameScreen(gsc));
+        //this.addState(new Lobby(gsc, serverCalls,players));
         this.addState(new GameBoard(gsc,serverCalls,players));
 
     }
@@ -79,7 +79,7 @@ public class GameClient extends StateBasedGame {
             appgc = new AppGameContainer(new GameClient("Pandemic"));
             appgc.setShowFPS(false);
             appgc.setTargetFrameRate(10);
-            appgc.setDisplayMode(1366, 768, false); //True for fullscreen goodness, kept false for testing
+            appgc.setDisplayMode(1366, 768, true); //True for fullscreen goodness, kept false for testing
             appgc.start();
         } catch (SlickException ex) {
             Logger.getLogger(GameClient.class.getName()).log(Level.SEVERE, null, ex);
