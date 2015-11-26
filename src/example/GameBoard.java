@@ -17,6 +17,7 @@ import java.util.List;
 public class GameBoard extends BasicGameState {
 
     private GameStateCommons gsc;
+    private ServerCalls serverCalls;
     private City[] cities;
     private Image gameBoard;
     private Button player1Hand, player2Hand, player3Hand, player4Hand;
@@ -24,9 +25,10 @@ public class GameBoard extends BasicGameState {
     private List<Player> players;
     int playerNo;
 
-    public GameBoard(GameStateCommons gsc, List<Player> players) {
+    public GameBoard(GameStateCommons gsc, ServerCalls serverCalls,List<Player> players) {
 
         this.gsc = gsc;
+        this.serverCalls = serverCalls;
         this.players = players;
     }
 
@@ -125,7 +127,7 @@ public class GameBoard extends BasicGameState {
         for (int j = 0; j < players.size(); j++) {
             players.get(j).update(gc, i);
         }
-
+        /*
         if (gsc.isEnteringGameState(playerNo)) {
             try {
                 players.get(playerNo).setPlayerID(ServerCalls.getPlayerID()); //MAYBE NOT FOR TESTING RIGHT NOW
@@ -142,7 +144,7 @@ public class GameBoard extends BasicGameState {
                 ioEx.printStackTrace();
             }
 
-        }
+        } */
 
         cities[0].update(gc, i);
     }

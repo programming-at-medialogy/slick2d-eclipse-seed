@@ -16,8 +16,11 @@ public class Player extends BasicGame {
 
     private int xPos;
     private int yPos;
-    private int relativeXpos;
-    private int relativeYpos;
+    private int relativeXOffset;
+    private int relativeYOffset;
+
+    private Roles role;
+
 
     private int playerRoleNo;
 
@@ -36,25 +39,24 @@ public class Player extends BasicGame {
     }
 
     @Override
-    public void init(GameContainer gameContainer) throws SlickException {
+    public void init(GameContainer gc) throws SlickException {
 
         for (int i = 0; i < playerImage.length; i++) {
             playerImage[i] = new Image("assets/guielements/players/" + i + ".png"); //PLACEHOLDER IMAGE
         }
+
+        role = new Roles("Role", 0);
+        role.init(gc);
     }
 
     @Override
-    public void update(GameContainer gameContainer, int i) throws SlickException {
+    public void update(GameContainer gc, int i) throws SlickException {
+
+        role.update(gc,i);
+
         xPos = currentLocation.getxPos();
         yPos = currentLocation.getyPos();
-        if (playerID == 0 || playerID == 2)
-            relativeXpos = xPos - 50;
-        if (playerID == 1 || playerID == 3)
-            relativeXpos = xPos + 20;
-        if (playerID == 0 || playerID == 1)
-            relativeYpos = yPos + 130;
-        if (playerID == 2 || playerID == 3)
-            relativeYpos = yPos + 180;
+
 
 
 
@@ -63,8 +65,7 @@ public class Player extends BasicGame {
 
     @Override
     public void render(GameContainer gc, Graphics g) throws SlickException {
-
-            g.drawImage(playerImage[playerRoleNo], relativeXpos, relativeYpos);
+         g.drawImage(playerImage[0], relativeXOffset, relativeYOffset);
     }
 
     public boolean checkMovability(City city) {
@@ -109,7 +110,11 @@ public class Player extends BasicGame {
 
     public void setPlayerRoleNo(int index) {
         this.playerRoleNo = index;
+
     }
+
+    public int getPlayerRoleNo() { return playerRoleNo; }
+
 
     public int getPlayerID() {
         return playerID;
@@ -119,5 +124,19 @@ public class Player extends BasicGame {
         this.playerID = index;
     }
 
+    public void setRelativeXOffset(int offset) {
+        this.relativeXOffset = xPos+offset;
+    }
 
+    public void setRelativeYOffset(int offset) {
+        this.relativeYOffset = yPos+offset;
+    }
+
+    public Roles getRole() {
+        return role;
+    }
+
+    public void setRole(Roles role) {
+        this.role = role;
+    }
 }

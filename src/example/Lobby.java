@@ -25,6 +25,7 @@ import java.util.List;
 public class Lobby extends BasicGameState {
 
     private GameStateCommons gsc;
+    private ServerCalls serverCalls;
 
     private Image lobbyBackground;
     private Roles role;
@@ -34,16 +35,20 @@ public class Lobby extends BasicGameState {
     private int playerno = 0;
     private int roleNo = 0;
 
+    private boolean statusP1 = false, statusP2 = false, statusP3 = false, statusP4 = false;
+
+
     private Image waitingForPlayers, playersConnected;
     private Image[] team, gameBeginning;
     Animation animation;
     int counter;
     boolean gameStateControl;
 
-    public Lobby(GameStateCommons gsc, List<Player> players) {
+    public Lobby(GameStateCommons gsc, ServerCalls serverCalls, List<Player> players) {
 
         this.players = players;
         this.gsc = gsc;
+        this.serverCalls = serverCalls;
     }
 
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
@@ -71,76 +76,67 @@ public class Lobby extends BasicGameState {
         gameStateControl = false;
 
 
-
         beginGame.init(gc);
         readyToggle.init(gc);
 
-        playerno = gsc.getPlayerNo();
-        roleNo = gsc.getRoleNo();
 
-
-        //ASSIGN PLAYER NO. AND GET ROLE FROM SERVER
-        try {
-            playerno = ServerCalls.assignPlayerID();
-            roleNo = ServerCalls.setPlayerRole(playerno);
-        } catch (IOException ioEx) {
-            ioEx.printStackTrace();
-        }
-
-        readyToggle.setImgY(playerno * 70 + 130);
-
-        //STORE VALUES IN THE COMMON LIBRARY
-        gsc.setPlayers(players);
-        gsc.setPlayerNo(playerno);
-        gsc.setRoleNo(roleNo);
-
-
-
-
-
-        role = new Roles("PlayerRole", roleNo,0);
-        role.init(gc);
+        //role = new Roles("PlayerRole", roleNo, 0);
+        //role.init(gc);
 
 
     }
 
     public void update(GameContainer gc, StateBasedGame sbg, int i) throws SlickException {
 
+        for(int j = 0; j < players.size(); j++) {
+            players.get(j).update(gc, i);
+        }
+
+        try {
+            updateLibrary();
+        } catch (IOException ioex) {
+            ioex.printStackTrace();
+        }
         //TOGGLES YOUR STATUS BETWEEN TRUE AND FALSE
         //IF BEGIN GAME IS ACTIVE (ALL PLAYERS HAVE JOINED) PRESS THE BUTTON TO ENTER THE GAME
+
         togglePlayerStatus(gc, readyToggle, players, playerno);
         if (beginGame.isActive() && beginGame.clickWithin(gc)) {
-            ServerCalls.setAnimationStatusTrue();
+
+            serverCalls.setAnimationStatusTrue();
         }
 
         if (gameStateControl) {
             gsc.setEnteringGameState(true, playerno);
-            sbg.enterState(2, new FadeOutTransition(),new FadeInTransition());
+            sbg.enterState(2, new FadeOutTransition(), new FadeInTransition());
         }
-
-
     }
 
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
+
         g.drawImage(lobbyBackground, 0, 0);
         readyToggle.render(gc, g);
+
         try {
 
-            //IF YOU ARE ACTIVE RENDER YOUR ASSIGNED ROLE
-            if (ServerCalls.getPlayerStatusOnServer(playerno)) {
-                role.render(gc, g);
+            updateLibrary();
+
+            //IF YOU ARE ACTIVE, RENDER YOUR ASSIGNED ROLE
+            if (players.get(playerno).getPlayerReady()) //SHOULD NOT BE IF PLAYER 1 IS READY BUT YOUR NUMBER.. ROLE SHOULD BE ASSIGNED WHITHIN PLAYER
+            {
+                players.get(playerno).getRole().render(gc,g);
             }
 
             //IF ALL PEOPLE ARE READY RENDER THE BEGIN GAME BUTTON AND SET IT TO ACTIVE
-            if (ServerCalls.getPlayerStatusOnServer(0) && ServerCalls.getPlayerStatusOnServer(1) && ServerCalls.getPlayerStatusOnServer(2) && ServerCalls.getPlayerStatusOnServer(3) && !ServerCalls.getAnimationStatus()) {
+            if (gsc.getPlayers().get(0).getPlayerReady() && gsc.getPlayers().get(1).getPlayerReady() && gsc.getPlayers().get(2).getPlayerReady() && gsc.getPlayers().get(3).getPlayerReady() && !gsc.isAnimationStatus()) {
                 beginGame.render(gc, g);
                 beginGame.setActive(true);
             } else {
                 beginGame.setActive(false);
             }
 
-            if (ServerCalls.getAnimationStatus()) {
+            if (gsc.isAnimationStatus()) {
                 g.drawAnimation(animation, 763, 642);
                 counter++;
                 if (counter > 45) {
@@ -148,31 +144,36 @@ public class Lobby extends BasicGameState {
                 }
             }
 
+
             //UPDATES THE VISUAL STATUS OF THE OTHER PLAYERS IN THE LOBBY FOR YOUR GAME CLIENT
-            if (!ServerCalls.getPlayerStatusOnServer(0) && playerno != 0) {
+            if (!gsc.getPlayers().get(0).getPlayerReady() && playerno != 0) {
                 g.drawImage(waitingForPlayers, 43, 130);
-            } else if (ServerCalls.getPlayerStatusOnServer(0) && playerno != 0) {
+            } else if (gsc.getPlayers().get(0).getPlayerReady() && playerno != 0) {
                 g.drawImage(playersConnected, 43, 130);
-                g.drawImage(team[ServerCalls.getPlayerRole(0)], 851, 163);
+                g.drawImage(team[gsc.getPlayers().get(0).getRole().getRoleNumber()], 851, 163);         //NEEDS TO BE CHANGED
             }
-            if (!ServerCalls.getPlayerStatusOnServer(1) && playerno != 1) {
+
+            if (!gsc.getPlayers().get(1).getPlayerReady() && playerno != 1) {
                 g.drawImage(waitingForPlayers, 43, 200);
-            } else if (ServerCalls.getPlayerStatusOnServer(1) && playerno != 1) {
+            } else if (gsc.getPlayers().get(1).getPlayerReady() && playerno != 1) {
                 g.drawImage(playersConnected, 43, 200);
-                g.drawImage(team[ServerCalls.getPlayerRole(1)], 1033, 163);
+                g.drawImage(team[gsc.getPlayers().get(1).getRole().getRoleNumber()], 1033, 163);        //NEEDS TO BE CHANGED
             }
-            if (!ServerCalls.getPlayerStatusOnServer(2) && playerno != 2) {
+
+            if (!gsc.getPlayers().get(2).getPlayerReady() && playerno != 2) {
                 g.drawImage(waitingForPlayers, 43, 270);
-            } else if (ServerCalls.getPlayerStatusOnServer(2) && playerno != 2) {
+            } else if (gsc.getPlayers().get(2).getPlayerReady() && playerno != 2) {
                 g.drawImage(playersConnected, 43, 270);
-                g.drawImage(team[ServerCalls.getPlayerRole(2)], 851, 335);
+                g.drawImage(team[gsc.getPlayers().get(2).getRole().getRoleNumber()], 851, 335);
             }
-            if (!ServerCalls.getPlayerStatusOnServer(3) && playerno != 3) {
+
+            if (!gsc.getPlayers().get(3).getPlayerReady() && playerno != 3) {
                 g.drawImage(waitingForPlayers, 43, 340);
-            } else if (ServerCalls.getPlayerStatusOnServer(3) && playerno != 3) {
+            } else if (gsc.getPlayers().get(3).getPlayerReady() && playerno != 3) {
                 g.drawImage(playersConnected, 43, 340);
-                g.drawImage(team[ServerCalls.getPlayerRole(3)], 1033, 335);
+                g.drawImage(team[gsc.getPlayers().get(3).getRole().getRoleNumber()], 1033, 335);
             }
+
         } catch (IOException ioEx) {
             ioEx.printStackTrace();
         }
@@ -195,28 +196,63 @@ public class Lobby extends BasicGameState {
         if (button.clickWithin(gc)) {
             if (!toggle) {
                 list.get(indexNo).setPlayerReady(true);
-                ServerCalls.setPlayerStatusOnServer(players, playerno);
-
+                serverCalls.setPlayerStatusOnServer(players, playerno);
                 button.setPicIndexNo(1);
+                serverCalls.setPlayerRole(playerno);
             } else {
                 list.get(indexNo).setPlayerReady(false);
                 button.setPicIndexNo(0);
-                ServerCalls.setPlayerStatusOnServer(players, playerno);
-
-
+                serverCalls.setPlayerStatusOnServer(players, playerno);
             }
         }
+
+
     }
 
-    public int getPlayerNo() { return playerno; }
-    public int getRoleNo() { return roleNo; }
 
-    public List<Player> getPlayers(){ return players; }
+    public int getPlayerNo() {
+        return playerno;
+    }
+
+    public int getRoleNo() {
+        return roleNo;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
 
 
     @Override
     public int getID() {
         return 1;
+    }
+
+    public void updateLibrary() throws IOException {
+
+        serverCalls.getPlayerID();
+        playerno = gsc.getPlayerNo();
+
+        serverCalls.getPlayerRole(0);
+        serverCalls.getPlayerRole(1);
+        serverCalls.getPlayerRole(2);
+        serverCalls.getPlayerRole(3);
+
+        roleNo = gsc.getPlayers().get(playerno).getRole().getRoleNumber();
+
+        serverCalls.getPlayerStatusOnServer(0);
+        serverCalls.getPlayerStatusOnServer(1);
+        serverCalls.getPlayerStatusOnServer(2);
+        serverCalls.getPlayerStatusOnServer(3);
+
+        readyToggle.setImgY(playerno * 70 + 130);
+
+        serverCalls.getPlayerRole(0);
+        serverCalls.getPlayerRole(1);
+        serverCalls.getPlayerRole(2);
+        serverCalls.getPlayerRole(3);
+
+        serverCalls.getAnimationStatus();
     }
 
 }
