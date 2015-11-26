@@ -57,16 +57,17 @@ public class IntroState extends BasicGameState implements KeyListener{
 	@Override
 	public void render(GameContainer gc, StateBasedGame s, Graphics g) throws SlickException {	
 		g.drawImage(background, 0, 0, Windows.scWidth, Windows.scHeight, 0, 0, 1366, 768);
-		g.setColor(Color.black);
-		g.drawString("WELCOME TO SETTLERS, THE GOOD EDITION", Windows.scWidth/2 - 150, 10);	
+/*		g.setColor(Color.black);
+		g.drawString("WELCOME TO SETTLERS, THE GOOD EDITION", Windows.scWidth/2 - 150, 10);	*/
+		Resource.titleFont.drawString(Windows.scWidth/2 - 165, 10, "Welcome to Settlers", new Color(0, 0, 0));
 		Button.draw(g, this); 
 		
 		if(startGame == true){
 			g.setColor(new Color(150, 150, 150, 100));
 			g.fillRect(0, 0, Windows.scWidth, Windows.scHeight);
-			g.setColor(Color.black);
-			g.drawString("Write your name in the textbos and hit 'ENTER'", Windows.scWidth/2 - 220, Windows.scHeight/3 + 35);	
-
+	/*		g.setColor(Color.black);
+			g.drawString("Write your name in the textboxs and hit 'ENTER'", Windows.scWidth/2 - 220, Windows.scHeight/3 + 35);	*/
+			Resource.warningFont.drawString(Windows.scWidth/2 - 210, Windows.scHeight/3 + 35, "Write your name in the textbos and hit 'ENTER'", new Color(0, 0, 0));	
 		}
 		TextBox.draw(g, this);
 	}
