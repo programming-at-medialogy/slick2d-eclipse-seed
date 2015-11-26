@@ -60,7 +60,14 @@ public class ActionMenu extends BasicGame {
 
         if (move.clickWithin(gc)) {
             isMoveActive =! isMoveActive;
-            System.out.println("isMoveActive is "+isMoveActive);
+            isResearchSActive = false;
+            isRemoveCubeActive = false;
+            isCureActive = false;
+            if (isMoveActive) {
+                move.setPicIndexNo(23);
+            } else {
+                move.setPicIndexNo(6);
+            }
         }
 
         if (researchSt.clickWithin(gc)){
@@ -94,5 +101,9 @@ public class ActionMenu extends BasicGame {
      eventCard.render(gc, g);
         cure.render(gc, g);
 
+    }
+
+    public boolean getIsMoveActive() {
+        return isMoveActive;
     }
 }
