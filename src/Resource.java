@@ -17,6 +17,8 @@ public class Resource {
 	public static TrueTypeFont buttonFont = new TrueTypeFont(buttonTempFont, true);
 	public static Font listTempFont = new Font("resources/16790.ttf", Font.BOLD, 20);
 	public static TrueTypeFont listFont = new TrueTypeFont(listTempFont, true);
+	public static Font titleTempFont = new Font("resources/TitleFont.ttf", Font.BOLD, 38);
+	public static TrueTypeFont titleFont = new TrueTypeFont(titleTempFont, true);
 
 
 	public Resource() throws SlickException{
