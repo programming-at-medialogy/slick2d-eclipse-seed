@@ -65,7 +65,7 @@ public class Building {
 	 * @return true if a building can be built; otherwise false
 	 */
 	public static boolean canBuild(Position inPos) {
-		if (Position.getLength(getBuildingPositions(), inPos) < 2)
+		if (getBuildingPositions() != null && Position.getLength(getBuildingPositions(), inPos) < 2)
 			return false;
 		return true;
 	}

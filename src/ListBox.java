@@ -3,13 +3,15 @@ import java.util.ArrayList;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 
 public class ListBox {
 
 	private final int MAX_CHARS;
 	
-	private static final int PADDING = 3;
+	private static final int PADDING = 20;
 	
 	private int x, y;
 	private int lastMY;
@@ -19,6 +21,7 @@ public class ListBox {
 	private boolean isClicked;
 	private boolean isActive;
 	private ArrayList<String> content;
+	private ArrayList<Integer> playerIndex;
 	private static boolean isMouseDown;
 	private static ArrayList<ListBox> listBoxes = new ArrayList<ListBox>();
 	
@@ -34,10 +37,11 @@ public class ListBox {
 		this.isActive = false;
 		
 		// sets max chars based on width
-		this.MAX_CHARS = (int)(width / 9.5);
+		this.MAX_CHARS = (int)(width / 11);
 		
 		isMouseDown = false;
 		content = new ArrayList<String>();
+		playerIndex = new ArrayList<Integer>();
 		
 		listBoxes.add(this);
 	}
@@ -47,7 +51,7 @@ public class ListBox {
 	 * Splits the string into multiple strings if it is too long.
 	 * @param message The string to be added
 	 */
-	public void addString(String message) {
+	public void addString(String message, int index) {
 		// if the length is longer than the max chars per line it should be split into substrings
 		if (MAX_CHARS < message.length()) {
 			for (int i = 0; i < message.length() / MAX_CHARS; i++) {
@@ -58,15 +62,18 @@ public class ListBox {
 				// add the substrings
 				String newMessage = message.substring(offset + i * MAX_CHARS, (i + 1) * MAX_CHARS);
 				content.add(0, newMessage);
+				playerIndex.add(0, index);
 			}
 			
 			// add the last substring
 			if (message.length() % (int)(width / 9.5) != 0) {
 				String newMessage = message.substring((message.length() / MAX_CHARS) * MAX_CHARS);
 				content.add(0, newMessage);
+				playerIndex.add(0, index);
 			}
 		} else {
 			content.add(0, message);
+			playerIndex.add(0, index);
 		}
 	}
 	
@@ -114,20 +121,36 @@ public class ListBox {
 		for (ListBox listBox : listBoxes) {
 			if (listBox.state == state) {
 				// draw box
-				g.setColor(new Color(0, 0, 0));
+				
+			
+				g.setColor(Color.white);
+				g.fillRoundRect(listBox.x, listBox.y, listBox.width, listBox.height + 20, 10);
+				
+					//listSpriteActive.draw(listBox.x, listBox.y, listBox.width, listBox.height);
+				
+				/*g.setColor(new Color(0, 0, 0));
 				g.fillRect(listBox.x, listBox.y, listBox.width, listBox.height);
 				if (listBox.isActive)
 					g.setColor(new Color(255, 255, 255));
 				else 
 					g.setColor(new Color(200, 200, 200));
-				g.fillRect(listBox.x + PADDING, listBox.y + PADDING, listBox.width - PADDING * 2, listBox.height - PADDING * 2);
+				g.fillRect(listBox.x + PADDING, listBox.y + PADDING, listBox.width - PADDING * 2, listBox.height - PADDING * 2);*/
 				
 				// draw strings
 				g.setColor(new Color(0, 0, 0));
 				for (int i = 0; i < listBox.content.size(); i++) {
 					int textY = listBox.y + listBox.height - (i + 2) * 20 + listBox.offsetY;
-					if (textY > listBox.y && textY < (listBox.y + listBox.height - 20))
-						g.drawString(listBox.content.get(i), listBox.x + PADDING, textY);
+					if (textY > listBox.y && textY < (listBox.y + listBox.height - 20)) {
+						if (listBox.playerIndex.get(i) == 0)
+							Resource.listFont.drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.red);
+						else if (listBox.playerIndex.get(i) == 1)
+							Resource.listFont.drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.blue);
+						else if (listBox.playerIndex.get(i) == 2)
+							Resource.listFont.drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.green);
+						else
+							Resource.listFont.drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.orange);
+					}
+						//g.drawString(listBox.content.get(i), listBox.x + PADDING, textY);
 				}
 			}
 		}

@@ -52,7 +52,7 @@ public abstract class TextBox {
 		}
 		
 		// sets a max chars based on the 
-		this.MAX_CHARS = (int)(width / 12 * 1.2);
+		this.MAX_CHARS = (int)(width / 20 * 1.2);
 		
 		textBoxs.add(this);
 	}
@@ -107,7 +107,7 @@ public abstract class TextBox {
 		for (TextBox textBox : textBoxs) { 
 			if (state == textBox.state) {
 				if (textBox.isActive) {
-					if (textBox.MAX_CHARS > textBox.content.length()) {
+					if (Resource.buttonFont.getWidth(textBox.content) < textBox.width - PADDING * 4) {
 						if (Character.isAlphabetic(c) && textBox.isAlpha) {
 							textBox.content += c;
 						} else if ((Character.isDigit(c) || key == 52) && textBox.isNumeric) { // 52 is '.'
@@ -155,6 +155,10 @@ public abstract class TextBox {
 	 */
 	public String getContent() {
 		return content;
+	}
+	
+	public void clear() {
+		content = "";
 	}
 	
 	/**

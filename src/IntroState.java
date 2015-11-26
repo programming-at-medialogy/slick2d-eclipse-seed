@@ -15,7 +15,7 @@ public class IntroState extends BasicGameState implements KeyListener{
 	Image playNow, playNowHighlighted, background, exitGame, exitGameHighlighted;
 	//need to implement a none static bool
 	static boolean startGame;
-	String playerName;
+	static String playerName;
 
 	//initializing and instantiating 
 	@Override
