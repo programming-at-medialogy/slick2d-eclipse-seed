@@ -26,7 +26,7 @@ public class IntroState extends BasicGameState implements KeyListener{
 		exitGame = new Image("resources/Exit game.PNG");
 		exitGameHighlighted = new Image("resources/ExitGameHighlighted.PNG");
 		
-		Button PlayNow = new Button(Windows.scWidth/2 - playNow.getWidth()/2, Windows.scHeight/2 - 210, playNow, playNowHighlighted,this) {
+		Button PlayNow = new Button(Windows.scWidth/2 - playNow.getWidth()/2, Windows.scHeight/2 - 210, 326, 86, "Play",this) {
 			@Override
 			public void isClicked() {
 				startGame = true;
@@ -42,7 +42,7 @@ public class IntroState extends BasicGameState implements KeyListener{
 			}
 		};
 		
-		Button ExitGame = new Button(Windows.scWidth/2 - exitGame.getWidth()/2, Windows.scHeight/2 - 10, exitGame, exitGameHighlighted,this) {
+		Button ExitGame = new Button(Windows.scWidth/2 - exitGame.getWidth()/2, Windows.scHeight/2 - 10, 326, 86, "Exit",this) {
 			@Override
 			public void isClicked() {
 				startGame = false;

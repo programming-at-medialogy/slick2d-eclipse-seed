@@ -20,7 +20,7 @@ public class PreGameState extends BasicGameState{
 		backButtonHighlighted = new Image("resources/backHighlighted.png");
 
 		//creating a button from button class
-		Button Back = new Button(Windows.scWidth/2 - backButton.getWidth()/2, Windows.scHeight/2 + 10, backButton, backButtonHighlighted, this) {
+		Button Back = new Button(Windows.scWidth/2 - backButton.getWidth()/2, Windows.scHeight/2 + 10, 326, 86, "Back", this) {
 			@Override
 			public void isClicked() {
 				s.enterState(States.LobbyState);

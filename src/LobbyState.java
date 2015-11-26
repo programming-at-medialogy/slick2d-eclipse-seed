@@ -28,7 +28,7 @@ public class LobbyState extends BasicGameState implements KeyListener{
 		boxMovement = Windows.scWidth/2;
 
 		//creating the appropriate buttons at the appropriate locations
-		Button Back = new Button(boxMovement - backButton.getWidth()/2, Windows.scHeight/2 + 10, backButton, backButtonHighlighted, this) {
+		Button Back = new Button(boxMovement - backButton.getWidth()/2, Windows.scHeight/2 + 10, 326, 86, "Back", this) {
 			@Override
 			public void isClicked() {
 				//need to implement a non-static bool
@@ -38,7 +38,7 @@ public class LobbyState extends BasicGameState implements KeyListener{
 			}
 		};
 		
-		Button Join = new Button(boxMovement - joinGame.getWidth()/2, Windows.scHeight/2 - 210, joinGame, joinGameHighlighted,this) {
+		Button Join = new Button(boxMovement - joinGame.getWidth()/2, Windows.scHeight/2 - 210, 326, 86, "Join",this) {
 			@Override
 			public void isClicked() {
 				s.enterState(States.PreGameState);
@@ -46,7 +46,7 @@ public class LobbyState extends BasicGameState implements KeyListener{
 			}
 		};
 		
-		Button SearchForGame = new Button(boxMovement - searchForGame.getWidth()/2, Windows.scHeight/2 - 100, searchForGame, searchForGameHighlighted,this) {
+		Button SearchForGame = new Button(boxMovement - searchForGame.getWidth()/2, Windows.scHeight/2 - 100, 326, 86, "Search",this) {
 			@Override
 			public void isClicked() {
 				final TextBox IpBox = new TextBox(0, 0, 300, 40, 12, this.state){
