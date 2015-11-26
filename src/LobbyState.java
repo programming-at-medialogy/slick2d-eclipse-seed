@@ -49,16 +49,17 @@ public class LobbyState extends BasicGameState implements KeyListener{
 		Button SearchForGame = new Button(boxMovement - searchForGame.getWidth()/2, Windows.scHeight/2 - 100, 326, 86, "Search",this) {
 			@Override
 			public void isClicked() {
-				final TextBox IpBox = new TextBox(0, 0, 300, 40, 12, this.state){
+				final TextBox IpBox = new TextBox(0, 0, 300, 40, this.state){
 
 					@Override
 					public void onSubmit() {
 						//System.out.println(this.getContent());
 					}
 				};
+				IpBox.activate();
 				IpBox.setPermissions(false, true, false);
 				
-				TextBox portBox = new TextBox(0, 50, 300, 40, 12, this.state){
+				TextBox portBox = new TextBox(0, 50, 300, 40, this.state){
 					
 					@Override
 					public void onSubmit() {

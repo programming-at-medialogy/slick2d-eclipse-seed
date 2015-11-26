@@ -30,7 +30,7 @@ public class IntroState extends BasicGameState implements KeyListener{
 			@Override
 			public void isClicked() {
 				startGame = true;
-				TextBox nameBox = new TextBox(Windows.scWidth/2 - 255, 330, 500, 50, 12, this.state){
+				TextBox nameBox = new TextBox(Windows.scWidth/2 - 255, 330, 500, 50, this.state){
 					@Override
 					public void onSubmit() {
 						playerName = this.getContent();
@@ -38,6 +38,7 @@ public class IntroState extends BasicGameState implements KeyListener{
 						s.enterState(States.LobbyState);
 					}
 				};
+				nameBox.activate();
 				nameBox.setPermissions(true, true, true);				
 			}
 		};

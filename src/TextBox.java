@@ -2,13 +2,14 @@ import java.util.ArrayList;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 
 public abstract class TextBox {
 	
 	private final int MAX_CHARS;
-	private final int FONT_SIZE;
-	private static final int PADDING = 3;
+	private static final int PADDING = 8;
 	
 	private int x, y;
 	private int width, height;
@@ -19,19 +20,21 @@ public abstract class TextBox {
 	private boolean isNumeric;
 	private boolean isWhiteSpace;
 	
+	private static Image notActive;
+	private static Image active;
+	
 	private boolean isActive;
 	
 	private BasicGameState state;
 	
 	private static ArrayList<TextBox> textBoxs = new ArrayList<TextBox>();
 	
-	TextBox(int x, int y, int width, int height, int fontSize, BasicGameState state) {
+	TextBox(int x, int y, int width, int height, BasicGameState state) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 		this.state = state;
-		this.FONT_SIZE = fontSize;
 		
 		this.isActive = false;
 		this.isAlpha = true;
@@ -39,8 +42,17 @@ public abstract class TextBox {
 		this.isWhiteSpace = true;
 		this.content = "";
 		
+		if (notActive == null) {
+			try {
+				notActive = new Image("resources/TextField.png");
+				active = new Image("resources/TextFieldActive.png");
+			} catch (SlickException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		// sets a max chars based on the 
-		this.MAX_CHARS = (int)(width / FONT_SIZE * 1.2);
+		this.MAX_CHARS = (int)(width / 12 * 1.2);
 		
 		textBoxs.add(this);
 	}
@@ -53,15 +65,13 @@ public abstract class TextBox {
 	public static void draw(Graphics g, BasicGameState state) {
 		for (TextBox textBox : textBoxs) {
 			if (state == textBox.state) {
-				g.setColor(new Color(0, 0, 0));
-				g.fillRect(textBox.x, textBox.y, textBox.width, textBox.height);
-				if (textBox.isActive)
-					g.setColor(new Color(255, 255, 255));
-				else
-					g.setColor(new Color(200, 200, 200));
-				g.fillRect(textBox.x + PADDING, textBox.y + PADDING, textBox.width - PADDING * 2, textBox.height - PADDING * 2);
-				g.setColor(new Color(0, 0, 0));
-				g.drawString(textBox.content, textBox.x + PADDING * 2, textBox.y + textBox.height / 2 - textBox.FONT_SIZE / 2);
+				if (textBox.isActive) {
+					active.draw(textBox.x, textBox.y, textBox.width, textBox.height);
+				} else {
+					notActive.draw(textBox.x, textBox.y, textBox.width, textBox.height);
+				}
+				g.setColor(new Color(255, 255, 255));
+				Resource.buttonFont.drawString(textBox.x + PADDING * 2, textBox.y + textBox.height / 2 - Resource.buttonFont.getHeight(textBox.content) / 2, textBox.content);
 			}
 		}
 	}
@@ -129,6 +139,14 @@ public abstract class TextBox {
 		this.isAlpha = isAlpha;
 		this.isNumeric = isNumeric;
 		this.isWhiteSpace = isWhiteSpace;
+	}
+	
+	public void activate() {
+		isActive = true;
+	}
+	
+	public void deactivate() {
+		isActive = false;
 	}
 	
 	/**
