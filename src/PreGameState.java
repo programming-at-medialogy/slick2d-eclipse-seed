@@ -13,7 +13,7 @@ public class PreGameState extends BasicGameState{
 	Image background, backButton, backButtonHighlighted;
 	
 	@Override
-	public void init(GameContainer gc, StateBasedGame s) throws SlickException {
+	public void init(GameContainer gc, final StateBasedGame s) throws SlickException {
 		//instantiate objects
 		background = new Image("resources/background.png");	
 		backButton = new Image("resources/back.png");

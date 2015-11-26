@@ -15,7 +15,7 @@ public class LobbyState extends BasicGameState implements KeyListener{
 	int boxMovement;
 	//initializing and instantiating 
 	@Override
-	public void init(GameContainer gc, StateBasedGame s) throws SlickException {
+	public void init(GameContainer gc, final StateBasedGame s) throws SlickException {
 		
 		//loading images used in the lobbystate
 		background = new Image("resources/background.png");
@@ -49,7 +49,7 @@ public class LobbyState extends BasicGameState implements KeyListener{
 		Button SearchForGame = new Button(boxMovement - searchForGame.getWidth()/2, Windows.scHeight/2 - 100, searchForGame, searchForGameHighlighted,this) {
 			@Override
 			public void isClicked() {
-				TextBox IpBox = new TextBox(0, 0, 300, 40, 12, this.state){
+				final TextBox IpBox = new TextBox(0, 0, 300, 40, 12, this.state){
 
 					@Override
 					public void onSubmit() {

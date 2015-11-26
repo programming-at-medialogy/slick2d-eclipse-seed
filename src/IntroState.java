@@ -19,7 +19,7 @@ public class IntroState extends BasicGameState implements KeyListener{
 
 	//initializing and instantiating 
 	@Override
-	public void init(GameContainer gc, StateBasedGame s) throws SlickException {
+	public void init(final GameContainer gc, final StateBasedGame s) throws SlickException {
 		background = new Image("resources/background.png");
 		playNow = new Image("resources/Start game.PNG");
 		playNowHighlighted = new Image("resources/StartGameHighlighted.PNG");		
