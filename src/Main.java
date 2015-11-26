@@ -20,7 +20,7 @@ public class Main extends BasicGame{ //Is not the actually main.
 	static float scFactor;
 	Position[] testPositions = new Position[5];
 	
-	private Image[] hexImg = new Image[7]; // Array for hexagon images
+	private Image[] hexImg = new Image[6]; // Array for hexagon images
 	private Image[] roadImg = new Image[4]; // Array for road images
 	private Image[] numImg = new Image [11]; // Array for numbers
 	private Image[] crdImg = new Image [5]; // Array for resource cards
@@ -153,12 +153,10 @@ public class Main extends BasicGame{ //Is not the actually main.
 		for (int i = 0; i < hexagons.length; i++){
 			xPos = hexagons[i].getX();
 			yPos = hexagons[i].getY();
-			if(i<19){
+			
 			// could maybe also store the center in a variable so we do not have to calculate for each frame
-				hexImg[hexagons[i].TYPE.toInt()].draw(xPos + scWidth/2-hexImg[0].getWidth()/2*scFactor, yPos + scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor);
-				numImg[hexagons[i].NUMBER-2].draw(xPos + scWidth/2-numImg[2].getWidth()/2*scFactor, yPos + scHeight/2-numImg[2].getHeight()/2*scFactor, scFactor);
-			}else
-				hexImg[6].draw(xPos + scWidth/2-hexImg[0].getWidth()/2*scFactor, yPos + scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor);
+			hexImg[hexagons[i].TYPE.toInt()].draw(xPos + scWidth/2-hexImg[0].getWidth()/2*scFactor, yPos + scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor);
+			numImg[hexagons[i].NUMBER-2].draw(xPos + scWidth/2-numImg[2].getWidth()/2*scFactor, yPos + scHeight/2-numImg[2].getHeight()/2*scFactor, scFactor);
 		}
 		for (int c = 0; c<5;  c++){ // to display resource cards/ number 5 has to be replaced with number of cards player has 
 			crdImg[c].draw(crdPosX+(scWidth/2-crdWidth/2*scFactor), crdPosY+(scHeight-crdHeight*scFactor)-crdHeight/100, scFactor);
