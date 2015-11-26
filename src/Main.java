@@ -24,6 +24,7 @@ public class Main extends BasicGame{ //Is not the actually main.
 	private Image[] roadImg = new Image[4]; // Array for road images
 	private Image[] numImg = new Image [11]; // Array for numbers
 	private Image[] crdImg = new Image [5]; // Array for resource cards
+	private Image robImg;
 	static int scWidth = 1440; // Game screen width
 	static int scHeight = 900; // Game screen height
 
@@ -76,6 +77,9 @@ public class Main extends BasicGame{ //Is not the actually main.
 		for (int c=0; c<5; c++){
 			crdImg[c] = new Image ("resources/r_card_1.jpg");
 		}
+		
+		robImg = new Image("resources/robber.png");
+		
 
 	
 		GameData.roads = new ArrayList<Road>();
@@ -119,7 +123,8 @@ public class Main extends BasicGame{ //Is not the actually main.
 		//end. move out, since used only once in setup
 		
 		drawHexagons(g);
-		
+		drawRobber(g);
+	
 		//g.drawString("Test", 100, 100);
 		
 		// testing road methods - feel free to rewrite this part as it was just testing the methods i made for the roads :)
@@ -153,10 +158,12 @@ public class Main extends BasicGame{ //Is not the actually main.
 		for (int i = 0; i < hexagons.length; i++){
 			xPos = hexagons[i].getX();
 			yPos = hexagons[i].getY();
-			
+			if(i<19){
 			// could maybe also store the center in a variable so we do not have to calculate for each frame
-			hexImg[hexagons[i].TYPE.toInt()].draw(xPos + scWidth/2-hexImg[0].getWidth()/2*scFactor, yPos + scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor);
-			numImg[hexagons[i].NUMBER-2].draw(xPos + scWidth/2-numImg[2].getWidth()/2*scFactor, yPos + scHeight/2-numImg[2].getHeight()/2*scFactor, scFactor);
+				hexImg[hexagons[i].TYPE.toInt()].draw(xPos + scWidth/2-hexImg[0].getWidth()/2*scFactor, yPos + scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor);
+				numImg[hexagons[i].NUMBER-2].draw(xPos + scWidth/2-numImg[2].getWidth()/2*scFactor, yPos + scHeight/2-numImg[2].getHeight()/2*scFactor, scFactor);
+			}else
+				hexImg[6].draw(xPos + scWidth/2-hexImg[0].getWidth()/2*scFactor, yPos + scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor);
 		}
 		for (int c = 0; c<5;  c++){ // to display resource cards/ number 5 has to be replaced with number of cards player has 
 			crdImg[c].draw(crdPosX+(scWidth/2-crdWidth/2*scFactor), crdPosY+(scHeight-crdHeight*scFactor)-crdHeight/100, scFactor);
@@ -170,6 +177,22 @@ public class Main extends BasicGame{ //Is not the actually main.
 		return crdPosX;
 	}
 	
+	void drawRobber(Graphics g) {
+		Hexagon[] hexagons = Hexagon.getHexagons();
+		for (int i = 0; i < hexagons.length; i++){
+			xPos = hexagons[i].getX();
+			yPos = hexagons[i].getY();
+			if(hexagons[i].isRobbed()){
+				robImg.draw(xPos + scWidth/2-numImg[2].getWidth()/2*scFactor, yPos + scHeight/2-numImg[2].getHeight()/2*scFactor, scFactor);
+			}
+		}
+		
+	}
+	
+	
+
+	
+		
 	static void placeBuilding(){
 		//Method to place buildings at game start
 	}
