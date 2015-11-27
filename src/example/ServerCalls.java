@@ -161,7 +161,6 @@ public class ServerCalls extends Thread {
                     String tmpString = value[1];
                     boolean tmpBool = Boolean.valueOf(tmpString);
                     gsc.setAnimationStatus(tmpBool);
-                    System.out.println(value);
                 }
 
             }

@@ -79,7 +79,7 @@ public class GameClient extends StateBasedGame {
             appgc = new AppGameContainer(new GameClient("Pandemic"));
             appgc.setShowFPS(false);
             appgc.setTargetFrameRate(10);
-            appgc.setDisplayMode(1366, 768, true); //True for fullscreen goodness, kept false for testing
+            appgc.setDisplayMode(1366, 768, false); //True for fullscreen goodness, kept false for testing
             appgc.start();
         } catch (SlickException ex) {
             Logger.getLogger(GameClient.class.getName()).log(Level.SEVERE, null, ex);

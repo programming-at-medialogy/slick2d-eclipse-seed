@@ -95,7 +95,6 @@ public class Lobby extends BasicGameState {
             serverCalls.setAnimationStatusTrue();
         }
         if (gameStateControl) {
-            gsc.setEnteringGameState(true, playerno);
             sbg.enterState(2, new FadeOutTransition(), new FadeInTransition());
         }
     }

@@ -23,7 +23,7 @@ public class ActionMenu extends BasicGame {
     private boolean isEventCardActive;
     private boolean isCureActive;
 
-    public ActionMenu (String gametitle){
+    public ActionMenu(String gametitle) {
 
         super(gametitle);
         isMoveActive = false;
@@ -35,59 +35,68 @@ public class ActionMenu extends BasicGame {
     }
 
 
-
-
     @Override
-    public void init(GameContainer  gc) throws SlickException {
-    move = new Button("move", 950, 20, 6);
-    researchSt =  new Button("researchSt", 1025, 15, 7);
-    removeCube = new Button("removeCube", 1100, 15, 8);
-    share = new Button("share", 1160, 10, 9);
-    eventCard = new Button("eventCard", 1225, 15, 10);
-    cure = new Button("cure", 1275, 15, 11);
+    public void init(GameContainer gc) throws SlickException {
+        move = new Button("move", 950, 20, 6);
+        researchSt = new Button("researchSt", 1025, 15, 7);
+        removeCube = new Button("removeCube", 1100, 15, 8);
+        share = new Button("share", 1160, 10, 9);
+        eventCard = new Button("eventCard", 1225, 15, 10);
+        cure = new Button("cure", 1275, 15, 11);
 
 
-    move.init(gc);
-    researchSt.init(gc);
-    removeCube.init(gc);
-    share.init(gc);
-    eventCard.init(gc);
-    cure.init(gc);
+        move.init(gc);
+        researchSt.init(gc);
+        removeCube.init(gc);
+        share.init(gc);
+        eventCard.init(gc);
+        cure.init(gc);
     }
 
     @Override
     public void update(GameContainer gc, int i) throws SlickException {
 
         if (move.clickWithin(gc)) {
-            isMoveActive =! isMoveActive;
+            isMoveActive = !isMoveActive;
             isResearchSActive = false;
             isRemoveCubeActive = false;
             isCureActive = false;
-            if (isMoveActive) {
-                move.setPicIndexNo(23);
-            } else {
-                move.setPicIndexNo(6);
-            }
         }
 
-        if (researchSt.clickWithin(gc)){
-            isResearchSActive =! isResearchSActive;
+        if (researchSt.clickWithin(gc)) {
+            isResearchSActive = !isResearchSActive;
         }
 
-        if (removeCube.clickWithin(gc)){
-            isRemoveCubeActive =! isRemoveCubeActive;
+        if (removeCube.clickWithin(gc)) {
+            isRemoveCubeActive = !isRemoveCubeActive;
+            isResearchSActive = false;
+            isMoveActive = false;
+            isCureActive = false;
         }
 
-        if (share.clickWithin(gc)){
-            isShareActive =! isShareActive;
+        if (share.clickWithin(gc)) {
+            isShareActive = !isShareActive;
         }
 
-        if (eventCard.clickWithin(gc)){
-            isEventCardActive =! isEventCardActive;
+        if (eventCard.clickWithin(gc)) {
+            isEventCardActive = !isEventCardActive;
         }
 
-        if (cure.clickWithin(gc)){
-            isCureActive =! isCureActive;
+        if (cure.clickWithin(gc)) {
+            isCureActive = !isCureActive;
+        }
+
+
+        //SET THE PICTURE INDEX NUMBERS ACCORDING TO ITS ACTIVITY
+        if (isMoveActive) {
+            move.setPicIndexNo(23);
+        } else {
+            move.setPicIndexNo(6);
+        }
+        if (isRemoveCubeActive) {
+            removeCube.setPicIndexNo(24);
+        } else {
+            removeCube.setPicIndexNo(8);
         }
     }
 
@@ -95,10 +104,10 @@ public class ActionMenu extends BasicGame {
     public void render(GameContainer gc, Graphics g) throws SlickException {
 
         move.render(gc, g);
-     researchSt.render(gc, g);
-     removeCube.render(gc, g);
+        researchSt.render(gc, g);
+        removeCube.render(gc, g);
         share.render(gc, g);
-     eventCard.render(gc, g);
+        eventCard.render(gc, g);
         cure.render(gc, g);
 
     }
@@ -106,4 +115,9 @@ public class ActionMenu extends BasicGame {
     public boolean getIsMoveActive() {
         return isMoveActive;
     }
+
+    public boolean isRemoveCubeActive() {
+        return isRemoveCubeActive;
+    }
 }
+
