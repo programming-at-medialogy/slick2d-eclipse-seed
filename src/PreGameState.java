@@ -28,7 +28,7 @@ public class PreGameState extends BasicGameState implements KeyListener{
 			}
 		};
 		
-		ListBox box = new ListBox(Windows.scWidth / 2 - 200, 50, 400, 500, this);
+		final ListBox box = new ListBox(Windows.scWidth / 2 - 200, 50, 400, 500, this);
 		TextBox textField = new TextBox(Windows.scWidth / 2 - 200, 550, 400, 50, this) {
 			@Override
 			public void onSubmit() {
