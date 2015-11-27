@@ -163,6 +163,9 @@ public class Actions {
 					Hexagon.addHex(hex);
 					
 					System.out.println("Hexgaons");
+				} else if (objectType.equals("ID")) {
+					int ownIndex = Integer.parseInt(message);
+					GameData.ownIndex = ownIndex;
 				}
 				else{
 					for (int i = jsonIndex; !Character.isSpaceChar(message.charAt(i)); i++) {
@@ -192,7 +195,8 @@ public class Actions {
 						Building.getByPosition(position).upgrade();
 						System.out.println("Upgrade this nigger");
 					}
-					else if (objectType.equals("Chat ")) {
+					else if (objectType.equals("Chat")) {
+						System.out.println("Chat");
 						message = message.substring(jsonIndex);
 						if (playerID != GameData.ownIndex)
 							ListBox.addString(message, playerID);

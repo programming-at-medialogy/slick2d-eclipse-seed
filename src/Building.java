@@ -96,12 +96,12 @@ public class Building {
 	 * Upgrades a building.
 	 * Contains error checking to check if the building is already upgraded.
 	 */
-	public void upgrade() {
+	public boolean upgrade() {
 		if (!upgraded) {
 			upgraded = true;
-		} else {
-			System.out.println("Building is already upgraded!");
+			return true;
 		}
+		return false;
 	}
 	
 	/**

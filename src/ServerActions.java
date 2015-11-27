@@ -2,7 +2,23 @@ import com.google.gson.Gson;
 
 public class ServerActions {
 	static Gson gson;
+	static Position rStartPos;
+	static int expectingRoad;
 	
+	static void initActions() {
+		gson = new Gson();
+		expectingRoad = -1;
+	}
+	
+	static void generateMap() {
+		Hexagon[] hexagons = Hexagon.generateMap();
+		
+		String message;
+		for (Hexagon hexagon : hexagons) {
+			message = "Hexagon " + gson.toJson(hexagon);
+			NetworkServer.sendToAll(message);
+		}
+	}
 	
 	static void placeBuilding(Position pos, int player){
 		Building.build(pos, player);
@@ -71,26 +87,47 @@ public class ServerActions {
 	static void useDevelopment(){
 	}
 	
-	public static void received(int clientId, String message) {
-		System.out.println("Test");
-		gson = new Gson();
+	public synchronized static void received(int clientId, String message) {
+		
+		if (expectingRoad == clientId) {
+			Position rEndPos = gson.fromJson(message, Position.class);
+			if (Road.buildRoad(rStartPos, rEndPos, clientId) != null) {
+				NetworkServer.sendToAll("Road " + clientId + gson.toJson(rStartPos));
+				NetworkServer.sendToAll(message);
+			}
+			expectingRoad = -1;
+		} else if (clientId == GameData.turn && message.equals("rollDice")) {
+			
+		}
+		
 		String objectType = "";
 		int jsonIndex = 0;
 		for (int i = 0; !Character.isSpaceChar(message.charAt(i)); i++) {
 			objectType += message.charAt(i);
 			jsonIndex = i + 2;
 		}
+		
+		message = message.substring(jsonIndex);
+		
 		if(objectType.equals("Building")){
-			message = message.substring(jsonIndex);
-			Building building = gson.fromJson(message, Building.class);
-			System.out.println(building.getDivision());
-			System.out.println("Det virker");
-		} else {
-			System.out.println("Lort");
+			Position inPos = gson.fromJson(message, Position.class);
+			if (Building.build(inPos, clientId) != null) 
+				NetworkServer.sendToAll("Building " + clientId + " " + message);
+		} else if (objectType.equals("Upgrade")){
+			Position inPos = gson.fromJson(message, Position.class);
+			if (Building.getByPosition(inPos).upgrade()) 
+				NetworkServer.sendToAll("Upgrade " + clientId + inPos);
+		} else if (objectType.equals("Road")) {
+			rStartPos = gson.fromJson(message, Position.class);
+			expectingRoad = clientId;
+		} else if (objectType.equals("Chat")) {
+			NetworkServer.sendToAll("Chat " + clientId + " " + message);
 		}
-		//NetworkServer.sendToAll("Message received from " + clientId + ":\n" + message);
-		/*if (GameData.players.get(clientId).getPlayerName() == null) {
-			GameData.players.get(clientId).setPlayerName(message);
-		}*/
+	}
+	
+	public static void updateGameData() {
+		for (int i = 0; i < 4; i++) {
+			NetworkServer.send(i, "ID " + i);
+		}
 	}
 }

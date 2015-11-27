@@ -1,14 +1,16 @@
 import java.io.IOException;
+import java.util.Scanner;
 
 public class ServerMain {
 
 	public static void start() {
 		System.out.println("Server is running");
-		try {
-			NetworkServer.startServer();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		NetworkServer networkServer = new NetworkServer();
+		System.out.println("Test");
+		networkServer.run();
+		ServerActions.initActions();
+		ServerActions.updateGameData();
+		ServerActions.generateMap();
 	}
 	
 	

@@ -32,7 +32,8 @@ public class PreGameState extends BasicGameState implements KeyListener{
 		TextBox textField = new TextBox(Windows.scWidth / 2 - 200, 550, 400, 50, this) {
 			@Override
 			public void onSubmit() {
-				box.addString(IntroState.playerName + ": " + this.getContent(), 0);
+				box.addString(IntroState.playerName + ": " + this.getContent(), GameData.ownIndex);
+				Actions.chat(IntroState.playerName + ": " + this.getContent());
 				this.clear();
 			}
 		};

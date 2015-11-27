@@ -3,13 +3,13 @@ import java.net.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class NetworkServer  {
+public class NetworkServer extends Thread  {
 	
 	private static ServerSocket serverSocket;
 	private static final int PORT = 0;
 	private static ArrayList<ClientHandler> handlers;
 	
-	public static void startServer() throws IOException {
+	public void run() {
 		handlers = new ArrayList();
 		
 		try {
@@ -22,17 +22,24 @@ public class NetworkServer  {
 		do {
 			// wait for client
 			System.out.println("\nListening on port " + serverSocket.getLocalPort());
-			System.out.println("Server Ip Address: " + InetAddress.getLocalHost().getHostAddress());
-			Socket client = serverSocket.accept();
+			Socket client = null;
+			try {
+				System.out.println("Server Ip Address: " + InetAddress.getLocalHost().getHostAddress());
+				client = serverSocket.accept();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			System.out.println("\nNew client accepted.\n");
 	
 			handlers.add(new ClientHandler(client, handlers.size()));
 			handlers.get(handlers.size() - 1).start();
 			ServerMain.addPlayer(handlers.size() - 1);
-		} while (true);
+		} while (handlers.size() != 4);
 	}
 	
 	public static void send(int id, String message) {
+		System.out.println("Test");
 		handlers.get(id).send(message);
 	}
 	
@@ -87,7 +94,7 @@ class ClientHandler extends Thread {
 		}
 	}
 	
-	public void send(String message) {
+	public synchronized void send(String message) {
 		
 		try {
 			System.out.println("Sending: " + message + "\nTo: " + client.getInetAddress().getHostAddress());
