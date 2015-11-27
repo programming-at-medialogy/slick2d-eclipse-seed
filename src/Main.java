@@ -19,11 +19,14 @@ public class Main extends BasicGame{ //Is not the actually main.
 	static float padding;
 	static float scFactor;
 	Position[] testPositions = new Position[5];
+	Building[] testBuildings = new Building[5];
 	
 	private Image[] hexImg = new Image[6]; // Array for hexagon images
 	private Image[] roadImg = new Image[4]; // Array for road images
 	private Image[] numImg = new Image [11]; // Array for numbers
 	private Image[] crdImg = new Image [5]; // Array for resource cards
+	private Image[] buildImg = new Image[4]; // Array for level 1 building images
+	private Image[] cityImg = new Image[4]; // Array for level 2 building images
 	private Image robImg;
 	static int scWidth = 1440; // Game screen width
 	static int scHeight = 900; // Game screen height
@@ -36,6 +39,8 @@ public class Main extends BasicGame{ //Is not the actually main.
 	float angle; // hexagon angle
 	float crdPosX; // card position x
 	float crdPosY; // card position y
+	float buildPosX; // Building position x
+	float buildPosY; // Building position y
 	
 	static float hexHeight; // to get height of hexagon
 	static float hexWidth; // to get width of hexagon
@@ -78,10 +83,14 @@ public class Main extends BasicGame{ //Is not the actually main.
 		for (int c=0; c<4; c++){
 			crdImg[c] = new Image ("resources/r_card_"+(c)+".jpg");
 		}
+		for(int b = 0; b < cityImg.length; b++) {
+			
+			buildImg[b] = new Image("resources/buildImg" + b + ".png"); //Initializing level 1 building images
+			//cityImg[b] = new Image("resources/citeImg" + b + ".png");
+			
+		}
 		
 		robImg = new Image("resources/robber.png");
-		
-
 	
 		GameData.roads = new ArrayList<Road>();
 		
@@ -98,6 +107,13 @@ public class Main extends BasicGame{ //Is not the actually main.
 		testPositions[2] = Position.assignPosition(2, 11);
 		testPositions[3] = Position.assignPosition(2, 12);
 		testPositions[4] = Position.assignPosition(2, 0);
+		
+		/*
+		for(int i = 0; i < testBuildings.length; i++) {
+			
+			testBuildings[i] = Building.build(testPositions[i], 1);
+			
+		}*/
 		
 		Road.buildRoad(Position.assignPosition(0, 1), Position.assignPosition(0, 2), 0);
 		Road.buildRoad(Position.assignPosition(0, 2), Position.assignPosition(0, 3), 0);
@@ -125,6 +141,7 @@ public class Main extends BasicGame{ //Is not the actually main.
 		
 		drawHexagons(g);
 		drawRobber(g);
+		drawBuilding(g);
 	
 		//g.drawString("Test", 100, 100);
 		
@@ -187,10 +204,28 @@ public class Main extends BasicGame{ //Is not the actually main.
 				robImg.draw(xPos + scWidth/2-numImg[2].getWidth()/2*scFactor, yPos + scHeight/2-numImg[2].getHeight()/2*scFactor, scFactor);
 			}
 		}
-		
 	}
 	
-	
+	void drawBuilding(Graphics g) {
+		
+		ArrayList<Building> buildings = GameData.buildings;
+		
+		for(int i = 0; i < buildings.size(); i++) {
+			
+			buildPosX = buildings.get(i).POSITION.getX();
+			buildPosY = buildings.get(i).POSITION.getY();
+			
+			for(int j = 0; j < GameData.players.size(); j++) {
+				if(buildings.get(i).isUpgraded()) {
+					//cityImg[j].draw(buildPosX + scWidth/2 - cityImg[j].getWidth()/2 * scFactor, buildPosY + scHeight/2 - cityImg[j].getWidth()/2 * scFactor);
+					System.out.println("City(2) is being displayed.");
+				} else {
+					buildImg[j].draw(buildPosX + scWidth/2 - buildImg[j].getWidth()/2 * scFactor, buildPosY + scHeight/2 - buildImg[j].getWidth()/2 * scFactor);
+					System.out.println("Building(1) is displayed.");
+				}
+			}	
+		}
+	}
 
 	
 		
