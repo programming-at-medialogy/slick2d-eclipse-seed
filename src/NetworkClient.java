@@ -71,12 +71,12 @@ class ServerHandler extends Thread {
 		String received;
 		do {
 			received = input.nextLine();
-			Main.received(received);
+			Actions.received(received);
 		} while (!received.equals(exitCode));
 		
 		try {
 			if (server!=null) {
-				System.out.println("Closing down connection…");
+				System.out.println("Closing down connectionï¿½");
 				server.close();
 			}
 		} catch(IOException ioEx) {

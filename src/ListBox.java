@@ -9,19 +9,21 @@ import org.newdawn.slick.state.BasicGameState;
 
 public class ListBox {
 
-	private final int MAX_CHARS;
+	private static int MAX_CHARS;
 	
 	private static final int PADDING = 20;
 	
 	private int x, y;
 	private int lastMY;
-	private int width, height;
+	private static int width;
+
+	private int height;
 	private int offsetY;
 	private BasicGameState state;
 	private boolean isClicked;
 	private boolean isActive;
-	private ArrayList<String> content;
-	private ArrayList<Integer> playerIndex;
+	private static ArrayList<String> content;
+	private static ArrayList<Integer> playerIndex;
 	private static boolean isMouseDown;
 	private static ArrayList<ListBox> listBoxes = new ArrayList<ListBox>();
 	
@@ -37,7 +39,7 @@ public class ListBox {
 		this.isActive = false;
 		
 		// sets max chars based on width
-		this.MAX_CHARS = (int)(width / 11);
+		MAX_CHARS = (int)(width / 11);
 		
 		isMouseDown = false;
 		content = new ArrayList<String>();
@@ -51,7 +53,7 @@ public class ListBox {
 	 * Splits the string into multiple strings if it is too long.
 	 * @param message The string to be added
 	 */
-	public void addString(String message, int index) {
+	public static void addString(String message, int index) {
 		// if the length is longer than the max chars per line it should be split into substrings
 		if (MAX_CHARS < message.length()) {
 			for (int i = 0; i < message.length() / MAX_CHARS; i++) {

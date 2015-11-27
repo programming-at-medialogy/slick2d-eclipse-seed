@@ -45,6 +45,7 @@ public class Main extends BasicGame{ //Is not the actually main.
 	public Main(String gamename) { // inputs game name from slick2d
 		super(gamename); // to get game name
 		Hexagon.generateMap();
+		Actions.initActions();
 		/*Road.buildRoad(new Position(0,0), new Position(1,17), 0);
 		Road.buildRoad(new Position(1,17), new Position(1,16), 0);
 		Road.buildRoad(new Position(0,0), new Position(0,1), 0);

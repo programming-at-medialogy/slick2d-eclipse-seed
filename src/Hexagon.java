@@ -14,6 +14,7 @@ public class Hexagon {
 	private int indexInArray;
 	private boolean robbed;
 	private static Hexagon[] hexagons;
+	private static int number = 0;
 
 	/**
 	 * Private constructor for a Hexagon.
@@ -70,6 +71,14 @@ public class Hexagon {
 		Hexagon.hexagons = hexagons;
 		
 		return hexagons;
+	}
+	
+	public static void addHex(Hexagon inHex) {
+		if (hexagons == null) {
+			hexagons = new Hexagon[19];
+		}
+		hexagons[number++] = inHex;
+		System.out.println("Number: " + inHex.NUMBER + "\nDivision: " + inHex.getDivision() + "\nIndex: " + inHex.getIndex() + "\nType: " + inHex.TYPE);
 	}
 	
 	/**

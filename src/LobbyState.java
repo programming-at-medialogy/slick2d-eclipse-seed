@@ -84,6 +84,7 @@ public class LobbyState extends BasicGameState implements KeyListener{
 				};
 				portBox.setPermissions(false, true, false);
 				System.out.println("searcing for game");
+				Actions.initActions();
 			}
 		};
 	}

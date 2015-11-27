@@ -2,45 +2,24 @@ import com.google.gson.Gson;
 
 public class Actions {
 	static Gson gson;
+	static Position startR;
+	static Position endR;
+	static int expR;
+	
+	static void initActions(){
+		gson = new Gson();
+		expR = -1;
+	}
 	//Methods for initial phase
 	
 		static void placeBuilding(Position pos, int player){
-			//Check if request is possible
-			
-			// no need to do this, just use the Building.canBuild() method
-			
-			/*boolean canBuild = false;
-			for(int i = 0; i < Building.buildings.size(); i++){
-				if(pos==Building.buildings.get(i).position){
-					System.out.println("There is already a building here!");
-					canBuild =false;
-					break;
-				}else if (Position.getLength(pos, Building.buildings.get(i).position)<2){
-					System.out.println("This is too close to another building");
-					canBuild =false;
-					break;
-				}else{
-					canBuild =true;
-				}				
-			}
-			if (canBuild){
-				//Send message to server. Something like:
-				//networkHelper.sendMessage("Build building", pos, player);
-				
-			}*/
+
 			Building newBuilding = Building.build(pos, player);
 			if (newBuilding != null) {
-				gson = new Gson();
 				String message = gson.toJson(newBuilding);
 				NetworkClient.sendMessage("Building " + message);
 			}
-			
-//			if (Building.canBuild(pos)) {
-//				//Send message to server. Something like:
-//				//networkHelper.sendMessage("Build building", pos, player);
-//				Building.build(pos,)
-//				NetworkClient.sendMessage("building");
-//			}
+
 		}
 		
 		static void placeRoad(Position start, Position end, int player){
@@ -59,9 +38,10 @@ public class Actions {
 			if (canBuild){
 				Road newRoad = Road.buildRoad(start, end, player);
 				if (newRoad != null) {
-					gson = new Gson();
-					String message = gson.toJson(newRoad);
+					String message = gson.toJson(start);
 					NetworkClient.sendMessage("Road " + message);
+					String message2 = gson.toJson(end);
+					NetworkClient.sendMessage(message2);
 				}	
 			}
 		}
@@ -124,21 +104,100 @@ public class Actions {
 				//Check if request is possible
 				for(int i = 0; i < Building.getBuildings().size(); i++){
 					if(Position.comparePosition(pos, Building.getBuildings().get(i).POSITION) && 
-					   player == Building.getBuildings().get(i).PLAYER &&
-					   Building.getBuildings().get(i).isUpgraded() == false){
-						//Send message to server. Something like:
-						//networkHelper.sendMessage("upgrade", player, pos);
+					    player == Building.getBuildings().get(i).PLAYER &&
+					    Building.getBuildings().get(i).isUpgraded() == false){
+						Building.getBuildings().get(i).upgrade();
+						gson = new Gson();
+						String message = gson.toJson(pos);
+						NetworkClient.sendMessage("Upgrade " + message);
 					}
 				}
 			}
 		}
 		
-
+		static void chat(String message) {
+			NetworkClient.sendMessage("Chat " + message);
+		}
 		
-
 		static void rollDice(){
 			//Method used to notify server that user wants to roll the dice
 			//Send message to server. Something like:
 			//networkHelper.sendMessage("Roll dice", player);
+		}
+		static void received(String message){
+			if(message == "Undo Building"){
+				// do something
+			}
+			
+			if (expR != -1) {
+				endR = gson.fromJson(message, Position.class);
+				Boolean canBuild = null;
+				for(int i = 0; i < GameData.roads.size(); i++){
+					if((Position.comparePosition(startR, GameData.roads.get(i).start) && Position.comparePosition(endR, GameData.roads.get(i).end))||
+					   (Position.comparePosition(endR, GameData.roads.get(i).start) && Position.comparePosition(startR, GameData.roads.get(i).end))){
+						System.out.println("There is already a road here!");
+						canBuild =false;
+						break;
+					}else{
+						canBuild =true;
+					}
+				}
+				if (canBuild){
+					Road newRoad = Road.buildRoad(startR, endR, expR);
+					}
+				expR = -1;		
+			}
+	
+			else{
+				String objectType = "";
+				int playerID = 0;
+				int jsonIndex = 0;
+				for (int i = 0; !Character.isSpaceChar(message.charAt(i)); i++) {
+					objectType += message.charAt(i);
+					jsonIndex = i + 2;
+				}
+				
+				if (objectType.equals("Hexagon")){
+					message = message.substring(jsonIndex);
+					Hexagon hex = gson.fromJson(message, Hexagon.class);
+					Hexagon.addHex(hex);
+					
+					System.out.println("Hexgaons");
+				}
+				else{
+					for (int i = jsonIndex; !Character.isSpaceChar(message.charAt(i)); i++) {
+						playerID = Integer.parseInt(String.valueOf(message.charAt(i)));
+						jsonIndex = i + 2;
+					}
+					
+					if(objectType.equals("Building")){
+						message = message.substring(jsonIndex);
+						Position position = gson.fromJson(message, Position.class);
+						if (Building.getByPosition(position) != null) {
+							// The building already exists
+						} else{
+							Building.build(position, playerID);
+							System.out.println("Upgrade this nigger");
+						}
+					}
+					else if(objectType.equals("Road")){
+						message = message.substring(jsonIndex);
+						startR = gson.fromJson(message, Position.class);
+						expR = playerID;
+						System.out.println("Road");
+					}
+					else if (objectType.equals("Upgrade")){
+						message = message.substring(jsonIndex);
+						Position position = gson.fromJson(message, Position.class);
+						Building.getByPosition(position).upgrade();
+						System.out.println("Upgrade this nigger");
+					}
+					else if (objectType.equals("Chat ")) {
+						message = message.substring(jsonIndex);
+						if (playerID != GameData.ownIndex)
+							ListBox.addString(message, playerID);
+					}
+				}
+			}
 		}
 }
