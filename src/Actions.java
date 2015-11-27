@@ -164,6 +164,7 @@ public class Actions {
 					
 					System.out.println("Hexgaons");
 				} else if (objectType.equals("ID")) {
+					message = message.substring(jsonIndex);
 					int ownIndex = Integer.parseInt(message);
 					GameData.ownIndex = ownIndex;
 				}

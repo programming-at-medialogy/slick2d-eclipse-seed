@@ -73,7 +73,7 @@ class ClientHandler extends Thread {
 	public void run() {
 		
 		String received;
-		System.out.println("Testtt");
+		//System.out.println("Testtt");
 		do {
 			received = input.nextLine();
 			ServerActions.received(id, received);
