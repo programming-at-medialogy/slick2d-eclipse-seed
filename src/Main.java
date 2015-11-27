@@ -122,6 +122,10 @@ public class Main extends BasicGame{ //Is not the actually main.
 		Road.buildRoad(Position.assignPosition(1, 8), Position.assignPosition(1, 7), 0);
 		Road.buildRoad(Position.assignPosition(1, 7), Position.assignPosition(1, 6), 0);
 		Road.longestRoad();
+		
+		GameData.buildings = new ArrayList();
+		Building.build(Position.assignPosition(0, 0), 0);
+		Building.build(Position.assignPosition(2, 10), 1);
 	}
 	
 	@Override
@@ -208,22 +212,18 @@ public class Main extends BasicGame{ //Is not the actually main.
 	
 	void drawBuilding(Graphics g) {
 		
-		ArrayList<Building> buildings = GameData.buildings;
+		//ArrayList<Building> buildings = GameData.buildings;
 		
-		for(int i = 0; i < buildings.size(); i++) {
+		for (Building building : Building.getBuildings()) {
+			float xPos = building.POSITION.getX();
+			float yPos = building.POSITION.getY();
 			
-			buildPosX = buildings.get(i).POSITION.getX();
-			buildPosY = buildings.get(i).POSITION.getY();
-			
-			for(int j = 0; j < GameData.players.size(); j++) {
-				if(buildings.get(i).isUpgraded()) {
-					//cityImg[j].draw(buildPosX + scWidth/2 - cityImg[j].getWidth()/2 * scFactor, buildPosY + scHeight/2 - cityImg[j].getWidth()/2 * scFactor);
-					System.out.println("City(2) is being displayed.");
-				} else {
-					buildImg[j].draw(buildPosX + scWidth/2 - buildImg[j].getWidth()/2 * scFactor, buildPosY + scHeight/2 - buildImg[j].getWidth()/2 * scFactor);
-					System.out.println("Building(1) is displayed.");
-				}
-			}	
+			if (building.isUpgraded()) {
+				cityImg[building.PLAYER].draw(xPos + scWidth/2 - cityImg[building.PLAYER].getWidth()/2 * scFactor, yPos + scHeight/2 - cityImg[building.PLAYER].getHeight()/2 * scFactor);
+			} else {
+				//int test = scWidth;
+				buildImg[building.PLAYER].draw(xPos + scWidth/2 - buildImg[building.PLAYER].getWidth() / 2, yPos + scHeight/2 - buildImg[building.PLAYER].getHeight() / 2);
+			}
 		}
 	}
 
