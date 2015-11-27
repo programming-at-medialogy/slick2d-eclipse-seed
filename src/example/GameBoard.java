@@ -98,7 +98,7 @@ public class GameBoard extends BasicGameState {
         cities[44] = new City("pandemic", "seoul", 1164, 236, new String[]{"beijing", "shanghai", "tokyo"}, 3);
         cities[45] = new City("pandemic", "tokyo", 1240, 263, new String[]{"seoul", "shanghai", "osaka", "sanfrancisco"}, 3);
         cities[46] = new City("pandemic", "osaka", 1178, 290, new String[]{"tokyo", "taipei"}, 3);
-        cities[47] = new City("pandemic", "taipei", 1190, 340, new String[]{"hongkong", "shanghai", "osaka"}, 3);
+        cities[47] = new City("pandemic", "taipei", 1190, 340, new String[]{"hongkong", "shanghai", "osaka", "manila"}, 3);
 
         for (int j = 0; j < players.size(); j++) {
             players.get(j).init(gc);
@@ -121,6 +121,14 @@ public class GameBoard extends BasicGameState {
         //PLACE THE CDC IN ATLANTA
         cities[0].setHasResearchSt(true);
         cities[38].setHasResearchSt(true);
+
+        cities[1].setCubeBlue(3);
+        cities[0].setCubeYellow(3);
+        cities[0].setCubeBlack(3);
+        cities[0].setCubeRed(1);
+        cities[16].setCubeBlack(3);
+        cities[28].setCubeYellow(3);
+        cities[39].setCubeRed(3);
     }
 
     @Override
@@ -128,18 +136,13 @@ public class GameBoard extends BasicGameState {
 
         updateLibrary();
         moveAction();
+        removeCubeAction();
 
         infectionMarker.update(gc, i);
         outbreakMarker.update(gc, i);
         actionMenu.update(gc, i);
 
-        cities[0].setCubeBlue(2);
-        cities[0].setCubeYellow(1);
-        cities[0].setCubeBlack(1);
-        cities[0].setCubeRed(1);
-        cities[4].setCubeBlack(2);
-        cities[28].setCubeYellow(3);
-        cities[10].setCubeRed(1);
+
 
         if (player1Hand.clickWithin(gc)) {
             showHand1 = !showHand1;
@@ -179,12 +182,17 @@ public class GameBoard extends BasicGameState {
         player4Hand.render(gc, g);
 
 
+        //MOVE RENDER FUNCTIONALITY & REMOVE CUBE RENDER FUNCTIONALITY
         for (int i = 0; i < cities.length; i++) {
-            if ((players.get(playerNo).getNeighborCityAsList().contains(cities[i].getCityName())) || (players.get(playerNo).getPlayerPosition().isHasResearchSt() && cities[i].isHasResearchSt())) {
-                cities[i].setMovableTo(true);
+            if (((players.get(playerNo).getNeighborCityAsList().contains(cities[i].getCityName())) && actionMenu.getIsMoveActive())
+                    || ((players.get(playerNo).getPlayerPosition().isHasResearchSt() && cities[i].isHasResearchSt()) && actionMenu.getIsMoveActive())
+                    || cities[i].getCityName().equals(players.get(playerNo).getPlayerPosition().getCityName()))
+
+            {
+                cities[i].activeAction(true);
                 cities[i].render(gc, g);
             } else {
-                cities[i].setMovableTo(false);
+                cities[i].activeAction(false);
                 cities[i].render(gc, g);
             }
         }
@@ -203,15 +211,17 @@ public class GameBoard extends BasicGameState {
         //DISPLAY THE LOCATION OF YOU WITH A LITTLE ORANGE FLAG
         players.get(playerNo).displayCurrentLocation(g);
 
+        //DISPLAY WHICH CITIES HAS RESEARCH STATIONS
         for (int i = 0; i < cities.length; i++) {
             cities[i].displayResearchCenter(g);
         }
 
-
+        //DISPLAY THE CITY OVERVIEW
         for (int i = 0; i < cities.length; i++) {
             cities[i].displayCityOverview(gc, g);
         }
 
+        //DISPLAY PLAYER ICONS
         for (int i = 0; i < cities.length; i++) {
             if (players.get(0).getPlayerPosition().getCityName().equals(cities[i].getCityName()) && cities[i].getButton().hoverOver(gc)) {
                 players.get(0).setPlayerID(0);
@@ -240,10 +250,20 @@ public class GameBoard extends BasicGameState {
             }
         }
 
+        //MOVE PLAYER
         if (actionMenu.getIsMoveActive()) {
             for (int i = 0; i < cities.length; i++) {
                 if (cities[i].getButton().clickWithin(gc)) {
                     players.get(playerNo).setPlayerPosition(cities[i]);
+                }
+            }
+        }
+
+        //REMOVE CUBE
+        if (actionMenu.isRemoveCubeActive()) {
+            for (int i = 0; i < cities.length; i++) {
+                if (cities[i].getButton().clickWithin(gc)) {
+                    cities[i].removeCube(players,playerNo);
                 }
             }
         }
@@ -292,6 +312,18 @@ public class GameBoard extends BasicGameState {
             } else {
                 cities[i].setMoveButtonSelected(false);
                 players.get(playerNo).setMoveSelected(false);
+            }
+        }
+
+    }
+
+    public void removeCubeAction() {
+        boolean removeCube = actionMenu.isRemoveCubeActive();
+        for (int i = 0; i < cities.length; i++) {
+            if (removeCube) {
+                cities[i].setRemoveCubeButtonSelected(true);
+            } else {
+                cities[i].setRemoveCubeButtonSelected(false);
             }
         }
 

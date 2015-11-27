@@ -1,12 +1,11 @@
 package example;
 
-import org.lwjgl.Sys;
 import org.newdawn.slick.*;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
-import java.awt.*;
+import java.util.List;
 
 /**
  * Created by Marianne on 03-11-2015.
@@ -37,17 +36,19 @@ public class City extends BasicGame {
     private int cubeBlack = 0;
     private boolean hasResearchSt;
     private boolean moveButtonSelected;
+    private boolean removeCubeButtonSelected;
     private String[] neighborCities;
 
     private int color;
 
     private Button button;
 
-    private boolean isMovableTo;
+    private boolean isActive;
     private Image nonMovableCity;
     private Image cityOverview;
     private Image cityOverviewName;
     private Image researchStation;
+    private Image warning;
 
     /**
      * The constructor for the city class, defining the parameters needed to create a city object
@@ -88,6 +89,7 @@ public class City extends BasicGame {
         cityOverview = new Image("assets/guielements/cityoverview.png");
         cityOverviewName = new Image("assets/cities/"+cityName+".png");
         researchStation = new Image("assets/guielements/researchstation.png");
+        warning = new Image("assets/guielements/warning.png");
 
 
         button.init(gc);
@@ -102,15 +104,13 @@ public class City extends BasicGame {
     public void render(GameContainer gc, Graphics g) throws SlickException {
 
         button.render(gc, g);
-        if (moveButtonSelected) {
-            if (!isMovableTo) {
+        if (cubeBlack == 3 || cubeBlue == 3 || cubeRed == 3 || cubeYellow == 3)
+            g.drawImage(warning,xPos+1, yPos-button.getImageWidth()/2-warning.getWidth()/2+4);
+        if (moveButtonSelected || removeCubeButtonSelected) {
+            if (!isActive) {
                 g.drawImage(nonMovableCity, xPos, yPos);
             }
         }
-
-        //displayCityOverview(gc,g);
-
-
 
     }
 
@@ -139,15 +139,64 @@ public class City extends BasicGame {
     }
 
     //removeCube(color: string, amount: int)
-    public void removeCube(String color, int amount) {
-        if (color == "yellow") {
-            cubeYellow -= amount;
-        } else if (color == "blue") {
-            cubeBlue -= amount;
-        } else if (color == "red") {
-            cubeRed -= amount;
-        } else if (color == "black") {
-            cubeBlack -= amount;
+    public void removeCube(List<Player> players, int playerNo) {
+
+        if (playerOnLocation(players,playerNo)) {
+            //IF YELLOW IS GREATEST
+            if (cubeYellow > cubeBlack && cubeYellow > cubeBlue && cubeYellow > cubeRed) {
+                cubeYellow -= 1;
+            }
+            //IF BLUE IS GREATEST
+            else if (cubeBlue > cubeBlack && cubeYellow < cubeBlue && cubeBlue > cubeRed) {
+                cubeBlue -= 1;
+            }
+            //IF BLACK IS GREATEST
+            else if (cubeYellow < cubeBlack && cubeBlack > cubeBlue && cubeBlack > cubeRed) {
+                cubeBlack -= 1;
+            }
+            //IF RED IS GREATEST
+            else if (cubeRed > cubeBlack && cubeRed > cubeBlue && cubeYellow < cubeRed) {
+                cubeRed -= 1;
+            } else {
+
+                //ELSE IF ANY CUBE IS ABOVE 0
+                if (cubeBlue > 0 || cubeBlack > 0 || cubeRed > 0 || cubeYellow > 0) {
+                    //REMOVE THE CITY COLOR FIRST
+                    if (color == 0 && cubeBlue > 0) {
+                        cubeBlue -= 1;
+                    } else if (color == 1 && cubeYellow > 0) {
+                        cubeYellow -= 1;
+                    } else if (color == 2 && cubeBlack > 0) {
+                        cubeBlack -= 0;
+                    } else if (color == 3 && cubeRed > 0) {
+                        cubeRed -= 1;
+                    } else {
+                        //OR ELSE JUST REMOVE THEM FROM BLUE TO RED
+                        if (cubeBlue > 0) {
+                            cubeBlue -= 1;
+                        } else if (cubeYellow > 0) {
+                            cubeYellow -= 1;
+                        } else if (cubeBlack > 0) {
+                            cubeBlack -= 1;
+                        } else if (cubeRed > 0) {
+                            cubeRed -= 1;
+                        }
+                    }
+                } else {
+                    System.out.println("DU KAN IKKE FJERNE HVAD DER IKKE ER TOSSE! ");
+                }
+            }
+        } else {
+            System.out.println("DU ER IKKE ENGANG I DEN BY DIN TOSSE! ");
+        }
+
+    }
+
+    private boolean playerOnLocation (List<Player> players, int playerNo) {
+        if (cityName.equals(players.get(playerNo).getPlayerPosition().getCityName())) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -218,7 +267,7 @@ public class City extends BasicGame {
                 g.fillRect(firstRowX, secondRowY, cubeSize, cubeSize);
                 g.setColor(Color.white);
                 g.drawString("x 2", firstRowX+stringPosX, secondRowY);
-            } else if (cubeRed == 3) {
+            } else if (cubeBlack == 3) {
                 g.setColor(Color.black);
                 g.fillRect(firstRowX, secondRowY, cubeSize, cubeSize);
                 g.setColor(Color.white);
@@ -331,12 +380,12 @@ public class City extends BasicGame {
         this.button = button;
     }
 
-    public void setMovableTo (boolean value) {
-        this.isMovableTo = value;
+    public void activeAction(boolean value) {
+        this.isActive = value;
     }
 
-    public boolean getMovableTo () {
-        return isMovableTo;
+    public boolean getActive() {
+        return isActive;
     }
 
     public boolean isMoveButtonSelected() {
@@ -346,6 +395,8 @@ public class City extends BasicGame {
     public void setMoveButtonSelected(boolean moveButtonSelected) {
         this.moveButtonSelected = moveButtonSelected;
     }
+
+    public void setRemoveCubeButtonSelected(boolean removeCubeButtonSelected) { this.removeCubeButtonSelected = removeCubeButtonSelected; }
 }
 
 
