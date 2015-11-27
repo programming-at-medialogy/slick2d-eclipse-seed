@@ -74,7 +74,7 @@ public class Main extends BasicGame{ //Is not the actually main.
 		for (int n=2; n<=12; n++){
 			numImg[n-2] = new Image("resources/numImg_" + (n) + ".png"); //initializing number images
 		}
-		for (int c=0; c<3; c++){
+		for (int c=0; c<4; c++){
 			crdImg[c] = new Image ("resources/r_card_"+(c)+".jpg");
 		}
 		
@@ -165,7 +165,7 @@ public class Main extends BasicGame{ //Is not the actually main.
 			}else
 				hexImg[6].draw(xPos + scWidth/2-hexImg[0].getWidth()/2*scFactor, yPos + scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor);
 		}
-		for (int c = 0; c<3;  c++){ // to display resource cards/ number 5 has to be replaced with number of cards player has 
+		for (int c = 0; c<4;  c++){ // to display resource cards/ number 5 has to be replaced with number of cards player has 
 			crdImg[c].draw(crdPosX+(scWidth/2-crdWidth/2*scFactor), crdPosY+(scHeight-crdHeight*scFactor)-crdHeight/100, scFactor);
 			crdPosX = cardPosition(c, 5); // 5 is to change - amount of resource cards
 		}
