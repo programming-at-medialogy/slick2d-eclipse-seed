@@ -24,15 +24,18 @@ public class Main extends BasicGame{ //Is not the actually main.
 	private Image[] hexImg = new Image[6]; // Array for hexagon images
 	private Image[] roadImg = new Image[4]; // Array for road images
 	private Image[] numImg = new Image [11]; // Array for numbers
-	private Image[] crdImg = new Image [5]; // Array for resource cards
+
+	private Image[] crdImg = new Image [Player.resources.length]; // Array for resource cards
+
 	private Image[] buildImg = new Image[4]; // Array for level 1 building images
 	private Image[] cityImg = new Image[4]; // Array for level 2 building images
+
 	private Image robImg;
+	private Image bkWater;
 	static int scWidth = 1440; // Game screen width
 	static int scHeight = 900; // Game screen height
 
 	float diameter; // diameter for hexagon placement
-	boolean hexReady = false; // NOT USED NOW, discuss! To draw hexagons once in rendered. If not used remove // NOT USED NOW, discuss!
 	
 	float xPos; // hexagon position X
 	float yPos; // hexagon position Y
@@ -80,7 +83,7 @@ public class Main extends BasicGame{ //Is not the actually main.
 		for (int n=2; n<=12; n++){
 			numImg[n-2] = new Image("resources/numImg_" + (n) + ".png"); //initializing number images
 		}
-		for (int c=0; c<4; c++){
+		for (int c=0; c<5; c++){
 			crdImg[c] = new Image ("resources/r_card_"+(c)+".jpg");
 		}
 		for(int b = 0; b < cityImg.length; b++) {
@@ -91,6 +94,8 @@ public class Main extends BasicGame{ //Is not the actually main.
 		}
 		
 		robImg = new Image("resources/robber.png");
+
+		bkWater = new Image("resources/bkWater.png");
 	
 		GameData.roads = new ArrayList<Road>();
 		
@@ -134,7 +139,7 @@ public class Main extends BasicGame{ //Is not the actually main.
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
-		Color bkColor = Color.decode("#638fde"); // create custom color
+		Color bkColor = Color.decode("#5e8ad7"); // create custom color
 		g.setBackground(bkColor); // set background color
 		
 		// move out, since used only once in setup
@@ -174,7 +179,7 @@ public class Main extends BasicGame{ //Is not the actually main.
 	 * TODO
 	 */
 	private void drawHexagons(Graphics g) {
-
+		bkWater.draw(scWidth/2-bkWater.getWidth()/2*scFactor, (scHeight/2-bkWater.getHeight()/2*scFactor)-hexHeight*scFactor/1.5f, scFactor );
 		//diameter = (hexImg[0].getWidth()+ padding)*scFactor; // Dynamic setup: diameter according image width, + padding for space in between
 		Hexagon[] hexagons = Hexagon.getHexagons();
 		for (int i = 0; i < hexagons.length; i++){
@@ -187,10 +192,11 @@ public class Main extends BasicGame{ //Is not the actually main.
 			}else
 				hexImg[6].draw(xPos + scWidth/2-hexImg[0].getWidth()/2*scFactor, yPos + scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor);
 		}
-		for (int c = 0; c<4;  c++){ // to display resource cards/ number 5 has to be replaced with number of cards player has 
+		for (int c = 0; c<Player.resources.length;  c++){ // to display resource cards/ number 5 has to be replaced with number of cards player has 
 			crdImg[c].draw(crdPosX+(scWidth/2-crdWidth/2*scFactor), crdPosY+(scHeight-crdHeight*scFactor)-crdHeight/100, scFactor);
-			crdPosX = cardPosition(c, 5); // 5 is to change - amount of resource cards
+			crdPosX = cardPosition(c, Player.resources.length); // 5 is to change - amount of resource cards
 		}
+
 	}
 	
 	// Method to get resource cards positions
