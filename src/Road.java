@@ -27,16 +27,18 @@ public class Road {
 		visited = false;
 	}
 	
-	public static void buildRoad(Position startPos, Position endPos, int playerIndex){
+	public static Road buildRoad(Position startPos, Position endPos, int playerIndex){
 		if(Position.getLength(startPos, endPos) == 1){
 			System.out.println("Constructing road");
 			Road road = new Road(startPos,endPos,playerIndex);
 			GameData.roads.add(road);
 			longestRoad();
+			return road;
 		}
 		else {
 			System.out.println("ERROR");
 			System.out.println("Length: " + Position.getLength(startPos, endPos));
+			return null;
 		}
 	}
 	

@@ -1,5 +1,7 @@
-public class Actions {
+import com.google.gson.Gson;
 
+public class Actions {
+	static Gson gson;
 	//Methods for initial phase
 	
 		static void placeBuilding(Position pos, int player){
@@ -26,11 +28,19 @@ public class Actions {
 				//networkHelper.sendMessage("Build building", pos, player);
 				
 			}*/
-			
-			if (Building.canBuild(pos)) {
-				//Send message to server. Something like:
-				//networkHelper.sendMessage("Build building", pos, player);
+			Building newBuilding = Building.build(pos, player);
+			if (newBuilding != null) {
+				gson = new Gson();
+				String message = gson.toJson(newBuilding);
+				NetworkClient.sendMessage("Building " + message);
 			}
+			
+//			if (Building.canBuild(pos)) {
+//				//Send message to server. Something like:
+//				//networkHelper.sendMessage("Build building", pos, player);
+//				Building.build(pos,)
+//				NetworkClient.sendMessage("building");
+//			}
 		}
 		
 		static void placeRoad(Position start, Position end, int player){
@@ -47,9 +57,12 @@ public class Actions {
 				}
 			}
 			if (canBuild){
-				//Send message to server. Something like:
-				//networkHelper.sendMessage("Build Road", start, end, player);
-				
+				Road newRoad = Road.buildRoad(start, end, player);
+				if (newRoad != null) {
+					gson = new Gson();
+					String message = gson.toJson(newRoad);
+					NetworkClient.sendMessage("Road " + message);
+				}	
 			}
 		}
 		

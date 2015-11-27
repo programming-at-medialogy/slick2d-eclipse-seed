@@ -11,12 +11,6 @@ public class ServerMain {
 		}
 	}
 	
-	public static void received(int clientId, String message) {
-		NetworkServer.sendToAll("Message received from " + clientId + ":\n" + message);
-		/*if (GameData.players.get(clientId).getPlayerName() == null) {
-			GameData.players.get(clientId).setPlayerName(message);
-		}*/
-	}
 	
 	public static void addPlayer(int id) {
 		//GameData.players.add(new Player(id));

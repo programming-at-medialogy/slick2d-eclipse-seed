@@ -66,16 +66,20 @@ class ClientHandler extends Thread {
 	public void run() {
 		
 		String received;
+		System.out.println("Testtt");
 		do {
 			received = input.nextLine();
-			ServerMain.received(id, received);
+			ServerActions.received(id, received);
+			System.out.println("Testtt");
 		} while (!received.equals(exitCode));
+		
+		System.out.println("Testtt");
 		
 		NetworkServer.sendToAll(exitCode);
 		
 		try {
 			if (client!=null) {
-				System.out.println("Closing down connection…");
+				System.out.println("Closing down connectionï¿½");
 				client.close();
 			}
 		} catch(IOException ioEx) {

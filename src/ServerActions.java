@@ -1,4 +1,7 @@
+import com.google.gson.Gson;
+
 public class ServerActions {
+	static Gson gson;
 	
 	
 	static void placeBuilding(Position pos, int player){
@@ -66,5 +69,28 @@ public class ServerActions {
 	}
 	
 	static void useDevelopment(){
+	}
+	
+	public static void received(int clientId, String message) {
+		System.out.println("Test");
+		gson = new Gson();
+		String objectType = "";
+		int jsonIndex = 0;
+		for (int i = 0; !Character.isSpaceChar(message.charAt(i)); i++) {
+			objectType += message.charAt(i);
+			jsonIndex = i + 2;
+		}
+		if(objectType.equals("Building")){
+			message = message.substring(jsonIndex);
+			Building building = gson.fromJson(message, Building.class);
+			System.out.println(building.getDivision());
+			System.out.println("Det virker");
+		} else {
+			System.out.println("Lort");
+		}
+		//NetworkServer.sendToAll("Message received from " + clientId + ":\n" + message);
+		/*if (GameData.players.get(clientId).getPlayerName() == null) {
+			GameData.players.get(clientId).setPlayerName(message);
+		}*/
 	}
 }
