@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Random;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.BasicGame;
@@ -20,6 +22,7 @@ public class Main extends BasicGame{ //Is not the actually main.
 	private Image[] hexImg = new Image[6]; // Array for hexagon images
 	private Image[] roadImg = new Image[4]; // Array for road images
 	private Image[] numImg = new Image [11]; // Array for numbers
+	private Image[] diceImg = new Image [6];
 
 	private Image[] crdImg = new Image [Player.resources.length]; // Array for resource cards
 
@@ -45,6 +48,8 @@ public class Main extends BasicGame{ //Is not the actually main.
 	static float hexWidth; // to get width of hexagon
 	static float crdHeight;
 	static float crdWidth;
+	
+    Random rand = new Random();
 	
 	public Main(String gamename) { // inputs game name from slick2d
 		super(gamename); // to get game name
@@ -86,7 +91,9 @@ public class Main extends BasicGame{ //Is not the actually main.
 			
 			buildImg[b] = new Image("resources/buildImg" + b + ".png"); //Initializing level 1 building images
 			//cityImg[b] = new Image("resources/citeImg" + b + ".png");
-			
+		}
+		for (int d=1; d<diceImg.length; d++){
+			diceImg[d] = new Image ("resources/dice_"+(d)+".png");
 		}
 		
 		robImg = new Image("resources/robber.png");
@@ -167,6 +174,12 @@ public class Main extends BasicGame{ //Is not the actually main.
 			g.drawString("Pos: " + i, testPositions[i].getX() + scWidth/2, testPositions[i].getY() + scHeight/2);
 		}
 
+		diceImg[4].draw(scWidth-hexWidth*scFactor*2 ,scHeight/2, scFactor*0.8f);
+		//diceImg[4].rotate(getRotation());
+		//(float)(scWidth-3*hexWidth*scFactor),(float)scWidth-50 
+	}
+	float getRotation(){
+		return 5;
 	}
 
 	//Methods for initial phase
