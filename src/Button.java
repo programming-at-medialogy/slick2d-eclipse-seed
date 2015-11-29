@@ -21,7 +21,15 @@ public abstract class Button {
 	
 	static int yPos, xPos;
 
-	//constructor
+/**
+ * Constructor for the button class
+ * @param x the parameter for button x position
+ * @param y the parameter for button y position
+ * @param width the parameter for button width
+ * @param height the parameter for button height
+ * @param message the parameter for the text layer onto the button
+ * @param state the parameter for which state the button belongs to
+ */
 	Button(int x, int y, int width, int height, String message, BasicGameState state){
 		this.x = x;
 		this.y = y;
@@ -40,7 +48,16 @@ public abstract class Button {
 		this.state = state;
 	}
 
-	//drawing the buttons
+	/**
+	 * Method for drawing all button as either 
+	 * untouched, pressed, or highlighted for 
+	 * dynamic gaming experience 
+	 * @param g is the graphics component
+	 * which actually draws the object
+	 * @param state is whichever state the specific button
+	 * should be drawn. It will only be drawn on that 
+	 * specific GameState
+	 */
 	public static void draw(Graphics g, BasicGameState state){
 		for(int i = 0; i < buttons.size(); i++){
 			if (buttons.get(i).state == state){
@@ -53,12 +70,16 @@ public abstract class Button {
 					buttons.get(i).image.draw(buttons.get(i).x, buttons.get(i).y, buttons.get(i).width, buttons.get(i).height);
 				}
 				Resource.buttonFont.drawString(buttons.get(i).x + buttons.get(i).width / 2 - Resource.buttonFont.getWidth(buttons.get(i).message) / 2, buttons.get(i).y + buttons.get(i).height / 2 - Resource.buttonFont.getHeight(buttons.get(i).message) / 2, buttons.get(i).message);
-				//buttonFont.drawString(Windows.scWidth - buttonFont.getA buttonFont.getWidth(buttons.get(i).message) / 2, 250, buttons.get(i).message);
 			}
 		}
 	}
-	
-	//updating the mouse position and lets us know whether the mouse is clicked or not
+	/**
+	 * updating the mouse position and lets us know 
+	 * whether the mouse is clicked or not
+	 * @param state is the current state the player is in. 
+	 * which lets the system know only to update 
+	 * whatever is in the current state and nothing else
+	 */
 	public static void update(BasicGameState state){
 		xPos = Mouse.getX();
 		yPos = Windows.scHeight - Mouse.getY();
@@ -75,7 +96,12 @@ public abstract class Button {
 		else
 			mouseDown = false;
 	}
+	/**
+	 * abstract class that lets us adjust 
+	 * what action should be performed when the mouse is clicked
+	 * Allows for a very flexible button interaction
+	 * is build whenever a button declaration is committed
+	 */
 	
-	//abstract class that lets us adjust what action should be performed when the mouse is clicked
 	public abstract void isClicked();	
 }
