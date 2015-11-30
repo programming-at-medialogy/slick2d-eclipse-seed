@@ -11,5 +11,7 @@ public class TradeObject {
 		this.has = has;
 		this.wants = wants;
 		this.initPlayer = init;
+		this.hasType = has[0];
+		this.wantsType = wants[0];
 	}
 }

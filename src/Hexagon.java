@@ -247,12 +247,12 @@ public class Hexagon {
 	 * @return a float array containing the x position as index 0; y position as index 1
 	 */
 	private float[] getXY() {
-		float diameter = (Main.hexWidth + Main.padding)*getDivision()*Main.scFactor;
+		float diameter = (GameState.hexWidth + Windows.padding)*getDivision()*Windows.scFactor;
 		if (getDivision() == 2 && getIndex() % 2 != 0)
-			diameter = (float)Math.sqrt(Math.pow(Main.hexWidth + Main.padding, 2) - Math.pow((Main.hexWidth + Main.padding) / 2, 2)) * 2 * Main.scFactor;
+			diameter = (float)Math.sqrt(Math.pow(GameState.hexWidth + Windows.padding, 2) - Math.pow((GameState.hexWidth + Windows.padding) / 2, 2)) * 2 * Windows.scFactor;
 		float[] position = new float[2];
 		position[0] = (float)Math.cos(angle()) * diameter;
-		position[1] = (float)Math.sin(angle()) * diameter-(Main.hexHeight*Main.scFactor)/1.5f;
+		position[1] = (float)Math.sin(angle()) * diameter-(GameState.hexHeight*Windows.scFactor)/1.5f;
 		x = position[0];
 		y = position[1];
 		return position;

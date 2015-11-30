@@ -1,5 +1,9 @@
 import java.util.ArrayList;
-
+/**
+ * Class containing all game data
+ * @author Frederik Emil
+ *
+ */
 public class GameData {
 	public static ArrayList<Building> buildings; 
 	public static ArrayList<Road> roads;
