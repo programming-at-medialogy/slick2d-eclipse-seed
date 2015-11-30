@@ -24,12 +24,17 @@ public class InfectionCards {
 		 infectionDeck.add(new City("Kolkata",300,300,0 ));
 		 infectionDeck.add(new City("Tokyo",300,300,0 ));
 		 Collections.shuffle( infectionDeck);
-		 System.out.println ();
+		
+			 for(City str: infectionDeck){
+					System.out.println(str.toString());
+			   }
+		 }
+		// System.out.println (infectionDeck.toString());
 		 
 	 }
 	 
 
-	}
+	
 
 
 
