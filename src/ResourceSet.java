@@ -55,6 +55,6 @@ public class ResourceSet {
 	}
 	public static void main(String[] args) {
 		ResourceSet res = new ResourceSet(23,32,12,32,5,2);
-		System.out.println(res.getTotal());
+		System.out.println("lol"+res.getAmount(0));
 	}
 }

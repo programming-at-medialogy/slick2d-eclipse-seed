@@ -91,7 +91,7 @@ public class Player  {
 	 * Method for checking whether the player needs to discard resourcecards
 	 */
 	public void setHasToDiscard(){
-		if(GameData.rolledNumber == 7){
+		if(Dice.RollDice() == 7){
 			for(int i = 0; i < GameData.players.size(); i++){
 				if(GameData.players.get(i).resourceAmount > 7){
 					// main.show()
@@ -108,12 +108,16 @@ public class Player  {
 		}
 	}
 	
+	public int getAmountOfDevCards(int type){ 
+		return devCard[type];
+	}
+	
 	
 	public void addDevelopmentCard() {
-		if(Player.resources[ResourceType.CORN.toInt()]>=1 && Player.resources[ResourceType.ROCK.toInt()]>=1 && Player.resources[ResourceType.SHEEP.toInt()]>=1 ){
+		//if(Player.resources[ResourceType.CORN.toInt()]>=1 && Player.resources[ResourceType.ROCK.toInt()]>=1 && Player.resources[ResourceType.SHEEP.toInt()]>=1 ){
 			devCard[DevelopmentCardDeck.BuyCard().toInt()]++;
 		}
-	}
+	//}
 	
 	public void PlayDevCard(CardType type){
 		switch(type) {
@@ -178,10 +182,12 @@ public class Player  {
 	}
 
 
-/*	@Override
-	public String toString() {
-		return playerName + ": " + NUMBER;
-	}*/
+public static void main(String[] args) {
+	Player p1 = new Player("LOL",2);
+	DevelopmentCardDeck d1 = new DevelopmentCardDeck(25,25,25,25);
+	p1.addDevelopmentCard();
+	System.out.println("lol"+p1.getAmountOfDevCards(1));
+}
 
 	
 
