@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 /**
+ * Class describing a player
  * Created by kristianhjensen on 02/11/2015.
  */
 public class Player  {
