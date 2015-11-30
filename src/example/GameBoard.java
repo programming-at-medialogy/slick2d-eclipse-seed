@@ -16,6 +16,10 @@ import java.util.List;
  */
 public class GameBoard extends BasicGameState {
 
+    /**
+     * Declaring variables.
+     * 
+     */
     private GameStateCommons gsc;
     private City[] cities;
     private Image gameBoard;
