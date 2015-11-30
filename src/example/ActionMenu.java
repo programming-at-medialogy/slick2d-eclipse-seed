@@ -1,9 +1,6 @@
 package example;
 
-import org.newdawn.slick.BasicGame;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.SlickException;
+import org.newdawn.slick.*;
 
 /**
  * Created by Marianne on 25-11-2015.
@@ -16,6 +13,8 @@ public class ActionMenu extends BasicGame {
     private Button share;
     private Button eventCard;
     private Button cure;
+
+    private Image notAvailable;
 
     private boolean isMoveActive;
     private boolean isResearchSActive;
@@ -38,6 +37,8 @@ public class ActionMenu extends BasicGame {
 
     @Override
     public void init(GameContainer gc) throws SlickException {
+        notAvailable = new Image("assets/guielements/notavailable.png");
+
         move = new Button("move", 950, 20, 6);
         researchSt = new Button("researchSt", 1025, 15, 7);
         removeCube = new Button("removeCube", 1100, 15, 8);
@@ -99,7 +100,7 @@ public class ActionMenu extends BasicGame {
             isMoveActive = false;
             isResearchSActive = false;
             isCureActive = false;
-            isEventCardActive = false;
+            isShareActive = false;
         }
 
         if (cure.clickWithin(gc)) {
@@ -118,11 +119,38 @@ public class ActionMenu extends BasicGame {
         } else {
             move.setPicIndexNo(6);
         }
+
         if (isRemoveCubeActive) {
-            removeCube.setPicIndexNo(8); //SKAL VÆRE 24
+            removeCube.setPicIndexNo(25);
         } else {
             removeCube.setPicIndexNo(8);
         }
+
+        if (isResearchSActive) {
+            researchSt.setPicIndexNo(24);
+        } else {
+            researchSt.setPicIndexNo(7);
+        }
+
+        if (isShareActive) {
+            share.setPicIndexNo(26);
+        } else {
+            share.setPicIndexNo(9);
+        }
+
+        if (isEventCardActive) {
+            eventCard.setPicIndexNo(27);
+        } else {
+            eventCard.setPicIndexNo(10);
+        }
+
+        if (isCureActive) {
+            cure.setPicIndexNo(28);
+        } else {
+            cure.setPicIndexNo(11);
+        }
+
+
     }
 
     @Override
@@ -134,6 +162,10 @@ public class ActionMenu extends BasicGame {
         share.render(gc, g);
         eventCard.render(gc, g);
         cure.render(gc, g);
+
+        if (isShareActive || isEventCardActive) {
+            g.drawImage(notAvailable,682 - notAvailable.getWidth()/2,384 - notAvailable.getHeight()/2);
+        }
 
     }
 

@@ -26,7 +26,7 @@ public class Button extends BasicGame {
 
 
 
-    private Image[] images = new Image[24];
+    private Image[] images = new Image[29];
 
 
     public Button(String title, int x, int y, int picIndexNo) {

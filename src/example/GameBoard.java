@@ -141,6 +141,7 @@ public class GameBoard extends BasicGameState {
         updateLibrary();
         moveAction();
         removeCubeAction();
+        placeResearchStationAction();
 
         infectionMarker.update(gc, i);
         outbreakMarker.update(gc, i);
@@ -178,7 +179,6 @@ public class GameBoard extends BasicGameState {
         g.drawImage(gameBoard, 0, 0);
         infectionMarker.render(gc, g);
         outbreakMarker.render(gc, g);
-        actionMenu.render(gc, g);
 
         player1Hand.render(gc, g);
         player2Hand.render(gc, g);
@@ -190,7 +190,8 @@ public class GameBoard extends BasicGameState {
         for (int i = 0; i < cities.length; i++) {
             if (((players.get(playerNo).getNeighborCityAsList().contains(cities[i].getCityName())) && actionMenu.getIsMoveActive())
                     || ((players.get(playerNo).getPlayerPosition().isHasResearchSt() && cities[i].isHasResearchSt()) && actionMenu.getIsMoveActive())
-                    || cities[i].getCityName().equals(players.get(playerNo).getPlayerPosition().getCityName()))
+                    || cities[i].getCityName().equals(players.get(playerNo).getPlayerPosition().getCityName()) && actionMenu.getIsRemoveCubeActive()
+                    || cities[i].getCityName().equals(players.get(playerNo).getPlayerPosition().getCityName()) && !cities[i].isHasResearchSt() && actionMenu.getIsResearchSActive())
 
             {
                 cities[i].activeAction(true);
@@ -272,6 +273,15 @@ public class GameBoard extends BasicGameState {
             }
         }
 
+        //PLACE RESEARCH STATION
+        if (actionMenu.getIsResearchSActive()) {
+            for (int i = 0; i < cities.length; i++) {
+                if (cities[i].getButton().clickWithin(gc)) {
+                    cities[i].placeResearchStation(players, playerNo);
+                }
+            }
+        }
+
 
         if (showHand1) {
             g.drawImage(handToggle, 25, 76);
@@ -285,6 +295,8 @@ public class GameBoard extends BasicGameState {
         if (showHand4) {
             g.drawImage(handToggle, 715, 76);
         }
+
+        actionMenu.render(gc, g);
 
 
     }
@@ -328,6 +340,17 @@ public class GameBoard extends BasicGameState {
                 cities[i].setRemoveCubeButtonSelected(true);
             } else {
                 cities[i].setRemoveCubeButtonSelected(false);
+            }
+        }
+    }
+
+    public void placeResearchStationAction() {
+        boolean placeResearchStation = actionMenu.getIsResearchSActive();
+        for (int i = 0; i < cities.length; i++) {
+            if (placeResearchStation) {
+                cities[i].setPlaceResearchStationSelected(true);
+            } else {
+                cities[i].setPlaceResearchStationSelected(false);
             }
         }
 

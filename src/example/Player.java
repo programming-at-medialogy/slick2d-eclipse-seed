@@ -45,7 +45,7 @@ public class Player extends BasicGame {
         curCityImg = new Image ("assets/cities/currentlyincity.png");
 
         for (int i = 0; i < playerImage.length; i++) {
-            playerImage[i] = new Image("assets/guielements/players/" + i + ".png"); //PLACEHOLDER IMAGE
+            playerImage[i] = new Image("assets/guielements/players/" + i + ".png");
         }
 
         role = new Roles("Role", 0);
