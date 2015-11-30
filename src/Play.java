@@ -1,4 +1,5 @@
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -56,6 +57,9 @@ public class Play extends BasicGameState {
 						houseArea.update(gc, delta);
 					} catch (SlickException e) {
 						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				}
 			}
@@ -69,6 +73,9 @@ public class Play extends BasicGameState {
 					try {
 						roadArea.update(gc, delta);
 					} catch (SlickException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
