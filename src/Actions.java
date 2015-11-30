@@ -54,23 +54,21 @@ public class Actions {
 			//Check if player have funds
 			int type  = trade.has[0];
 			if(GameData.players.get(player).resources[type]>=trade.has.length){
-				//Send message to server. Something like:
-				//networkHelper.sendMessage("Trade Offer",trade, player);
+				//Send message to server
+				String message = gson.toJson(trade);
+				NetworkClient.sendMessage("Trade " + message);
 			}
 		}
 		
-		static void receiveTrade(TradeObject trade, int player){
-			//Method called when other users wants to trade resources
-			//Update graphics
-		}
-		
-		static void acceptTrade(TradeObject trade,int thisPlayer,int opponent){
+		static void acceptTrade(){
 			//Method called when user accept trade
 			//Check if player have funds
-			int type  = trade.wants[0];
-			if(GameData.players.get(thisPlayer).resources[type]>=trade.wants.length){
-				//Send message to server. Something like:
-				//networkHelper.sendMessage("TradeAccept",trade, thisPlayer, opponent);
+			int type  = GameData.tObject.wants[0];
+			if(GameData.players.get(GameData.ownIndex).resources[type]>=GameData.tObject.wants.length){
+				GameData.tObject.acceptPlayer = GameData.ownIndex;
+				String message = gson.toJson(GameData.tObject);
+				//Send message to server
+				NetworkClient.sendMessage("TradeAccept " + message);
 			}
 		}
 
@@ -202,7 +200,21 @@ public class Actions {
 						if (playerID != GameData.ownIndex)
 							ListBox.addString(message, playerID);
 					}
+					else if(objectType.equals("Trade")){
+						//Method called when other users wants to trade resources
+						TradeObject trade = gson.fromJson(message, TradeObject.class);
+						GameData.tObject = trade;
+						if(GameData.tObject.initPlayer!=GameData.ownIndex){
+							//Update graphics
+						}
+					}else if(objectType.equals("TradeAccept")){
+						GameData.tObject = gson.fromJson(message, TradeObject.class);
+						GameData.players.get(GameData.tObject.initPlayer).resources[GameData.tObject.hasType] -= GameData.tObject.has.length;
+						GameData.players.get(GameData.tObject.initPlayer).resources[GameData.tObject.wantsType] += GameData.tObject.wants.length;
+						GameData.players.get(GameData.tObject.acceptPlayer).resources[GameData.tObject.hasType] += GameData.tObject.has.length;
+						GameData.players.get(GameData.tObject.acceptPlayer).resources[GameData.tObject.wantsType] -= GameData.tObject.wants.length;
+					}
+					}
 				}
 			}
 		}
-}

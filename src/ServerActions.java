@@ -122,7 +122,18 @@ public class ServerActions {
 			expectingRoad = clientId;
 		} else if (objectType.equals("Chat")) {
 			NetworkServer.sendToAll("Chat " + clientId + " " + message);
+		} else if(objectType.equals("Trade")){
+			GameData.tObject = gson.fromJson(message, TradeObject.class);
+			NetworkServer.sendToAll("Trade " + message);
+		}else if(objectType.equals("TradeAccept")){
+			GameData.tObject = gson.fromJson(message, TradeObject.class);
+			GameData.players.get(GameData.tObject.initPlayer).resources[GameData.tObject.hasType] -= GameData.tObject.has.length;
+			GameData.players.get(GameData.tObject.initPlayer).resources[GameData.tObject.wantsType] += GameData.tObject.wants.length;
+			GameData.players.get(GameData.tObject.acceptPlayer).resources[GameData.tObject.hasType] += GameData.tObject.has.length;
+			GameData.players.get(GameData.tObject.acceptPlayer).resources[GameData.tObject.wantsType] -= GameData.tObject.wants.length;
+			NetworkServer.sendToAll("TradeAccept " + message);
 		}
+		
 	}
 	
 	public static void updateGameData() {
