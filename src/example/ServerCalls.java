@@ -1,9 +1,8 @@
 package example;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import org.lwjgl.Sys;
+
+import java.io.*;
 import java.net.Socket;
 import java.util.List;
 
@@ -11,53 +10,24 @@ import java.util.List;
  * Class that holds the Server Calls. A String is passed to the server and a value returned
  * Created by TMA on 07-11-2015.
  */
-public class ServerCalls {
+public class ServerCalls extends Thread {
 
-    private static final String HOST = "localhost";
-    private static final int PORT = 1234;
+    GameStateCommons gsc;
+    private static Socket socket = GameClient.socket;
+    private static PrintWriter out = GameClient.out;
 
-    public ServerCalls() {
-
+    public ServerCalls(GameStateCommons gsc) {
+        this.gsc = gsc;
     }
 
     /**
      * Assign the player with an ID so that we always can find his position within an ArrayList of Players
-     *
-     * @return Returns the ID of the player as an integer
      * @throws IOException
      */
-    public static int assignPlayerID() throws IOException {
-        String inputStream;
-        int playerID;
 
-        Socket s = new Socket(HOST, PORT);
-
-        PrintWriter out = new PrintWriter(s.getOutputStream(), true);
-        out.println("ASSIGN_PLAYER_ID");
-
-        BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
-        inputStream = in.readLine();
-        playerID = Integer.valueOf(inputStream);
-        System.out.println(inputStream);
-
-        return playerID;
-    }
-
-    public static int getPlayerID() throws IOException {
-        String inputStream;
-        int playerID;
-
-        Socket s = new Socket(HOST, PORT);
-
-        PrintWriter out = new PrintWriter(s.getOutputStream(), true);
+    public void getPlayerID() throws IOException {
         out.println("GET_PLAYER_ID");
-
-        BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
-        inputStream = in.readLine();
-        playerID = Integer.valueOf(inputStream);
-        System.out.println(inputStream);
-
-        return playerID;
+        out.flush();
     }
 
     /**
@@ -65,20 +35,10 @@ public class ServerCalls {
      * @return the current status of the player (if he is ready or not)
      * @throws IOException
      */
-    public static boolean getPlayerStatusOnServer(int index) throws IOException {
+    public void getPlayerStatusOnServer(int index) throws IOException {
 
-        boolean gO;
-        String oPSO;
-
-        Socket gP = new Socket(HOST, PORT);
-        PrintWriter gPs = new PrintWriter(gP.getOutputStream(), true);
-        gPs.println("GET_PLAYER_STATUS: " + index);
-
-        BufferedReader gettingThePlayerStatus = new BufferedReader(new InputStreamReader(gP.getInputStream()));
-        oPSO = gettingThePlayerStatus.readLine();
-        gO = Boolean.valueOf(oPSO);
-        //System.out.println("FROM GET FUNCTION : Player With ID " + index + " is active " + gO);
-        return gO;
+        out.println("GET_PLAYER_STATUS: " + index);
+        out.flush();
     }
 
     /**
@@ -86,87 +46,129 @@ public class ServerCalls {
      * @param playerIdNo the ID of the specific player using that specific client
      *                   Sets the status of the player on the server (if he is ready to play or not)
      */
-    public static void setPlayerStatusOnServer(List<Player> playerList, int playerIdNo) {
+    public void setPlayerStatusOnServer(List<Player> playerList, int playerIdNo) {
 
-        String playerStatusOut;
         boolean curPlayStatus;
+        curPlayStatus = playerList.get(playerIdNo).getPlayerReady();
+        out.println("SET_PLAYER_STATUS: " + curPlayStatus + " " + playerIdNo);
+        out.flush();
+    }
+
+    public void setPlayerRole(int playerNo) {
+
+        out.println("SET_PLAYER_ROLE: " + playerNo);
+        out.flush();
+
+    }
+
+    public void getPlayerRole(int playerNo) throws IOException {
+
+        out.println("GET_PLAYER_ROLE: " + playerNo);
+        out.flush();
+    }
+
+
+    public void getAnimationStatus() throws IOException {
+
+        out.println("GET_ANIMATION_STATUS");
+        out.flush();
+    }
+
+    public void setAnimationStatusTrue() {
+
+        out.println("SET_ANIMATION_TRUE");
+        out.flush();
+    }
+
+    public void run() {
 
         try {
-            Socket s = new Socket(HOST, PORT);
-            PrintWriter setPlayerStatus = new PrintWriter(s.getOutputStream(), true);
-            curPlayStatus = playerList.get(playerIdNo).getPlayerReady();
-            setPlayerStatus.println("SET_PLAYER_STATUS: " + curPlayStatus + " " + playerIdNo);
+            boolean running = true;
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            while (running) {
+                String serverCommands;
 
-            BufferedReader getPlayerStatus = new BufferedReader(new InputStreamReader(s.getInputStream()));
-            playerStatusOut = getPlayerStatus.readLine();
-            curPlayStatus = Boolean.valueOf(playerStatusOut);
-            System.out.println("FROM SET PLAY FUNCTION : Player With ID " + playerIdNo + " is now active" + curPlayStatus);
-        } catch (IOException ioEx) {
+                serverCommands = in.readLine();
+
+                if (serverCommands.equals("quit")) {
+                    running = false;
+                    System.out.println("QUITTER");
+                }
+
+                if (       serverCommands.equals("GET_PLAYER_ID@0")
+                        || serverCommands.equals("GET_PLAYER_ID@1")
+                        || serverCommands.equals("GET_PLAYER_ID@2")
+                        || serverCommands.equals("GET_PLAYER_ID@3")) {
+
+                    String[] value = serverCommands.split("@");
+                    int tmpInt = Integer.valueOf(value[1]);
+                    gsc.setPlayerNo(tmpInt);
+                }
+
+                if (       serverCommands.equals("GET_PLAYER_ROLE@0@0")
+                        || serverCommands.equals("GET_PLAYER_ROLE@0@1")
+                        || serverCommands.equals("GET_PLAYER_ROLE@0@2")
+                        || serverCommands.equals("GET_PLAYER_ROLE@0@3")
+                        || serverCommands.equals("GET_PLAYER_ROLE@0@4")
+                        || serverCommands.equals("GET_PLAYER_ROLE@0@5")
+                        || serverCommands.equals("GET_PLAYER_ROLE@0@6")
+
+                        || serverCommands.equals("GET_PLAYER_ROLE@1@1")
+                        || serverCommands.equals("GET_PLAYER_ROLE@1@2")
+                        || serverCommands.equals("GET_PLAYER_ROLE@1@3")
+                        || serverCommands.equals("GET_PLAYER_ROLE@1@4")
+                        || serverCommands.equals("GET_PLAYER_ROLE@1@5")
+                        || serverCommands.equals("GET_PLAYER_ROLE@1@6")
+
+                        || serverCommands.equals("GET_PLAYER_ROLE@2@1")
+                        || serverCommands.equals("GET_PLAYER_ROLE@2@2")
+                        || serverCommands.equals("GET_PLAYER_ROLE@2@3")
+                        || serverCommands.equals("GET_PLAYER_ROLE@2@4")
+                        || serverCommands.equals("GET_PLAYER_ROLE@2@5")
+                        || serverCommands.equals("GET_PLAYER_ROLE@2@6")
+
+                        || serverCommands.equals("GET_PLAYER_ROLE@3@1")
+                        || serverCommands.equals("GET_PLAYER_ROLE@3@2")
+                        || serverCommands.equals("GET_PLAYER_ROLE@3@3")
+                        || serverCommands.equals("GET_PLAYER_ROLE@3@4")
+                        || serverCommands.equals("GET_PLAYER_ROLE@3@5")
+                        || serverCommands.equals("GET_PLAYER_ROLE@3@6")) {
+
+                    String[] value = serverCommands.split("@");
+                    int playerNo = Integer.valueOf(value[1]);
+                    int roleNo = Integer.valueOf(value[2]);
+                    gsc.getPlayers().get(playerNo).getRole().setIndexNo(roleNo);
+                }
+
+
+                if (       serverCommands.equals("GET_PLAYER_STATUS@true@0")
+                        || serverCommands.equals("GET_PLAYER_STATUS@false@0")
+                        || serverCommands.equals("GET_PLAYER_STATUS@true@1")
+                        || serverCommands.equals("GET_PLAYER_STATUS@false@1")
+                        || serverCommands.equals("GET_PLAYER_STATUS@true@2")
+                        || serverCommands.equals("GET_PLAYER_STATUS@false@2")
+                        || serverCommands.equals("GET_PLAYER_STATUS@true@3")
+                        || serverCommands.equals("GET_PLAYER_STATUS@false@3")) {
+
+                    String[] tmpValue = serverCommands.split("@");
+                    int identifier = Integer.valueOf(tmpValue[2]);
+                    boolean status = Boolean.valueOf(tmpValue[1]);
+                    gsc.getPlayers().get(identifier).setPlayerReady(status);
+                }
+
+                if (serverCommands.equals("GET_ANIMATION_STATUS@true") || serverCommands.equals("GET_ANIMATION_STATUS@false")) {
+                    String[] value = serverCommands.split("@");
+                    String tmpString = value[1];
+                    boolean tmpBool = Boolean.valueOf(tmpString);
+                    gsc.setAnimationStatus(tmpBool);
+                }
+
+            }
+
+
+        } catch (IOException ioEx){
             ioEx.printStackTrace();
         }
 
     }
-
-    public static int setPlayerRole(int playerNo) throws IOException {
-        String playerRoleString;
-        int playerRole;
-
-        Socket s = new Socket(HOST, PORT);
-
-        PrintWriter out = new PrintWriter(s.getOutputStream(), true);
-        out.println("SET_PLAYER_ROLE: " + playerNo);
-
-        BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
-        playerRoleString = in.readLine();
-        playerRole = Integer.valueOf(playerRoleString);
-
-        return playerRole;
-    }
-
-    public static int getPlayerRole(int playerNo) throws IOException {
-        String playerRoleString;
-        int playerRole;
-
-        Socket s = new Socket(HOST, PORT);
-
-        PrintWriter out = new PrintWriter(s.getOutputStream(), true);
-        out.println("GET_PLAYER_ROLE: " + playerNo);
-
-        BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
-        playerRoleString = in.readLine();
-        playerRole = Integer.valueOf(playerRoleString);
-
-        return playerRole;
-    }
-
-    public static boolean getAnimationStatus() throws IOException {
-
-        String animationStatusString;
-        boolean animationStatus;
-
-        Socket s = new Socket(HOST, PORT);
-
-        PrintWriter out = new PrintWriter(s.getOutputStream(), true);
-        out.println("GET_ANIMATION_STATUS");
-
-        BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
-        animationStatusString = in.readLine();
-        animationStatus = Boolean.valueOf(animationStatusString);
-
-        return animationStatus;
-    }
-
-    public static void setAnimationStatusTrue() {
-
-        try {
-            Socket s = new Socket(HOST, PORT);
-
-            PrintWriter out = new PrintWriter(s.getOutputStream(), true);
-            out.println("SET_ANIMATION_TRUE");
-
-        } catch (IOException IOEx) {
-            IOEx.printStackTrace();
-        }
-    }
-
 }

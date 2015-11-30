@@ -13,62 +13,70 @@ public class Player extends BasicGame {
 
     private Image[] playerImage = new Image[7];
     private City currentLocation = new City("pandemic", "atlanta", 230, 300, new String[]{"miami", "washington", "chicago"}, 0);
+    private Image curLocation;
+    private Image othersLocation;
+    private Image curCityImg;
 
     private int xPos;
     private int yPos;
-    private int relativeXpos;
-    private int relativeYpos;
 
-    private int playerRoleNo;
+    private int roleP1, roleP2, roleP3, roleP4;
+
+    private Roles role;
 
     private int playerID;
 
-    String pos;
-    boolean turn;
-    int actionsLeft;
     private boolean playerReady;
+
+    private boolean moveSelected;
 
 
     public Player(String gametitle) {
         super(gametitle);
         playerReady = false;
-
+        currentLocation.setHasResearchSt(true);
     }
 
     @Override
-    public void init(GameContainer gameContainer) throws SlickException {
+    public void init(GameContainer gc) throws SlickException {
+
+        curLocation = new Image ("assets/guielements/currentlocation.png");
+        othersLocation = new Image ("assets/guielements/otherslocation.png");
+        curCityImg = new Image ("assets/cities/currentlyincity.png");
 
         for (int i = 0; i < playerImage.length; i++) {
             playerImage[i] = new Image("assets/guielements/players/" + i + ".png"); //PLACEHOLDER IMAGE
         }
+
+        role = new Roles("Role", 0);
+        role.init(gc);
     }
 
     @Override
-    public void update(GameContainer gameContainer, int i) throws SlickException {
+    public void update(GameContainer gc, int i) throws SlickException {
+
+        role.update(gc,i);
+
         xPos = currentLocation.getxPos();
         yPos = currentLocation.getyPos();
-        if (playerID == 0 || playerID == 2)
-            relativeXpos = xPos - 50;
-        if (playerID == 1 || playerID == 3)
-            relativeXpos = xPos + 20;
-        if (playerID == 0 || playerID == 1)
-            relativeYpos = yPos + 130;
-        if (playerID == 2 || playerID == 3)
-            relativeYpos = yPos + 180;
-
-
-
-
     }
 
     @Override
     public void render(GameContainer gc, Graphics g) throws SlickException {
 
-            g.drawImage(playerImage[playerRoleNo], relativeXpos, relativeYpos);
+        if (playerID == 0)
+         g.drawImage(playerImage[roleP1], xPos-10, yPos+135);
+        else if (playerID == 1)
+        g.drawImage(playerImage[roleP2], xPos+35, yPos+135);
+        else if (playerID == 2)
+        g.drawImage(playerImage[roleP3], xPos-10, yPos+180);
+        else
+        g.drawImage(playerImage[roleP4], xPos+35, yPos+180);
+
     }
 
     public boolean checkMovability(City city) {
-        if (getNeighborCityAsList().contains(city.getCityName()))
+        if ((getNeighborCityAsList().contains(city.getCityName())) || (currentLocation.isHasResearchSt() && city.isHasResearchSt()))
             return true;
         else
             return false;
@@ -90,9 +98,6 @@ public class Player extends BasicGame {
 
         if (checkMovability(city)) {
             this.currentLocation = city;
-            System.out.println(currentLocation.getCityName());
-        } else {
-            System.out.println("NO");
         }
     }
 
@@ -100,24 +105,46 @@ public class Player extends BasicGame {
         return currentLocation;
     }
 
-    public void showHand(Graphics g) {
-    }
-
     public List<String> getNeighborCityAsList() {
         return Arrays.asList(currentLocation.getNeighborCities());
     }
 
-    public void setPlayerRoleNo(int index) {
-        this.playerRoleNo = index;
+    public Roles getRole() {
+        return role;
     }
 
-    public int getPlayerID() {
-        return playerID;
+    public void setPlayerID(int playerID) {
+        this.playerID = playerID;
     }
 
-    public void setPlayerID(int index) {
-        this.playerID = index;
+    public void setRoleP1(int roleP1) {
+        this.roleP1 = roleP1;
     }
 
+    public void setRoleP2(int roleP2) {
+        this.roleP2 = roleP2;
+    }
 
+    public void setRoleP3(int roleP3) {
+        this.roleP3 = roleP3;
+    }
+
+    public void setRoleP4(int roleP4) {
+        this.roleP4 = roleP4;
+    }
+
+    public void displayCurrentLocation(Graphics g) {
+        g.drawImage(curLocation,xPos+7,yPos-30);
+        if (moveSelected) {
+            g.drawImage(curCityImg, xPos, yPos);
+        }
+    }
+
+    public void displayOthersLocation (Graphics g) {
+        g.drawImage(othersLocation,xPos+7,yPos-30);
+    }
+
+    public void setMoveSelected(boolean value) {
+        this.moveSelected = value;
+    }
 }

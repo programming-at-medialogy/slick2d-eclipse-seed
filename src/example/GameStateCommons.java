@@ -9,8 +9,15 @@ import java.util.List;
 public class GameStateCommons {
 
     private List<Player> players;
-    private int playerNo, roleNo;
-    private boolean enteringGameStateP1, enteringGameStateP2, enteringGameStateP3, enteringGameStateP4;
+    private int playerNo;
+    private boolean animationStatus;
+
+    public GameStateCommons(List<Player> players) {
+
+        playerNo = 0;
+        this.players = players;
+
+    }
 
     public int getPlayerNo() {
         return playerNo;
@@ -20,43 +27,16 @@ public class GameStateCommons {
         this.playerNo = player;
     }
 
-    public int getRoleNo() {
-        return roleNo;
-    }
-
-    public void setRoleNo(int role) {
-        this.roleNo = role;
-    }
-
     public List<Player> getPlayers() {
         return players;
     }
 
-    public void setPlayers(List<Player> players) {
-        this.players = players;
+    public boolean isAnimationStatus() {
+        return animationStatus;
     }
 
-    public boolean isEnteringGameState(int playerIndex) {
-        if (playerIndex == 0)
-            return enteringGameStateP1;
-        else if (playerIndex == 1)
-            return enteringGameStateP2;
-        else if (playerIndex == 2)
-            return enteringGameStateP3;
-        else
-            return enteringGameStateP4;
+    public void setAnimationStatus(boolean animationStatus) {
+        this.animationStatus = animationStatus;
     }
-
-    public void setEnteringGameState(boolean enteringGameState, int playerIndex) {
-        if (playerIndex == 0)
-            this.enteringGameStateP1 = enteringGameState;
-        else if (playerIndex == 1)
-            this.enteringGameStateP2 = enteringGameState;
-        else if (playerIndex == 2)
-            this.enteringGameStateP3 = enteringGameState;
-        else
-            this.enteringGameStateP4 = enteringGameState;
-    }
-
 
 }

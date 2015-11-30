@@ -1,5 +1,8 @@
 package example;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -14,8 +17,14 @@ import org.newdawn.slick.state.StateBasedGame;
 /**
 *   Uses SLICK2D StateBasedGame in order to easily jump between states
 */
-public class GameClient extends StateBasedGame
-{
+public class GameClient extends StateBasedGame {
+
+    private static final String HOST = "localhost";
+    //private static final String HOST = "172.30.211.158";
+    private static final int PORT = 1234;
+    //private static final int PORT = 2555;
+    public static Socket socket;
+    public static PrintWriter out;
 
 
 
@@ -35,8 +44,6 @@ public class GameClient extends StateBasedGame
     @Override
     public void initStatesList(GameContainer gc) throws SlickException {
 
-        GameStateCommons gsc = new GameStateCommons();
-
         //CREATE THE PLAYERS
         List<Player> players = new ArrayList<Player>(4);
         players.add(new Player("1"));
@@ -44,15 +51,28 @@ public class GameClient extends StateBasedGame
         players.add(new Player("3"));
         players.add(new Player("4"));
 
+        GameStateCommons gsc = new GameStateCommons(players);
+        ServerCalls serverCalls = new ServerCalls(gsc);
+        serverCalls.start();
+
+
+
         //this.addState(new InputNameScreen(gsc));
-        //this.addState(new Lobby(gsc, players));
-        this.addState(new GameBoard(gsc, players));
+        //this.addState(new Lobby(gsc, serverCalls,players));
+        this.addState(new GameBoard(gsc,serverCalls,players));
 
     }
 
 
     //The main
     public static void main(String[] args) {
+
+        try {
+            socket = new Socket(HOST, PORT);
+            out = new PrintWriter(socket.getOutputStream(), true);
+        } catch (IOException ioEx) {
+            ioEx.printStackTrace();
+        }
 
         try {
             AppGameContainer appgc;
