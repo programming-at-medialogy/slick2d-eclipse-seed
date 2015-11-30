@@ -28,7 +28,7 @@ public class PreGameState extends BasicGameState implements KeyListener{
 	 * @param s is the current state in which this class functions
 	 */	
 	@Override
-	public void init(GameContainer gc, final StateBasedGame s) throws SlickException {
+	public void init(GameContainer gc, final StateBasedGame s) throws SlickException { 
 		//instantiate objects
 		background = new Image("resources/background.png");	
 

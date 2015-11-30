@@ -23,7 +23,7 @@ public class Resource {
 		buttonFont = new TrueTypeFont[30];
 		
 		for (int i = 0; i < buttonTempFont.length; i++) {
-			buttonTempFont[i] = new Font("resources/16790.ttf", Font.BOLD, i * 2 + 1);
+			buttonTempFont[i] = new Font("resources/OratorStd.ttf", Font.PLAIN, i * 2 + 1);
 			buttonFont[i] = new TrueTypeFont(buttonTempFont[i], true);
 		}
 	}
@@ -35,10 +35,10 @@ public class Resource {
 	 * ATM. the warningFont is the same font as button.  
 	 * This declaration might not be needed.
 	 */
-	public static Font warningTempFont = new Font("resources/16790.ttf", Font.BOLD, 22);
+	public static Font warningTempFont = new Font("resources/OratorStd.ttf", Font.PLAIN, 22);
 	public static TrueTypeFont warningFont = new TrueTypeFont(warningTempFont, true);
-	public static Font listTempFont = new Font("resources/16790.ttf", Font.BOLD, 20);
-	public static Font miscTempFont = new Font("resources/16790.ttf", Font.BOLD, 14);
+	public static Font listTempFont = new Font("resources/OratorStd.ttf", Font.PLAIN, 20);
+	public static Font miscTempFont = new Font("resources/OratorStd.ttf", Font.PLAIN, 14);
 	public static TrueTypeFont miscFont = new TrueTypeFont(miscTempFont, true);	
 	
 	public static TrueTypeFont listFont = new TrueTypeFont(listTempFont, true);

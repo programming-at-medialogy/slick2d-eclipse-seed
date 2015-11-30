@@ -47,7 +47,7 @@ public class LobbyState extends BasicGameState implements KeyListener{
 		 * Example of button instantiation and the abstracts method isClicked() from the button class
 		 * Creating the appropriate buttons at the appropriate locations
 		 */
-		Button Back = new Button(Windows.scWidth/2- 163, Windows.scHeight/4 + 202, 326, 86, 10, "Back", this) {
+		Button Back = new Button(Windows.scWidth/2- 163, Windows.scHeight/4 + 202, 326, 86, 15, "Back", this) {
 			@Override
 			public void isClicked() {
 				//need to implement a non-static bool
@@ -57,7 +57,7 @@ public class LobbyState extends BasicGameState implements KeyListener{
 			}
 		};
 		
-		Button Join = new Button(Windows.scWidth/2- 163, Windows.scHeight/4 + 101, 326, 86, 10, "Join",this) {
+		Button Join = new Button(Windows.scWidth/2- 163, Windows.scHeight/4 + 101, 326, 86, 15, "Join",this) {
 			@Override
 			public void isClicked() {
 				s.enterState(States.PreGameState);
@@ -69,7 +69,7 @@ public class LobbyState extends BasicGameState implements KeyListener{
 		 * onSubmit is an abstract method similar to isClicked(), but originates from the TextBox class
 		 * 
 		 **/
-		Button SearchForGame = new Button(Windows.scWidth/2 - 163, Windows.scHeight/4, 326, 86, 10, "Search",this) {
+		Button SearchForGame = new Button(Windows.scWidth/2 - 163, Windows.scHeight/4, 326, 86, 15, "Search",this) {
 			@Override
 			public void isClicked() {
 				findGame = true;

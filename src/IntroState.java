@@ -38,11 +38,11 @@ public class IntroState extends BasicGameState implements KeyListener{
 		 * Example of textBox instantiation and the abstracts method onSubmit() from the button class
 		 * Creating the appropriate buttons and textBox at the appropriate locations
 		 */
-		Button PlayNow = new Button(Windows.scWidth/2 - 163, Windows.scHeight/4, 326, 86, 10, "Play",this) {
+		Button PlayNow = new Button(Windows.scWidth/2 - 163, Windows.scHeight/4, 326, 86, 15, "Play",this) {
 			@Override
 			public void isClicked() {
 				startGame = true;
-				TextBox nameBox = new TextBox(Windows.scWidth/2 - 255, 330, 500, 50, 10, this.state){
+				TextBox nameBox = new TextBox(Windows.scWidth/2 - 255, 330, 500, 50, 15, this.state){
 					@Override
 					public void onSubmit() {
 						playerName = this.getContent();
@@ -61,7 +61,7 @@ public class IntroState extends BasicGameState implements KeyListener{
 			}
 		};
 		
-		Button ExitGame = new Button(Windows.scWidth/2- 163, Windows.scHeight/4 + 101, 326, 86, 10, "Exit",this) {
+		Button ExitGame = new Button(Windows.scWidth/2- 163, Windows.scHeight/4 + 101, 326, 86, 15, "Exit",this) {
 			@Override
 			public void isClicked() {
 				startGame = false;

@@ -3,6 +3,7 @@ import java.awt.Font;
 import java.util.ArrayList;
 
 import org.lwjgl.input.Mouse;
+import org.newdawn.slick.Color;
 //import org.newdawn.slick.Font;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -70,7 +71,7 @@ public abstract class Button {
 				} else {
 					buttons.get(i).image.draw(buttons.get(i).x, buttons.get(i).y, buttons.get(i).width, buttons.get(i).height);
 				}
-				Resource.buttonFont[buttons.get(i).fontSize].drawString(buttons.get(i).x + buttons.get(i).width / 2 - Resource.buttonFont[buttons.get(i).fontSize].getWidth(buttons.get(i).message) / 2, buttons.get(i).y + buttons.get(i).height / 2 - Resource.buttonFont[buttons.get(i).fontSize].getHeight(buttons.get(i).message) / 2, buttons.get(i).message);
+				Resource.buttonFont[buttons.get(i).fontSize].drawString(buttons.get(i).x + buttons.get(i).width / 2 - Resource.buttonFont[buttons.get(i).fontSize].getWidth(buttons.get(i).message) / 2, buttons.get(i).y + buttons.get(i).height / 2 - Resource.buttonFont[buttons.get(i).fontSize].getHeight(buttons.get(i).message) / 2, buttons.get(i).message, new Color(100, 54, 26));
 			}
 		}
 	}
