@@ -7,11 +7,11 @@ import org.newdawn.slick.SlickException;
 
 public class Card {
 	Image cardType;
-	static int x;
-	static int y;
+	public int x;
+	public int y;
 	int resCardSize = 50;
 	
-	public Card (){
+	public Card () throws SlickException{
 		
 	}
 	

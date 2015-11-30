@@ -14,6 +14,7 @@ public class Play extends BasicGameState {
 	OnScreenTextField textField;
 	
 	public Card cardHelp;
+	public Card infoCard;
 	public Card[] developmentPile = new Card[25];
 	
 	
@@ -29,6 +30,10 @@ public class Play extends BasicGameState {
 		textField = new OnScreenTextField();
 		textField.create(gc);
 		
+		infoCard = new Card();
+		infoCard.cardType = new Image ("images/info.png");
+		infoCard.x = 990;
+		infoCard.y = 170;
 		cardHelp = new Card();
 		cardHelp.createDevPile(developmentPile);
 		Collections.shuffle(Arrays.asList(developmentPile));
@@ -44,6 +49,7 @@ public class Play extends BasicGameState {
 		houseArea.render(gc, g);
 		buttoms.render(gc, g);
 		textField.render(gc, g);
+		infoCard.render(gc, g);
 	}
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {

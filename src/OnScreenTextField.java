@@ -6,6 +6,7 @@ import org.newdawn.slick.gui.TextField;
 
 public class OnScreenTextField {
 
+	private int once = 0;
 	TextField textField, textField2, textField3, textField4;
 	OnScreenButton diceButton;
 	Controller control;
@@ -67,7 +68,6 @@ public class OnScreenTextField {
 
 	public void update(GameContainer gc, int i) throws SlickException {
 		diceButton.update(gc, i);
-		int once = 0;
 
 		if (control.isPlayerTurn == true && diceButton.buttonDiceControl == true) {
 			if (once < 1) {
