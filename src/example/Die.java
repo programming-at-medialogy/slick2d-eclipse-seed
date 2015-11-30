@@ -16,7 +16,4 @@ public class Die {
 		System.out.println("You roll the reinforcement die. Number rolled: " + roll());		
 	}
 	
-	public static void main(String[] args) { 		// coz we dont have a main class right now
-		result();
-	}
 }
