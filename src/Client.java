@@ -1,12 +1,12 @@
 import java.io.*;
 import java.net.*;
- 
+
 public class Client
 {
     public static void main(String args[])
     {
         DatagramSocket sock = null;
-        int port = 2222;
+        int port = 9000;
         String s;
          
         BufferedReader cin = new BufferedReader(new InputStreamReader(System.in));
@@ -19,7 +19,7 @@ public class Client
              
             while(true)
             {
-                //take input and send the packet
+                //takes input and sends the packet
                 echo("Enter message to send : ");
                 s = (String)cin.readLine();
                 byte[] b = s.getBytes();
@@ -28,7 +28,7 @@ public class Client
                 sock.send(dp);
                  
                 //now receive reply
-                //buffer to receive incoming data
+                //creating buffer for receiving incoming data
                 byte[] buffer = new byte[65536];
                 DatagramPacket reply = new DatagramPacket(buffer, buffer.length);
                 sock.receive(reply);
@@ -36,7 +36,7 @@ public class Client
                 byte[] data = reply.getData();
                 s = new String(data, 0, reply.getLength());
                  
-                //echo the details of incoming data - client ip : client port - client message
+                //details for incoming data - client ip : client port - client message
                 echo(reply.getAddress().getHostAddress() + " : " + reply.getPort() + " - " + s);
             }
         }
@@ -48,8 +48,8 @@ public class Client
     }
      
     //simple function to echo data to terminal
-    public static void echo(String msg)
+    public static void echo(String message)
     {
-        System.out.println(msg);
+        System.out.println(message);
     }
 }
