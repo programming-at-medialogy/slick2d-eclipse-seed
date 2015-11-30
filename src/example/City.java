@@ -37,6 +37,7 @@ public class City extends BasicGame {
     private boolean hasResearchSt;
     private boolean moveButtonSelected;
     private boolean removeCubeButtonSelected;
+    private boolean placeResearchStationSelected;
     private String[] neighborCities;
 
     private int color;
@@ -56,7 +57,7 @@ public class City extends BasicGame {
     /**
      * The constructor for the city class, defining the parameters needed to create a city object
      * instance in the Gameboard class.
-    **/
+     **/
     public City(String title, String cityName, int xPos, int yPos, String[] neighborCities, int color) {
         super(title);
         this.cityName = cityName;
@@ -73,10 +74,12 @@ public class City extends BasicGame {
          * If statements that relate color variables to instances of the button class that take the arguements:
          * a title, an x-coordinate, a y-coordinate and an image file represented by a number.
          * Button: (String title, int, int, int picIndexNo);
-        **/
+         **/
 
         playerCards = new Cards("playerCard", 0, cityName);
         infectionCards = new Cards("infectionCard", 1, cityName);
+        playerCards.init(gc);
+        infectionCards.init(gc);
 
         if (color == 0) {
             button = new Button("cityButton", xPos, yPos, 19);
@@ -98,9 +101,9 @@ public class City extends BasicGame {
 
         nonMovableCity = new Image("assets/cities/notmovablecities.png");
         cityOverview = new Image("assets/guielements/cityoverview.png");
-        cityOverviewName = new Image("assets/cities/"+cityName+".png");
+        cityOverviewName = new Image("assets/cities/" + cityName + ".png");
         researchStation = new Image("assets/guielements/researchstation.png");
-        warning = new Image("assets/guielements/researchstation.png"); //REMEMBER TO CHANGE
+        warning = new Image("assets/guielements/warning.png"); //REMEMBER TO CHANGE
 
 
         button.init(gc);
@@ -115,32 +118,27 @@ public class City extends BasicGame {
     public void render(GameContainer gc, Graphics g) throws SlickException {
 
 
+
+        button.render(gc, g);
+        if (cubeBlack == 3 || cubeBlue == 3 || cubeRed == 3 || cubeYellow == 3)
+            g.drawImage(warning, xPos + 2, yPos - button.getImageWidth() / 2 - warning.getWidth() / 2);
+
+
+
         /**
          * This if-statement draws an image on the cities that are not electable to move to
          * and issues a warning if more than 3 cubes of the same color are drawn on the same city.
          */
-
-        button.render(gc, g);
-        if (cubeBlack == 3 || cubeBlue == 3 || cubeRed == 3 || cubeYellow == 3)
-            g.drawImage(warning,xPos+1, yPos-button.getImageWidth()/2-warning.getWidth()/2+4);
-        if (moveButtonSelected || removeCubeButtonSelected) {
+        if (moveButtonSelected || removeCubeButtonSelected || placeResearchStationSelected) {
             if (!isActive) {
                 g.drawImage(nonMovableCity, xPos, yPos);
             }
         }
 
+        //playerCards.render(gc,g);
+
     }
 
-    //functions:
-    //placeResearchSt ()
-    public void placeResearchSt() {
-        hasResearchSt = true;
-    }
-
-    //removeResearchSt ()
-    public void removeResearchSt() {
-        hasResearchSt = false;
-    }
 
     /**
      * placeCube(color: string, amount: int)
@@ -150,7 +148,7 @@ public class City extends BasicGame {
     //removeCube(color: string, amount: int)
     public void removeCube(List<Player> players, int playerNo) {
 
-        if (playerOnLocation(players,playerNo)) {
+        if (playerOnLocation(players, playerNo)) {
             //IF YELLOW IS GREATEST
             if (cubeYellow > cubeBlack && cubeYellow > cubeBlue && cubeYellow > cubeRed) {
                 cubeYellow -= 1;
@@ -201,7 +199,15 @@ public class City extends BasicGame {
 
     }
 
-    private boolean playerOnLocation (List<Player> players, int playerNo) {
+    public void placeResearchStation(List<Player> players, int playerno) {
+
+        if (playerOnLocation(players, playerno) && !hasResearchSt) {
+            hasResearchSt = true;
+        }
+
+    }
+
+    private boolean playerOnLocation(List<Player> players, int playerNo) {
         if (cityName.equals(players.get(playerNo).getPlayerPosition().getCityName())) {
             return true;
         } else {
@@ -209,16 +215,16 @@ public class City extends BasicGame {
         }
     }
 
-    public void displayCityOverview(GameContainer gc, Graphics g){
+    public void displayCityOverview(GameContainer gc, Graphics g) {
 
 
         //Variables for displaying the cubes and the amount of cubes on the city toggle.
 
         int cubeSize = 15;
-        int firstRowX = xPos -50;
-        int firstRowY = yPos +84;
+        int firstRowX = xPos - 50;
+        int firstRowY = yPos + 84;
         int secondRowX = xPos + 20;
-        int secondRowY = yPos +105;
+        int secondRowY = yPos + 105;
         int stringPosX = 20;
 
         /**
@@ -228,93 +234,93 @@ public class City extends BasicGame {
          */
 
         if (button.hoverOver(gc)) {
-            g.drawImage(cityOverview, ((xPos - (cityOverview.getWidth()/2))+(button.getImageWidth()/2) -4), yPos + button.getImageHeight() + 5);
+            g.drawImage(cityOverview, ((xPos - (cityOverview.getWidth() / 2)) + (button.getImageWidth() / 2) - 4), yPos + button.getImageHeight() + 5);
             g.setColor(Color.white);
-            g.drawImage(cityOverviewName, firstRowX, yPos +65);
+            g.drawImage(cityOverviewName, firstRowX, yPos + 65);
 
             /**
              * The following if-statements draw the various cubes and a string that displays the amount 1, 2 or 3, for each
              * individual color.
              */
 
-            if(cubeBlue == 0){
+            if (cubeBlue == 0) {
                 g.setColor(Color.blue);
                 g.fillRect(firstRowX, firstRowY, cubeSize, cubeSize);
             } else if (cubeBlue == 1) {
                 g.setColor(Color.blue);
                 g.fillRect(firstRowX, firstRowY, cubeSize, cubeSize);
                 g.setColor(Color.white);
-                g.drawString("x 1", firstRowX+stringPosX, firstRowY);
+                g.drawString("x 1", firstRowX + stringPosX, firstRowY);
             } else if (cubeBlue == 2) {
                 g.setColor(Color.blue);
                 g.fillRect(firstRowX, firstRowY, cubeSize, cubeSize);
                 g.setColor(Color.white);
-                g.drawString("x 2", firstRowX+stringPosX, firstRowY);
+                g.drawString("x 2", firstRowX + stringPosX, firstRowY);
             } else if (cubeBlue == 3) {
                 g.setColor(Color.blue);
                 g.fillRect(firstRowX, firstRowY, cubeSize, cubeSize);
                 g.setColor(Color.white);
-                g.drawString("x 3", firstRowX+stringPosX, firstRowY);
+                g.drawString("x 3", firstRowX + stringPosX, firstRowY);
             }
 
-            if(cubeYellow == 0){
+            if (cubeYellow == 0) {
                 g.setColor(Color.yellow);
                 g.fillRect(secondRowX, firstRowY, cubeSize, cubeSize);
             } else if (cubeYellow == 1) {
                 g.setColor(Color.yellow);
                 g.fillRect(secondRowX, firstRowY, cubeSize, cubeSize);
                 g.setColor(Color.white);
-                g.drawString("x 1", secondRowX+stringPosX, firstRowY);
+                g.drawString("x 1", secondRowX + stringPosX, firstRowY);
             } else if (cubeYellow == 2) {
                 g.setColor(Color.yellow);
                 g.fillRect(secondRowX, firstRowY, cubeSize, cubeSize);
                 g.setColor(Color.white);
-                g.drawString("x 2", secondRowX+stringPosX, firstRowY);
+                g.drawString("x 2", secondRowX + stringPosX, firstRowY);
             } else if (cubeYellow == 3) {
                 g.setColor(Color.yellow);
                 g.fillRect(secondRowX, firstRowY, cubeSize, cubeSize);
                 g.setColor(Color.white);
-                g.drawString("x 3", secondRowX+stringPosX, firstRowY);
+                g.drawString("x 3", secondRowX + stringPosX, firstRowY);
             }
 
-            if(cubeBlack == 0){
+            if (cubeBlack == 0) {
                 g.setColor(Color.black);
                 g.fillRect(firstRowX, secondRowY, cubeSize, cubeSize);
             } else if (cubeBlack == 1) {
                 g.setColor(Color.black);
                 g.fillRect(firstRowX, secondRowY, cubeSize, cubeSize);
                 g.setColor(Color.white);
-                g.drawString("x 1", firstRowX+stringPosX, secondRowY);
+                g.drawString("x 1", firstRowX + stringPosX, secondRowY);
             } else if (cubeBlack == 2) {
                 g.setColor(Color.black);
                 g.fillRect(firstRowX, secondRowY, cubeSize, cubeSize);
                 g.setColor(Color.white);
-                g.drawString("x 2", firstRowX+stringPosX, secondRowY);
+                g.drawString("x 2", firstRowX + stringPosX, secondRowY);
             } else if (cubeBlack == 3) {
                 g.setColor(Color.black);
                 g.fillRect(firstRowX, secondRowY, cubeSize, cubeSize);
                 g.setColor(Color.white);
-                g.drawString("x 3", firstRowX+stringPosX, secondRowY);
+                g.drawString("x 3", firstRowX + stringPosX, secondRowY);
             }
 
-            if(cubeRed == 0){
+            if (cubeRed == 0) {
                 g.setColor(Color.red);
                 g.fillRect(secondRowX, secondRowY, cubeSize, cubeSize);
             } else if (cubeRed == 1) {
                 g.setColor(Color.red);
                 g.fillRect(secondRowX, secondRowY, cubeSize, cubeSize);
                 g.setColor(Color.white);
-                g.drawString("x 1", secondRowX+stringPosX, secondRowY);
+                g.drawString("x 1", secondRowX + stringPosX, secondRowY);
             } else if (cubeRed == 2) {
                 g.setColor(Color.red);
                 g.fillRect(secondRowX, secondRowY, cubeSize, cubeSize);
                 g.setColor(Color.white);
-                g.drawString("x 2", secondRowX+stringPosX, secondRowY);
+                g.drawString("x 2", secondRowX + stringPosX, secondRowY);
             } else if (cubeRed == 3) {
                 g.setColor(Color.red);
                 g.fillRect(secondRowX, secondRowY, cubeSize, cubeSize);
                 g.setColor(Color.white);
-                g.drawString("x 3", secondRowX+stringPosX, secondRowY);
+                g.drawString("x 3", secondRowX + stringPosX, secondRowY);
             }
         }
 
@@ -323,7 +329,7 @@ public class City extends BasicGame {
 
     public void displayResearchCenter(Graphics g) {
         if (hasResearchSt) {
-            g.drawImage(researchStation, xPos+button.getImageWidth()/2,yPos+button.getImageHeight()/2);
+            g.drawImage(researchStation, xPos + button.getImageWidth() / 2, yPos + button.getImageHeight() / 2);
         }
 
     }
@@ -392,6 +398,7 @@ public class City extends BasicGame {
         return hasResearchSt;
     }
 
+    //SHOULD NOT BE USED OTHER THAN SETTING THE INITIAL CITY TO TRUE. INSTEAD USE PLACERESEARCHSTATION
     public void setHasResearchSt(boolean hasResearchSt) {
         this.hasResearchSt = hasResearchSt;
     }
@@ -424,7 +431,14 @@ public class City extends BasicGame {
         this.moveButtonSelected = moveButtonSelected;
     }
 
-    public void setRemoveCubeButtonSelected(boolean removeCubeButtonSelected) { this.removeCubeButtonSelected = removeCubeButtonSelected; }
+    public void setRemoveCubeButtonSelected(boolean removeCubeButtonSelected) {
+        this.removeCubeButtonSelected = removeCubeButtonSelected;
+    }
+
+    public void setPlaceResearchStationSelected(boolean placeResearchStation) {
+        this.placeResearchStationSelected = placeResearchStation;
+    }
+
 }
 
 
