@@ -16,6 +16,7 @@ public class ActionMenu extends BasicGame {
     private Button share;
     private Button eventCard;
     private Button cure;
+
     private boolean isMoveActive;
     private boolean isResearchSActive;
     private boolean isRemoveCubeActive;
@@ -61,10 +62,17 @@ public class ActionMenu extends BasicGame {
             isResearchSActive = false;
             isRemoveCubeActive = false;
             isCureActive = false;
+            isShareActive = false;
+            isEventCardActive = false;
         }
 
         if (researchSt.clickWithin(gc)) {
             isResearchSActive = !isResearchSActive;
+            isMoveActive = false;
+            isRemoveCubeActive = false;
+            isCureActive = false;
+            isShareActive = false;
+            isEventCardActive = false;
         }
 
         if (removeCube.clickWithin(gc)) {
@@ -72,18 +80,35 @@ public class ActionMenu extends BasicGame {
             isResearchSActive = false;
             isMoveActive = false;
             isCureActive = false;
+            isShareActive = false;
+            isEventCardActive = false;
         }
 
         if (share.clickWithin(gc)) {
             isShareActive = !isShareActive;
+            isMoveActive = false;
+            isRemoveCubeActive = false;
+            isResearchSActive = false;
+            isCureActive = false;
+            isEventCardActive = false;
         }
 
         if (eventCard.clickWithin(gc)) {
             isEventCardActive = !isEventCardActive;
+            isRemoveCubeActive = false;
+            isMoveActive = false;
+            isResearchSActive = false;
+            isCureActive = false;
+            isEventCardActive = false;
         }
 
         if (cure.clickWithin(gc)) {
             isCureActive = !isCureActive;
+            isMoveActive = false;
+            isResearchSActive = false;
+            isRemoveCubeActive = false;
+            isShareActive = false;
+            isEventCardActive = false;
         }
 
 
@@ -94,7 +119,7 @@ public class ActionMenu extends BasicGame {
             move.setPicIndexNo(6);
         }
         if (isRemoveCubeActive) {
-            removeCube.setPicIndexNo(24);
+            removeCube.setPicIndexNo(8); //SKAL VÆRE 24
         } else {
             removeCube.setPicIndexNo(8);
         }
@@ -116,8 +141,16 @@ public class ActionMenu extends BasicGame {
         return isMoveActive;
     }
 
-    public boolean isRemoveCubeActive() {
+    public boolean getIsRemoveCubeActive() {
         return isRemoveCubeActive;
     }
+
+    public boolean getIsResearchSActive () { return  isResearchSActive; }
+
+    public boolean getIsShareActive () { return  isShareActive; }
+
+    public boolean getIsEventCardActive () { return isEventCardActive; }
+
+    public boolean getIsCureActive () { return isCureActive; }
 }
 

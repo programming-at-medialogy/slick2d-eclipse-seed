@@ -18,10 +18,12 @@ public class Cards extends BasicGame {
     Image[] cardImage = new Image[48];
     Image image;
 
-    public Cards(String title, int cardType) {
+    String cityName;
+
+    public Cards(String title, int cardType, String cityName) {
         super(title);
         this.cardType = cardType;
-
+        this.cityName = cityName;
     }
 
     @Override

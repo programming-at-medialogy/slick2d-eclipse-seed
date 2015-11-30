@@ -50,6 +50,9 @@ public class City extends BasicGame {
     private Image researchStation;
     private Image warning;
 
+    Cards playerCards;
+    Cards infectionCards;
+
     /**
      * The constructor for the city class, defining the parameters needed to create a city object
      * instance in the Gameboard class.
@@ -71,6 +74,9 @@ public class City extends BasicGame {
          * a title, an x-coordinate, a y-coordinate and an image file represented by a number.
          * Button: (String title, int, int, int picIndexNo);
         **/
+
+        playerCards = new Cards("playerCard", 0, cityName);
+        infectionCards = new Cards("infectionCard", 1, cityName);
 
         if (color == 0) {
             button = new Button("cityButton", xPos, yPos, 19);
@@ -110,7 +116,8 @@ public class City extends BasicGame {
 
 
         /**
-         * This if-statement blurs the cities that are not electable to move to.
+         * This if-statement draws an image on the cities that are not electable to move to
+         * and issues a warning if more than 3 cubes of the same color are drawn on the same city.
          */
 
         button.render(gc, g);
@@ -313,15 +320,17 @@ public class City extends BasicGame {
 
     }
 
-    /**
-     * Getter and setter methods.
-     */
+
     public void displayResearchCenter(Graphics g) {
         if (hasResearchSt) {
             g.drawImage(researchStation, xPos+button.getImageWidth()/2,yPos+button.getImageHeight()/2);
         }
 
     }
+
+    /**
+     * Getter and setter methods.
+     */
 
     public int getCubeYellow() {
         return cubeYellow;
