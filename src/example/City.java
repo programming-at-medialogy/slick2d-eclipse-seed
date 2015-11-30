@@ -110,7 +110,8 @@ public class City extends BasicGame {
 
 
         /**
-         * This if-statement blurs the cities that are not electable to move to.
+         * This if-statement draws an image on the cities that are not electable to move to
+         * and issues a warning if more than 3 cubes of the same color are drawn on the same city.
          */
 
         button.render(gc, g);
@@ -313,15 +314,17 @@ public class City extends BasicGame {
 
     }
 
-    /**
-     * Getter and setter methods.
-     */
+
     public void displayResearchCenter(Graphics g) {
         if (hasResearchSt) {
             g.drawImage(researchStation, xPos+button.getImageWidth()/2,yPos+button.getImageHeight()/2);
         }
 
     }
+
+    /**
+     * Getter and setter methods.
+     */
 
     public int getCubeYellow() {
         return cubeYellow;

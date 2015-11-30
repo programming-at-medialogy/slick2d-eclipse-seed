@@ -264,7 +264,7 @@ public class GameBoard extends BasicGameState {
         }
 
         //REMOVE CUBE
-        if (actionMenu.isRemoveCubeActive()) {
+        if (actionMenu.getIsRemoveCubeActive()) {
             for (int i = 0; i < cities.length; i++) {
                 if (cities[i].getButton().clickWithin(gc)) {
                     cities[i].removeCube(players,playerNo);
@@ -322,7 +322,7 @@ public class GameBoard extends BasicGameState {
     }
 
     public void removeCubeAction() {
-        boolean removeCube = actionMenu.isRemoveCubeActive();
+        boolean removeCube = actionMenu.getIsRemoveCubeActive();
         for (int i = 0; i < cities.length; i++) {
             if (removeCube) {
                 cities[i].setRemoveCubeButtonSelected(true);
