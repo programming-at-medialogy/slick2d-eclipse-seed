@@ -16,6 +16,7 @@ public class GameState extends BasicGameState implements KeyListener {
 	private Image[] roadImg = new Image[4]; // Array for road images
 	private Image[] numImg = new Image [11]; // Array for numbers
 	private Image[] diceImg = new Image [6];
+	private Image playerBck;
 
 	private Image[] crdImg = new Image [5]; // Array for resource cards
 	private Image[] devCrdImg = new Image [5];
@@ -39,6 +40,7 @@ public class GameState extends BasicGameState implements KeyListener {
 	@Override
 	public void init(GameContainer gc, StateBasedGame s) throws SlickException {		
 		// to initialize multiple images
+		playerBck = new Image ("resources/playerBck.jpg");
 		for(int i=0; i<hexImg.length; i++){ //goes trough hexagon array
 			hexImg[i] = new Image("resources/hexagon_" + (i) + ".png"); //Assigns every hexagon a name
 		}
@@ -67,7 +69,7 @@ public class GameState extends BasicGameState implements KeyListener {
 		GameData.roads = new ArrayList<Road>();
 		GameData.buildings = new ArrayList<Building>();
 		GameData.players = new ArrayList<Player>();
-		GameData.harbours = new ArrayList<Harbour>();
+
 		
 		// actions init
 		Actions.initActions();
@@ -80,38 +82,45 @@ public class GameState extends BasicGameState implements KeyListener {
 		Windows.padding = hexWidth/22 * Windows.scFactor;
 		
 		//Board Action Buttons
-		Button buyDevCard = new Button(Windows.scWidth/2-buttonWidth*3, Windows.scHeight-buttonHeight, buttonWidth, buttonHeight, 5, "Buy Development Card", this) {
+		Button buyDevCard = new Button(Windows.scWidth/2-buttonWidth*3, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 5, "Buy Development Card", this) {
 			@Override
 			public void isClicked() {		
 				System.out.println("Buy");	
 			}
 		};
-		Button buySettlement = new Button(Windows.scWidth/2-buttonWidth*2, Windows.scHeight-buttonHeight, buttonWidth, buttonHeight, 10, "Buy Settlement", this) {
+		Button buySettlement = new Button(Windows.scWidth/2-buttonWidth*2+buttonWidth/7, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 7, "Buy Settlement", this) {
 			@Override
 			public void isClicked() {		
 				System.out.println("Buy");	
 			}
 		};
-		Button buyRoad = new Button(Windows.scWidth/2, Windows.scHeight-buttonHeight, buttonWidth, buttonHeight, 10, "Buy Road", this) {
+		Button buyRoad = new Button(Windows.scWidth/2-buttonWidth+buttonWidth/7*2, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 7, "Buy Road", this) {
 			@Override
 			public void isClicked() {		
 				System.out.println("Buy");	
 			}
 		};
-		Button upgCity = new Button(Windows.scWidth/2, Windows.scHeight-buttonHeight, buttonWidth, buttonHeight, 5, "Upgrade to City", this) {
+		Button upgCity = new Button(Windows.scWidth/2+buttonWidth/7*3, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 7, "Upgrade to City", this) {
 			@Override
 			public void isClicked() {		
 				System.out.println("Buy");	
 			}
 		};
+	};
+	Button trade = new Button(Windows.scWidth/2+buttonWidth+buttonWidth/7*4, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 7, "Trade", this) {
+		@Override
+		public void isClicked() {		
+			System.out.println("Buy");	
+		}
+	};
 
-	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame s, Graphics g) throws SlickException {
-		Color bkColor = Color.decode("#5e8ad7"); // create custom color
-		g.setBackground(bkColor); // set background color
+		Color bckColor = Color.decode("#5e8ad7"); // create custom color
+		g.setBackground(bckColor); // set background color
 		
+		//playerBck.draw(0, Windows.scHeight-playerBck.getHeight()*Windows.scFactor, Windows.scFactor);
 		// drawing the UI of the board
 		drawHexagons(g);
 		drawRobber(g);
@@ -149,17 +158,18 @@ public class GameState extends BasicGameState implements KeyListener {
 	
 	// methods for initial phase
 	private void drawHexagons(Graphics g) {
-		bkWater.draw(Windows.scWidth/2-bkWater.getWidth()/2*Windows.scFactor, (Windows.scHeight/2-bkWater.getHeight()/2*Windows.scFactor)-hexHeight*Windows.scFactor/1.5f, Windows.scFactor );
+		bkWater.draw(Windows.scWidth/2-bkWater.getWidth()/2*Windows.scFactor, (Windows.scHeight/2-bkWater.getHeight()/2*Windows.scFactor)-hexHeight*Windows.scFactor*1.19f, Windows.scFactor);
 		Hexagon[] hexagons = Hexagon.getHexagons();
 		for (int i = 0; i < hexagons.length; i++){
-			hexImg[hexagons[i].TYPE.toInt()].draw(hexagons[i].getX() + Windows.scWidth/2-hexImg[0].getWidth()/2*Windows.scFactor, hexagons[i].getY() + Windows.scHeight/2-hexImg[0].getHeight()/2*Windows.scFactor, Windows.scFactor);
-			numImg[hexagons[i].NUMBER-2].draw(hexagons[i].getX() + Windows.scWidth/2-numImg[2].getWidth()/2*Windows.scFactor, hexagons[i].getY() + Windows.scHeight/2-numImg[2].getHeight()/2*Windows.scFactor, Windows.scFactor);
+			hexImg[hexagons[i].TYPE.toInt()].draw(hexagons[i].getX() + Windows.scWidth/2-hexImg[0].getWidth()/2*Windows.scFactor, hexagons[i].getY() + Windows.scHeight/2-(hexImg[0].getHeight()/2*Windows.scFactor)-64, Windows.scFactor);
+			numImg[hexagons[i].NUMBER-2].draw(hexagons[i].getX() + Windows.scWidth/2-numImg[2].getWidth()/2*Windows.scFactor,     hexagons[i].getY() + Windows.scHeight/2-(numImg[0].getHeight()/2*Windows.scFactor)-64, Windows.scFactor);
 		}
 		// For displaying resource cards
 		for (int c = 0; c<Player.resources.length;  c++){ 
 			float crdPosX = cardPosition(c, Player.resources.length); // 5 is to change - amount of resource cards
-			crdImg[c].draw(crdPosX+(Windows.scWidth/2-crdWidth/2*Windows.scFactor), (Windows.scHeight-crdHeight*Windows.scFactor)-crdHeight/100, Windows.scFactor);
+			crdImg[c].draw(crdPosX+(Windows.scWidth/2-crdWidth/2*Windows.scFactor), (Windows.scHeight-crdHeight*Windows.scFactor)-crdHeight/7, Windows.scFactor);
 		}
+		// For displaying Development cards
 		for (int d=0; d<5; d++){
 			devCrdImg[d].draw(Windows.scWidth-crdWidth*Windows.scFactor, Windows.scHeight-crdHeight*Windows.scFactor, Windows.scFactor);
 		}
@@ -176,7 +186,7 @@ public class GameState extends BasicGameState implements KeyListener {
 		Hexagon[] hexagons = Hexagon.getHexagons();
 		for (int i = 0; i < hexagons.length; i++){
 			if(hexagons[i].isRobbed()){
-				robImg.draw(hexagons[i].getX() + Windows.scWidth/2-numImg[2].getWidth()/2*Windows.scFactor, hexagons[i].getY() + Windows.scHeight/2-numImg[2].getHeight()/2*Windows.scFactor, Windows.scFactor);
+				robImg.draw(hexagons[i].getX() + Windows.scWidth/2-numImg[2].getWidth()/2*Windows.scFactor, (hexagons[i].getY() + Windows.scHeight/2-numImg[2].getHeight()/2*Windows.scFactor)-64, Windows.scFactor);
 			}
 		}
 	}
@@ -198,6 +208,12 @@ public class GameState extends BasicGameState implements KeyListener {
 	public static void received(String message) {
 		System.out.println(message);
 	}
+
+	public static void start() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 	
 }
