@@ -50,6 +50,9 @@ public class City extends BasicGame {
     private Image researchStation;
     private Image warning;
 
+    Cards playerCards;
+    Cards infectionCards;
+
     /**
      * The constructor for the city class, defining the parameters needed to create a city object
      * instance in the Gameboard class.
@@ -71,6 +74,9 @@ public class City extends BasicGame {
          * a title, an x-coordinate, a y-coordinate and an image file represented by a number.
          * Button: (String title, int, int, int picIndexNo);
         **/
+
+        playerCards = new Cards("playerCard", 0, cityName);
+        infectionCards = new Cards("infectionCard", 1, cityName);
 
         if (color == 0) {
             button = new Button("cityButton", xPos, yPos, 19);
