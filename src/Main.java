@@ -165,13 +165,13 @@ public class Main extends BasicGame{ //Is not the actually main.
 			// i am not sure how this is going to be done, just wanted to prototype it though, and it works but is a bit ugly code
 			g.pushTransform();
 				g.rotate(x + scWidth/2, y + scHeight/2, Road.getRoads().get(i).getAngle());
-				roadImg[1].draw(x + scWidth/2 - roadImg[1].getWidth()/2*scFactor, y + scHeight/2  - roadImg[1].getHeight()/2*scFactor, scFactor);
+				roadImg[3].draw(x + scWidth/2 - roadImg[1].getWidth()/2*scFactor, y + scHeight/2  - roadImg[1].getHeight()/2*scFactor, scFactor);
 			g.popTransform();
 		}
 		
 		// just testing the position XY methods
 		for (int i = 0; i < testPositions.length; i++) {
-			g.drawString("Pos: " + i, testPositions[i].getX() + scWidth/2, testPositions[i].getY() + scHeight/2);
+			//g.drawString("Pos: " + i, testPositions[i].getX() + scWidth/2, testPositions[i].getY() + scHeight/2);
 		}
 
 		diceImg[4].draw(scWidth-hexWidth*scFactor*2 ,scHeight/2, scFactor*0.8f);
