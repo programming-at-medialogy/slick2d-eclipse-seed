@@ -79,6 +79,10 @@ public class Player  {
 			}
 		}
 	
+	public int getAmountOfResources(int type){
+		return resources[type];
+	}
+	
 	
 
 
@@ -171,6 +175,7 @@ public class Player  {
 		}
 		
 	}
+
 
 /*	@Override
 	public String toString() {
