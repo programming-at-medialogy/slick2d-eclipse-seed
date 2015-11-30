@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 /**
+ * Class describing a player
  * Created by kristianhjensen on 02/11/2015.
  */
 public class Player  {
@@ -60,7 +61,8 @@ public class Player  {
 	 * Collect the resources for a given player.
 	 * @param dieRoll The number that was rolled by the die
 	 */
-	public void collectResources(int dieRoll) {
+	public void collectResources() {
+		int dieRoll = Dice.dice1 + Dice.dice2;
 		for (int i = 0; i <  GameData.buildings.size(); i++) {
 			Hexagon[] nearbyHexagons =  GameData.buildings.get(i).POSITION.getNearbyHexagons();
 			for (int j = 0; j < nearbyHexagons.length; j++) {
@@ -78,6 +80,10 @@ public class Player  {
 				}
 			}
 		}
+	
+	public int getAmountOfResources(int type){
+		return resources[type];
+	}
 	
 	
 
@@ -171,6 +177,7 @@ public class Player  {
 		}
 		
 	}
+
 
 /*	@Override
 	public String toString() {

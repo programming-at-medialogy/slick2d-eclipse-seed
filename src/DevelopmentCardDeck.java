@@ -9,7 +9,7 @@ public class DevelopmentCardDeck  {
     /**
      * Empty developmentcard deck
      */
-    private int[] devCard;
+    //private int[] devCard;
     
     private static ArrayList<CardType> cards;
    
@@ -58,7 +58,7 @@ public class DevelopmentCardDeck  {
      */
 
     public int getAmountOfCards(int type ){
-        return devCard[type];
+       return cards.indexOf(CardType.fromInteger(type));
     }
 
     /**
@@ -66,23 +66,9 @@ public class DevelopmentCardDeck  {
      */
 
     public int getTotal(){
-        int sum = 0;
-        for (int i = 0;i < devCard.length; i++){
-            sum += (devCard[i]);
-        }
-
-        return sum;
+        return cards.size();
     }
 
-    /**
-     * Set the amount of a type of card
-     * @param amount Amount of cards
-     * @param type Type of card
-     * @param age New or Old
-     */
-    public void setAmount(int amount, int type) {
-        devCard[type] = amount;
-    }
 
     /**
      * Add a specific amount of cards to a specific type
@@ -91,7 +77,7 @@ public class DevelopmentCardDeck  {
      * @param type Type of card, see Interface.
      */
     public void add(int amount, int type) {
-        devCard[type] += amount;
+        cards.add(amount,CardType.fromInteger(type));
     }
 
     /**
@@ -109,31 +95,13 @@ public class DevelopmentCardDeck  {
     	System.out.println("No card");
     	return null;
     }
-    /**
-     * Some cards stay in hand, this method counts both old and new
-     * @return
-     */
-
-    public int getUnplayed() {
-        int sum = 0;
-        sum += devCard[CardType.KNIGHT.toInt()];
-        sum += devCard[CardType.VICTORYPOINT.toInt()];
-        sum += devCard[CardType.ROADBUILD.toInt()];
-        sum += devCard[CardType.MONOPOLY.toInt()];
-        sum += devCard[CardType.YEAROFPLENTY.toInt()];
-        return sum;
-    }
-
-
 
     /**
      * Sets old and new cards to zero
      */
-    public void clear()
-    {
-        for (int i = 0; i < 8; i++) {
-            devCard[i] = 0;
-        }
+    public void clear(){
+    	cards.clear();
+   
     }
     
     public static void main(String[] args) {

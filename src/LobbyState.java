@@ -47,7 +47,7 @@ public class LobbyState extends BasicGameState implements KeyListener{
 		 * Example of button instantiation and the abstracts method isClicked() from the button class
 		 * Creating the appropriate buttons at the appropriate locations
 		 */
-		Button back = new Button(Windows.scWidth/2- 163, Windows.scHeight/4 + 202, 326, 86, "Back", this) {
+		Button Back = new Button(Windows.scWidth/2- 163, Windows.scHeight/4 + 202, 326, 86, 15, "Back", this) {
 			@Override
 			public void isClicked() {
 				//need to implement a non-static bool
@@ -56,8 +56,8 @@ public class LobbyState extends BasicGameState implements KeyListener{
 				s.enterState(States.IntroState);
 			}
 		};
-		
-		Button join = new Button(Windows.scWidth/2- 163, Windows.scHeight/4 + 101, 326, 86, "Join",this) {
+
+		Button Join = new Button(Windows.scWidth/2- 163, Windows.scHeight/4 + 101, 326, 86, 15, "Join",this) {
 			@Override
 			public void isClicked() {
 				s.enterState(States.PreGameState);
@@ -69,11 +69,11 @@ public class LobbyState extends BasicGameState implements KeyListener{
 		 * onSubmit is an abstract method similar to isClicked(), but originates from the TextBox class
 		 * 
 		 **/
-		Button searchForGame = new Button(Windows.scWidth/2 - 163, Windows.scHeight/4, 326, 86, "Search",this) {
+		Button SearchForGame = new Button(Windows.scWidth/2 - 163, Windows.scHeight/4, 326, 86, 15, "Search",this) {
 			@Override
 			public void isClicked() {
 				findGame = true;
-				final TextBox IpBox = new TextBox(ipBoxX, ipBoxY, 500, 50, this.state){
+				final TextBox IpBox = new TextBox(ipBoxX, ipBoxY, 500, 50, 10, this.state){
 
 					@Override
 					public void onSubmit() {
@@ -84,7 +84,7 @@ public class LobbyState extends BasicGameState implements KeyListener{
 				IpBox.activate();
 				IpBox.setPermissions(false, true, false);
 				
-				TextBox portBox = new TextBox(portBoxX, portBoxY, 300, 40, this.state){
+				TextBox portBox = new TextBox(portBoxX, portBoxY, 300, 40, 10, this.state){
 					
 					@Override
 					public void onSubmit() {

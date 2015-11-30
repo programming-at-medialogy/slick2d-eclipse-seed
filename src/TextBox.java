@@ -13,6 +13,7 @@ public abstract class TextBox {
 	
 	private int x, y;
 	private int width, height;
+	int fontSize;
 	
 	private String content;
 	
@@ -29,12 +30,13 @@ public abstract class TextBox {
 	
 	private static ArrayList<TextBox> textBoxs = new ArrayList<TextBox>();
 	
-	TextBox(int x, int y, int width, int height, BasicGameState state) {
+	TextBox(int x, int y, int width, int height, int fontSize, BasicGameState state) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 		this.state = state;
+		this.fontSize = fontSize;
 		
 		this.isActive = false;
 		this.isAlpha = true;
@@ -71,7 +73,7 @@ public abstract class TextBox {
 					notActive.draw(textBox.x, textBox.y, textBox.width, textBox.height);
 				}
 				g.setColor(new Color(255, 255, 255));
-				Resource.buttonFont.drawString(textBox.x + PADDING * 2, textBox.y + textBox.height / 2 - Resource.buttonFont.getHeight(textBox.content) / 2, textBox.content);
+				Resource.buttonFont[textBox.fontSize].drawString(textBox.x + PADDING * 2, textBox.y + textBox.height / 2 - Resource.buttonFont[textBox.fontSize].getHeight(textBox.content) / 2, textBox.content);
 			}
 		}
 	}
@@ -107,7 +109,7 @@ public abstract class TextBox {
 		for (TextBox textBox : textBoxs) { 
 			if (state == textBox.state) {
 				if (textBox.isActive) {
-					if (Resource.buttonFont.getWidth(textBox.content) < textBox.width - PADDING * 4) {
+					if (Resource.buttonFont[textBox.fontSize].getWidth(textBox.content) < textBox.width - PADDING * 4) {
 						if (Character.isAlphabetic(c) && textBox.isAlpha) {
 							textBox.content += c;
 						} else if ((Character.isDigit(c) || key == 52) && textBox.isNumeric) { // 52 is '.'
