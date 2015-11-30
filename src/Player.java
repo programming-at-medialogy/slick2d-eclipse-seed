@@ -60,7 +60,8 @@ public class Player  {
 	 * Collect the resources for a given player.
 	 * @param dieRoll The number that was rolled by the die
 	 */
-	public void collectResources(int dieRoll) {
+	public void collectResources() {
+		int dieRoll = Dice.dice1 + Dice.dice2;
 		for (int i = 0; i <  GameData.buildings.size(); i++) {
 			Hexagon[] nearbyHexagons =  GameData.buildings.get(i).POSITION.getNearbyHexagons();
 			for (int j = 0; j < nearbyHexagons.length; j++) {
