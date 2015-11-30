@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -66,12 +66,11 @@ public class Setup{
 		drawnPlayerCards = new ArrayList<>(Arrays.asList()); 		
 		//System.out.println(drawnPlayerCards.toString()); 
 		
-		drawCards(9);
 		System.out.println(usedinfecCards);
 						
 	}
 	//This function should be at the server
-	void drawCards( int amountOfCardsDrawn){
+	void drawInfectionCards( int amountOfCardsDrawn){
 		for (int i=0; i < amountOfCardsDrawn; i++ ){
 			
 			// we put zero because of the dynamic arraylist
