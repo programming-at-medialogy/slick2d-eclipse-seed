@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Random;
-
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.BasicGame;
@@ -23,6 +22,7 @@ public class Main extends BasicGame{ //Is not the actually main.
 	private Image[] roadImg = new Image[4]; // Array for road images
 	private Image[] numImg = new Image [11]; // Array for numbers
 	private Image[] diceImg = new Image [6];
+	private Image[] btImg = new Image [3];
 
 	private Image[] crdImg = new Image [5]; // Array for resource cards
 	private Image[] devCrdImg = new Image [5];
@@ -97,6 +97,14 @@ public class Main extends BasicGame{ //Is not the actually main.
 		for (int d=1; d<diceImg.length; d++){
 			diceImg[d] = new Image ("resources/dice_"+(d)+".png");
 		}
+		// to initialize buttons
+		for (int b=0; b<3; b++){
+			btImg[b] = new Image ("resources/btImg_"+(b)+".png");
+		}
+		/*
+		Button PlayNow = new Button(Windows.scWidth/2 - 163, Windows.scHeight/4, 326, 86, "Play",this) {
+		
+		};*/
 		
 		robImg = new Image("resources/robber.png");
 
@@ -192,12 +200,15 @@ public class Main extends BasicGame{ //Is not the actually main.
 		}
 		// For displaying resource cards
 		for (int c = 0; c<Player.resources.length;  c++){ 
-			crdImg[c].draw(crdPosX+(scWidth/2-crdWidth/2*scFactor), crdPosY+(scHeight-crdHeight*scFactor)-crdHeight/100, scFactor);
+			crdImg[c].draw(crdPosX+(scWidth/2-crdWidth/2*scFactor), crdPosY+(scHeight-crdHeight*scFactor)-crdHeight/10, scFactor);
 			crdPosX = cardPosition(c, Player.resources.length); // 5 is to change - amount of resource cards
 		}
+		// for displaying development cards
 		for (int d=0; d<5; d++){
 			devCrdImg[d].draw(scWidth-crdWidth*scFactor, scHeight-crdHeight*scFactor, scFactor);
-			
+		}
+		for (int b=0; b<6; b++){
+			btImg[b].draw(scWidth/2-btImg[0].getWidth()*scFactor/2, scHeight-btImg[0].getHeight()*scFactor-(btImg[0].getHeight()*scFactor)/2, scFactor);
 		}
 
 	}
@@ -222,7 +233,6 @@ public class Main extends BasicGame{ //Is not the actually main.
 	void drawBuilding(Graphics g) {
 		
 		//ArrayList<Building> buildings = GameData.buildings;
-		
 		for (Building building : Building.getBuildings()) {
 			float xPos = building.POSITION.getX();
 			float yPos = building.POSITION.getY();
@@ -296,7 +306,7 @@ public class Main extends BasicGame{ //Is not the actually main.
 			game.setTargetFrameRate(24); // framerate
 			game.setMaximumLogicUpdateInterval(24); // maximum framerate
 			game.setVSync(true); // Vertical sync
-			game.setDisplayMode(scWidth,scHeight, false); // sets screen size, false or true for full screen
+			game.setDisplayMode(scWidth,scHeight, true); // sets screen size, false or true for full screen
 			game.start(); // to start Slick 2D
 		}
 		catch (SlickException ex)
