@@ -9,6 +9,7 @@ public class Card {
 	Image cardType;
 	static int x;
 	static int y;
+	int resCardSize = 50;
 	
 	public Card (){
 		
@@ -23,6 +24,7 @@ public class Card {
 		
 	}
 	
+	
 	public void createDevPile (Card[] input) throws SlickException{
 		for (int i = 0; i < 25; i++){
 			if (i < 2){
@@ -36,6 +38,38 @@ public class Card {
 			} else if (i < 25){
 				input[i] = new VPCard();
 			}
+		}
+	}
+	
+	//Resource piles 
+	
+	public void createOrePile (Card[] input) throws SlickException{
+		for(int i = 0; i < resCardSize; i++){
+			input[i] = new CardOre();
+		}
+	}
+	
+	public void createWoodPile (Card[] input) throws SlickException{
+		for(int i = 0; i < resCardSize; i++){
+			input[i] = new CardWood();
+		}
+	}
+	
+	public void createWoolPile (Card[] input) throws SlickException{
+		for(int i = 0; i < resCardSize; i++){
+			input[i] = new CardWool();
+		}
+	}
+	
+	public void createWheatPile (Card[] input) throws SlickException{
+		for(int i = 0; i < resCardSize; i++){
+			input[i] = new CardWheat();
+		}
+	}
+	
+	public void createClayPile (Card[] input) throws SlickException{
+		for(int i = 0; i < resCardSize; i++){
+			input[i] = new CardClay();
 		}
 	}
 }
