@@ -1,6 +1,8 @@
 
 
 
+import java.io.IOException;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -27,12 +29,18 @@ public class HouseSpawn {
 		this.x = x;
 		this.y = y;
 		this.playerNo = playerNo;
-		house = new Image("images/housePlayer" + playerNo + ".png");
 	}
-
+	
+	
 	// render method to be called, informing that an image of house.png must be
 	// spawned at point X,Y
 	public void render(GameContainer gc, Graphics g) throws SlickException {
+		house = new Image("images/housePlayer" + playerNo + ".png");
 		g.drawImage(house, x, y);
 	}
+	
+
+	
 }
+
+

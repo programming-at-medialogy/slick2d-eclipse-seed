@@ -1,6 +1,9 @@
 
 
 
+import java.io.IOException;
+import java.util.Random;
+
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -22,12 +25,14 @@ public class HouseClickArea {
 	
 	Controller control; //need values and methods from this class
 	OnScreenButton houseButtom; //needed to get boolean and rendering of this button
+	Game game;
 	
 	//Default string to the mouse. If no input from the mouse is recieved
 	public String mouse = "No Input Mouse";
 	
 	//Make an instance of the HouseSpawn class.
 	HouseSpawn[] house;
+	HouseSpawn[] houseTest;
 	
 	//create boolean array to see if an area has been clicked.
 	boolean[] areaClicked;
@@ -73,11 +78,13 @@ public class HouseClickArea {
 	
 	//Integer which indicates the total amount of click-able areas of the houses. A total of 54 houses can be placed.
 	int totalAreas = 54;
+	
 
 	//Constructor
 	HouseClickArea() throws SlickException {
 		
 		house = new HouseSpawn[totalAreas]; //create 54 instances of the HouseSpawn class
+		houseTest = new HouseSpawn [totalAreas];
 		areaClicked = new boolean[totalAreas]; //create 54 array slots in the boolean array 
 		arraycoordinateX = new int[totalAreas]; //create 54 array slots for the X coodinates
 		arraycoordinateY = new int[totalAreas]; //create 54 array slots for the Y coodinates
@@ -89,6 +96,54 @@ public class HouseClickArea {
 		control = new Controller(); //set player number
 		
 		houseCoordinates(); //call the method giving the coodinates
+	}
+	
+	//update method
+	public void update(GameContainer gc, int i) throws SlickException, IOException {
+		
+		
+		for(int j = 0;  j < areaClicked.length; j ++) {
+			areaClicked[j] = game.client.obj.SOChouseArea[j];
+		}
+		
+		
+
+
+		
+		houseButtom.update(gc, i); //keeps checking if the button has been clicked.
+		
+		int xMousePos = Mouse.getX(); //gets x position of mouse
+		int yMousePos = Mouse.getY(); //gets y position of mouse
+		
+		mouse = "Mouse X: "+xMousePos+" - Mouse Y: "+yMousePos; //stores it in the string and used in render
+		
+		Input input = gc.getInput(); //used to get mouse inputs
+
+		
+		//For-loop to check if an area has been clicked.
+		if(control.isPlayerTurn == true && control.placeHouseAmount != 0) { //if it is the players turn and if the player still have houses to place
+		for(i = 0; i< totalAreas; i ++) {
+			
+		if((xMousePos > arraycoordinateX[i]-fineTuneX && xMousePos < arraycoordinateX[i]+areaClickSize) && (yMousePos < screenHeight-arraycoordinateY[i]+fineTuneY && yMousePos > screenHeight-arraycoordinateY[i]-areaClickSize-fineTuneY)) {
+			if(input.isMouseButtonDown(0)) {
+				if(houseButtom.buttonHouseControl == true) { //has the house button been pressed?
+				if(areaClicked[i] != true){
+				areaClicked[i] = true;
+				game.client.obj.houseColour[i] = control.playerNo;
+				game.client.obj.SOChouseArea[i] = areaClicked[i];
+				game.client.sendData(game.client.obj);
+				houseButtom.buttonHouseControl = false; //toggle the house button false
+				control.reduceHouseAmount(); //reduce the amount of houses available.
+					}
+				}
+				}
+			}
+		}
+	}
+		
+		for(int j = 0; j < house.length; j ++) {
+			house[j].playerNo = game.client.obj.houseColour[j];
+		}
 	}
 	
 	//Render method
@@ -106,33 +161,7 @@ public class HouseClickArea {
 	
 	}
 
-	//update method
-	public void update(GameContainer gc, int i) throws SlickException {
-		
-		houseButtom.update(gc, i); //keeps checking if the button has been clicked.
-		
-		int xMousePos = Mouse.getX(); //gets x position of mouse
-		int yMousePos = Mouse.getY(); //gets y position of mouse
-		
-		mouse = "Mouse X: "+xMousePos+" - Mouse Y: "+yMousePos; //stores it in the string and used in render
-		
-		Input input = gc.getInput(); //used to get mouse inputs
 
-		//For-loop to check if an area has been clicked.
-		if(control.isPlayerTurn == true && control.placeHouseAmount != 0) { //if it is the players turn and if the player still have houses to place
-		for(i = 0; i< totalAreas; i ++) {
-		if((xMousePos > arraycoordinateX[i]-fineTuneX && xMousePos < arraycoordinateX[i]+areaClickSize) && (yMousePos < screenHeight-arraycoordinateY[i]+fineTuneY && yMousePos > screenHeight-arraycoordinateY[i]-areaClickSize-fineTuneY)) {
-			if(input.isMouseButtonDown(0)) {
-				if(houseButtom.buttonHouseControl == true) { //has the house button been pressed?
-				areaClicked[i] = true; //if the area is clicked, that area's boolean must become true.
-				houseButtom.buttonHouseControl = false; //toggle the house button false
-				control.reduceHouseAmount(); //reduce the amount of houses available.
-					}
-				}
-			}
-		}
-	}
-	}
 	
 	//method to get the coodinates of all the houses/areas
 	//The method works by running through a serie of for-loops which stores the coordinates of each point
