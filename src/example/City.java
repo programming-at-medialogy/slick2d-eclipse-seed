@@ -94,7 +94,7 @@ public class City extends BasicGame {
         cityOverview = new Image("assets/guielements/cityoverview.png");
         cityOverviewName = new Image("assets/cities/"+cityName+".png");
         researchStation = new Image("assets/guielements/researchstation.png");
-        warning = new Image("assets/guielements/warning.png");
+        warning = new Image("assets/guielements/researchstation.png"); //REMEMBER TO CHANGE
 
 
         button.init(gc);
@@ -108,13 +108,11 @@ public class City extends BasicGame {
     @Override
     public void render(GameContainer gc, Graphics g) throws SlickException {
 
-<<<<<<< HEAD
+
         /**
          * This if-statement blurs the cities that are not electable to move to.
          */
 
-=======
->>>>>>> master
         button.render(gc, g);
         if (cubeBlack == 3 || cubeBlue == 3 || cubeRed == 3 || cubeYellow == 3)
             g.drawImage(warning,xPos+1, yPos-button.getImageWidth()/2-warning.getWidth()/2+4);
@@ -142,35 +140,6 @@ public class City extends BasicGame {
      * Adds cubes of a given color.
      */
 
-
-    public void placeCube(String color, int amount) {
-        if (color == "yellow") {
-            this.cubeYellow += amount;
-        } else if (color == "blue") {
-            this.cubeBlue += amount;
-        } else if (color == "red") {
-            this.cubeRed += amount;
-        } else if (color == "black") {
-            this.cubeBlack += amount;
-        }
-    }
-
-<<<<<<< HEAD
-    /**
-     * removeCube(color: string, amount: int)
-     * removes cubes of a given color.
-     */
-
-    public void removeCube(String color, int amount) {
-        if (color == "yellow") {
-            cubeYellow -= amount;
-        } else if (color == "blue") {
-            cubeBlue -= amount;
-        } else if (color == "red") {
-            cubeRed -= amount;
-        } else if (color == "black") {
-            cubeBlack -= amount;
-=======
     //removeCube(color: string, amount: int)
     public void removeCube(List<Player> players, int playerNo) {
 
@@ -230,7 +199,6 @@ public class City extends BasicGame {
             return true;
         } else {
             return false;
->>>>>>> master
         }
     }
 
@@ -345,18 +313,15 @@ public class City extends BasicGame {
 
     }
 
-<<<<<<< HEAD
     /**
      * Getter and setter methods.
      */
-=======
     public void displayResearchCenter(Graphics g) {
         if (hasResearchSt) {
             g.drawImage(researchStation, xPos+button.getImageWidth()/2,yPos+button.getImageHeight()/2);
         }
 
     }
->>>>>>> master
 
     public int getCubeYellow() {
         return cubeYellow;
