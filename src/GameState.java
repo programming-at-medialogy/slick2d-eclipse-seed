@@ -30,6 +30,9 @@ public class GameState extends BasicGameState implements KeyListener {
 	static float hexWidth; // to get width of hexagon
 	static float crdHeight;
 	static float crdWidth;
+	int buttonWidth = (int) (381*Windows.scFactor);
+	int buttonHeight = (int) (126*Windows.scFactor);
+	//Doesnt work (int) (Button.image.getHeight()*Windows.scFactor);
 	
     Random rand = new Random();
 
@@ -55,6 +58,8 @@ public class GameState extends BasicGameState implements KeyListener {
 		for (int d=1; d<diceImg.length; d++){
 			diceImg[d] = new Image ("resources/dice_"+(d)+".png");
 		}
+		// to initialize buttons
+
 		robImg = new Image("resources/robber.png");
 		bkWater = new Image("resources/bkWater.png");
 		
@@ -74,24 +79,32 @@ public class GameState extends BasicGameState implements KeyListener {
 		
 		Windows.padding = hexWidth/22 * Windows.scFactor;
 		
-		Button testButton = new Button(100, 100, 100, 50, "Test", this) {
-			
+		//Board Action Buttons
+		Button buyDevCard = new Button(Windows.scWidth/2-buttonWidth*3, Windows.scHeight-buttonHeight, buttonWidth, buttonHeight, 5, "Buy Development Card", this) {
 			@Override
-			public void isClicked() {
-				
-				Actions.buyCity(Position.assignPosition(0, 1), 0);
-				
+			public void isClicked() {		
+				System.out.println("Buy");	
 			}
 		};
-		
-		Button testButton2 = new Button(100, 200, 100, 50, "_test", this) {
-			
+		Button buySettlement = new Button(Windows.scWidth/2-buttonWidth*2, Windows.scHeight-buttonHeight, buttonWidth, buttonHeight, 10, "Buy Settlement", this) {
 			@Override
-			public void isClicked() {
-				// TODO Auto-generated method stub
-				
+			public void isClicked() {		
+				System.out.println("Buy");	
 			}
 		};
+		Button buyRoad = new Button(Windows.scWidth/2, Windows.scHeight-buttonHeight, buttonWidth, buttonHeight, 10, "Buy Road", this) {
+			@Override
+			public void isClicked() {		
+				System.out.println("Buy");	
+			}
+		};
+		Button upgCity = new Button(Windows.scWidth/2, Windows.scHeight-buttonHeight, buttonWidth, buttonHeight, 5, "Upgrade to City", this) {
+			@Override
+			public void isClicked() {		
+				System.out.println("Buy");	
+			}
+		};
+
 	}
 
 	@Override

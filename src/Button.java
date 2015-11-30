@@ -14,7 +14,7 @@ import org.newdawn.slick.state.BasicGameState;
 public abstract class Button {
 	//class variables 
 	int x, y, width, height, fontSize;
-	Image image, highlight, pressed;
+	static Image image, highlight, pressed;
 	String message;
 	static boolean mouseDown;
 	static ArrayList<Button> buttons = new ArrayList();
