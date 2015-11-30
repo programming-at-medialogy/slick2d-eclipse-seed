@@ -100,6 +100,7 @@ public class Main extends BasicGame{ //Is not the actually main.
 		// to initialize buttons
 		for (int b=0; b<3; b++){
 			btImg[b] = new Image ("resources/btImg_"+(b)+".png");
+			
 		}
 		/*
 		Button PlayNow = new Button(Windows.scWidth/2 - 163, Windows.scHeight/4, 326, 86, "Play",this) {

@@ -15,6 +15,7 @@ public class ListBox {
 	
 	private int x, y;
 	private int lastMY;
+	int fontSize;
 	private static int width;
 
 	private int height;
@@ -27,9 +28,10 @@ public class ListBox {
 	private static boolean isMouseDown;
 	private static ArrayList<ListBox> listBoxes = new ArrayList<ListBox>();
 	
-	public ListBox(int x, int y, int width, int height, BasicGameState state) {
+	public ListBox(int x, int y, int width, int height, int fontSize, BasicGameState state) {
 		this.x = x;
 		this.y = y;
+		this.fontSize = fontSize;
 		this.lastMY = 0;
 		this.width = width;
 		this.height = height;
@@ -144,13 +146,13 @@ public class ListBox {
 					int textY = listBox.y + listBox.height - (i + 2) * 20 + listBox.offsetY;
 					if (textY > listBox.y && textY < (listBox.y + listBox.height - 20)) {
 						if (listBox.playerIndex.get(i) == 0)
-							Resource.listFont.drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.red);
+							Resource.buttonFont[listBox.fontSize].drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.red);
 						else if (listBox.playerIndex.get(i) == 1)
-							Resource.listFont.drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.blue);
+							Resource.buttonFont[listBox.fontSize].drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.blue);
 						else if (listBox.playerIndex.get(i) == 2)
-							Resource.listFont.drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.green);
+							Resource.buttonFont[listBox.fontSize].drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.green);
 						else
-							Resource.listFont.drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.orange);
+							Resource.buttonFont[listBox.fontSize].drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.orange);
 					}
 						//g.drawString(listBox.content.get(i), listBox.x + PADDING, textY);
 				}

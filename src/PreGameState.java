@@ -35,14 +35,14 @@ public class PreGameState extends BasicGameState implements KeyListener{
 		/**
 		 * Example of button instantiation and the abstracts method isClicked() from the button class
 		 */
-		Button Back = new Button(50, Windows.scHeight - 136, 326, 86, "Back", this) {
+		Button Back = new Button(50, Windows.scHeight - 136, 326, 86, 10, "Back", this) {
 			@Override
 			public void isClicked() {
 				s.enterState(States.LobbyState);
 			}
 		};
 		
-		Button startGame = new Button(Windows.scWidth - 376, Windows.scHeight - 136, 326, 86, "Start Game", this) {
+		Button startGame = new Button(Windows.scWidth - 376, Windows.scHeight - 136, 326, 86, 10, "Start Game", this) {
 			@Override
 			public void isClicked() {
 				//not implemented yet, should not we accessible before 4 players are ready
@@ -57,12 +57,12 @@ public class PreGameState extends BasicGameState implements KeyListener{
 		 * onSubmit is an abstract method similar to isClicked() from the button class
 		 */
 		
-		final ListBox box = new ListBox(Windows.scWidth / 2 - 200, 100, 400, 500, this);
-		TextBox textField = new TextBox(Windows.scWidth / 2 - 200, 600, 400, 50, this) {
+		final ListBox box = new ListBox(Windows.scWidth / 2 - 200, 100, 400, 500, 10, this);
+		TextBox textField = new TextBox(Windows.scWidth / 2 - 200, 600, 400, 50, 10, this) {
 			@Override
 			public void onSubmit() {
 				box.addString(IntroState.playerName + ": " + this.getContent(), GameData.ownIndex);
-				Actions.chat(IntroState.playerName + ": " + this.getContent());
+				//Actions.chat(IntroState.playerName + ": " + this.getContent());
 				this.clear();
 			}
 		};

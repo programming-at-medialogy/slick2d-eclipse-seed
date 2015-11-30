@@ -15,8 +15,21 @@ import org.newdawn.slick.TrueTypeFont;
 public class Resource {
 
 
-	public static Font buttonTempFont = new Font("resources/16790.ttf", Font.BOLD, 32);
-	public static TrueTypeFont buttonFont = new TrueTypeFont(buttonTempFont, true);
+	public static Font [] buttonTempFont;
+	public static TrueTypeFont[] buttonFont;
+	
+	public static void initResources() {
+		buttonTempFont = new Font[30];
+		buttonFont = new TrueTypeFont[30];
+		
+		for (int i = 0; i < buttonTempFont.length; i++) {
+			buttonTempFont[i] = new Font("resources/16790.ttf", Font.BOLD, i * 2 + 1);
+			buttonFont[i] = new TrueTypeFont(buttonTempFont[i], true);
+		}
+	}
+	//public static TrueTypeFont buttonFont = new TrueTypeFont(buttonTempFont, true);
+	
+	
 	
 	/**
 	 * ATM. the warningFont is the same font as button.  
