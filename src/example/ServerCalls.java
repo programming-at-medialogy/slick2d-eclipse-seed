@@ -37,7 +37,7 @@ public class ServerCalls extends Thread {
      */
     public void getPlayerStatusOnServer(int index) throws IOException {
 
-        out.println("GET_PLAYER_STATUS: " + index);
+        out.println("GET_PLAYER_STATUS@" + index);
         out.flush();
     }
 
@@ -50,20 +50,20 @@ public class ServerCalls extends Thread {
 
         boolean curPlayStatus;
         curPlayStatus = playerList.get(playerIdNo).getPlayerReady();
-        out.println("SET_PLAYER_STATUS: " + curPlayStatus + " " + playerIdNo);
+        out.println("SET_PLAYER_STATUS@" + curPlayStatus + "@" + playerIdNo);
         out.flush();
     }
 
     public void setPlayerRole(int playerNo) {
 
-        out.println("SET_PLAYER_ROLE: " + playerNo);
+        out.println("SET_PLAYER_ROLE@" + playerNo);
         out.flush();
 
     }
 
     public void getPlayerRole(int playerNo) throws IOException {
 
-        out.println("GET_PLAYER_ROLE: " + playerNo);
+        out.println("GET_PLAYER_ROLE@" + playerNo);
         out.flush();
     }
 
