@@ -7,7 +7,8 @@ import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
 
 public class Play extends BasicGameState {
-
+	
+	Image playBackground;
 	HexMap map;
 	HouseClickArea houseArea;
 	RoadClickArea roadArea;
@@ -24,6 +25,8 @@ public class Play extends BasicGameState {
 	}
 
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+		playBackground = new Image("images/PlayBackground.png");
+		
 		map = new HexMap();
 		houseArea = new HouseClickArea();
 		roadArea = new RoadClickArea();
@@ -44,7 +47,7 @@ public class Play extends BasicGameState {
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-
+		g.drawImage(playBackground,0,0);
 		map.render(gc, g);
 		roadArea.render(gc, g);
 		houseArea.render(gc, g);
