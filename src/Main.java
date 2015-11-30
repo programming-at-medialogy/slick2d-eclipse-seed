@@ -24,7 +24,8 @@ public class Main extends BasicGame{ //Is not the actually main.
 	private Image[] numImg = new Image [11]; // Array for numbers
 	private Image[] diceImg = new Image [6];
 
-	private Image[] crdImg = new Image [Player.resources.length]; // Array for resource cards
+	private Image[] crdImg = new Image [5]; // Array for resource cards
+	private Image[] devCrdImg = new Image [5];
 
 	private Image[] buildImg = new Image[4]; // Array for level 1 building images
 	private Image[] cityImg = new Image[4]; // Array for level 2 building images
@@ -84,8 +85,9 @@ public class Main extends BasicGame{ //Is not the actually main.
 		for (int n=2; n<=12; n++){
 			numImg[n-2] = new Image("resources/numImg_" + (n) + ".png"); //initializing number images
 		}
-		for (int c=0; c<5; c++){
+		for (int c=0; c<5; c++){ // for both resource and development cards
 			crdImg[c] = new Image ("resources/r_card_"+(c)+".jpg");
+			devCrdImg[c] = new Image ("resources/r_card_1.jpg");
 		}
 		for(int b = 0; b < cityImg.length; b++) {
 			
@@ -114,14 +116,7 @@ public class Main extends BasicGame{ //Is not the actually main.
 		testPositions[1] = Position.assignPosition(1, 8);
 		testPositions[2] = Position.assignPosition(2, 11);
 		testPositions[3] = Position.assignPosition(2, 12);
-		testPositions[4] = Position.assignPosition(2, 0);
-		
-		/*
-		for(int i = 0; i < testBuildings.length; i++) {
-			
-			testBuildings[i] = Building.build(testPositions[i], 1);
-			
-		}*/
+		testPositions[4] = Position.assignPosition(2, 0);		
 		
 		Road.buildRoad(Position.assignPosition(0, 1), Position.assignPosition(0, 2), 0);
 		Road.buildRoad(Position.assignPosition(0, 2), Position.assignPosition(0, 3), 0);
@@ -144,12 +139,6 @@ public class Main extends BasicGame{ //Is not the actually main.
 	{
 		Color bkColor = Color.decode("#5e8ad7"); // create custom color
 		g.setBackground(bkColor); // set background color
-		
-		// move out, since used only once in setup
-		/*float scFactor = 0.4f; // Dynamic setup: scales images according this value 
-		float padding = hexImg[0].getWidth()/22*scFactor; // Dynamic setup: space between polygons
-		diameter = (hexImg[0].getWidth()+ padding)*scFactor; // Dynamic setup: diameter according image width, + padding for space in between*/
-		//end. move out, since used only once in setup
 		
 		drawHexagons(g);
 		drawRobber(g);
@@ -201,9 +190,14 @@ public class Main extends BasicGame{ //Is not the actually main.
 			}else
 				hexImg[6].draw(xPos + scWidth/2-hexImg[0].getWidth()/2*scFactor, yPos + scHeight/2-hexImg[0].getHeight()/2*scFactor, scFactor);
 		}
-		for (int c = 0; c<Player.resources.length;  c++){ // to display resource cards/ number 5 has to be replaced with number of cards player has 
+		// For displaying resource cards
+		for (int c = 0; c<Player.resources.length;  c++){ 
 			crdImg[c].draw(crdPosX+(scWidth/2-crdWidth/2*scFactor), crdPosY+(scHeight-crdHeight*scFactor)-crdHeight/100, scFactor);
 			crdPosX = cardPosition(c, Player.resources.length); // 5 is to change - amount of resource cards
+		}
+		for (int d=0; d<5; d++){
+			devCrdImg[d].draw(scWidth-crdWidth*scFactor, scHeight-crdHeight*scFactor, scFactor);
+			
 		}
 
 	}
