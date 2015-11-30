@@ -15,6 +15,7 @@ public class Main extends BasicGame{ //Is not the actually main.
 	static boolean userInGame; 
 	static float padding;
 	static float scFactor;
+	static float buttonWidth;
 	Position[] testPositions = new Position[5];
 	Building[] testBuildings = new Building[5];
 	
@@ -50,7 +51,9 @@ public class Main extends BasicGame{ //Is not the actually main.
 	static float crdHeight;
 	static float crdWidth;
 	
+
     Random rand = new Random();
+    
 	
 	public Main(String gamename) { // inputs game name from slick2d
 		super(gamename); // to get game name
@@ -119,6 +122,7 @@ public class Main extends BasicGame{ //Is not the actually main.
 		hexHeight = hexImg[0].getHeight();
 		crdHeight = crdImg[0].getHeight();
 		crdWidth = crdImg[0].getWidth();
+		this.buttonWidth = btImg[0].getWidth()*scFactor;
 		
 		// just for testing
 		testPositions[0] = Position.assignPosition(0, 3);
@@ -208,8 +212,11 @@ public class Main extends BasicGame{ //Is not the actually main.
 		for (int d=0; d<5; d++){
 			devCrdImg[d].draw(scWidth-crdWidth*scFactor, scHeight-crdHeight*scFactor, scFactor);
 		}
-		for (int b=0; b<6; b++){
-			btImg[b].draw(scWidth/2-btImg[0].getWidth()*scFactor/2, scHeight-btImg[0].getHeight()*scFactor-(btImg[0].getHeight()*scFactor)/2, scFactor);
+		// to draw button
+		int spacer = 0;
+		for (int b=0; b<6; b++){	
+			btImg[0].draw(scWidth/2-buttonWidth*3+spacer, scHeight-btImg[0].getHeight()*scFactor-(btImg[0].getHeight()*scFactor)/2, scFactor);
+			spacer=(int) ((spacer+buttonWidth)+(buttonWidth/10));
 		}
 
 	}
