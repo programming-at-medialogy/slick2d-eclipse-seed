@@ -87,8 +87,8 @@ public class Actions {
 		static void buyCity(Position pos, int player){
 			//Check if player have funds
 			if(GameData.players.get(player).resources[ResourceType.BRICK.toInt()]>=1 && 
-			   GameData.players.get(player).resources[ResourceType.CORN.toInt()]>=2 && 
-			   GameData.players.get(player).resources[ResourceType.ROCK.toInt()]>=1 && 
+			   GameData.players.get(player).resources[ResourceType.CORN.toInt()]>=1 && 
+			   GameData.players.get(player).resources[ResourceType.SHEEP.toInt()]>=1 && 
 			   GameData.players.get(player).resources[ResourceType.TREE.toInt()]>=1){
 				//Check if request is possible and send message
 				placeBuilding(pos, player);

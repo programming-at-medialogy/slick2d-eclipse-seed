@@ -11,5 +11,5 @@ public class GameData {
 	int mostKnights; //the index of the player in the player-ArraList with the most knights
 	int thief; //the placement of the thief
 	static int ownIndex = 0; //This particular clients index in the player-array
-	ArrayList<Harbour> harbours; //ArrayList containing the Harbour-object that are also part of the game board
+	static ArrayList<Harbour> harbours; //ArrayList containing the Harbour-object that are also part of the game board
 }
