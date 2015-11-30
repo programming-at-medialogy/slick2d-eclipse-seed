@@ -52,7 +52,7 @@ public class City extends BasicGame {
 
     /**
      * The constructor for the city class, defining the parameters needed to create a city object
-     * in the Gameboard class.
+     * instance in the Gameboard class.
     **/
     public City(String title, String cityName, int xPos, int yPos, String[] neighborCities, int color) {
         super(title);
@@ -65,8 +65,11 @@ public class City extends BasicGame {
 
     @Override
     public void init(GameContainer gc) throws SlickException {
+
         /**
-         *
+         * If statements that relate color variables to instances of the button class that take the arguements:
+         * a title, an x-coordinate, a y-coordinate and an image file represented by a number.
+         * Button: (String title, int, int, int picIndexNo);
         **/
 
         if (color == 0) {
@@ -75,15 +78,17 @@ public class City extends BasicGame {
         } else if (color == 1) {
 
             button = new Button("cityButton", xPos, yPos, 20);
-        }
-        else if (color == 2) {
+        } else if (color == 2) {
 
             button = new Button("cityButton", xPos, yPos, 21);
-        }
-        else {
+        } else {
 
             button = new Button("cityButton", xPos, yPos, 22);
         }
+
+        /**
+         * Initializing images for nonMovableCity, cityOverview and cityOverviewName.
+         */
 
         nonMovableCity = new Image("assets/cities/notmovablecities.png");
         cityOverview = new Image("assets/guielements/cityoverview.png");
@@ -103,6 +108,13 @@ public class City extends BasicGame {
     @Override
     public void render(GameContainer gc, Graphics g) throws SlickException {
 
+<<<<<<< HEAD
+        /**
+         * This if-statement blurs the cities that are not electable to move to.
+         */
+
+=======
+>>>>>>> master
         button.render(gc, g);
         if (cubeBlack == 3 || cubeBlue == 3 || cubeRed == 3 || cubeYellow == 3)
             g.drawImage(warning,xPos+1, yPos-button.getImageWidth()/2-warning.getWidth()/2+4);
@@ -125,7 +137,12 @@ public class City extends BasicGame {
         hasResearchSt = false;
     }
 
-    //placeCubeY(color: string, amount: int)
+    /**
+     * placeCube(color: string, amount: int)
+     * Adds cubes of a given color.
+     */
+
+
     public void placeCube(String color, int amount) {
         if (color == "yellow") {
             this.cubeYellow += amount;
@@ -138,6 +155,22 @@ public class City extends BasicGame {
         }
     }
 
+<<<<<<< HEAD
+    /**
+     * removeCube(color: string, amount: int)
+     * removes cubes of a given color.
+     */
+
+    public void removeCube(String color, int amount) {
+        if (color == "yellow") {
+            cubeYellow -= amount;
+        } else if (color == "blue") {
+            cubeBlue -= amount;
+        } else if (color == "red") {
+            cubeRed -= amount;
+        } else if (color == "black") {
+            cubeBlack -= amount;
+=======
     //removeCube(color: string, amount: int)
     public void removeCube(List<Player> players, int playerNo) {
 
@@ -197,10 +230,14 @@ public class City extends BasicGame {
             return true;
         } else {
             return false;
+>>>>>>> master
         }
     }
 
     public void displayCityOverview(GameContainer gc, Graphics g){
+
+
+        //Variables for displaying the cubes and the amount of cubes on the city toggle.
 
         int cubeSize = 15;
         int firstRowX = xPos -50;
@@ -209,10 +246,21 @@ public class City extends BasicGame {
         int secondRowY = yPos +105;
         int stringPosX = 20;
 
+        /**
+         * If statement that creates a toggle menu, using the button class and its hoverOver function.
+         * If the mouse hovers over a city, a toggle board is displayed. The toggle shows the city name,
+         * the colored cubes and the amount of colored cubes.
+         */
+
         if (button.hoverOver(gc)) {
             g.drawImage(cityOverview, ((xPos - (cityOverview.getWidth()/2))+(button.getImageWidth()/2) -4), yPos + button.getImageHeight() + 5);
             g.setColor(Color.white);
             g.drawImage(cityOverviewName, firstRowX, yPos +65);
+
+            /**
+             * The following if-statements draw the various cubes and a string that displays the amount 1, 2 or 3, for each
+             * individual color.
+             */
 
             if(cubeBlue == 0){
                 g.setColor(Color.blue);
@@ -297,12 +345,18 @@ public class City extends BasicGame {
 
     }
 
+<<<<<<< HEAD
+    /**
+     * Getter and setter methods.
+     */
+=======
     public void displayResearchCenter(Graphics g) {
         if (hasResearchSt) {
             g.drawImage(researchStation, xPos+button.getImageWidth()/2,yPos+button.getImageHeight()/2);
         }
 
     }
+>>>>>>> master
 
     public int getCubeYellow() {
         return cubeYellow;

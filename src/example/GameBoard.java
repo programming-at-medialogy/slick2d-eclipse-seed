@@ -14,6 +14,10 @@ import java.util.List;
  */
 public class GameBoard extends BasicGameState {
 
+    /**
+     * Declaring variables.
+     * 
+     */
     private GameStateCommons gsc;
     private ServerCalls serverCalls;
     private City[] cities;
