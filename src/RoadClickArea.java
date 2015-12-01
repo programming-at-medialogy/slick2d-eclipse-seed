@@ -1,4 +1,6 @@
 
+import java.io.IOException;
+
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -16,10 +18,17 @@ public class RoadClickArea {
 	static int screenWidth = 900;
 	static int screenHeight = 700;
 
+	Controller control; // need values from the Controller class
 	int totalRoads = 72; // int to set the total amount of roads which can be placed (the actual number is lower than 100)
+	int DiagonalRoadCount = 47;
+	int StraightRoadCount = 24;
 
 	OnScreenButton roadButton; // instance of the OnScreenButton class. Needed to render and check if the button has been clicked
-	Controller control; // need values from the Controller class
+	Game game;
+	
+	// Make an instance of the RoadSpawn class. Used to render images
+	RoadSpawn[] DiagonalRoad;
+	RoadSpawn[] StraightRoad;
 
 	// Values which defines the size of the area able to be clicked for all of
 	// the non-vertical roads.
@@ -31,67 +40,56 @@ public class RoadClickArea {
 	int areaClickSizeYbig = 56;
 
 	// Boolean arrays to check if an area have been clicked.
-	boolean[] areaClickSmall;
-	boolean[] areaClickBig;
+	boolean[] DiagonalRoadArea;
+	boolean[] StraightRoadArea;
 
 	// Int arrays to store the coordinates of all the areas where a road can be spawned
-	int[] arraycoordinateXsmall;
-	int[] arraycoordinateYsmall;
+	int[] diagonal_xpos;
+	int[] diagonal_ypos;
 
 	// Same, just for the large roads (vertical roads)
-	int[] arraycoordinateXbig;
-	int[] arraycoordinateYbig;
+	int[] straight_xpos;
+	int[] straight_ypos;
 
-	// Make an instance of the RoadSpawn class. Used to render images
-	RoadSpawn[] roadV1;
-	RoadSpawn[] roadV2;
+
 
 	// Constructor
 	RoadClickArea() throws SlickException {
 
 		roadButton = new OnScreenButton(); // create the button
-		control = new Controller(); // create the controller
 
-		roadV1 = new RoadSpawn[totalRoads]; // create 72 instances of the HouseSpawn class
-		roadV2 = new RoadSpawn[totalRoads]; // create 72 instances of the HouseSpawn class
+		DiagonalRoad = new RoadSpawn[totalRoads]; // create 47 instances of the HouseSpawn class
+		StraightRoad = new RoadSpawn[totalRoads]; // create 25 instances of the HouseSpawn class
 
 		// make the arrays totalRoads long (72)
-		arraycoordinateXsmall = new int[totalRoads];
-		arraycoordinateYsmall = new int[totalRoads];
+		diagonal_xpos = new int[totalRoads];
+		diagonal_ypos = new int[totalRoads];
 
-		arraycoordinateXbig = new int[totalRoads];
-		arraycoordinateYbig = new int[totalRoads];
+		straight_xpos = new int[totalRoads];
+		straight_ypos = new int[totalRoads];
 
-		areaClickSmall = new boolean[totalRoads];
-		areaClickBig = new boolean[totalRoads];
+		DiagonalRoadArea = new boolean[totalRoads];
+		StraightRoadArea = new boolean[totalRoads];
 
+		control = new Controller(); // create the controller
+		
 		placeRoad();
 
 	}
 
-	// Render method
-	public void render(GameContainer gc, Graphics g) throws SlickException {
-		// Renders all the non-vertical roads
-		for (int i = 0; i < areaClickSmall.length; i++) {
-			if (areaClickSmall[i] == true) {
-				roadV1[i].render(gc, g);
-			}
-		}
-
-		// Renders all the vertical roads
-		for (int i = 0; i < areaClickBig.length; i++) {
-			if (areaClickBig[i] == true) {
-				roadV2[i].render(gc, g);
-			}
-		}
-	}
 
 	// update method
-	public void update(GameContainer gc, int i) throws SlickException {
-
+	public void update(GameContainer gc, int i) throws SlickException, IOException {
+		
 		// Class the update method from the OnScreenButton class.
 		roadButton.update(gc, i);
+		
+		for (int j = 0; j < totalRoads; j++) {
+				StraightRoadArea[j] = game.client.obj.SOCroadAreaStraight[j];
+				DiagonalRoadArea[j] = game.client.obj.SOCroadAreaDiagonal[j];
+		}
 
+		
 		int xMousePos = Mouse.getX(); // gets x position of mouse
 		int yMousePos = Mouse.getY(); // gets y position of mouse
 
@@ -102,16 +100,28 @@ public class RoadClickArea {
 		if (control.isPlayerTurn == true // player turn?
 				&& control.placeRoadAmount != 0 // does the player have any roads available?
 				&& roadButton.buttonRoadControl == true) { // has the GUI button been pressed?
-			for (i = 0; i < arraycoordinateXsmall.length; i++) {
-				if ((xMousePos > arraycoordinateXsmall[i] && xMousePos < arraycoordinateXsmall[i] + areaClickSizeXsmall)
-						&& (yMousePos < screenHeight - arraycoordinateYsmall[i]
-								&& yMousePos > screenHeight - arraycoordinateYsmall[i] - areaClickSizeYsmall)) {// checks
+			for (i = 0; i < diagonal_xpos.length; i++) {
+				if ((xMousePos > diagonal_xpos[i] && xMousePos < diagonal_xpos[i] + areaClickSizeXsmall)
+						&& (yMousePos < screenHeight - diagonal_ypos[i]
+								&& yMousePos > screenHeight - diagonal_ypos[i] - areaClickSizeYsmall)) {// checks
 																												// the
 																												// coordinates
 					if (input.isMouseButtonDown(0)) { // has the mouse been clicked?
-						areaClickSmall[i] = true; // the small area has been clicked; spawn a road.
-						roadButton.buttonRoadControl = false; // toggles the button false
 						
+						if(DiagonalRoadArea[i] != true){
+							
+						DiagonalRoadArea[i] = true; // the small area has been clicked; spawn a road.
+						game.client.obj.roadsColourDiagonal[i] = control.playerNo;
+						game.client.obj.SOCroadAreaDiagonal[i] = DiagonalRoadArea[i];
+						game.client.sendData(game.client.obj);
+						roadButton.buttonRoadControl = false; // toggles the button false
+<<<<<<< HEAD
+						
+=======
+						control.reduceRoadAmount(); // reduce the amount of roads the player have available
+						
+						}
+>>>>>>> 49235240a6352bad9a3010c5ae679ca1e8d8f2b2
 					}
 				}
 			}
@@ -120,16 +130,54 @@ public class RoadClickArea {
 		// Does the same as above.
 		if (control.isPlayerTurn == true && control.placeRoadAmount != 0) {
 			if (roadButton.buttonRoadControl == true) {
-				for (i = 0; i < arraycoordinateXbig.length; i++) {
-					if ((xMousePos > arraycoordinateXbig[i] && xMousePos < arraycoordinateXbig[i] + areaClickSizeXbig)
-							&& (yMousePos < screenHeight - arraycoordinateYbig[i]
-									&& yMousePos > screenHeight - arraycoordinateYbig[i] - areaClickSizeYbig)) {
+				for (i = 0; i < straight_xpos.length; i++) {
+					if ((xMousePos > straight_xpos[i] && xMousePos < straight_xpos[i] + areaClickSizeXbig)
+							&& (yMousePos < screenHeight - straight_ypos[i]
+									&& yMousePos > screenHeight - straight_ypos[i] - areaClickSizeYbig)) {
 						if (input.isMouseButtonDown(0)) {
-							areaClickBig[i] = true; // if the area is clicked, that area's boolean must become true.
+							if(StraightRoadArea[i] != true){
+								
+							StraightRoadArea[i] = true; // if the area is clicked, that area's boolean must become true.
+							game.client.obj.roadsColourStraight[i] = control.playerNo;
+							game.client.obj.SOCroadAreaStraight[i] = StraightRoadArea[i];
+							game.client.sendData(game.client.obj);
 							roadButton.buttonRoadControl = false;
+<<<<<<< HEAD
+=======
+							control.reduceRoadAmount();
+							}
+>>>>>>> 49235240a6352bad9a3010c5ae679ca1e8d8f2b2
 						}
 					}
 				}
+			}
+		}
+		
+		
+		for (int j = 0; j < DiagonalRoadCount; j++){
+			DiagonalRoad[j].playerNo = game.client.obj.roadsColourDiagonal[j];
+		}
+		
+		for (int j = 0; j < StraightRoadCount; j++){
+			StraightRoad[j].playerNo = game.client.obj.roadsColourStraight[j];
+		}
+	
+	}
+	
+	
+	// Render method
+	public void render(GameContainer gc, Graphics g) throws SlickException {
+		// Renders all the non-vertical roads
+		for (int i = 0; i < DiagonalRoadArea.length; i++) {
+			if (DiagonalRoadArea[i] == true) {
+				DiagonalRoad[i].render(gc, g);
+			}
+		}
+
+		// Renders all the vertical roads
+		for (int i = 0; i < StraightRoadArea.length; i++) {
+			if (StraightRoadArea[i] == true) {
+				StraightRoad[i].render(gc, g);
 			}
 		}
 	}
@@ -151,140 +199,140 @@ public class RoadClickArea {
 		 * depending on where the area is.
 		 */
 		for (int i = 0; i < 3; i++) {
-			arraycoordinateXsmall[indexerSmall] = (int) (screenWidth / 3 + tileWidth * i);
-			arraycoordinateYsmall[indexerSmall] = longOffsetY * 2;
-			roadV1[indexerSmall] = new RoadSpawn(arraycoordinateXsmall[indexerSmall],
-					arraycoordinateYsmall[indexerSmall], control.playerNo, 1);
+			diagonal_xpos[indexerSmall] = (int) (screenWidth / 3 + tileWidth * i);
+			diagonal_ypos[indexerSmall] = longOffsetY * 2;
+			DiagonalRoad[indexerSmall] = new RoadSpawn(diagonal_xpos[indexerSmall],
+					diagonal_ypos[indexerSmall], control.playerNo, 1);
 			indexerSmall++;
 		}
 
 		for (int i = 0; i < 3; i++) {
-			arraycoordinateXsmall[indexerSmall] = (int) (xOffset + screenWidth / 3 + tileWidth * i);
-			arraycoordinateYsmall[indexerSmall] = longOffsetY * 2;
-			roadV1[indexerSmall] = new RoadSpawn(arraycoordinateXsmall[indexerSmall],
-					arraycoordinateYsmall[indexerSmall], control.playerNo, 2);
+			diagonal_xpos[indexerSmall] = (int) (xOffset + screenWidth / 3 + tileWidth * i);
+			diagonal_ypos[indexerSmall] = longOffsetY * 2;
+			DiagonalRoad[indexerSmall] = new RoadSpawn(diagonal_xpos[indexerSmall],
+					diagonal_ypos[indexerSmall], control.playerNo, 2);
 			indexerSmall++;
 		}
 
 		for (int i = 0; i < 4; i++) {
-			arraycoordinateXbig[indexerBig] = (int) (screenWidth / 3 - xOffset + (xOffset * 2) * i);
-			arraycoordinateYbig[indexerBig] = longOffsetY * 2 + shortOffsetY;
-			roadV2[indexerBig] = new RoadSpawn(arraycoordinateXbig[indexerBig], arraycoordinateYbig[indexerBig],
+			straight_xpos[indexerBig] = (int) (screenWidth / 3 - xOffset + (xOffset * 2) * i);
+			straight_ypos[indexerBig] = longOffsetY * 2 + shortOffsetY;
+			StraightRoad[indexerBig] = new RoadSpawn(straight_xpos[indexerBig], straight_ypos[indexerBig],
 					control.playerNo, 6);
 			indexerBig++;
 		}
 
 		for (int i = 0; i < 4; i++) {
-			arraycoordinateXsmall[indexerSmall] = (int) (screenWidth / 3 - xOffset + (xOffset * 2) * i);
-			arraycoordinateYsmall[indexerSmall] = longOffsetY * 2 + shortOffsetY * 3;
-			roadV1[indexerSmall] = new RoadSpawn(arraycoordinateXsmall[indexerSmall],
-					arraycoordinateYsmall[indexerSmall], control.playerNo, 1);
+			diagonal_xpos[indexerSmall] = (int) (screenWidth / 3 - xOffset + (xOffset * 2) * i);
+			diagonal_ypos[indexerSmall] = longOffsetY * 2 + shortOffsetY * 3;
+			DiagonalRoad[indexerSmall] = new RoadSpawn(diagonal_xpos[indexerSmall],
+					diagonal_ypos[indexerSmall], control.playerNo, 1);
 			indexerSmall++;
 		}
 
 		for (int i = 0; i < 4; i++) {
-			arraycoordinateXsmall[indexerSmall] = (int) (xOffset + screenWidth / 3 - xOffset + (xOffset * 2) * i);
-			arraycoordinateYsmall[indexerSmall] = longOffsetY * 2 + shortOffsetY * 3;
-			roadV1[indexerSmall] = new RoadSpawn(arraycoordinateXsmall[indexerSmall],
-					arraycoordinateYsmall[indexerSmall], control.playerNo, 2);
+			diagonal_xpos[indexerSmall] = (int) (xOffset + screenWidth / 3 - xOffset + (xOffset * 2) * i);
+			diagonal_ypos[indexerSmall] = longOffsetY * 2 + shortOffsetY * 3;
+			DiagonalRoad[indexerSmall] = new RoadSpawn(diagonal_xpos[indexerSmall],
+					diagonal_ypos[indexerSmall], control.playerNo, 2);
 			indexerSmall++;
 		}
 
 		for (int i = 0; i < 5; i++) {
-			arraycoordinateXbig[indexerBig] = (int) (screenWidth / 3 - xOffset * 2 + (xOffset * 2) * i);
-			arraycoordinateYbig[indexerBig] = longOffsetY * 2 + shortOffsetY * 4;
-			roadV2[indexerBig] = new RoadSpawn(arraycoordinateXbig[indexerBig], arraycoordinateYbig[indexerBig],
+			straight_xpos[indexerBig] = (int) (screenWidth / 3 - xOffset * 2 + (xOffset * 2) * i);
+			straight_ypos[indexerBig] = longOffsetY * 2 + shortOffsetY * 4;
+			StraightRoad[indexerBig] = new RoadSpawn(straight_xpos[indexerBig], straight_ypos[indexerBig],
 					control.playerNo, 6);
 			indexerBig++;
 		}
 
 		for (int i = 0; i < 5; i++) {
-			arraycoordinateXsmall[indexerSmall] = (int) (screenWidth / 3 - xOffset * 2 + (xOffset * 2) * i);
-			arraycoordinateYsmall[indexerSmall] = longOffsetY * 2 + shortOffsetY * 6;
-			roadV1[indexerSmall] = new RoadSpawn(arraycoordinateXsmall[indexerSmall],
-					arraycoordinateYsmall[indexerSmall], control.playerNo, 1);
+			diagonal_xpos[indexerSmall] = (int) (screenWidth / 3 - xOffset * 2 + (xOffset * 2) * i);
+			diagonal_ypos[indexerSmall] = longOffsetY * 2 + shortOffsetY * 6;
+			DiagonalRoad[indexerSmall] = new RoadSpawn(diagonal_xpos[indexerSmall],
+					diagonal_ypos[indexerSmall], control.playerNo, 1);
 			indexerSmall++;
 		}
 
 		for (int i = 0; i < 5; i++) {
-			arraycoordinateXsmall[indexerSmall] = (int) (xOffset + screenWidth / 3 - xOffset * 2 + (xOffset * 2) * i);
-			arraycoordinateYsmall[indexerSmall] = longOffsetY * 2 + shortOffsetY * 6;
-			roadV1[indexerSmall] = new RoadSpawn(arraycoordinateXsmall[indexerSmall],
-					arraycoordinateYsmall[indexerSmall], control.playerNo, 2);
+			diagonal_xpos[indexerSmall] = (int) (xOffset + screenWidth / 3 - xOffset * 2 + (xOffset * 2) * i);
+			diagonal_ypos[indexerSmall] = longOffsetY * 2 + shortOffsetY * 6;
+			DiagonalRoad[indexerSmall] = new RoadSpawn(diagonal_xpos[indexerSmall],
+					diagonal_ypos[indexerSmall], control.playerNo, 2);
 			indexerSmall++;
 		}
 
 		for (int i = 0; i < 6; i++) {
-			arraycoordinateXbig[indexerBig] = (int) (screenWidth / 3 - xOffset * 3 + (xOffset * 2) * i);
-			arraycoordinateYbig[indexerBig] = longOffsetY * 3 + shortOffsetY * 5;
-			roadV2[indexerBig] = new RoadSpawn(arraycoordinateXbig[indexerBig], arraycoordinateYbig[indexerBig],
+			straight_xpos[indexerBig] = (int) (screenWidth / 3 - xOffset * 3 + (xOffset * 2) * i);
+			straight_ypos[indexerBig] = longOffsetY * 3 + shortOffsetY * 5;
+			StraightRoad[indexerBig] = new RoadSpawn(straight_xpos[indexerBig], straight_ypos[indexerBig],
 					control.playerNo, 6);
 			indexerBig++;
 		}
 
 		for (int i = 0; i < 5; i++) {
-			arraycoordinateXsmall[indexerSmall] = (int) (screenWidth / 3 - xOffset * 2 + (xOffset * 2) * i);
-			arraycoordinateYsmall[indexerSmall] = longOffsetY * 3 + shortOffsetY * 7;
-			roadV1[indexerSmall] = new RoadSpawn(arraycoordinateXsmall[indexerSmall],
-					arraycoordinateYsmall[indexerSmall], control.playerNo, 5);
+			diagonal_xpos[indexerSmall] = (int) (screenWidth / 3 - xOffset * 2 + (xOffset * 2) * i);
+			diagonal_ypos[indexerSmall] = longOffsetY * 3 + shortOffsetY * 7;
+			DiagonalRoad[indexerSmall] = new RoadSpawn(diagonal_xpos[indexerSmall],
+					diagonal_ypos[indexerSmall], control.playerNo, 5);
 			indexerSmall++;
 		}
 
 		for (int i = 0; i < 5; i++) {
-			arraycoordinateXsmall[indexerSmall] = (int) (xOffset + screenWidth / 3 - xOffset * 2 + (xOffset * 2) * i);
-			arraycoordinateYsmall[indexerSmall] = longOffsetY * 3 + shortOffsetY * 7;
-			roadV1[indexerSmall] = new RoadSpawn(arraycoordinateXsmall[indexerSmall],
-					arraycoordinateYsmall[indexerSmall], control.playerNo, 4);
+			diagonal_xpos[indexerSmall] = (int) (xOffset + screenWidth / 3 - xOffset * 2 + (xOffset * 2) * i);
+			diagonal_ypos[indexerSmall] = longOffsetY * 3 + shortOffsetY * 7;
+			DiagonalRoad[indexerSmall] = new RoadSpawn(diagonal_xpos[indexerSmall],
+					diagonal_ypos[indexerSmall], control.playerNo, 4);
 			indexerSmall++;
 		}
 
 		for (int i = 0; i < 5; i++) {
-			arraycoordinateXbig[indexerBig] = (int) (screenWidth / 3 - xOffset * 2 + (xOffset * 2) * i);
-			arraycoordinateYbig[indexerBig] = longOffsetY * 3 + shortOffsetY * 8;
-			roadV2[indexerBig] = new RoadSpawn(arraycoordinateXbig[indexerBig], arraycoordinateYbig[indexerBig],
+			straight_xpos[indexerBig] = (int) (screenWidth / 3 - xOffset * 2 + (xOffset * 2) * i);
+			straight_ypos[indexerBig] = longOffsetY * 3 + shortOffsetY * 8;
+			StraightRoad[indexerBig] = new RoadSpawn(straight_xpos[indexerBig], straight_ypos[indexerBig],
 					control.playerNo, 6);
 			indexerBig++;
 		}
 
 		for (int i = 0; i < 4; i++) {
-			arraycoordinateXsmall[indexerSmall] = (int) (xOffset + screenWidth / 3 - xOffset + (xOffset * 2) * i);
-			arraycoordinateYsmall[indexerSmall] = longOffsetY * 4 + shortOffsetY * 8;
-			roadV1[indexerSmall] = new RoadSpawn(arraycoordinateXsmall[indexerSmall],
-					arraycoordinateYsmall[indexerSmall], control.playerNo, 4);
+			diagonal_xpos[indexerSmall] = (int) (xOffset + screenWidth / 3 - xOffset + (xOffset * 2) * i);
+			diagonal_ypos[indexerSmall] = longOffsetY * 4 + shortOffsetY * 8;
+			DiagonalRoad[indexerSmall] = new RoadSpawn(diagonal_xpos[indexerSmall],
+					diagonal_ypos[indexerSmall], control.playerNo, 4);
 			indexerSmall++;
 		}
 
 		for (int i = 0; i < 4; i++) {
-			arraycoordinateXsmall[indexerSmall] = (int) (screenWidth / 3 - xOffset + (xOffset * 2) * i);
-			arraycoordinateYsmall[indexerSmall] = longOffsetY * 4 + shortOffsetY * 8;
-			roadV1[indexerSmall] = new RoadSpawn(arraycoordinateXsmall[indexerSmall],
-					arraycoordinateYsmall[indexerSmall], control.playerNo, 5);
+			diagonal_xpos[indexerSmall] = (int) (screenWidth / 3 - xOffset + (xOffset * 2) * i);
+			diagonal_ypos[indexerSmall] = longOffsetY * 4 + shortOffsetY * 8;
+			DiagonalRoad[indexerSmall] = new RoadSpawn(diagonal_xpos[indexerSmall],
+					diagonal_ypos[indexerSmall], control.playerNo, 5);
 			indexerSmall++;
 		}
 
 		for (int i = 0; i < 4; i++) {
-			arraycoordinateXbig[indexerBig] = (int) (screenWidth / 3 - xOffset + (xOffset * 2) * i);
-			arraycoordinateYbig[indexerBig] = longOffsetY * 4 + shortOffsetY * 9;
-			roadV2[indexerBig] = new RoadSpawn(arraycoordinateXbig[indexerBig], arraycoordinateYbig[indexerBig],
+			straight_xpos[indexerBig] = (int) (screenWidth / 3 - xOffset + (xOffset * 2) * i);
+			straight_ypos[indexerBig] = longOffsetY * 4 + shortOffsetY * 9;
+			StraightRoad[indexerBig] = new RoadSpawn(straight_xpos[indexerBig], straight_ypos[indexerBig],
 					control.playerNo, 6);
 			indexerBig++;
 		}
 
 		// Slope UP
 		for (int i = 0; i < 3; i++) {
-			arraycoordinateXsmall[indexerSmall] = (int) (screenWidth / 3 + tileWidth * i);
-			arraycoordinateYsmall[indexerSmall] = longOffsetY * 5 + shortOffsetY * 9;
-			roadV1[indexerSmall] = new RoadSpawn(arraycoordinateXsmall[indexerSmall],
-					arraycoordinateYsmall[indexerSmall], control.playerNo, 5);
+			diagonal_xpos[indexerSmall] = (int) (screenWidth / 3 + tileWidth * i);
+			diagonal_ypos[indexerSmall] = longOffsetY * 5 + shortOffsetY * 9;
+			DiagonalRoad[indexerSmall] = new RoadSpawn(diagonal_xpos[indexerSmall],
+					diagonal_ypos[indexerSmall], control.playerNo, 5);
 			indexerSmall++;
 		}
 
 		// Slope DOWN
 		for (int i = 0; i < 3; i++) {
-			arraycoordinateXsmall[indexerSmall] = (int) (xOffset + screenWidth / 3 + tileWidth * i);
-			arraycoordinateYsmall[indexerSmall] = longOffsetY * 5 + shortOffsetY * 9;
-			roadV1[indexerSmall] = new RoadSpawn(arraycoordinateXsmall[indexerSmall],
-					arraycoordinateYsmall[indexerSmall], control.playerNo, 4);
+			diagonal_xpos[indexerSmall] = (int) (xOffset + screenWidth / 3 + tileWidth * i);
+			diagonal_ypos[indexerSmall] = longOffsetY * 5 + shortOffsetY * 9;
+			DiagonalRoad[indexerSmall] = new RoadSpawn(diagonal_xpos[indexerSmall],
+					diagonal_ypos[indexerSmall], control.playerNo, 4);
 			indexerSmall++;
 		}
 

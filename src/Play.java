@@ -1,4 +1,5 @@
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -6,7 +7,8 @@ import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
 
 public class Play extends BasicGameState {
-
+	
+	Image playBackground;
 	HexMap map;
 	HouseClickArea houseArea;
 	RoadClickArea roadArea;
@@ -14,6 +16,7 @@ public class Play extends BasicGameState {
 	OnScreenTextField textField;
 	
 	public Card cardHelp;
+	public Card infoCard;
 	public Card[] developmentPile = new Card[25];
 	
 	
@@ -22,6 +25,8 @@ public class Play extends BasicGameState {
 	}
 
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+		playBackground = new Image("images/PlayBackground.png");
+		
 		map = new HexMap();
 		houseArea = new HouseClickArea();
 		roadArea = new RoadClickArea();
@@ -29,6 +34,10 @@ public class Play extends BasicGameState {
 		textField = new OnScreenTextField();
 		textField.create(gc);
 		
+		infoCard = new Card();
+		infoCard.cardType = new Image ("images/info.png");
+		infoCard.x = 990;
+		infoCard.y = 170;
 		cardHelp = new Card();
 		cardHelp.createDevPile(developmentPile);
 		Collections.shuffle(Arrays.asList(developmentPile));
@@ -38,12 +47,13 @@ public class Play extends BasicGameState {
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-
+		g.drawImage(playBackground,0,0);
 		map.render(gc, g);
 		roadArea.render(gc, g);
 		houseArea.render(gc, g);
 		buttoms.render(gc, g);
 		textField.render(gc, g);
+		infoCard.render(gc, g);
 	}
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
@@ -55,6 +65,9 @@ public class Play extends BasicGameState {
 					try {
 						houseArea.update(gc, delta);
 					} catch (SlickException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -69,6 +82,9 @@ public class Play extends BasicGameState {
 					try {
 						roadArea.update(gc, delta);
 					} catch (SlickException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}

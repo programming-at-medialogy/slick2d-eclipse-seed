@@ -24,12 +24,12 @@ public class RoadSpawn {
 		this.y = y;
 		this.roadNo = roadNo;
 		this.playerNo = playerNo;
-		road = new Image("images/roadPlayer"+playerNo+"_"+roadNo+".png"); //images are named: roadPlayer and needs two numbers; a player number and a road number
 	}
 	
 	//render method to be called, informing that an image of house.png must be spawned at point X,Y
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
+		road = new Image("images/roadPlayer"+playerNo+"_"+roadNo+".png"); //images are named: roadPlayer and needs two numbers; a player number and a road number
 		g.drawImage(road,x,y); //needed to render the images
 	}
 }
