@@ -38,14 +38,20 @@ public class PreGameState extends BasicGameState implements KeyListener{
 		/**
 		 * Example of button instantiation and the abstracts method isClicked() from the button class
 		 */
-		Button Back = new Button(50, Windows.scHeight - 136, 326, 86, 30, "Back", this) {
+		int bWidth = (int) (1000*Windows.scFactor);
+		int bHeight = (int) (300*Windows.scFactor);
+		
+		/**
+		 * Example of button instantiation and the abstracts method isClicked() from the button class
+		 */
+		Button Back = new Button(Windows.scWidth/4 - bWidth/2, Windows.scHeight - 136, bWidth, bHeight, 30, "Back", this) {
 			@Override
 			public void isClicked() {
 				s.enterState(States.LobbyState);
 			}
 		};
 		
-		Button startGame = new Button(Windows.scWidth - 376, Windows.scHeight - 136, 326, 86, 30, "Start Game", this) {
+		Button startGame = new Button(Windows.scWidth - Windows.scWidth/4 - bWidth/2, Windows.scHeight - 136, bWidth, bHeight, 30, "Start Game", this) {
 			@Override
 			public void isClicked() {
 				//not implemented yet, should not we accessible before 4 players are ready
@@ -61,8 +67,13 @@ public class PreGameState extends BasicGameState implements KeyListener{
 		 * onSubmit is an abstract method similar to isClicked() from the button class
 		 */
 		
-		final ListBox box = new ListBox(Windows.scWidth / 2 - 200, 100, 400, 500, 20, this);
-		TextBox textField = new TextBox(Windows.scWidth / 2 - 200, 600, 400, 50, 20, this) {
+		int lWidth = (int) (1200*Windows.scFactor);
+		int lHeight = (int)(1500*Windows.scFactor);
+		int tHeight = (int)(150*Windows.scFactor);
+		int lY = (int) (300*Windows.scFactor);
+		int tY = (int) (1800*Windows.scFactor);
+		final ListBox box = new ListBox(Windows.scWidth / 2 - lWidth/2, lY, lWidth, lHeight, 20, this);
+		TextBox textField = new TextBox(Windows.scWidth / 2 - lWidth/2, tY, lWidth, tHeight, 20, this) {
 			@Override
 			public void onSubmit() {
 				box.addString(IntroState.playerName + ": " + this.getContent(), GameData.ownIndex);
