@@ -1,9 +1,16 @@
 package gameEngine;
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
 
 public class Client
 {
+	City currentCityPlayer1 = findCity("Atlanta");
+	String rolePlayer1;
+
+	Player player1 = new Player(currentCityPlayer1, rolePlayer1);
+	Player player2 = new Player(currentCityPlayer2, rolePlayer2);
+	
     public static void main(String args[])
     {
         DatagramSocket sock = null;
@@ -46,6 +53,17 @@ public class Client
         {
             System.err.println("IOException " + e);
         }
+    }
+    public int findCity(String city){
+    	int cityIndexPosition;
+    	for(int i= 0 ; i < Setup.playerDeck.size(); i ++){
+    		
+    	}
+    
+    	
+    	
+    	
+    	return cityIndexPosition;
     }
      
     //simple function to echo data to terminal
