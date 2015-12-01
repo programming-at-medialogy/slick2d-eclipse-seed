@@ -34,6 +34,31 @@ public class ServerActions {
 		}
 	}
 	
+	static void collectResources() {
+		int dieRoll = Dice.dice1 + Dice.dice2;
+		for (int i = 0; i < GameData.players.size(); i++) {
+			for (int j = 0; j < GameData.buildings.size(); j++) {
+				if (GameData.buildings.get(j).PLAYER == GameData.players.get(i).NUMBER) {
+					Hexagon[] nearbyHexagons = GameData.buildings.get(j).POSITION.getNearbyHexagons();
+					for (int k = 0; k < nearbyHexagons.length; k++) {
+						if (nearbyHexagons[k].NUMBER == dieRoll) {
+							if (GameData.buildings.get(k).isUpgraded()) {
+								GameData.players.get(i).resources[nearbyHexagons[k].TYPE.toInt()] += 2;
+								GameData.players.get(i).resourceAmount += 2;
+
+							}
+							if (nearbyHexagons[k].TYPE.toInt() != 5) {
+								GameData.players.get(i).resources[nearbyHexagons[k].TYPE.toInt()]++;
+								GameData.players.get(i).resourceAmount++;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	
 	
 	/**
 	 * Method called when a message is received from a client
@@ -41,6 +66,12 @@ public class ServerActions {
 	 * @param message The message received
 	 */
 	public synchronized static void received(int clientId, String message) {
+		
+		if (message == "Collect"){
+			collectResources();
+			String outMessage = gson.toJson(GameData.players);
+			NetworkServer.sendToAll("Collect " + outMessage);
+		}
 		
 		if (expectingRoad == clientId) {
 			Position rEndPos = gson.fromJson(message, Position.class);

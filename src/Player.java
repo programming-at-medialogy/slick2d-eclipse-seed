@@ -69,7 +69,6 @@ public class Player  {
 					if ( GameData.buildings.get(i).isUpgraded()) {
 						resources[nearbyHexagons[j].TYPE.toInt()]+=2;
 						resourceAmount += 2;
-						
 					}
 					if (nearbyHexagons[j].TYPE.toInt() != 5) {
 						resources[nearbyHexagons[j].TYPE.toInt()]++;
