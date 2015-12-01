@@ -3,7 +3,7 @@
 This project tries to implement the game "Settlers Of Catan" as an online-based multiplayer game,
 in which a total of four players will be able to connect to a server and play the game.
 
-For simplicity, a few elements of the original game will not be implemeneted in this version, i.e. the Robber and trading.
+For simplicity, a few elements of the original game will not be implemeneted in this version, i.e. the Robber, trading and certain rules. Therefore, the game must still be played according to the rules, controlled by the players themselves.
 
 ## Development Environment
 
