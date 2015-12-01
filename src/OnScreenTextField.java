@@ -12,6 +12,11 @@ public class OnScreenTextField {
 
 	private int once = 0;
 	TextField textField, textField2, textField3, textField4;
+	private int textFieldXPos = 970;
+	private int textFieldYPos = 10;
+	private int textFieldYOffset = 40;
+	private int textFieldWidth = 220;
+	private int textFieldHeight = 35;
 	OnScreenButton buttons;
 	Controller control;
 	DieRoll dice;
@@ -31,19 +36,19 @@ public class OnScreenTextField {
 
 	public void create(GameContainer gc) {
 
-		textField = new TextField(gc, gc.getDefaultFont(), 990,10,200,35);
+		textField = new TextField(gc, gc.getDefaultFont(), textFieldXPos,textFieldYPos,textFieldWidth,textFieldHeight);
 		textField.setBorderColor(Color.green);
 		textField.setBackgroundColor(Color.gray);
 		
-		textField2 = new TextField(gc, gc.getDefaultFont(), 990,50,200,35);
+		textField2 = new TextField(gc, gc.getDefaultFont(), textFieldXPos,textFieldYPos+(textFieldYOffset),textFieldWidth,textFieldHeight);
 		textField2.setBorderColor(Color.red);
 		textField2.setBackgroundColor(Color.gray);
 		
-		textField3 = new TextField(gc, gc.getDefaultFont(), 990,90,200,35);
+		textField3 = new TextField(gc, gc.getDefaultFont(), textFieldXPos,textFieldYPos+(textFieldYOffset*2),textFieldWidth,textFieldHeight);
 		textField3.setBorderColor(Color.blue);
 		textField3.setBackgroundColor(Color.gray);
 		
-		textField4 = new TextField(gc, gc.getDefaultFont(), 990,130,200,35);
+		textField4 = new TextField(gc, gc.getDefaultFont(), textFieldXPos,textFieldYPos+(textFieldYOffset*3),textFieldWidth,textFieldHeight);
 		textField4.setBorderColor(Color.magenta);
 		textField4.setBackgroundColor(Color.gray);
 	}
@@ -84,23 +89,23 @@ public class OnScreenTextField {
 		}else if (control.playerNo == 2){
 			getDice = dice.rollDice();
 			output = input[getDice];
-			textField.setConsumeEvents(true);
-			textField.setText("Bought development card");
-			textField.getText();
+			textField2.setConsumeEvents(true);
+			textField2.setText("Bought development card");
+			textField2.getText();
 			return output;
 		}else if (control.playerNo == 3){
 			getDice = dice.rollDice();
 			output = input[getDice];
-			textField.setConsumeEvents(true);
-			textField.setText("Bought development card");
-			textField.getText();
+			textField3.setConsumeEvents(true);
+			textField3.setText("Bought development card");
+			textField3.getText();
 			return output;
 		}else if (control.playerNo == 4){
 			getDice = dice.rollDice();
 			output = input[getDice];
-			textField.setConsumeEvents(true);
-			textField.setText("Bought development card");
-			textField.getText();
+			textField4.setConsumeEvents(true);
+			textField4.setText("Bought development card");
+			textField4.getText();
 			return output;
 		}
 		

@@ -86,6 +86,7 @@ public class OnScreenButton {
 			if((xMousePos > buttonStartPosX && xMousePos < buttonStartPosX+buttonWidth) && (yMousePos < screenHeight-buttonStartPosY+(buttonSpacing*2) && yMousePos > screenHeight-buttonStartPosY+(buttonSpacing*2)-buttonHeight)) {
 				if(input.isMouseButtonDown(0)) {
 					buttonDiceControl = true;
+					buttonDevCardControl = false;
 				}
 			}
 			
@@ -93,6 +94,7 @@ public class OnScreenButton {
 			if((xMousePos > buttonStartPosX-buttonWidth-9 && xMousePos < (buttonStartPosX-buttonWidth-9)+buttonWidth) && (yMousePos < screenHeight-buttonStartPosY && yMousePos > screenHeight-buttonStartPosY-buttonHeight)) {
 				if(input.isMouseButtonDown(0)) {
 					buttonDevCardControl = true;
+					buttonDiceControl = false;
 					}
 			}
 			
