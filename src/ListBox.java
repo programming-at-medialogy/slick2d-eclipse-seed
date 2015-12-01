@@ -46,7 +46,7 @@ public class ListBox {
 		
 		if (listImg == null) {
 			try {
-				listImg = new Image("resources/playerBck.jpg");
+				listImg = new Image("resources/chatBck.jpg");
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
