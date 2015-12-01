@@ -3,6 +3,7 @@ import java.awt.Font;
 import java.util.ArrayList;
 
 import org.lwjgl.input.Mouse;
+import org.newdawn.slick.Color;
 //import org.newdawn.slick.Font;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -12,8 +13,8 @@ import org.newdawn.slick.state.BasicGameState;
 
 public abstract class Button {
 	//class variables 
-	int x, y, width, height;
-	Image image, highlight, pressed;
+	int x, y, width, height, fontSize;
+	static Image image, highlight, pressed;
 	String message;
 	static boolean mouseDown;
 	static ArrayList<Button> buttons = new ArrayList();
@@ -30,16 +31,17 @@ public abstract class Button {
  * @param message the parameter for the text layer onto the button
  * @param state the parameter for which state the button belongs to
  */
-	Button(int x, int y, int width, int height, String message, BasicGameState state){
+	Button(int x, int y, int width, int height, int fontSize, String message, BasicGameState state){
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 		this.message = message;
+		this.fontSize = fontSize;
 		try {
-			this.image = new Image("resources/ButtonHover.png");
-			this.highlight = new Image("resources/ButtonActive.png");
-			this.pressed = new Image("resources/ButtonPressed.png");
+			this.image = new Image("resources/btImg_0.png");
+			this.highlight = new Image("resources/btImg_1.png");
+			this.pressed = new Image("resources/btImg_2.png");
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -69,7 +71,7 @@ public abstract class Button {
 				} else {
 					buttons.get(i).image.draw(buttons.get(i).x, buttons.get(i).y, buttons.get(i).width, buttons.get(i).height);
 				}
-				Resource.buttonFont.drawString(buttons.get(i).x + buttons.get(i).width / 2 - Resource.buttonFont.getWidth(buttons.get(i).message) / 2, buttons.get(i).y + buttons.get(i).height / 2 - Resource.buttonFont.getHeight(buttons.get(i).message) / 2, buttons.get(i).message);
+				Resource.buttonFont[buttons.get(i).fontSize].drawString(buttons.get(i).x + buttons.get(i).width / 2 - Resource.buttonFont[buttons.get(i).fontSize].getWidth(buttons.get(i).message) / 2, buttons.get(i).y + buttons.get(i).height / 2 - Resource.buttonFont[buttons.get(i).fontSize].getHeight(buttons.get(i).message) / 2, buttons.get(i).message, new Color(100, 54, 26));
 			}
 		}
 	}

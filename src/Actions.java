@@ -1,17 +1,32 @@
 import com.google.gson.Gson;
 
+/**
+ * Class containing all actions the client can do.
+ * Sends messages to and receives messages from the server
+ * @author Frederik Emil
+ *
+ */
 public class Actions {
 	static Gson gson;
 	static Position startR;
 	static Position endR;
 	static int expR;
 	
+	/**
+	 * An object of this class is never instantiated, so this function should be called in order to initialize certain variables. 
+	 */
 	static void initActions(){
 		gson = new Gson();
 		expR = -1;
 	}
-	//Methods for initial phase
 	
+	
+	/**
+	 * Called when player wants to place a building in initial phase.
+	 * Checks if possible and sends message to server
+	 * @param pos Potision of the building
+	 * @param player Index of the player
+	 */
 		static void placeBuilding(Position pos, int player){
 
 			Building newBuilding = Building.build(pos, player);
@@ -22,6 +37,13 @@ public class Actions {
 
 		}
 		
+		/**
+		 * Called when player wants to place a road in initial phase.
+		 * Checks if possible and sends message to server
+		 * @param start Start position of the road
+		 * @param end End position of the road
+		 * @param player Index of the player
+		 */
 		static void placeRoad(Position start, Position end, int player){
 			//Check if request is possible
 			boolean canBuild = false;
@@ -47,36 +69,49 @@ public class Actions {
 		}
 		
 		
-		//Methods for trade-phase
 		
+		/**
+		 * Called when a player wants to propose a trade
+		 * Checks if possible and sends message to server
+		 * @param trade The TradeObject containing info on the trade
+		 * @param player Index of the player
+		 */
 		static void initiateTrade(TradeObject trade, int player){
 			//Method to use when the player wants to trade with other players
 			//Check if player have funds
 			int type  = trade.has[0];
 			if(GameData.players.get(player).resources[type]>=trade.has.length){
-				//Send message to server. Something like:
-				//networkHelper.sendMessage("Trade Offer",trade, player);
+				//Send message to server
+				String message = gson.toJson(trade);
+				NetworkClient.sendMessage("Trade " + message);
 			}
 		}
 		
-		static void receiveTrade(TradeObject trade, int player){
-			//Method called when other users wants to trade resources
-			//Update graphics
-		}
-		
-		static void acceptTrade(TradeObject trade,int thisPlayer,int opponent){
+		/**
+		 * Called when player wants to accept a trade offer.
+		 * Checks if possible and sends message to server
+		 */
+		static void acceptTrade(){
 			//Method called when user accept trade
 			//Check if player have funds
-			int type  = trade.wants[0];
-			if(GameData.players.get(thisPlayer).resources[type]>=trade.wants.length){
-				//Send message to server. Something like:
-				//networkHelper.sendMessage("TradeAccept",trade, thisPlayer, opponent);
+			int type  = GameData.tObject.wants[0];
+			if(GameData.players.get(GameData.ownIndex).resources[type]>=GameData.tObject.wants.length){
+				GameData.tObject.acceptPlayer = GameData.ownIndex;
+				String message = gson.toJson(GameData.tObject);
+				//Send message to server
+				NetworkClient.sendMessage("TradeAccept " + message);
 			}
 		}
 
 		
-		// Methods for building-phase
 		
+		/**
+		 * Called when player wants to buy a road.
+		 * Checks if possible and calls placeRoad-method
+		 * @param start Start position of the road
+		 * @param end End position of the road
+		 * @param player Index of the player
+		 */
 		static void buyRoad(Position start, Position end, int player){
 			//Check if player have funds
 			if(GameData.players.get(player).resources[ResourceType.BRICK.toInt()]>=1 && 
@@ -86,17 +121,29 @@ public class Actions {
 			}
 		}
 		
+		/**
+		 * Called when player wants to buy a building
+		 * Checks if possible and calls placeBuilding
+		 * @param pos Position of the building
+		 * @param player Index of the player
+		 */
 		static void buyCity(Position pos, int player){
 			//Check if player have funds
 			if(GameData.players.get(player).resources[ResourceType.BRICK.toInt()]>=1 && 
-			   GameData.players.get(player).resources[ResourceType.CORN.toInt()]>=2 && 
-			   GameData.players.get(player).resources[ResourceType.ROCK.toInt()]>=1 && 
+			   GameData.players.get(player).resources[ResourceType.CORN.toInt()]>=1 && 
+			   GameData.players.get(player).resources[ResourceType.SHEEP.toInt()]>=1 && 
 			   GameData.players.get(player).resources[ResourceType.TREE.toInt()]>=1){
 				//Check if request is possible and send message
 				placeBuilding(pos, player);
 			}
 		}
 		
+		/**
+		 * Called when player wants to upgrade a building
+		 * Checks if possible and sends message to server
+		 * @param pos Position of the building
+		 * @param player Index of the player
+		 */
 		static void upgradeCity(Position pos, int player){
 			//Check if player have funds
 			if(GameData.players.get(player).resources[ResourceType.CORN.toInt()]>=2 && 
@@ -115,15 +162,25 @@ public class Actions {
 			}
 		}
 		
+		/**
+		 * Used for sending chat messages to the server
+		 * @param message
+		 */
 		static void chat(String message) {
 			NetworkClient.sendMessage("Chat " + message);
 		}
+		
 		
 		static void rollDice(){
 			//Method used to notify server that user wants to roll the dice
 			//Send message to server. Something like:
 			//networkHelper.sendMessage("Roll dice", player);
 		}
+		
+		/**
+		 * Method called when client receives a message from the server.
+		 * @param message Messaged received by the server
+		 */
 		static void received(String message){
 			if(message == "Undo Building"){
 				// do something
@@ -202,7 +259,21 @@ public class Actions {
 						if (playerID != GameData.ownIndex)
 							ListBox.addString(message, playerID);
 					}
+					else if(objectType.equals("Trade")){
+						//Method called when other users wants to trade resources
+						TradeObject trade = gson.fromJson(message, TradeObject.class);
+						GameData.tObject = trade;
+						if(GameData.tObject.initPlayer!=GameData.ownIndex){
+							//Update graphics
+						}
+					}else if(objectType.equals("TradeAccept")){
+						GameData.tObject = gson.fromJson(message, TradeObject.class);
+						GameData.players.get(GameData.tObject.initPlayer).resources[GameData.tObject.hasType] -= GameData.tObject.has.length;
+						GameData.players.get(GameData.tObject.initPlayer).resources[GameData.tObject.wantsType] += GameData.tObject.wants.length;
+						GameData.players.get(GameData.tObject.acceptPlayer).resources[GameData.tObject.hasType] += GameData.tObject.has.length;
+						GameData.players.get(GameData.tObject.acceptPlayer).resources[GameData.tObject.wantsType] -= GameData.tObject.wants.length;
+					}
+					}
 				}
 			}
 		}
-}

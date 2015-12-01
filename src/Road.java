@@ -1,22 +1,30 @@
 import java.util.ArrayList;
 
+/**
+ * Class describing a building
+ * @author Frederik Emil
+ *
+ */
+
 public class Road {
 	
-	/* Again, just like in the building class, the player should not be static.
-	 * However, if i change it to non static i screw up the code. The code therefore needs to be rewritten a bit.
-	 * See building class for elaboration. */
 	public final int PLAYER_INDEX;	
 	Position start;
 	Position end;
 	static int roadLength;
 	static int tempLength;
-	//static ArrayList<Road> roads = new ArrayList<Road>();
 	boolean startTouch;
 	boolean endTouch;
 	boolean visited;
 	
 	static int longestRoad = 0;
 	
+	/**
+	 * Private constructor. One should use {@link Road#buildRoad(Position, Position, int)} instead, since it contains error checking.
+	 * @param startPos The start position of the road
+	 * @param endPos The End position of the road
+	 * @param playerIndex The player index
+	 */
 	Road(Position startPos, Position endPos,int playerIndex){
 		startTouch = false;
 		endTouch = false;
@@ -27,6 +35,13 @@ public class Road {
 		visited = false;
 	}
 	
+	/**
+	 * This method should be used instead of calling the constructor since it contains error checking.
+	 * @param startPos The start position of the road
+	 * @param endPos The End position of the road
+	 * @param playerIndex The player index
+	 * @return The constructed Road. Returns null if the road cannot be build
+	 */
 	public static Road buildRoad(Position startPos, Position endPos, int playerIndex){
 		if(Position.getLength(startPos, endPos) == 1){
 			System.out.println("Constructing road");
@@ -41,22 +56,17 @@ public class Road {
 			return null;
 		}
 	}
-	
+
 	/**
-	 * Checks if the road can be build at the requested position
-	 * @param Division The division
-	 * @param startIndex The start of the road
-	 * @param endIndex The end of the road
-	 * @return Boolean
+	 * Checks which road is the longest by calling roadLength for each end road
 	 */
-	
 	static void longestRoad(){	
 		roadLength = 1;
 		int thisRoad = 0;
 
 		for(int i = 0; i<GameData.roads.size(); i++){
 			tempLength = 0;
-			if(GameData.roads.get(i).PLAYER_INDEX != 50000){ // needs fixing frede
+			if(GameData.roads.get(i).PLAYER_INDEX != GameData.ownIndex){
 				if(GameData.roads.get(i).endTouch == true){
 					thisRoad = roadLength(GameData.roads.get(i),"end");
 				}
@@ -68,13 +78,18 @@ public class Road {
 		
 		if (thisRoad > Road.longestRoad){
 			Road.longestRoad = thisRoad;
-			GameData.longestRoad = 5000; // needs fixing frede
+			GameData.longestRoad = thisRoad; // needs fixing frede
 			System.out.println("Longest road is " + thisRoad);
 		}
 	}
 	
 	
-	
+	/**
+	 * Finds the longest branch of road from a given starting road
+	 * @param theRoad The starting point of the road
+	 * @param endOrStart String that determines if we are going to check the start or the end of the road
+	 * @return The length of the longest branch
+	 */
 	static int roadLength(Road theRoad, String endOrStart){
 		ArrayList<Integer> nearbyRoads = new ArrayList<Integer>();
 		
@@ -117,7 +132,10 @@ public class Road {
 	}
 	
 	
-	
+	/**
+	 * Sets endTouch and startTouch for all the roads belonging to the player
+	 * @param theRoad Starting point of the function
+	 */
 	void checkEnds(Road theRoad){
 		for(int i = 0; i<GameData.roads.size(); i++){
 			if(theRoad != GameData.roads.get(i)){

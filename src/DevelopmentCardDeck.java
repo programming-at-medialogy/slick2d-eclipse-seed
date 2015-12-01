@@ -6,22 +6,19 @@ import java.util.Random;
  */
 public class DevelopmentCardDeck  {
 
-    /**
-     * Empty developmentcard deck
-     */
-    private int[] devCard;
-    
+	/**
+	 * Arraylist for a developmentdeck
+	 */
     private static ArrayList<CardType> cards;
    
-    /**
-     * Make a copy of the developmentcardDeck
-     */
+  /**
+   * Constructor for creating a developmentCard deck, shuffling and add the number of specific cards you would like to have in it 
+   * @param kn = number of KNIGHT
+   * @param vp = number of VICTORYPOINT
+   * @param rb = number of ROADBUILDS
+   * @param yp = number of YEAROFPLENTYCARDS
+   */
     public DevelopmentCardDeck(int kn, int vp, int rb, int yp){
-    	/*devCard = new int[5];
-    	devCard[CardType.KNIGHT.toInt()] = kn;
-    	devCard[CardType.VICTORYPOINT.toInt()] = vp;
-    	devCard[CardType.ROADBUILD.toInt()] = rb;
-    	devCard[CardType.YEAROFPLENTY.toInt()] = yp;*/
     	
     	cards = new ArrayList();
     	for (int i = 0; i < kn; i++) {
@@ -39,6 +36,12 @@ public class DevelopmentCardDeck  {
     	
     	shuffle(cards, cards.size() - 1);
     }
+    
+    /**
+     * Method for shuffling the deck of developmentcards
+     * @param array Specify the array which needs shuffling
+     * @param length Length of the array
+     */
 
     private static void shuffle(ArrayList<CardType> array, int length) {
 		Random r = new Random();
@@ -51,54 +54,27 @@ public class DevelopmentCardDeck  {
 	}
 
     /**
-     * Returns the amount of a desired card.
-     * @param age either old or new
-     * @param type which type of development card you would like to check for
-     * @return the number of the given gard
-     */
-
-    public int getAmountOfCards(int type ){
-        return devCard[type];
-    }
-
-    /**
      * Returns the total number of development cards
      */
 
     public int getTotal(){
-        int sum = 0;
-        for (int i = 0;i < devCard.length; i++){
-            sum += (devCard[i]);
-        }
-
-        return sum;
+        return cards.size();
     }
 
-    /**
-     * Set the amount of a type of card
-     * @param amount Amount of cards
-     * @param type Type of card
-     * @param age New or Old
-     */
-    public void setAmount(int amount, int type) {
-        devCard[type] = amount;
-    }
 
     /**
      * Add a specific amount of cards to a specific type
      * @param amount = amount of cards
-     * @param age New or Old
-     * @param type Type of card, see Interface.
+     * @param type = which type of card you would like to add.
      */
     public void add(int amount, int type) {
-        devCard[type] += amount;
+        cards.add(amount,CardType.fromInteger(type));
     }
 
+
     /**
-     * Subtract a specific amount of cards from a specific type.
-     * @param amount amount of cards
-     * @param age new or old
-     * @param type type of card.
+     * Method for buying a developmentcard
+     * @return the card bought
      */
     public static CardType BuyCard() {
     	if(cards.size() != 0 && Player.resources[ResourceType.CORN.toInt()]>=1 && Player.resources[ResourceType.ROCK.toInt()]>=1 && Player.resources[ResourceType.SHEEP.toInt()]>=1){
@@ -109,41 +85,14 @@ public class DevelopmentCardDeck  {
     	System.out.println("No card");
     	return null;
     }
-    /**
-     * Some cards stay in hand, this method counts both old and new
-     * @return
-     */
-
-    public int getUnplayed() {
-        int sum = 0;
-        sum += devCard[CardType.KNIGHT.toInt()];
-        sum += devCard[CardType.VICTORYPOINT.toInt()];
-        sum += devCard[CardType.ROADBUILD.toInt()];
-        sum += devCard[CardType.MONOPOLY.toInt()];
-        sum += devCard[CardType.YEAROFPLENTY.toInt()];
-        return sum;
-    }
-
-
 
     /**
-     * Sets old and new cards to zero
+     * Clears the developmentCard deck.
      */
-    public void clear()
-    {
-        for (int i = 0; i < 8; i++) {
-            devCard[i] = 0;
-        }
+    public void clear(){
+    	cards.clear();
+   
     }
     
-    public static void main(String[] args) {
-    	DevelopmentCardDeck dev = new DevelopmentCardDeck(15,15,15,15);
-    	System.out.println(dev.BuyCard());
-    	System.out.println(dev.BuyCard());
-    	System.out.println(dev.BuyCard());
-
-
-	
-}
 }
 
