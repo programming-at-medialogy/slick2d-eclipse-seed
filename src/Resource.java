@@ -1,4 +1,5 @@
 import java.awt.Font;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,39 +16,60 @@ import org.newdawn.slick.TrueTypeFont;
 public class Resource {
 
 
-	public static Font [] buttonTempFont;
-	public static TrueTypeFont[] buttonFont;
+	public static ArrayList<Font> stdTempFont;
+	public static ArrayList<TrueTypeFont> stdFont;
+	public static ArrayList<Integer> stdFontSize;
+	public static ArrayList<Font> titleTempFont;// = new Font("resources/TitleFont.ttf", Font.BOLD, 38);
+	public static ArrayList<TrueTypeFont> titleFont;// = new TrueTypeFont(titleTempFont, true);
+	public static ArrayList<Integer> titleFontSize;
 	
 	public static void initResources() {
-		buttonTempFont = new Font[30];
-		buttonFont = new TrueTypeFont[30];
-		
-		for (int i = 0; i < buttonTempFont.length; i++) {
-			buttonTempFont[i] = new Font("resources/OratorStd.ttf", Font.PLAIN, i * 2 + 1);
-			buttonFont[i] = new TrueTypeFont(buttonTempFont[i], true);
-		}
+		stdTempFont = new ArrayList<Font>();
+		stdFont = new ArrayList<TrueTypeFont>();
+		stdFontSize = new ArrayList<Integer>();
+		titleTempFont = new ArrayList<Font>();
+		titleFont = new ArrayList<TrueTypeFont>();
+		titleFontSize = new ArrayList<Integer>();
 	}
 	//public static TrueTypeFont buttonFont = new TrueTypeFont(buttonTempFont, true);
-	
-	
-	
-	/**
-	 * ATM. the warningFont is the same font as button.  
-	 * This declaration might not be needed.
-	 */
-	public static Font warningTempFont = new Font("resources/OratorStd.ttf", Font.PLAIN, 22);
-	public static TrueTypeFont warningFont = new TrueTypeFont(warningTempFont, true);
-	public static Font listTempFont = new Font("resources/OratorStd.ttf", Font.PLAIN, 20);
-	public static Font miscTempFont = new Font("resources/OratorStd.ttf", Font.PLAIN, 14);
-	public static TrueTypeFont miscFont = new TrueTypeFont(miscTempFont, true);	
-	
-	public static TrueTypeFont listFont = new TrueTypeFont(listTempFont, true);
-	public static Font titleTempFont = new Font("resources/TitleFont.ttf", Font.BOLD, 38);
-	public static TrueTypeFont titleFont = new TrueTypeFont(titleTempFont, true);
 
 
 	public Resource() throws SlickException{
 
 	}
 
+	public static TrueTypeFont getFont(String type, int fontSize) {
+		boolean hasFont = false;
+		TrueTypeFont retFont = null;
+		ArrayList<TrueTypeFont> tempFont;
+		ArrayList<Integer> tempFontSize;
+		if (type.equals("std")) {
+			tempFont = stdFont;
+			tempFontSize = stdFontSize;
+		} else {
+			tempFont = titleFont;
+			tempFontSize = titleFontSize;
+		}
+		
+		for (int i = 0; i < tempFont.size(); i++) {
+			if (tempFontSize.get(i) == fontSize) {
+				hasFont = true;
+				retFont = tempFont.get(i);
+				break;
+			}
+		}
+		
+		if (!hasFont) {
+			if (type.equals("std")) {
+				stdFont.add(new TrueTypeFont(new Font("resources/OratorStd.ttf", Font.PLAIN, fontSize), true));
+				stdFontSize.add(fontSize);
+			}
+			else {
+				titleFont.add(new TrueTypeFont(new Font("resources/TitleFont.ttf", Font.BOLD, fontSize), true));
+				titleFontSize.add(fontSize);
+			}
+			retFont = tempFont.get(tempFont.size() - 1);
+		}
+		return retFont;
+	}
 }

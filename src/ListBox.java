@@ -5,6 +5,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.BasicGameState;
 
 public class ListBox {
@@ -17,6 +18,8 @@ public class ListBox {
 	private int lastMY;
 	int fontSize;
 	private static int width;
+	private static int textWidth;
+	private TrueTypeFont listFont;
 
 	private int height;
 	private int offsetY;
@@ -27,6 +30,7 @@ public class ListBox {
 	private static ArrayList<Integer> playerIndex;
 	private static boolean isMouseDown;
 	private static ArrayList<ListBox> listBoxes = new ArrayList<ListBox>();
+	private static Image listImg;
 	
 	public ListBox(int x, int y, int width, int height, int fontSize, BasicGameState state) {
 		this.x = x;
@@ -40,6 +44,17 @@ public class ListBox {
 		this.isClicked = false;
 		this.isActive = false;
 		
+		if (listImg == null) {
+			try {
+				listImg = new Image("resources/chatBck.jpg");
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		listFont = Resource.getFont("std", fontSize);
+		
 		// sets max chars based on width
 		MAX_CHARS = (int)(width / 11);
 		
@@ -49,6 +64,7 @@ public class ListBox {
 		
 		listBoxes.add(this);
 	}
+	
 	
 	/**
 	 * Adds a string to the list box.
@@ -128,7 +144,8 @@ public class ListBox {
 				
 			
 				g.setColor(Color.white);
-				g.fillRoundRect(listBox.x, listBox.y, listBox.width, listBox.height + 20, 10);
+				listImg.draw(listBox.x, listBox.y, listBox.width, listBox.height + 20);
+				//g.fillRoundRect(listBox.x, listBox.y, listBox.width, listBox.height + 20, 10);
 				
 					//listSpriteActive.draw(listBox.x, listBox.y, listBox.width, listBox.height);
 				
@@ -146,13 +163,13 @@ public class ListBox {
 					int textY = listBox.y + listBox.height - (i + 2) * 20 + listBox.offsetY;
 					if (textY > listBox.y && textY < (listBox.y + listBox.height - 20)) {
 						if (listBox.playerIndex.get(i) == 0)
-							Resource.buttonFont[listBox.fontSize].drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.red);
+							listBox.listFont.drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.red);
 						else if (listBox.playerIndex.get(i) == 1)
-							Resource.buttonFont[listBox.fontSize].drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.blue);
+							listBox.listFont.drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.blue);
 						else if (listBox.playerIndex.get(i) == 2)
-							Resource.buttonFont[listBox.fontSize].drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.green);
+							listBox.listFont.drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.green);
 						else
-							Resource.buttonFont[listBox.fontSize].drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.orange);
+							listBox.listFont.drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.orange);
 					}
 						//g.drawString(listBox.content.get(i), listBox.x + PADDING, textY);
 				}

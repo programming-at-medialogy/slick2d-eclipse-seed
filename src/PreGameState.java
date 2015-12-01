@@ -5,6 +5,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.KeyListener;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -19,6 +20,7 @@ public class PreGameState extends BasicGameState implements KeyListener{
 	
 	//image objects 
 	Image background;
+	TrueTypeFont titleFont;
 
 	/**
 	 * public void init is the initial phase of the PreGameState
@@ -31,18 +33,25 @@ public class PreGameState extends BasicGameState implements KeyListener{
 	public void init(GameContainer gc, final StateBasedGame s) throws SlickException { 
 		//instantiate objects
 		background = new Image("resources/background.png");	
+		titleFont = Resource.getFont("title", 38);
 
 		/**
 		 * Example of button instantiation and the abstracts method isClicked() from the button class
 		 */
-		Button Back = new Button(50, Windows.scHeight - 136, 326, 86, 10, "Back", this) {
+		int bWidth = (int) (1000*Windows.scFactor);
+		int bHeight = (int) (300*Windows.scFactor);
+		
+		/**
+		 * Example of button instantiation and the abstracts method isClicked() from the button class
+		 */
+		Button Back = new Button(Windows.scWidth/4 - bWidth/2, Windows.scHeight - 136, bWidth, bHeight, 30, "Back", this) {
 			@Override
 			public void isClicked() {
 				s.enterState(States.LobbyState);
 			}
 		};
 		
-		Button startGame = new Button(Windows.scWidth - 376, Windows.scHeight - 136, 326, 86, 10, "Start Game", this) {
+		Button startGame = new Button(Windows.scWidth - Windows.scWidth/4 - bWidth/2, Windows.scHeight - 136, bWidth, bHeight, 30, "Start Game", this) {
 			@Override
 			public void isClicked() {
 				//not implemented yet, should not we accessible before 4 players are ready
@@ -58,8 +67,13 @@ public class PreGameState extends BasicGameState implements KeyListener{
 		 * onSubmit is an abstract method similar to isClicked() from the button class
 		 */
 		
-		final ListBox box = new ListBox(Windows.scWidth / 2 - 200, 100, 400, 500, 10, this);
-		TextBox textField = new TextBox(Windows.scWidth / 2 - 200, 600, 400, 50, 10, this) {
+		int lWidth = (int) (1200*Windows.scFactor);
+		int lHeight = (int)(1500*Windows.scFactor);
+		int tHeight = (int)(150*Windows.scFactor);
+		int lY = (int) (300*Windows.scFactor);
+		int tY = (int) (1800*Windows.scFactor);
+		final ListBox box = new ListBox(Windows.scWidth / 2 - lWidth/2, lY, lWidth, lHeight, 20, this);
+		TextBox textField = new TextBox(Windows.scWidth / 2 - lWidth/2, tY, lWidth, tHeight, 20, this) {
 			@Override
 			public void onSubmit() {
 				box.addString(IntroState.playerName + ": " + this.getContent(), GameData.ownIndex);
@@ -82,7 +96,7 @@ public class PreGameState extends BasicGameState implements KeyListener{
 		//draw background
 		g.drawImage(background, 0, 0, Windows.scWidth, Windows.scHeight, 0, 0, 1366, 768);
 		//draw title
-		Resource.titleFont.drawString(Windows.scWidth/2 - 165, 10, "Welcome to Settlers", new Color(0, 0, 0));
+		titleFont.drawString(Windows.scWidth/2 - 165, 10, "Welcome to Settlers", new Color(0, 0, 0));
 
 		//draw buttons, listbox, and textbox
 		Button.draw(g, this);

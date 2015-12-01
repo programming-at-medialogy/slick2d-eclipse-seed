@@ -8,6 +8,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 //import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.BasicGameState;
 
@@ -19,6 +20,7 @@ public abstract class Button {
 	static boolean mouseDown;
 	static ArrayList<Button> buttons = new ArrayList();
 	BasicGameState state;
+	TrueTypeFont buttonFont;
 	
 	static int yPos, xPos;
 
@@ -37,7 +39,10 @@ public abstract class Button {
 		this.width = width;
 		this.height = height;
 		this.message = message;
-		this.fontSize = fontSize;
+		//this.fontSize = fontSize;
+		
+		buttonFont = Resource.getFont("std", fontSize);
+		
 		try {
 			this.image = new Image("resources/btImg_0.png");
 			this.highlight = new Image("resources/btImg_1.png");
@@ -71,7 +76,7 @@ public abstract class Button {
 				} else {
 					buttons.get(i).image.draw(buttons.get(i).x, buttons.get(i).y, buttons.get(i).width, buttons.get(i).height);
 				}
-				Resource.buttonFont[buttons.get(i).fontSize].drawString(buttons.get(i).x + buttons.get(i).width / 2 - Resource.buttonFont[buttons.get(i).fontSize].getWidth(buttons.get(i).message) / 2, buttons.get(i).y + buttons.get(i).height / 2 - Resource.buttonFont[buttons.get(i).fontSize].getHeight(buttons.get(i).message) / 2, buttons.get(i).message, new Color(100, 54, 26));
+				buttons.get(i).buttonFont.drawString(buttons.get(i).x + buttons.get(i).width / 2 - buttons.get(i).buttonFont.getWidth(buttons.get(i).message) / 2, buttons.get(i).y + buttons.get(i).height / 2 - buttons.get(i).buttonFont.getHeight(buttons.get(i).message) / 2, buttons.get(i).message, new Color(100, 54, 26));
 			}
 		}
 	}

@@ -27,6 +27,7 @@ public class testMain extends StateBasedGame{
 AppGameContainer game = new AppGameContainer(new testMain());
 			game.setDisplayMode(Windows.scWidth,Windows.scHeight, Windows.fullscreen); 
 			game.start(); 
+			GameData.initGameData();
 	}
 	
 	public static void start() throws SlickException {
