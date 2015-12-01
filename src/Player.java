@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 
 /**
- * Class describing a player
  * Created by kristianhjensen on 02/11/2015.
  */
 public class Player  {
@@ -92,7 +91,7 @@ public class Player  {
 	 * Method for checking whether the player needs to discard resourcecards
 	 */
 	public void setHasToDiscard(){
-		if(GameData.rolledNumber == 7){
+		if(Dice.RollDice() == 7){
 			for(int i = 0; i < GameData.players.size(); i++){
 				if(GameData.players.get(i).resourceAmount > 7){
 					// main.show()
@@ -107,6 +106,10 @@ public class Player  {
 			resources[index[i]]--;
 			resourceAmount--;
 		}
+	}
+	
+	public int getAmountOfDevCards(int type){ 
+		return devCard[type];
 	}
 	
 	
@@ -177,14 +180,5 @@ public class Player  {
 		}
 		
 	}
-
-
-/*	@Override
-	public String toString() {
-		return playerName + ": " + NUMBER;
-	}*/
-
-	
-
 
 }
