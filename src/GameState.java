@@ -19,6 +19,7 @@ public class GameState extends BasicGameState implements KeyListener {
 
 	private Image[] diceImg = new Image [6];
 	private Image playerBck;
+	private Image chartImg;
 
 	private Image[] crdImg = new Image [5]; // Array for resource cards
 	private Image[] devCrdImg = new Image [5];
@@ -64,6 +65,7 @@ public class GameState extends BasicGameState implements KeyListener {
 		robImg = new Image("resources/robber.png");
 		bkWater = new Image("resources/bkWater.png");
 		playerBck = new Image("resources/playerBck.jpg");
+		chartImg = new Image("resources/chartImg.jpg");
 		
 		// game data init
 		GameData.roads = new ArrayList<Road>();
@@ -79,7 +81,7 @@ public class GameState extends BasicGameState implements KeyListener {
 		crdHeight = crdImg[0].getHeight();
 		
 		Windows.padding = hexWidth/22 * Windows.scFactor;
-		
+		/*
 		//Board Action Buttons
 		Button buyDevCard = new Button(Windows.scWidth/2-buttonWidth*3, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 5, "Buy Development Card", this) {
 			@Override
@@ -106,16 +108,16 @@ public class GameState extends BasicGameState implements KeyListener {
 				
 			}
 		};
+		 */
 
-
-		Button trade = new Button(Windows.scWidth/2+buttonWidth+buttonWidth/7*4, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 7, "Trade", this) {
+		Button trade = new Button(Windows.scWidth-buttonWidth*2-buttonWidth/4,(int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor-buttonHeight), buttonWidth, buttonHeight, 20, "Trade", this) {
 			@Override
 			public void isClicked() {		
 				System.out.println("Buy");	
 			}
 		};
 
-		Button rollDice = new Button(Windows.scWidth/2+buttonWidth+buttonWidth+buttonWidth/7*5, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 7, "Roll Dice", this) {
+		Button rollD = new Button(Windows.scWidth-buttonWidth-buttonWidth/8,(int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor-buttonHeight), buttonWidth, buttonHeight, 20, "Roll Dice", this) {
 			@Override
 			public void isClicked() {		
 				diceNumber(1);
@@ -143,6 +145,7 @@ public class GameState extends BasicGameState implements KeyListener {
 		g.setBackground(bkColor); // set background color
 		
 		playerBck.draw(0, Windows.scHeight-playerBck.getHeight()*Windows.scFactor, Windows.scWidth, playerBck.getHeight()*Windows.scFactor);
+		chartImg.draw(0,0, Windows.scFactor);
 
 		// drawing the UI of the board
 		drawHexagons(g);
