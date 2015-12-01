@@ -17,8 +17,8 @@ public class Play extends BasicGameState {
 	
 	public Card cardHelp;
 	public Card infoCard;
-	public Card[] cardsInHand = new Card[25];
-	
+	public Card[] cardsInHand = new Card[7];
+	public int devCardOffset = 0;
 	
 	public Play(int state) {
 
@@ -54,19 +54,26 @@ public class Play extends BasicGameState {
 		textField.render(gc, g);
 		infoCard.render(gc, g);
 		control.resources.render(gc, g);
-
+		
+		for(int i = 0; i < cardsInHand.length; i++){
+			if (cardsInHand[i] != null){
+				cardsInHand[i].x = 900 + devCardOffset;
+				cardsInHand[i].y = 550;
+				cardsInHand[i].render(gc, g);
+				devCardOffset = devCardOffset+80;
+			}
+		}
 	}
 	
 	
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
-		
 		if (textField.buttons.buttonDevCardControl == true){
-			int _index = 0;
-			if (cardsInHand[_index] == null){
-				cardsInHand[_index] = textField.pileOutput;
-			}else if (cardsInHand[_index] != null){
-				_index++;
+			
+			for (int i = 0; i < cardsInHand.length; i++){
+				if (cardsInHand[i] == null){
+				cardsInHand[i] = textField.pileOutput;
+				}
 			}
 		}
 		

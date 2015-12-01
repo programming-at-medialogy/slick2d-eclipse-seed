@@ -85,6 +85,7 @@ public class OnScreenTextField {
 			textField.setConsumeEvents(true);
 			textField.setText("Bought development card");
 			textField.getText();
+			pileOutput = output;
 			return output;
 		}else if (control.playerNo == 2){
 			getDice = dice.rollDice();
@@ -92,6 +93,7 @@ public class OnScreenTextField {
 			textField2.setConsumeEvents(true);
 			textField2.setText("Bought development card");
 			textField2.getText();
+			pileOutput = output;
 			return output;
 		}else if (control.playerNo == 3){
 			getDice = dice.rollDice();
@@ -99,6 +101,7 @@ public class OnScreenTextField {
 			textField3.setConsumeEvents(true);
 			textField3.setText("Bought development card");
 			textField3.getText();
+			pileOutput = output;
 			return output;
 		}else if (control.playerNo == 4){
 			getDice = dice.rollDice();
@@ -106,6 +109,7 @@ public class OnScreenTextField {
 			textField4.setConsumeEvents(true);
 			textField4.setText("Bought development card");
 			textField4.getText();
+			pileOutput = output;
 			return output;
 		}
 		
@@ -131,7 +135,6 @@ public class OnScreenTextField {
 		}
 		if (buttons.buttonDevCardControl == true) {
 			writeBuyToConsole(developmentPile);
-			pileOutput = writeBuyToConsole(developmentPile);
 			buttons.buttonDiceControl = false;
 		}
 		// Next lines does not currently work, since the game does not have turn based gameplay yet
