@@ -11,13 +11,9 @@ public class PlayerInformation implements Serializable{
     
     //int to decide player numbers
     int playerNumber;
-<<<<<<< HEAD
-    
-=======
     int[] houseColour = new int[54];
     int[] roadsColourDiagonal = new int[72];
     int[] roadsColourStraight = new int[72];
->>>>>>> 49235240a6352bad9a3010c5ae679ca1e8d8f2b2
     int[] SOCtileIndex = new int[19];
     int[] SOCnumberIndex = new int[19];
     boolean[] SOChouseArea = new boolean[54];

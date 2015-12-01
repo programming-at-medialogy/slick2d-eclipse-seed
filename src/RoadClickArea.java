@@ -97,9 +97,7 @@ public class RoadClickArea {
 
 		// Controls different parameters to see, if one is allowed to place a
 		// road
-		if (control.isPlayerTurn == true // player turn?
-				&& control.placeRoadAmount != 0 // does the player have any roads available?
-				&& roadButton.buttonRoadControl == true) { // has the GUI button been pressed?
+		if (roadButton.buttonRoadControl == true) { // has the GUI button been pressed?
 			for (i = 0; i < diagonal_xpos.length; i++) {
 				if ((xMousePos > diagonal_xpos[i] && xMousePos < diagonal_xpos[i] + areaClickSizeXsmall)
 						&& (yMousePos < screenHeight - diagonal_ypos[i]
@@ -115,20 +113,14 @@ public class RoadClickArea {
 						game.client.obj.SOCroadAreaDiagonal[i] = DiagonalRoadArea[i];
 						game.client.sendData(game.client.obj);
 						roadButton.buttonRoadControl = false; // toggles the button false
-<<<<<<< HEAD
-						
-=======
-						control.reduceRoadAmount(); // reduce the amount of roads the player have available
-						
+
 						}
->>>>>>> 49235240a6352bad9a3010c5ae679ca1e8d8f2b2
 					}
 				}
 			}
 		}
 
 		// Does the same as above.
-		if (control.isPlayerTurn == true && control.placeRoadAmount != 0) {
 			if (roadButton.buttonRoadControl == true) {
 				for (i = 0; i < straight_xpos.length; i++) {
 					if ((xMousePos > straight_xpos[i] && xMousePos < straight_xpos[i] + areaClickSizeXbig)
@@ -142,17 +134,12 @@ public class RoadClickArea {
 							game.client.obj.SOCroadAreaStraight[i] = StraightRoadArea[i];
 							game.client.sendData(game.client.obj);
 							roadButton.buttonRoadControl = false;
-<<<<<<< HEAD
-=======
-							control.reduceRoadAmount();
+
 							}
->>>>>>> 49235240a6352bad9a3010c5ae679ca1e8d8f2b2
 						}
 					}
 				}
 			}
-		}
-		
 		
 		for (int j = 0; j < DiagonalRoadCount; j++){
 			DiagonalRoad[j].playerNo = game.client.obj.roadsColourDiagonal[j];

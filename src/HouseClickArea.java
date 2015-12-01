@@ -1,12 +1,7 @@
 
-<<<<<<< HEAD
-=======
-
-
 import java.io.IOException;
 import java.util.Random;
 
->>>>>>> 49235240a6352bad9a3010c5ae679ca1e8d8f2b2
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -29,7 +24,6 @@ public class HouseClickArea {
 	Game game;
 	Controller control; //need values and methods from this class
 	OnScreenButton houseButtom; //needed to get boolean and rendering of this button
-	Game game;
 	
 	//Default string to the mouse. If no input from the mouse is recieved
 	public String mouse = "No Input Mouse";
@@ -109,15 +103,6 @@ public class HouseClickArea {
 		for(int j = 0;  j < areaClicked.length; j ++) {
 			areaClicked[j] = game.client.obj.SOChouseArea[j];
 		}
-<<<<<<< HEAD
-	
-	}
-=======
-		
-		
-
->>>>>>> 49235240a6352bad9a3010c5ae679ca1e8d8f2b2
-
 		
 		houseButtom.update(gc, i); //keeps checking if the button has been clicked.
 		
@@ -127,41 +112,31 @@ public class HouseClickArea {
 		mouse = "Mouse X: "+xMousePos+" - Mouse Y: "+yMousePos; //stores it in the string and used in render
 		
 		Input input = gc.getInput(); //used to get mouse inputs
-
 		
 		//For-loop to check if an area has been clicked.
-		if(control.isPlayerTurn == true && control.placeHouseAmount != 0) { //if it is the players turn and if the player still have houses to place
-		for(i = 0; i< totalAreas; i ++) {
-			
+		for(i = 0; i< totalAreas; i ++) {	
 		if((xMousePos > arraycoordinateX[i]-fineTuneX && xMousePos < arraycoordinateX[i]+areaClickSize) && (yMousePos < screenHeight-arraycoordinateY[i]+fineTuneY && yMousePos > screenHeight-arraycoordinateY[i]-areaClickSize-fineTuneY)) {
 			if(input.isMouseButtonDown(0)) {
 				if(houseButtom.buttonHouseControl == true) { //has the house button been pressed?
-<<<<<<< HEAD
+
 				areaClicked[i] = true; //if the area is clicked, that area's boolean must become true.
 
-=======
 				if(areaClicked[i] != true){
 				areaClicked[i] = true;
 				game.client.obj.houseColour[i] = control.playerNo;
 				game.client.obj.SOChouseArea[i] = areaClicked[i];
 				game.client.sendData(game.client.obj);
->>>>>>> 49235240a6352bad9a3010c5ae679ca1e8d8f2b2
 				houseButtom.buttonHouseControl = false; //toggle the house button false
 						}
 					}
 				}
-				}
 			}
 		}
-	}
-<<<<<<< HEAD
-=======
-		
-		for(int j = 0; j < house.length; j ++) {
+
+		for (int j = 0; j < house.length; j++) {
 			house[j].playerNo = game.client.obj.houseColour[j];
 		}
 	}
->>>>>>> 49235240a6352bad9a3010c5ae679ca1e8d8f2b2
 	
 	//Render method
 	public void render(GameContainer gc, Graphics g) throws SlickException

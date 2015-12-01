@@ -69,7 +69,7 @@ public class OnScreenTextField {
 	public void update(GameContainer gc, int i) throws SlickException {
 		diceButton.update(gc, i);
 
-		if (control.isPlayerTurn == true && diceButton.buttonDiceControl == true) {
+		if (diceButton.buttonDiceControl == true) {
 			if (once < 1) {
 				writeDiceToConsole();
 				once++;
