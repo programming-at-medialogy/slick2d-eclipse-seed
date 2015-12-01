@@ -36,10 +36,10 @@ public class City {
 			this.cityPosY= cityPosY;
 		    }
 	    
-	    public int getinfectionRate() {
+	    public int getInfectionRate() {
 		return infectionRate;
 	    }
-	    public void setinfectionRate(int infectionRate) {
+	    public void setInfectionRate(int infectionRate) {
 	 	this.infectionRate = infectionRate;
 	    }	
 

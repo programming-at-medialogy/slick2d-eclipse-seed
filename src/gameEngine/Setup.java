@@ -105,10 +105,6 @@ public void asignRoles () {
 	
 }	
 
-public void asignPlayerCards () {
-	
-}
-
 
 	public static void main(String[] args) {
 		Setup main = new Setup();
