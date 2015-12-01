@@ -33,6 +33,7 @@ public class Player extends BasicGame {
     private boolean playerReady;
 
     private boolean moveSelected;
+    private boolean cureSelected;
 
 
     public Player(String gametitle) {
@@ -46,9 +47,9 @@ public class Player extends BasicGame {
 
         playerCards = new Cards[48];
 
-        curLocation = new Image ("assets/guielements/currentlocation.png");
-        othersLocation = new Image ("assets/guielements/otherslocation.png");
-        curCityImg = new Image ("assets/cities/currentlyincity.png");
+        curLocation = new Image("assets/guielements/currentlocation.png");
+        othersLocation = new Image("assets/guielements/otherslocation.png");
+        curCityImg = new Image("assets/cities/currentlyincity.png");
 
         for (int i = 0; i < playerImage.length; i++) {
             playerImage[i] = new Image("assets/guielements/players/" + i + ".png");
@@ -61,7 +62,7 @@ public class Player extends BasicGame {
     @Override
     public void update(GameContainer gc, int i) throws SlickException {
 
-        role.update(gc,i);
+        role.update(gc, i);
 
         xPos = currentLocation.getxPos();
         yPos = currentLocation.getyPos();
@@ -71,21 +72,19 @@ public class Player extends BasicGame {
     public void render(GameContainer gc, Graphics g) throws SlickException {
 
         if (playerID == 0)
-         g.drawImage(playerImage[roleP1], xPos-10, yPos+135);
+            g.drawImage(playerImage[roleP1], xPos - 10, yPos + 135);
         else if (playerID == 1)
-        g.drawImage(playerImage[roleP2], xPos+35, yPos+135);
+            g.drawImage(playerImage[roleP2], xPos + 35, yPos + 135);
         else if (playerID == 2)
-        g.drawImage(playerImage[roleP3], xPos-10, yPos+180);
+            g.drawImage(playerImage[roleP3], xPos - 10, yPos + 180);
         else
-        g.drawImage(playerImage[roleP4], xPos+35, yPos+180);
-System.out.println(playerID);
+            g.drawImage(playerImage[roleP4], xPos + 35, yPos + 180);
     }
 
     public boolean checkMovability(City city) {
         if ((getNeighborCityAsList().contains(city.getCityName())) || (currentLocation.isHasResearchSt() && city.isHasResearchSt())) {
             return true;
-        }
-        else
+        } else
             return false;
     }
 
@@ -148,25 +147,30 @@ System.out.println(playerID);
     }
 
     public void displayCurrentLocation(Graphics g) {
-        g.drawImage(curLocation,xPos+7,yPos-30);
+        g.drawImage(curLocation, xPos + 7, yPos - 30);
         if (moveSelected) {
             g.drawImage(curCityImg, xPos, yPos);
         }
     }
 
-    public void displayOthersLocation (Graphics g) {
-        g.drawImage(othersLocation,xPos+7,yPos-30);
+    public void displayOthersLocation(Graphics g) {
+        g.drawImage(othersLocation, xPos + 7, yPos - 30);
     }
 
     public void setMoveSelected(boolean value) {
         this.moveSelected = value;
     }
 
-    public void addCardsToHand (String card) {
+    public void setCureSelected(boolean value) {
+        this.cureSelected = value;
+    }
 
-        for (int  i = 0; i < playerCards.length; i++) {
+    public void addCardsToHand(String card) {
+
+        for (int i = 0; i < playerCards.length; i++) {
             if (card.equals(playerCards[i].getCityName())) {
                 hand.add(hand.size(), playerCards[i]);
+                System.out.println(hand.get(0).getCardType());
             }
         }
     }
@@ -174,20 +178,20 @@ System.out.println(playerID);
     public void displayHand(GameContainer gc, Graphics g, int playerHandNo) throws SlickException {
 
         for (int i = 0; i < hand.size(); i++) {
-            hand.get(i).setxPos(25 + playerHandNo*230);
-            hand.get(i).setyPos(76+30*i);
+            hand.get(i).setxPos(25 + playerHandNo * 230);
+            hand.get(i).setyPos(76 + 30 * i);
             hand.get(i).render(gc, g);
         }
     }
 
-    public void setPlayerCards(City [] cities) {
+    public void setPlayerCards(City[] cities) {
 
         for (int i = 0; i < playerCards.length; i++) {
             playerCards[i] = cities[i].getPlayerCards();
         }
     }
 
-    public List<String> convertHandToStringList () {
+    public List<String> convertHandToStringList() {
 
         List<String> handAsString = new ArrayList<String>();
 
@@ -197,4 +201,71 @@ System.out.println(playerID);
 
         return handAsString;
     }
+
+    public void removeCardsForTheCure() {
+
+        List<Cards> removables = new ArrayList<Cards>();
+
+        for (int i = 0; i < hand.size(); i++) {
+            if (countCardsForDisease().equals("cureblue")) {
+                if (hand.get(i).getCardType() == 0) {
+                    removables.add(hand.get(i));
+                }
+            }
+            if(countCardsForDisease().equals("cureyellow")) {
+                if (hand.get(i).getCardType() == 1) {
+                    removables.add(hand.get(i));
+                }
+            }
+            if(countCardsForDisease().equals("cureblack")) {
+                if (hand.get(i).getCardType() == 2) {
+                    removables.add(hand.get(i));
+                }
+            }
+            if(countCardsForDisease().equals("cureblue")) {
+                if (hand.get(i).getCardType() == 3) {
+                    removables.add(hand.get(i));
+                }
+            }
+        }
+
+        hand.removeAll(removables);
+    }
+
+    public String countCardsForDisease() {
+
+        int countBlues = 0;
+        int countYellows = 0;
+        int countBlacks = 0;
+        int countReds = 0;
+
+        for (int i = 0; i < hand.size(); i++) {
+
+            if (hand.get(i).getCardType() == 0) {
+                countBlues += 1;
+            }
+            if (hand.get(i).getCardType() == 1) {
+                countYellows += 1;
+            }
+            if (hand.get(i).getCardType() == 2) {
+                countBlacks += 1;
+            }
+            if (hand.get(i).getCardType() == 3) {
+                countReds += 1;
+            }
+
+        }
+        if (countBlues >= 5) {
+            return "cureblue";
+        } else if (countYellows >= 5) {
+            return "cureyellow";
+        } else if (countBlacks >= 5) {
+            return "cureblack";
+        } else if (countReds >= 5) {
+            return "curered";
+        } else {
+            return "nocure";
+        }
+    }
+
 }

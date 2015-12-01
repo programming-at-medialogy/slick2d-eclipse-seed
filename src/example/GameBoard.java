@@ -28,6 +28,9 @@ public class GameBoard extends BasicGameState {
     private Outbreak_Marker outbreakMarker;
     private ActionMenu actionMenu;
 
+    private boolean blueCure, yellowCure, blackCure, redCure;
+    private Image blueCureImg,yellowCureImg, blackCureImg, redCureImg;
+
     private int playerNo;
     private int roleNo;
 
@@ -55,6 +58,11 @@ public class GameBoard extends BasicGameState {
         outbreakMarker.init(gc);
         actionMenu = new ActionMenu("actionMenu");
         actionMenu.init(gc);
+
+        blueCureImg = new Image("assets/guielements/bluecure.png");
+        yellowCureImg = new Image("assets/guielements/yellowcure.png");
+        blackCureImg = new Image("assets/guielements/blackcure.png");
+        redCureImg = new Image("assets/guielements/redcure.png");
 
         cities = new City[48];
         cities[0] = new City("pandemic", "atlanta", 230, 300, new String[]{"miami", "washington", "chicago"}, 0);
@@ -145,8 +153,12 @@ public class GameBoard extends BasicGameState {
 
         //TEST OF CARDS
         players.get(0).addCardsToHand("hochiminhcity");
-        players.get(0).addCardsToHand("mexicocity");
         players.get(0).addCardsToHand("bangkok");
+        players.get(0).addCardsToHand("sydney");
+        players.get(0).addCardsToHand("jakarta");
+        players.get(0).addCardsToHand("tokyo");
+
+
 
         players.get(1).addCardsToHand("atlanta");
         players.get(1).addCardsToHand("manila");
@@ -165,6 +177,7 @@ public class GameBoard extends BasicGameState {
         moveAction();
         removeCubeAction();
         placeResearchStationAction();
+        makeCure();
 
         infectionMarker.update(gc, i);
         outbreakMarker.update(gc, i);
@@ -307,25 +320,30 @@ public class GameBoard extends BasicGameState {
             }
         }
 
-
         if (showHand1) {
-            //g.drawImage(handToggle, 25, 76);
             players.get(0).displayHand(gc,g,0);
         }
         if (showHand2) {
             players.get(1).displayHand(gc,g,1);
-            //g.drawImage(handToggle, 255, 76);
         }
         if (showHand3) {
             players.get(2).displayHand(gc,g,2);
-            //g.drawImage(handToggle, 485, 76);
         }
         if (showHand4) {
             players.get(3).displayHand(gc,g,3);
-            //g.drawImage(handToggle, 715, 76);
         }
 
         actionMenu.render(gc, g);
+
+        //DRAWING THE OBTAINED CURES
+        if (blueCure)
+            g.drawImage(blueCureImg, 27,698);
+        if (yellowCure)
+            g.drawImage(yellowCureImg,72,697);
+        if (blackCure)
+            g.drawImage(blackCureImg,117,698);
+        if (redCure)
+            g.drawImage(redCureImg,162,697);
 
 
     }
@@ -384,6 +402,35 @@ public class GameBoard extends BasicGameState {
         }
 
     }
+
+    public void makeCure() {
+        boolean makeCure = actionMenu.getIsCureActive();
+        for (int i = 0; i < cities.length; i++) {
+            if (makeCure) {
+                players.get(playerNo).setCureSelected(true);
+                if (players.get(playerNo).countCardsForDisease().equals("cureblue")) {
+                    players.get(playerNo).removeCardsForTheCure();
+                    blueCure = true;
+                }
+                if (players.get(playerNo).countCardsForDisease().equals("cureyellow")) {
+                    players.get(playerNo).removeCardsForTheCure();
+                    yellowCure = true;
+                }
+                if (players.get(playerNo).countCardsForDisease().equals("cureblack")) {
+                    players.get(playerNo).removeCardsForTheCure();
+                    blackCure = true;
+                }
+                if (players.get(playerNo).countCardsForDisease().equals("curered")) {
+                    players.get(playerNo).removeCardsForTheCure();
+                    redCure = true;
+                }
+            } else {
+                players.get(playerNo).setCureSelected(false);
+            }
+        }
+    }
+
+
 
 
     @Override

@@ -12,6 +12,7 @@ import org.newdawn.slick.Image;
 public class Cards extends BasicGame {
 
     private int cardType;
+    private int cardIdentifier;
     private Image cardImage;
 
     private String cityName;
@@ -19,15 +20,16 @@ public class Cards extends BasicGame {
     private int xPos;
     private int yPos;
 
-    public Cards(String title, int cardType, String cityName) {
+    public Cards(String title, int cardType, String cityName, int cardIdentifier) {
         super(title);
         this.cardType = cardType;
         this.cityName = cityName;
+        this.cardIdentifier = cardIdentifier;
     }
 
     @Override
     public void init(GameContainer gameContainer) throws SlickException {
-            cardImage = new Image ("assets/cards/"+cityName+".png");
+        cardImage = new Image("assets/cards/" + cityName + ".png");
     }
 
     @Override
@@ -37,9 +39,14 @@ public class Cards extends BasicGame {
 
     @Override
     public void render(GameContainer gc, Graphics g) throws SlickException {
-        if (cardType == 0)
-    g.drawImage(cardImage, xPos,yPos);
+        if (cardIdentifier == 0)
+            g.drawImage(cardImage, xPos, yPos);
     }
+
+
+    /**
+     * GETTER AND SETTER METHODS
+     */
 
     public String getCityName() {
         return cityName;
@@ -59,5 +66,9 @@ public class Cards extends BasicGame {
 
     public void setyPos(int yPos) {
         this.yPos = yPos;
+    }
+
+    public int getCardType() {
+        return cardType;
     }
 }
