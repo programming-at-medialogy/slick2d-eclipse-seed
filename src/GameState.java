@@ -121,15 +121,6 @@ public class GameState extends BasicGameState implements KeyListener {
 				diceNumber(2);	
 			}
 		};
-		
-		TextBox chatInput = new TextBox(0, Windows.scHeight - 35, (int)(1200*Windows.scFactor), 35, 20, this) {
-			@Override
-			public void onSubmit() {
-				
-			}
-		};
-		
-		ListBox chatOutput = new ListBox(0, Windows.scHeight - 35 - 300, (int)(1200*Windows.scFactor), 300, 20, this);
 	}
 
 
@@ -144,7 +135,7 @@ public class GameState extends BasicGameState implements KeyListener {
 		Color bckColor = Color.decode("#5e8ad7"); // create custom color
 		g.setBackground(bckColor); // set background color
 		
-		playerBck.draw(0, Windows.scHeight-playerBck.getHeight()*Windows.scFactor, Windows.scFactor);
+		playerBck.draw(0, Windows.scHeight-playerBck.getHeight()*Windows.scFactor, Windows.scWidth, playerBck.getHeight()*Windows.scFactor);
 		// drawing the UI of the board
 		drawHexagons(g);
 		drawRobber(g);
@@ -163,16 +154,12 @@ public class GameState extends BasicGameState implements KeyListener {
 		diceImg[Dice.dice1-1].draw((int) Math.random()*(Windows.scWidth-hexWidth*Windows.scFactor*2+diceImg[1].getWidth())+(Windows.scWidth-hexWidth*Windows.scFactor*2)          ,Windows.scHeight/2 , Windows.scFactor*0.8f);
 		diceImg[Dice.dice2-1].draw(Windows.scWidth-hexWidth*Windows.scFactor*2-diceImg[1].getWidth()*Windows.scFactor ,Windows.scHeight/2, Windows.scFactor*0.8f);
 		Button.draw(g, this);
-		ListBox.draw(g, this);
-		TextBox.draw(g, this);
 	}
 	
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame s, int delta) throws SlickException {
 		Button.update(this);
-		ListBox.update(this);
-		TextBox.update(this);
 	}
 
 	@Override
