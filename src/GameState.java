@@ -162,11 +162,11 @@ public class GameState extends BasicGameState implements KeyListener {
 	
 	// methods for initial phase
 	private void drawHexagons(Graphics g) {
-		bkWater.draw(Windows.scWidth/2-bkWater.getWidth()/2*Windows.scFactor, (Windows.scHeight/2-bkWater.getHeight()/2*Windows.scFactor)-hexHeight*Windows.scFactor*1.19f, Windows.scFactor);
+		bkWater.draw(Windows.scWidth/2-bkWater.getWidth()/2*Windows.scFactor,     (Windows.scHeight/2-bkWater.getHeight()/2*Windows.scFactor) - (hexImg[0].getHeight()/2*Windows.scFactor)*1.34f,      Windows.scFactor);
 		Hexagon[] hexagons = Hexagon.getHexagons();
 		for (int i = 0; i < hexagons.length; i++){
-			hexImg[hexagons[i].TYPE.toInt()].draw(hexagons[i].getX() + Windows.scWidth/2-hexImg[0].getWidth()/2*Windows.scFactor, hexagons[i].getY() + Windows.scHeight/2-(hexImg[0].getHeight()/2*Windows.scFactor)-64, Windows.scFactor);
-			numImg[hexagons[i].NUMBER-2].draw(hexagons[i].getX() + Windows.scWidth/2-numImg[2].getWidth()/2*Windows.scFactor,     hexagons[i].getY() + Windows.scHeight/2-(numImg[0].getHeight()/2*Windows.scFactor)-64, Windows.scFactor);
+			hexImg[hexagons[i].TYPE.toInt()].draw(hexagons[i].getX() + Windows.scWidth/2-hexImg[0].getWidth()/2*Windows.scFactor, hexagons[i].getY() + Windows.scHeight/2-(hexImg[0].getHeight()/2*Windows.scFactor), Windows.scFactor);
+			numImg[hexagons[i].NUMBER-2].draw(hexagons[i].getX() + Windows.scWidth/2-numImg[2].getWidth()/2*Windows.scFactor,     hexagons[i].getY() + Windows.scHeight/2-(numImg[0].getHeight()/2*Windows.scFactor), Windows.scFactor);
 		}
 		// For displaying resource cards
 		for (int c = 0; c<Player.resources.length;  c++){ 
