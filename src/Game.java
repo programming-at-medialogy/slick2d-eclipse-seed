@@ -1,5 +1,3 @@
-
-
 import java.io.IOException;
 
 import org.newdawn.slick.*;
@@ -9,29 +7,35 @@ public class Game extends StateBasedGame {
 
 	public static final String gamename = "Settlers of Catan";
 	public static final int menu = 0;
-	public static final int play = 1;
+	public static final int playState = 1;
+	public static final int winState = 2;
 	
 
 	static int screenWidth = 1200;
 	static int screenHeight = 700;
 	public static int test;
 	static Client client;
+	Play play = new Play(playState);
+	WinCondition win = new WinCondition(winState);
+	
 
 	
 	
 	public Game(String gamename) {
 		super(gamename);
 		this.addState(new Menu(menu));
-		this.addState(new Play(play));
+		this.addState(win);
+		this.addState(play);
 		
 	}
 	
 
 	@Override
 	public void initStatesList(GameContainer gc) throws SlickException {
+		this.getState(winState).init(gc, this);
 		this.getState(menu).init(gc, this);
-		this.getState(play).init(gc, this);
-		this.enterState(menu);
+		this.getState(playState).init(gc, this);
+		this.enterState(playState);
 	}
 	
 	
