@@ -67,7 +67,7 @@ public class GameState extends BasicGameState implements KeyListener {
 		GameData.roads = new ArrayList<Road>();
 		GameData.buildings = new ArrayList<Building>();
 		GameData.players = new ArrayList<Player>();
-		GameData.harbours = new ArrayList<Harbour>();
+		
 		
 		// actions init
 		Actions.initActions();
@@ -78,7 +78,9 @@ public class GameState extends BasicGameState implements KeyListener {
 		crdHeight = crdImg[0].getHeight();
 		
 		Windows.padding = hexWidth/22 * Windows.scFactor;
+	}
 		
+
 		//Board Action Buttons
 		Button buyDevCard = new Button(Windows.scWidth/2-buttonWidth*3, Windows.scHeight-buttonHeight, buttonWidth, buttonHeight, 5, "Buy Development Card", this) {
 			@Override
@@ -105,7 +107,7 @@ public class GameState extends BasicGameState implements KeyListener {
 			}
 		};
 
-	}
+	
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame s, Graphics g) throws SlickException {
