@@ -34,6 +34,8 @@ public class GameBoard extends BasicGameState {
     private int playerNo;
     private int roleNo;
 
+    private boolean outOfTurns;
+
     private List<Player> players;
 
     int noOfResearchStationsLeft = 6;
@@ -179,9 +181,14 @@ public class GameBoard extends BasicGameState {
         placeResearchStationAction();
         makeCure();
 
+        outOfTurns = players.get(playerNo).getOutOfTurns();
+        actionMenu.setPlayerOutTurns(outOfTurns);
+
+
         infectionMarker.update(gc, i);
         outbreakMarker.update(gc, i);
         actionMenu.update(gc, i);
+
 
 
 
@@ -220,6 +227,8 @@ public class GameBoard extends BasicGameState {
         player2Hand.render(gc, g);
         player3Hand.render(gc, g);
         player4Hand.render(gc, g);
+
+        players.get(playerNo).displayTurnsLeft(g);
 
 
         //MOVE RENDER FUNCTIONALITY & REMOVE CUBE RENDER FUNCTIONALITY && PLACE RESEARCH STATION RENDER FUNCTIONALITY
@@ -297,6 +306,7 @@ public class GameBoard extends BasicGameState {
             for (int i = 0; i < cities.length; i++) {
                 if (cities[i].getButton().clickWithin(gc)) {
                     players.get(playerNo).setPlayerPosition(cities[i]);
+                    players.get(playerNo).turnsSpent();
                 }
             }
         }
@@ -306,6 +316,7 @@ public class GameBoard extends BasicGameState {
             for (int i = 0; i < cities.length; i++) {
                 if (cities[i].getButton().clickWithin(gc)) {
                     cities[i].removeCube(players,playerNo);
+                    players.get(playerNo).turnsSpent();
                 }
             }
         }
@@ -316,6 +327,7 @@ public class GameBoard extends BasicGameState {
                 if (cities[i].getButton().clickWithin(gc) && noOfResearchStationsLeft>0) {
                     cities[i].placeResearchStation(players, playerNo);
                     noOfResearchStationsLeft -= 1;
+                    players.get(playerNo).turnsSpent();
                 }
             }
         }
@@ -410,18 +422,22 @@ public class GameBoard extends BasicGameState {
                 players.get(playerNo).setCureSelected(true);
                 if (players.get(playerNo).countCardsForDisease().equals("cureblue")) {
                     players.get(playerNo).removeCardsForTheCure();
+                    players.get(playerNo).turnsSpent();
                     blueCure = true;
                 }
                 if (players.get(playerNo).countCardsForDisease().equals("cureyellow")) {
                     players.get(playerNo).removeCardsForTheCure();
+                    players.get(playerNo).turnsSpent();
                     yellowCure = true;
                 }
                 if (players.get(playerNo).countCardsForDisease().equals("cureblack")) {
                     players.get(playerNo).removeCardsForTheCure();
+                    players.get(playerNo).turnsSpent();
                     blackCure = true;
                 }
                 if (players.get(playerNo).countCardsForDisease().equals("curered")) {
                     players.get(playerNo).removeCardsForTheCure();
+                    players.get(playerNo).turnsSpent();
                     redCure = true;
                 }
             } else {

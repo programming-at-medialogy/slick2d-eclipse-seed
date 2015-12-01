@@ -23,6 +23,8 @@ public class ActionMenu extends BasicGame {
     private boolean isEventCardActive;
     private boolean isCureActive;
 
+    private boolean playerOutTurns = false;
+
     public ActionMenu(String gametitle) {
 
         super(gametitle);
@@ -58,14 +60,15 @@ public class ActionMenu extends BasicGame {
     @Override
     public void update(GameContainer gc, int i) throws SlickException {
 
-        if (move.clickWithin(gc)) {
-            isMoveActive = !isMoveActive;
-            isResearchSActive = false;
-            isRemoveCubeActive = false;
-            isCureActive = false;
-            isShareActive = false;
-            isEventCardActive = false;
-        }
+        if (!playerOutTurns) {
+            if (move.clickWithin(gc)) {
+                isMoveActive = !isMoveActive;
+                isResearchSActive = false;
+                isRemoveCubeActive = false;
+                isCureActive = false;
+                isShareActive = false;
+                isEventCardActive = false;
+            }
 
         if (researchSt.clickWithin(gc)) {
             isResearchSActive = !isResearchSActive;
@@ -110,6 +113,21 @@ public class ActionMenu extends BasicGame {
             isRemoveCubeActive = false;
             isShareActive = false;
             isEventCardActive = false;
+        }
+
+    } else {
+            isMoveActive = false;
+            move.setActive(false);
+            isResearchSActive = false;
+            researchSt.setActive(false);
+            isRemoveCubeActive = false;
+            removeCube.setActive(false);
+            isShareActive = false;
+            share.setActive(false);
+            isEventCardActive = false;
+            eventCard.setActive(false);
+            isCureActive = false;
+            cure.setActive(false);
         }
 
 
@@ -184,5 +202,9 @@ public class ActionMenu extends BasicGame {
     public boolean getIsEventCardActive () { return isEventCardActive; }
 
     public boolean getIsCureActive () { return isCureActive; }
+
+    public void setPlayerOutTurns(boolean playerOutTurns) {
+        this.playerOutTurns = playerOutTurns;
+    }
 }
 
