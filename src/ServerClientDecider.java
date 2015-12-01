@@ -9,7 +9,7 @@ public class ServerClientDecider {
 		if (isServer)
 			ServerMain.start();
 		else if (!isTest)
-			Main.start();
+			GameState.start();
 		else {
 			try {
 				testMain.init();

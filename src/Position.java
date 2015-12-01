@@ -315,8 +315,8 @@ public class Position {
 		int degreesTurn = 60 * hexOffsetIndex;
 		
 		// calculate the offset
-		float offsetX = (float) Math.sin(Math.toRadians(degreesTurn)) * Main.hexHeight / 2 * Main.scFactor;
-		float offsetY = (float) Math.cos(Math.toRadians(degreesTurn)) * Main.hexHeight / 2 * Main.scFactor;
+		float offsetX = (float) Math.sin(Math.toRadians(degreesTurn)) * GameState.hexHeight / 2 * Windows.scFactor;
+		float offsetY = (float) Math.cos(Math.toRadians(degreesTurn)) * GameState.hexHeight / 2 * Windows.scFactor;
 		
 		// store position in array
 		float[] position = new float[2];
