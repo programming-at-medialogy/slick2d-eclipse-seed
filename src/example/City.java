@@ -81,8 +81,8 @@ public class City extends BasicGame {
          * Button: (String title, int, int, int picIndexNo);
          **/
 
-        playerCards = new Cards("playerCard", 0, cityName);
-        infectionCards = new Cards("infectionCard", 1, cityName);
+        playerCards = new Cards("playerCard", color, cityName, 0);
+        infectionCards = new Cards("infectionCard", color, cityName, 1);
         playerCards.init(gc);
         infectionCards.init(gc);
 
