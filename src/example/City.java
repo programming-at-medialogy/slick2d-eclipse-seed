@@ -115,7 +115,6 @@ public class City extends BasicGame {
 
     @Override
     public void update(GameContainer gc, int i) throws SlickException {
-
     }
 
     @Override
