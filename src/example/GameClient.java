@@ -15,8 +15,8 @@ import org.newdawn.slick.state.StateBasedGame;
 
 
 /**
-*   Uses SLICK2D StateBasedGame in order to easily jump between states
-*/
+ * Uses SLICK2D StateBasedGame in order to easily jump between states
+ */
 public class GameClient extends StateBasedGame {
 
     private static final String HOST = "localhost";
@@ -27,20 +27,18 @@ public class GameClient extends StateBasedGame {
     public static PrintWriter out;
 
 
-
-
     //Constructor
     public GameClient(String gamename) {
         super(gamename);
     }
 
     /**
-    *   SLICK2D StateBasedGame initializer for the different states of the client.
-    *   Index list:
-    *            Index 0: InputNameScreen
-    *            Index 1: Lobby
-     *           Index 2: PlayState
-    */
+     * SLICK2D StateBasedGame initializer for the different states of the client.
+     * Index list:
+     * Index 0: InputNameScreen
+     * Index 1: Lobby
+     * Index 2: PlayState
+     */
     @Override
     public void initStatesList(GameContainer gc) throws SlickException {
 
@@ -56,10 +54,9 @@ public class GameClient extends StateBasedGame {
         serverCalls.start();
 
 
-
         //this.addState(new InputNameScreen(gsc));
         //this.addState(new Lobby(gsc, serverCalls,players));
-        this.addState(new GameBoard(gsc,serverCalls,players));
+        this.addState(new GameBoard(gsc, serverCalls, players));
 
     }
 
@@ -84,8 +81,6 @@ public class GameClient extends StateBasedGame {
         } catch (SlickException ex) {
             Logger.getLogger(GameClient.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-
 
 
         System.exit(0);

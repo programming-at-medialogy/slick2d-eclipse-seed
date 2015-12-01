@@ -70,52 +70,52 @@ public class ActionMenu extends BasicGame {
                 isEventCardActive = false;
             }
 
-        if (researchSt.clickWithin(gc)) {
-            isResearchSActive = !isResearchSActive;
-            isMoveActive = false;
-            isRemoveCubeActive = false;
-            isCureActive = false;
-            isShareActive = false;
-            isEventCardActive = false;
-        }
+            if (researchSt.clickWithin(gc)) {
+                isResearchSActive = !isResearchSActive;
+                isMoveActive = false;
+                isRemoveCubeActive = false;
+                isCureActive = false;
+                isShareActive = false;
+                isEventCardActive = false;
+            }
 
-        if (removeCube.clickWithin(gc)) {
-            isRemoveCubeActive = !isRemoveCubeActive;
-            isResearchSActive = false;
-            isMoveActive = false;
-            isCureActive = false;
-            isShareActive = false;
-            isEventCardActive = false;
-        }
+            if (removeCube.clickWithin(gc)) {
+                isRemoveCubeActive = !isRemoveCubeActive;
+                isResearchSActive = false;
+                isMoveActive = false;
+                isCureActive = false;
+                isShareActive = false;
+                isEventCardActive = false;
+            }
 
-        if (share.clickWithin(gc)) {
-            isShareActive = !isShareActive;
-            isMoveActive = false;
-            isRemoveCubeActive = false;
-            isResearchSActive = false;
-            isCureActive = false;
-            isEventCardActive = false;
-        }
+            if (share.clickWithin(gc)) {
+                isShareActive = !isShareActive;
+                isMoveActive = false;
+                isRemoveCubeActive = false;
+                isResearchSActive = false;
+                isCureActive = false;
+                isEventCardActive = false;
+            }
 
-        if (eventCard.clickWithin(gc)) {
-            isEventCardActive = !isEventCardActive;
-            isRemoveCubeActive = false;
-            isMoveActive = false;
-            isResearchSActive = false;
-            isCureActive = false;
-            isShareActive = false;
-        }
+            if (eventCard.clickWithin(gc)) {
+                isEventCardActive = !isEventCardActive;
+                isRemoveCubeActive = false;
+                isMoveActive = false;
+                isResearchSActive = false;
+                isCureActive = false;
+                isShareActive = false;
+            }
 
-        if (cure.clickWithin(gc)) {
-            isCureActive = !isCureActive;
-            isMoveActive = false;
-            isResearchSActive = false;
-            isRemoveCubeActive = false;
-            isShareActive = false;
-            isEventCardActive = false;
-        }
+            if (cure.clickWithin(gc)) {
+                isCureActive = !isCureActive;
+                isMoveActive = false;
+                isResearchSActive = false;
+                isRemoveCubeActive = false;
+                isShareActive = false;
+                isEventCardActive = false;
+            }
 
-    } else {
+        } else {
             isMoveActive = false;
             move.setActive(false);
             isResearchSActive = false;
@@ -182,7 +182,7 @@ public class ActionMenu extends BasicGame {
         cure.render(gc, g);
 
         if (isShareActive || isEventCardActive) {
-            g.drawImage(notAvailable,682 - notAvailable.getWidth()/2,384 - notAvailable.getHeight()/2);
+            g.drawImage(notAvailable, 682 - notAvailable.getWidth() / 2, 384 - notAvailable.getHeight() / 2);
         }
 
     }
@@ -195,16 +195,48 @@ public class ActionMenu extends BasicGame {
         return isRemoveCubeActive;
     }
 
-    public boolean getIsResearchSActive () { return  isResearchSActive; }
+    public boolean getIsResearchSActive() {
+        return isResearchSActive;
+    }
 
-    public boolean getIsShareActive () { return  isShareActive; }
+    public boolean getIsShareActive() {
+        return isShareActive;
+    }
 
-    public boolean getIsEventCardActive () { return isEventCardActive; }
+    public boolean getIsEventCardActive() {
+        return isEventCardActive;
+    }
 
-    public boolean getIsCureActive () { return isCureActive; }
+    public boolean getIsCureActive() {
+        return isCureActive;
+    }
 
     public void setPlayerOutTurns(boolean playerOutTurns) {
         this.playerOutTurns = playerOutTurns;
+    }
+
+    public void setMoveActive(boolean isMoveActive) {
+        this.isMoveActive = isMoveActive;
+    }
+
+    public void setResearchSActive(boolean isResearchSActive) {
+        this.isResearchSActive = isResearchSActive;
+    }
+
+    public void setRemoveCubeActive(boolean isRemoveCubeActive) {
+        this.isRemoveCubeActive = isRemoveCubeActive;
+    }
+
+    public void setShareActive(boolean isShareActive) {
+        this.isShareActive = isShareActive;
+    }
+
+    public void setEventCardActive(boolean isEventCardActive) {
+        this.isEventCardActive = isEventCardActive;
+    }
+
+    public void setCureActive(boolean isCureActive) {
+        this.isCureActive = isCureActive;
     }
 }
 
