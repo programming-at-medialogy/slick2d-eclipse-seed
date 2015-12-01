@@ -81,34 +81,33 @@ public class GameState extends BasicGameState implements KeyListener {
 		crdHeight = crdImg[0].getHeight();
 		
 		Windows.padding = hexWidth/22 * Windows.scFactor;
-		/*
+		
 		//Board Action Buttons
-		Button buyDevCard = new Button(Windows.scWidth/2-buttonWidth*3, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 5, "Buy Development Card", this) {
+		Button buyDevCard = new Button(Windows.scWidth/2-buttonWidth*3, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 13, "Buy Special Card", this) {
 			@Override
 			public void isClicked() {		
 				System.out.println("Buy");	
 			}
 		};
-		Button buySettlement = new Button(Windows.scWidth/2-buttonWidth*2+buttonWidth/7, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 7, "Buy Settlement", this) {
+		Button buySettlement = new Button(Windows.scWidth/2-buttonWidth*2+buttonWidth/7, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 14, "Buy Settlement", this) {
 			@Override
 			public void isClicked() {		
 				System.out.println("Buy");	
 			}
 		};
-		Button buyRoad = new Button(Windows.scWidth/2-buttonWidth+buttonWidth/7*2, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 7, "Buy Road", this) {
+		Button buyRoad = new Button(Windows.scWidth/2-buttonWidth+buttonWidth/7*2, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 14, "Buy Road", this) {
 			@Override
 			public void isClicked() {		
 				System.out.println("Buy");	
 			}
 		};
-		Button upgCity = new Button(Windows.scWidth/2+buttonWidth/7*3, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 7, "Upgrade to City", this) {
-
+		Button upgCity = new Button(0, (int)((chartImg.getHeight()*Windows.scFactor)/2+(chartImg.getHeight()*Windows.scFactor)/20), (int)(chartImg.getWidth()*Windows.scFactor), (int)(chartImg.getHeight()*Windows.scFactor)/4, 14, "Upgrade to City", this) {
 			@Override
 			public void isClicked() {
-				
+				System.out.println("Upgrading to City");	
 			}
 		};
-		 */
+		
 
 		Button trade = new Button(Windows.scWidth-buttonWidth*2-buttonWidth/4,(int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor-buttonHeight), buttonWidth, buttonHeight, 20, "Trade", this) {
 			@Override
@@ -124,6 +123,7 @@ public class GameState extends BasicGameState implements KeyListener {
 				diceNumber(2);	
 			}
 		};
+
 		TextBox chatInput = new TextBox(0, Windows.scHeight - 35, (int)(1200*Windows.scFactor), 35, 20, this) {
 			@Override
 			public void onSubmit() {
@@ -135,7 +135,7 @@ public class GameState extends BasicGameState implements KeyListener {
 	}
 
 	int diceNumber(int diceIndex){
-		int diceNumber= Dice.RollDice(diceIndex);
+		int diceNumber = Dice.RollDice(diceIndex);
 		return diceNumber;
 
 	}
@@ -176,14 +176,15 @@ public class GameState extends BasicGameState implements KeyListener {
 		Button.update(this);
 		ListBox.update(this);
 		TextBox.update(this);
-		
+
+
 		if (Mouse.isButtonDown(0)) {
 			//System.out.println(Mouse.getX() + " " + Mouse.getY());
 			Position bPos = Position.findPosition(Mouse.getX() - Windows.scWidth/2, Windows.scHeight - Mouse.getY() - Windows.scHeight/2);
 			if (bPos != null) {
 				Building building = Building.build(bPos, 0);
 			}
-			System.out.println("I'm da greatest!");
+
 		}
 	}
 
@@ -192,7 +193,6 @@ public class GameState extends BasicGameState implements KeyListener {
 		// TODO Auto-generated method stub
 		return States.GameState;
 	}
-
 	@Override
 	public void keyPressed(int key, char c) {
 		TextBox.keyPress(key, c, this);
