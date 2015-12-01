@@ -1,98 +1,124 @@
 package gameEngine;
- import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-
+import java.util.Random; 
 public class Setup{
 	ArrayList<String> roleCards;
-	ArrayList<String> infectCards;
-	ArrayList<String> usedinfecCards;
-	ArrayList<String> drawnPlayerCards;
-	ArrayList<String> playerDeck;
+	ArrayList<City> infectCards;
+	ArrayList<City> usedInfecCards;
+	ArrayList<City> drawnPlayerCards;
+	ArrayList<City> playerDeck;
+	ArrayList<City> infectionDeck;
+	Random ran;
+	int x;
 	
 	Setup(){
+	
+		ran = new Random();
+		
 		roleCards = new ArrayList<>(Arrays.asList("Medic", "Dispatcher","Researcher", "Scientist","Consistency planner", "Operations expert"));
 		Collections.shuffle(roleCards);
-		//System.out.println(roleCards);
-		//creating an array list with  unshuffled cards
-		infectCards = new ArrayList<>(Arrays.asList("Seul ","Atlanta","Rihadh",
-	           "Teheran","Baghdad","Sao Paulo",
-	           "Bogota","Buenos Aires","Montreal",
-	           "Miami","St.Petersburg","Mumbai",
-	           "Manila","Cairo","Hong Kong",
-	           "Shanghai","Algiers","Mexico city",
-	           "Sydney","Madrid","Lima",
-	           "Lagos","Karachi","Osaka",
-	           "Moscow","Delhi","Washington",
-	           "Istambul","Jakarta","Bejing",
-	           "Kolkata","Bangkok","London",
-	           "New York","Kinshasa","Chicago",
-	           "Paris","Taipei","Milan",
-	           "Santiago","Johannesburg","Essen",
-	           "Khartoum","Chennai","Los Angeles",
-	           "Tokyo","Ho Chi Minh city","San Francisco"));
-		//this method shuffles
-		 Collections.shuffle(infectCards);
+		infectionDeck = new ArrayList<City>();
+		infectionDeck.add(new City("Seul",100,100,0 ));
+		infectionDeck.add(new City("Atlanta",200,200,0 ));
+		infectionDeck.add(new City("Rihadh",300,300,0 ));
+		infectionDeck.add(new City( "Teheran",100,100,0 ));
+		 infectionDeck.add(new City("San Francisco",200,200,0 ));
+		 infectionDeck.add(new City("Washington",300,300,0 ));
+		 infectionDeck.add(new City("Hong Kong",100,100,0 ));
+		 infectionDeck.add(new City("Madrid",200,200,0 ));
+		 infectionDeck.add(new City("Moscow",300,300,0 ));
+		 infectionDeck.add(new City("Algiers",100,100,0 ));
+		 infectionDeck.add(new City("Chicago",200,200,0 ));
+		 infectionDeck.add(new City("London",300,300,0 ));
+		 infectionDeck.add(new City("Paris",100,100,0 ));
+		 infectionDeck.add(new City("New York",200,200,0 ));
+		 infectionDeck.add(new City("Kolkata",300,300,0 ));
+		 infectionDeck.add(new City("Tokyo",300,300,0 ));
+		 Collections.shuffle(infectionDeck);
+		 x = infectionDeck.size();
+		 for(City str: infectionDeck){
+			//System.out.println(str.toString());
+		}
 		 
-		 // new empty array list where program is going to place drawn cards.
-		usedinfecCards = new ArrayList<>(Arrays.asList()); 						
+
+		usedInfecCards = new ArrayList<>(Arrays.asList()); 						
 		
 		// adds one card from infection deck and place into used cards deck
-		usedinfecCards.add(infectCards.get(0)); 
+		//usedInfecCards.add(infectCards.get(0)); 
 		// removes one card from infection card deck
-		infectCards.remove(0);
 		// prints one card from the array
 		//System.out.println(usedCardsArray.toString()); 
 	
-		playerDeck = new ArrayList<>(Arrays.asList("Seul","Atlanta","Rihadh",
-			           "Teheran","Baghdad","Sao Paulo",
-			           "Bogota","Buenos Aires","Montreal",
-			           "Miami","St.Petersburg","Mumbai",
-			           "Manila","Cairo","Hong Kong",
-			           "Shanghai","Algiers","Mexico city",
-			           "Sydney","Madrid","Lima",
-			           "Lagos","Karachi","Osaka",
-			           "Moscow","Delhi","Washington",
-			           "Istambul","Jakarta","Bejing",
-			           "Kolkata","Bangkok","London",
-			           "New York","Kinshasa","Chicago",
-			           "Paris","Taipei","Milan",
-			           "Santiago","Johannesburg","Essen",
-			           "Khartoum","Chennai","Los Angeles",
-			           "Tokyo","Ho Chi Minh city","San Francisco",
-			           "Epidemic card","Epidemic card","Epidemic card",
-			           "Epidemic card","Epidemic card","Epidemic card"));
+		ArrayList<City> playerDeck = new ArrayList<City>();
+		playerDeck.add(new City("Seul",100,100,0 ));
+		playerDeck.add(new City("Atlanta",200,200,0 ));
+		playerDeck.add(new City("Rihadh",300,300,0 ));
+		playerDeck.add(new City( "Teheran",100,100,0 ));
+		playerDeck.add(new City("San Francisco",200,200,0 ));
+		playerDeck.add(new City("Washington",300,300,0 ));
+		playerDeck.add(new City("Hong Kong",100,100,0 ));
+		playerDeck.add(new City("Madrid",200,200,0 ));
+		playerDeck.add(new City("Moscow",300,300,0 ));
+		playerDeck.add(new City("Algiers",100,100,0 ));
+		playerDeck.add(new City("Chicago",200,200,0 ));
+		playerDeck.add(new City("London",300,300,0 ));
+		playerDeck.add(new City("Paris",100,100,0 ));
+		playerDeck.add(new City("New York",200,200,0 ));
+		playerDeck.add(new City("Kolkata",300,300,0 ));
+		playerDeck.add(new City("Tokyo",300,300,0 ));
+		
 		Collections.shuffle( playerDeck);
 			// new empty array list where program is going to place drawn cards.
 		drawnPlayerCards = new ArrayList<>(Arrays.asList()); 		
 		//System.out.println(drawnPlayerCards.toString()); 
 		
-		System.out.println(usedinfecCards);
-						
+		drawInfectionCards(1);
+
+		
 	}
 	//This function should be at the server
-	void drawInfectionCards( int amountOfCardsDrawn){
+	public void drawInfectionCards( int amountOfCardsDrawn){
 		for (int i=0; i < amountOfCardsDrawn; i++ ){
-			
+			//int ran= Math.random()*0+infectionDeck.size();	
 			// we put zero because of the dynamic arraylist
-			usedinfecCards.add(infectCards.get(0)); 
+			
+
+			usedInfecCards.add(infectionDeck.get(0));
+			//String drawnCityName = usedInfecCards.getcityName();
 			infectCities();
 			infectCards.remove(0);
 			
 		}}
 		
-void infectCities (){
-	usedinfecCards.size();
-		
+
+public void infectCities (){
+	int cardsDrawn = usedInfecCards.size();
+    usedInfecCards.get(0).setInfectionRate(usedInfecCards.get(0).getInfectionRate()+1);
+    
+    //System.out.println(usedInfecCards.get(0).getInfectionRate());
+    System.out.println(usedInfecCards.size());
 	}
 
+public void asignRoles () {
 	
+}	
+
+public void asignPlayerCards () {
+	
+}
+
+
 	public static void main(String[] args) {
 		Setup main = new Setup();
 		
+		
 	}
+	
+}
 
 
 
 	
-}
+
