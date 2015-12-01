@@ -74,22 +74,11 @@ public class GameState extends BasicGameState implements KeyListener {
 		
 		Windows.padding = hexWidth/22 * Windows.scFactor;
 		
-		Button testButton = new Button(100, 100, 100, 50, "Test", this) {
+		Button testButton = new Button(100, 100, 250, 50, 10, "Test for PostGameState", this) {
 			
 			@Override
 			public void isClicked() {
-				
-				Actions.buyCity(Position.assignPosition(0, 1), 0);
-				
-			}
-		};
-		
-		Button testButton2 = new Button(100, 200, 100, 50, "_test", this) {
-			
-			@Override
-			public void isClicked() {
-				// TODO Auto-generated method stub
-				
+				s.enterState(States.PostGameState);
 			}
 		};
 	}
