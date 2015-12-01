@@ -1,5 +1,6 @@
 package example;
 
+import org.lwjgl.Sys;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -33,8 +34,9 @@ public class Cards extends BasicGame {
     }
 
     @Override
-    public void update(GameContainer gameContainer, int i) throws SlickException {
+    public void update(GameContainer gc, int i) throws SlickException {
 
+        clickWithin(gc);
     }
 
     @Override
@@ -70,5 +72,18 @@ public class Cards extends BasicGame {
 
     public int getCardType() {
         return cardType;
+    }
+
+    public boolean clickWithin(GameContainer gc) {
+        org.newdawn.slick.Input input = gc.getInput();
+        float mouseX = input.getMouseX();
+        float mouseY = input.getMouseY();
+
+        if (mouseX > xPos && mouseX < xPos + cardImage.getWidth() && mouseY > yPos && mouseY < yPos + cardImage.getHeight() && input.isMousePressed(input.MOUSE_LEFT_BUTTON)) {
+            System.out.println("YEP");
+            return true;
+        } else {
+            return false;
+        }
     }
 }

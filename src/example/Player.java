@@ -1,5 +1,6 @@
 package example;
 
+import org.lwjgl.Sys;
 import org.newdawn.slick.*;
 
 import java.util.ArrayList;
@@ -68,6 +69,11 @@ public class Player extends BasicGame {
     public void update(GameContainer gc, int i) throws SlickException {
 
         role.update(gc, i);
+
+        for (int j = 0; j < playerCards.length; j++ ) {
+            playerCards[j].update(gc, i);
+        }
+
 
         if (turnsLeft == 0) {
             outOfTurns = true;
@@ -179,7 +185,7 @@ public class Player extends BasicGame {
         for (int i = 0; i < playerCards.length; i++) {
             if (card.equals(playerCards[i].getCityName())) {
                 hand.add(hand.size(), playerCards[i]);
-                System.out.println(hand.get(0).getCardType());
+                //System.out.println(hand.get(0).getCardType());
             }
         }
     }
@@ -317,5 +323,8 @@ public class Player extends BasicGame {
 
     public void setTurnsLeft(int turnsLeft) {
         this.turnsLeft = turnsLeft;
+    }
+
+    public void removeExtraCards (GameContainer gc) {
     }
 }

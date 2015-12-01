@@ -168,6 +168,11 @@ public class GameBoard extends BasicGameState {
         players.get(0).addCardsToHand("sydney");
         players.get(0).addCardsToHand("jakarta");
         players.get(0).addCardsToHand("tokyo");
+        players.get(0).addCardsToHand("riyadh");
+        players.get(0).addCardsToHand("istanbul");
+        players.get(0).addCardsToHand("paris");
+
+
 
 
         players.get(1).addCardsToHand("atlanta");
