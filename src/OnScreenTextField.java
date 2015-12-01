@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Random;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -75,45 +76,35 @@ public class OnScreenTextField {
 		
 	}
 	
-	public Card writeBuyToConsole(Card[] input) throws SlickException{
+	public void writeBuyToConsole(Card[] input) throws SlickException{
 		Card output = new Card();
-		int getDice;
+		Random rand = new Random();
 		
 		if (control.playerNo == 1){
-			getDice = dice.rollDice();
-			output = input[getDice];
+			output = input[rand.nextInt(25)];
 			textField.setConsumeEvents(true);
 			textField.setText("Bought development card");
 			textField.getText();
 			pileOutput = output;
-			return output;
 		}else if (control.playerNo == 2){
-			getDice = dice.rollDice();
-			output = input[getDice];
+			output = input[rand.nextInt(25)];
 			textField2.setConsumeEvents(true);
 			textField2.setText("Bought development card");
 			textField2.getText();
 			pileOutput = output;
-			return output;
 		}else if (control.playerNo == 3){
-			getDice = dice.rollDice();
-			output = input[getDice];
+			output = input[rand.nextInt(25)];
 			textField3.setConsumeEvents(true);
 			textField3.setText("Bought development card");
 			textField3.getText();
 			pileOutput = output;
-			return output;
 		}else if (control.playerNo == 4){
-			getDice = dice.rollDice();
-			output = input[getDice];
+			output = input[rand.nextInt(25)];
 			textField4.setConsumeEvents(true);
 			textField4.setText("Bought development card");
 			textField4.getText();
 			pileOutput = output;
-			return output;
 		}
-		
-		return null;
 	}
 
 	public void render(GameContainer gc, Graphics g) throws SlickException {
@@ -135,11 +126,7 @@ public class OnScreenTextField {
 		}
 		if (buttons.buttonDevCardControl == true) {
 			writeBuyToConsole(developmentPile);
-			buttons.buttonDiceControl = false;
+			buttons.buttonDevCardControl = false;
 		}
-		// Next lines does not currently work, since the game does not have turn based gameplay yet
-		/*if(control.endPlayerTurn() == true){
-			once = 0;
-		}*/
 	}
 }
