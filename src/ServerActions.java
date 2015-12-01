@@ -1,8 +1,9 @@
 import com.google.gson.Gson;
 
 /**
- * Class containing all actions the server will do.
- * Sends messages to and receives messages from the clients
+ * Class containing all actions the server will do. Sends messages to and
+ * receives messages from the clients
+ * 
  * @author Frederik Emil
  *
  */
@@ -11,29 +12,30 @@ public class ServerActions {
 	static Gson gson;
 	static Position rStartPos;
 	static int expectingRoad;
-	
+	static int startIndex;
 	/**
-	 * An object of this class is never instantiated, so this function should be called in order to initialize certain variables. 
+	 * An object of this class is never instantiated, so this function should be
+	 * called in order to initialize certain variables.
 	 */
 	static void initActions() {
 		gson = new Gson();
 		expectingRoad = -1;
+		startIndex = -1;
 	}
-	
+
 	/**
-	 * Called when game is started.
-	 * Generates map and updates clients
+	 * Called when game is started. Generates map and updates clients
 	 */
 	static void generateMap() {
 		Hexagon[] hexagons = Hexagon.generateMap();
-		
+
 		String message;
 		for (Hexagon hexagon : hexagons) {
 			message = "Hexagon " + gson.toJson(hexagon);
 			NetworkServer.sendToAll(message);
 		}
 	}
-	
+
 	static void collectResources() {
 		int dieRoll = Dice.dice1 + Dice.dice2;
 		for (int i = 0; i < GameData.players.size(); i++) {
@@ -58,22 +60,73 @@ public class ServerActions {
 		}
 	}
 
+	static void addDevelopmentCard(int ID) {
+			GameData.players.get(ID).devCard[DevelopmentCardDeck.BuyCard().toInt()]++;
+		}
 	
+	public static CardType buyCard(int ID) {
+		if (DevelopmentCardDeck.cards.size() != 0 && GameData.players.get(ID).resources[ResourceType.CORN.toInt()] >= 1
+				&& GameData.players.get(ID).resources[ResourceType.ROCK.toInt()] >= 1
+				&& GameData.players.get(ID).resources[ResourceType.SHEEP.toInt()] >= 1) {
+			CardType returnCard = DevelopmentCardDeck.cards.get(0);
+			DevelopmentCardDeck.cards.remove(0);
+			return returnCard;
+		}
+		System.out.println("No card");
+		return null;
+	}
 	
+	static void playDevelopmentCard(CardType type, int ID) {
+		switch(type) {
+		case KNIGHT:
+			//Move Robber
+			//Take 1 resourceCard
+			break;
+		case VICTORYPOINT:
+			GameData.players.get(ID).points++;
+			break;
+		case YEAROFPLENTY:
+			//Missing graphical representation
+			//GameData.players.get(ID).addResource();
+			break;
+		case ROADBUILD:
+			//Missing graphical representation
+			//Road.buildRoad(Position startPos, Position endPos, ID);
+			break;
+		case MONOPOLY:
+			//Select a resource whicht the other players must hand over.
+			break;
+		}
+	}
+
+
 	/**
 	 * Method called when a message is received from a client
-	 * @param clientId Index of the player that has send the message
-	 * @param message The message received
+	 * 
+	 * @param clientId
+	 *            Index of the player that has send the message
+	 * @param message
+	 *            The message received
 	 */
 	public synchronized static void received(int clientId, String message) {
-		
-		if (message == "Collect"){
+
+		if (message == "Collect") {
 			collectResources();
 			String outMessage = gson.toJson(GameData.players);
 			NetworkServer.sendToAll("Collect " + outMessage);
 		}
+		if (message == "addDevelop") {
+			addDevelopmentCard(clientId);
+			buyCard(clientId);
+			String outMessage = gson.toJson(GameData.players);
+			NetworkServer.sendToAll("Collect " + outMessage);
+		}
+		if (message == "PlayDevelop"){
+			//Missing Graphical Representation
+			//playDevelopmentCard();
+		}
 		
-		if (expectingRoad == clientId) {
+		else if (expectingRoad == clientId) {
 			Position rEndPos = gson.fromJson(message, Position.class);
 			if (Road.buildRoad(rStartPos, rEndPos, clientId) != null) {
 				NetworkServer.sendToAll("Road " + clientId + gson.toJson(rStartPos));
@@ -81,48 +134,75 @@ public class ServerActions {
 			}
 			expectingRoad = -1;
 		} else if (clientId == GameData.turn && message.equals("rollDice")) {
-			
+
 		}
-		
+
 		String objectType = "";
 		int jsonIndex = 0;
 		for (int i = 0; !Character.isSpaceChar(message.charAt(i)); i++) {
 			objectType += message.charAt(i);
 			jsonIndex = i + 2;
 		}
-		
+
 		message = message.substring(jsonIndex);
-		
-		if(objectType.equals("Building")){
+
+		if (objectType.equals("Building")) {
 			Position inPos = gson.fromJson(message, Position.class);
-			if (Building.build(inPos, clientId) != null) 
+			if (Building.build(inPos, clientId) != null)
 				NetworkServer.sendToAll("Building " + clientId + " " + message);
-		} else if (objectType.equals("Upgrade")){
+		} else if (objectType.equals("Upgrade")) {
 			Position inPos = gson.fromJson(message, Position.class);
-			if (Building.getByPosition(inPos).upgrade()) 
+			if (Building.getByPosition(inPos).upgrade())
 				NetworkServer.sendToAll("Upgrade " + clientId + inPos);
 		} else if (objectType.equals("Road")) {
 			rStartPos = gson.fromJson(message, Position.class);
 			expectingRoad = clientId;
 		} else if (objectType.equals("Chat")) {
 			NetworkServer.sendToAll("Chat " + clientId + " " + message);
-		} else if(objectType.equals("Trade")){
+		} else if (objectType.equals("Trade")) {
 			GameData.tObject = gson.fromJson(message, TradeObject.class);
 			NetworkServer.sendToAll("Trade " + message);
-		}else if(objectType.equals("TradeAccept")){
+		} else if (objectType.equals("TradeAccept")) {
 			GameData.tObject = gson.fromJson(message, TradeObject.class);
-			GameData.players.get(GameData.tObject.initPlayer).resources[GameData.tObject.hasType] -= GameData.tObject.has.length;
-			GameData.players.get(GameData.tObject.initPlayer).resources[GameData.tObject.wantsType] += GameData.tObject.wants.length;
-			GameData.players.get(GameData.tObject.acceptPlayer).resources[GameData.tObject.hasType] += GameData.tObject.has.length;
-			GameData.players.get(GameData.tObject.acceptPlayer).resources[GameData.tObject.wantsType] -= GameData.tObject.wants.length;
+			GameData.players.get(
+					GameData.tObject.initPlayer).resources[GameData.tObject.hasType] -= GameData.tObject.has.length;
+			GameData.players.get(
+					GameData.tObject.initPlayer).resources[GameData.tObject.wantsType] += GameData.tObject.wants.length;
+			GameData.players.get(
+					GameData.tObject.acceptPlayer).resources[GameData.tObject.hasType] += GameData.tObject.has.length;
+			GameData.players.get(
+					GameData.tObject.acceptPlayer).resources[GameData.tObject.wantsType] -= GameData.tObject.wants.length;
 			NetworkServer.sendToAll("TradeAccept " + message);
+		} else if (message == "Name"){
+			startIndex ++;
+			if(startIndex == 0){
+				Player playerOne = new Player(message,0);
+				GameData.players.add(playerOne);
+				String indexMessage = "0";
+				NetworkServer.send(0, indexMessage);
+			} else if(startIndex == 1){
+				Player playerTwo = new Player(message,1);
+				GameData.players.add(playerTwo);
+				String indexMessage = "1";
+				NetworkServer.send(1, indexMessage);
+			} else if(startIndex == 2){
+				Player playerThree = new Player(message,2);
+				String indexMessage = "2";
+				GameData.players.add(playerThree);
+				NetworkServer.send(2, indexMessage);
+			} else if(startIndex == 3){
+				Player playerFour = new Player(message,3);
+				String indexMessage = "3";
+				GameData.players.add(playerFour);
+				NetworkServer.send(3, indexMessage);
+			}
+			String outMessage = gson.toJson(GameData.players);
+			NetworkServer.sendToAll("Players " + outMessage);
 		}
-		
+
 	}
 	
-	public static void updateGameData() {
-		for (int i = 0; i < 4; i++) {
-			NetworkServer.send(i, "ID " + i);
-		}
+	public static void nameRequest() {
+			NetworkServer.sendToAll("SendName");
 	}
 }

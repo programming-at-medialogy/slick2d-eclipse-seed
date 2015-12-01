@@ -22,10 +22,10 @@ public class Player  {
 	private int knights;
 	
 	//Number of points
-	private int points;
+	public int points;
 	
 	//How many developmentcards the players has
-	private int[] devCard;
+	public int[] devCard;
 	
 	//Checks whether the player has to discard resourcecards or not
 	//public boolean hasToDiscard;
@@ -60,7 +60,8 @@ public class Player  {
 	 * Collect the resources for a given player.
 	 * @param dieRoll The number that was rolled by the die
 	 */
-	public void collectResources() {
+	/* Moved to Actions
+	 * public void collectResources() {
 		int dieRoll = Dice.dice1 + Dice.dice2;
 		for (int i = 0; i <  GameData.buildings.size(); i++) {
 			Hexagon[] nearbyHexagons =  GameData.buildings.get(i).POSITION.getNearbyHexagons();
@@ -77,7 +78,7 @@ public class Player  {
 					}
 				}
 			}
-		}
+		}*/
 	
 	public int getAmountOfResources(int type){
 		return resources[type];
@@ -90,7 +91,7 @@ public class Player  {
 	 * Method for checking whether the player needs to discard resourcecards
 	 */
 	public void setHasToDiscard(){
-		if(Dice.RollDice() == 7){
+		if(Dice.dice1 + Dice.dice2 == 7){
 			for(int i = 0; i < GameData.players.size(); i++){
 				if(GameData.players.get(i).resourceAmount > 7){
 					// main.show()
@@ -111,12 +112,12 @@ public class Player  {
 		return devCard[type];
 	}
 	
-	
+	/* Added to actions/Serveractions
 	public void addDevelopmentCard() {
 		if(Player.resources[ResourceType.CORN.toInt()]>=1 && Player.resources[ResourceType.ROCK.toInt()]>=1 && Player.resources[ResourceType.SHEEP.toInt()]>=1 ){
 			devCard[DevelopmentCardDeck.BuyCard().toInt()]++;
 		}
-	}
+	}*/
 	
 	public void PlayDevCard(CardType type){
 		switch(type) {
@@ -144,9 +145,14 @@ public class Player  {
 	public void addResource(int[] index) {
 		for (int i = 0; i < index.length; i++) {
 			resources[index[i]]++;
-			resourceAmount++;
-			
+			resourceAmount++;	
 		}
+	}
+	
+	public void addResource(ResourceType type) {
+		int[] res = new int[1];
+		res[0] = type.toInt();
+		addResource(res);
 	}
 	
 	public void roadBuild (Position startPos, Position endPos) {
