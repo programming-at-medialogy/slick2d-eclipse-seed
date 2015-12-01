@@ -40,36 +40,4 @@ public class Card {
 			}
 		}
 	}
-	
-	//Resource piles 
-	
-	public void createOrePile (Card[] input) throws SlickException{
-		for(int i = 0; i < resCardSize; i++){
-			input[i] = new CardOre();
-		}
-	}
-	
-	public void createWoodPile (Card[] input) throws SlickException{
-		for(int i = 0; i < resCardSize; i++){
-			input[i] = new CardWood();
-		}
-	}
-	
-	public void createWoolPile (Card[] input) throws SlickException{
-		for(int i = 0; i < resCardSize; i++){
-			input[i] = new CardWool();
-		}
-	}
-	
-	public void createWheatPile (Card[] input) throws SlickException{
-		for(int i = 0; i < resCardSize; i++){
-			input[i] = new CardWheat();
-		}
-	}
-	
-	public void createClayPile (Card[] input) throws SlickException{
-		for(int i = 0; i < resCardSize; i++){
-			input[i] = new CardClay();
-		}
-	}
 }
