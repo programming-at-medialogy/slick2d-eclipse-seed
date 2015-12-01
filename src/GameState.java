@@ -63,6 +63,7 @@ public class GameState extends BasicGameState implements KeyListener {
 		}
 		robImg = new Image("resources/robber.png");
 		bkWater = new Image("resources/bkWater.png");
+		playerBck = new Image("resources/playerBck.jpg");
 		
 		// game data init
 		GameData.roads = new ArrayList<Road>();
