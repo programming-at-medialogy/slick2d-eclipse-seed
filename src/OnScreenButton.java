@@ -19,11 +19,13 @@ public class OnScreenButton {
 	OnScreenButtonSpawn buttonPlaceDice;
 	OnScreenButtonSpawn buttonYourTurn;
 	OnScreenButtonSpawn buttonEndTurn;
+	OnScreenButtonSpawn buttonBuyDevCard;
 	
 	boolean buttonRoadControl = false;
 	boolean buttonHouseControl = false;
 	boolean buttonTurnControl = false;
 	boolean buttonDiceControl = false;
+	boolean buttonDevCardControl = false;
 	
 	int buttonHeight = 56;
 	int buttonWidth = 97;
@@ -41,9 +43,14 @@ public class OnScreenButton {
 		buttonPlaceHouse = new OnScreenButtonSpawn(buttonStartPosX, buttonStartPosY, 1);
 		buttonPlaceRoad  = new OnScreenButtonSpawn(buttonStartPosX, buttonStartPosY - buttonSpacing, 2);
 		buttonPlaceDice  = new OnScreenButtonSpawn(buttonStartPosX, buttonStartPosY - (buttonSpacing * 2), 3);
+<<<<<<< HEAD
 		buttonYourTurn    = new OnScreenButtonSpawn(buttonStartPosX, buttonStartPosY - (buttonSpacing * 3), 4);
 
 		buttonEndTurn = new OnScreenButtonSpawn(buttonStartPosX, buttonStartPosY - (buttonSpacing * 3), 6);
+=======
+		buttonEndTurn    = new OnScreenButtonSpawn(buttonStartPosX, buttonStartPosY - (buttonSpacing * 3), 4);
+		buttonBuyDevCard = new OnScreenButtonSpawn(buttonStartPosX - buttonWidth-9, buttonStartPosY, 5);
+>>>>>>> origin/master
 	}
 
 	public void render(GameContainer gc, Graphics g) throws SlickException {
@@ -54,6 +61,7 @@ public class OnScreenButton {
 		buttonPlaceRoad.render(gc, g);
 		buttonPlaceDice.render(gc, g);
 		buttonEndTurn.render(gc, g);
+<<<<<<< HEAD
 		
 		if(playerTurn == 1 && playerTurn == control.playerNo){
 			buttonYourTurn.render(gc, g);
@@ -65,6 +73,9 @@ public class OnScreenButton {
 			buttonYourTurn.render(gc, g);
 		}
 							
+=======
+		buttonBuyDevCard.render(gc, g);
+>>>>>>> origin/master
 		g.drawString("Rounds left: " + game.client.obj.roundCount, 380, 6);
 		
 	}
@@ -96,8 +107,18 @@ public class OnScreenButton {
 			if((xMousePos > buttonStartPosX && xMousePos < buttonStartPosX+buttonWidth) && (yMousePos < screenHeight-buttonStartPosY+(buttonSpacing*2) && yMousePos > screenHeight-buttonStartPosY+(buttonSpacing*2)-buttonHeight)) {
 				if(input.isMouseButtonDown(0)) {
 					buttonDiceControl = true;
+					buttonDevCardControl = false;
 				}
 			}
+			
+		//ButtonBuyDevCard
+			if((xMousePos > buttonStartPosX-buttonWidth-9 && xMousePos < (buttonStartPosX-buttonWidth-9)+buttonWidth) && (yMousePos < screenHeight-buttonStartPosY && yMousePos > screenHeight-buttonStartPosY-buttonHeight)) {
+				if(input.isMouseButtonDown(0)) {
+					buttonDevCardControl = true;
+					buttonDiceControl = false;
+					}
+			}
+			
 			
 		//ButtomEndTurn
 		if ((xMousePos > buttonStartPosX && xMousePos < buttonStartPosX + buttonWidth)

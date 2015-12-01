@@ -1,6 +1,4 @@
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
 
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
@@ -19,7 +17,7 @@ public class Play extends BasicGameState {
 	
 	public Card cardHelp;
 	public Card infoCard;
-	public Card[] developmentPile = new Card[25];
+	public Card[] cardsInHand = new Card[25];
 	
 	
 	public Play(int state) {
@@ -42,8 +40,7 @@ public class Play extends BasicGameState {
 		infoCard.x = 990;
 		infoCard.y = 170;
 		cardHelp = new Card();
-		cardHelp.createDevPile(developmentPile);
-		Collections.shuffle(Arrays.asList(developmentPile));
+
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
@@ -63,6 +60,15 @@ public class Play extends BasicGameState {
 	
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
+		
+		if (textField.buttons.buttonDevCardControl == true){
+			int _index = 0;
+			if (cardsInHand[_index] == null){
+				cardsInHand[_index] = textField.pileOutput;
+			}else if (cardsInHand[_index] != null){
+				_index++;
+			}
+		}
 		
 		if(game.client.obj.roundCount == 0){
 			sbg.enterState(2);
