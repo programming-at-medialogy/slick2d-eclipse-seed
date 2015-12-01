@@ -1,4 +1,6 @@
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -10,14 +12,21 @@ public class OnScreenTextField {
 
 	private int once = 0;
 	TextField textField, textField2, textField3, textField4;
-	OnScreenButton diceButton;
+	OnScreenButton buttons;
 	Controller control;
 	DieRoll dice;
+	Card cardHelp;
+	Card[] developmentPile = new Card[25];
+	Card pileOutput;
 
 	public OnScreenTextField() throws SlickException {
-		diceButton = new OnScreenButton(control);
+		buttons = new OnScreenButton(control);
 		control = new Controller();
 		dice = new DieRoll();
+		cardHelp = new Card();
+		pileOutput = new Card();
+		cardHelp.createDevPile(developmentPile);
+		Collections.shuffle(Arrays.asList(developmentPile));
 	}
 
 	public void create(GameContainer gc) {
@@ -60,6 +69,43 @@ public class OnScreenTextField {
 		}
 		
 	}
+	
+	public Card writeBuyToConsole(Card[] input) throws SlickException{
+		Card output = new Card();
+		int getDice;
+		
+		if (control.playerNo == 1){
+			getDice = dice.rollDice();
+			output = input[getDice];
+			textField.setConsumeEvents(true);
+			textField.setText("Bought development card");
+			textField.getText();
+			return output;
+		}else if (control.playerNo == 2){
+			getDice = dice.rollDice();
+			output = input[getDice];
+			textField.setConsumeEvents(true);
+			textField.setText("Bought development card");
+			textField.getText();
+			return output;
+		}else if (control.playerNo == 3){
+			getDice = dice.rollDice();
+			output = input[getDice];
+			textField.setConsumeEvents(true);
+			textField.setText("Bought development card");
+			textField.getText();
+			return output;
+		}else if (control.playerNo == 4){
+			getDice = dice.rollDice();
+			output = input[getDice];
+			textField.setConsumeEvents(true);
+			textField.setText("Bought development card");
+			textField.getText();
+			return output;
+		}
+		
+		return null;
+	}
 
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		textField.render(gc, g);
@@ -69,14 +115,19 @@ public class OnScreenTextField {
 	}
 
 	public void update(GameContainer gc, int i) throws SlickException, IOException {
-		diceButton.update(gc, i);
+		buttons.update(gc, i);
 
-		if (diceButton.buttonDiceControl == true) {
+		if (buttons.buttonDiceControl == true) {
 			if (once < 1) {
 				writeDiceToConsole();
 				once++;
-				diceButton.buttonDiceControl = false;
+				buttons.buttonDiceControl = false;
 			}
+		}
+		if (buttons.buttonDevCardControl == true) {
+			writeBuyToConsole(developmentPile);
+			pileOutput = writeBuyToConsole(developmentPile);
+			buttons.buttonDiceControl = false;
 		}
 		// Next lines does not currently work, since the game does not have turn based gameplay yet
 		/*if(control.endPlayerTurn() == true){
