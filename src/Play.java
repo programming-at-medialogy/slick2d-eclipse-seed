@@ -68,12 +68,12 @@ public class Play extends BasicGameState {
 	
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
-		if (textField.buttons.buttonDevCardControl == true){
-			
-			for (int i = 0; i < cardsInHand.length; i++){
-				if (cardsInHand[i] == null){
-				cardsInHand[i] = textField.pileOutput;
-				}
+		int _index = 0;
+		if (textField.buttons.buttonDevCardControl == true){	
+			if (cardsInHand[_index] == null){
+				cardsInHand[_index] = textField.pileOutput;
+			}else if (cardsInHand[_index] != null){
+				_index++;
 			}
 		}
 		
