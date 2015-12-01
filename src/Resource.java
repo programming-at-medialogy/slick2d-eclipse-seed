@@ -52,9 +52,7 @@ public class Resource {
 		}
 		
 		for (int i = 0; i < tempFont.size(); i++) {
-			System.out.println(fontSize + " " + tempFontSize.get(i));
 			if (tempFontSize.get(i) == fontSize) {
-				System.out.println("Already there");
 				hasFont = true;
 				retFont = tempFont.get(i);
 				break;
@@ -72,7 +70,6 @@ public class Resource {
 			}
 			retFont = tempFont.get(tempFont.size() - 1);
 		}
-		System.out.println();
 		return retFont;
 	}
 }

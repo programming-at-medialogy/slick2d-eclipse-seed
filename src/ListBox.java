@@ -18,6 +18,7 @@ public class ListBox {
 	private int lastMY;
 	int fontSize;
 	private static int width;
+	private static int textWidth;
 	private TrueTypeFont listFont;
 
 	private int height;
@@ -29,6 +30,7 @@ public class ListBox {
 	private static ArrayList<Integer> playerIndex;
 	private static boolean isMouseDown;
 	private static ArrayList<ListBox> listBoxes = new ArrayList<ListBox>();
+	private static Image listImg;
 	
 	public ListBox(int x, int y, int width, int height, int fontSize, BasicGameState state) {
 		this.x = x;
@@ -42,6 +44,15 @@ public class ListBox {
 		this.isClicked = false;
 		this.isActive = false;
 		
+		if (listImg == null) {
+			try {
+				listImg = new Image("resources/playerBck.jpg");
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		listFont = Resource.getFont("std", fontSize);
 		
 		// sets max chars based on width
@@ -53,6 +64,7 @@ public class ListBox {
 		
 		listBoxes.add(this);
 	}
+	
 	
 	/**
 	 * Adds a string to the list box.
@@ -132,7 +144,8 @@ public class ListBox {
 				
 			
 				g.setColor(Color.white);
-				g.fillRoundRect(listBox.x, listBox.y, listBox.width, listBox.height + 20, 10);
+				listImg.draw(listBox.x, listBox.y, listBox.width, listBox.height + 20);
+				//g.fillRoundRect(listBox.x, listBox.y, listBox.width, listBox.height + 20, 10);
 				
 					//listSpriteActive.draw(listBox.x, listBox.y, listBox.width, listBox.height);
 				
