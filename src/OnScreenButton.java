@@ -44,7 +44,7 @@ public class OnScreenButton {
 		buttonPlaceRoad  = new OnScreenButtonSpawn(buttonStartPosX, buttonStartPosY - buttonSpacing, 2);
 		buttonPlaceDice  = new OnScreenButtonSpawn(buttonStartPosX, buttonStartPosY - (buttonSpacing * 2), 3);
 		buttonEndTurn    = new OnScreenButtonSpawn(buttonStartPosX, buttonStartPosY - (buttonSpacing * 3), 4);
-		buttonBuyDevCard = new OnScreenButtonSpawn(buttonStartPosX - buttonWidth-9, buttonStartPosY, 5);
+		buttonBuyDevCard = new OnScreenButtonSpawn(buttonStartPosX - buttonWidth-9, buttonStartPosY - buttonSpacing, 5);
 	}
 
 	public void render(GameContainer gc, Graphics g) throws SlickException {
@@ -91,11 +91,11 @@ public class OnScreenButton {
 			}
 			
 		//ButtonBuyDevCard
-			if((xMousePos > buttonStartPosX-buttonWidth-9 && xMousePos < (buttonStartPosX-buttonWidth-9)+buttonWidth) && (yMousePos < screenHeight-buttonStartPosY && yMousePos > screenHeight-buttonStartPosY-buttonHeight)) {
+			if((xMousePos > buttonStartPosX-buttonWidth-9 && xMousePos < (buttonStartPosX-buttonWidth-9)+buttonWidth) && (yMousePos < screenHeight-buttonStartPosY+buttonSpacing && yMousePos > screenHeight-buttonStartPosY+buttonSpacing-buttonHeight)) {
 				if(input.isMouseButtonDown(0)) {
 					buttonDevCardControl = true;
 					buttonDiceControl = false;
-					}
+				}
 			}
 			
 			
@@ -106,7 +106,7 @@ public class OnScreenButton {
 						&& yMousePos > screenHeight - buttonStartPosY + buttonSpacing * 3 - buttonHeight)) {
 
 			if (input.isMouseButtonDown(0)) {
-				if (playerTurn == playerNumber) {
+				if (playerTurn == control.playerNo) {
 
 					if (playerTurn == 1 && playerTurn == control.playerNo) {
 						game.client.obj.playerTurn = 2;
