@@ -29,14 +29,16 @@ public class Position {
 	 */
 	public static void initializePositions() {
 		// initializes the positions
-		positions = new Position[6 + 12 + 30];
+		positions = new Position[6 + 18 + 30];
 		for (int i = 0; i < positions.length; i++) {
 			if (i < 6)
 				positions[i] = new Position(0, i);
 			else if (i < 24)
 				positions[i] = new Position(1, i - 6);
-			else
+			else {
 				positions[i] = new Position(2, i - 24);
+				System.out.println(i - 24);
+			}
 		}
 	}
 	
@@ -74,8 +76,8 @@ public class Position {
 		float closestY = 0.0f;
 		int closestIndex = -1;
 		for (int i = 0; i < positions.length; i++) {
-			if (Math.abs(positions[i].getX() - x) + Math.abs(positions[i].getY() - y) <
-				Math.abs(closestX - x) + Math.abs(closestY - y)) {
+			if ((Math.sqrt(Math.pow(positions[i].getX() - x, 2) + Math.pow(positions[i].getY() - y, 2))) <
+				(Math.sqrt(Math.pow(closestX - x, 2) + Math.pow(closestY - y, 2)))) {
 				closestX = positions[i].getX();
 				closestY = positions[i].getY();
 				closestIndex = i;
@@ -83,7 +85,7 @@ public class Position {
 		}
 		
 		// returns the closest position
-		if (closestIndex < 0)
+		if (closestIndex < 0 || Math.sqrt(Math.pow(closestX - x,  2) + Math.pow(closestY - y, 2)) > 50)
 			return null;
 		return positions[closestIndex];
 	}

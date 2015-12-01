@@ -175,6 +175,11 @@ public class GameState extends BasicGameState implements KeyListener {
 		TextBox.update(this);
 		
 		if (Mouse.isButtonDown(0)) {
+			//System.out.println(Mouse.getX() + " " + Mouse.getY());
+			Position bPos = Position.findPosition(Mouse.getX() - Windows.scWidth/2, Windows.scHeight - Mouse.getY() - Windows.scHeight/2);
+			if (bPos != null) {
+				Building building = Building.build(bPos, 0);
+			}
 			System.out.println("I'm da greatest!");
 		}
 	}
