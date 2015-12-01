@@ -222,7 +222,7 @@ public class Player extends BasicGame {
                     removables.add(hand.get(i));
                 }
             }
-            if(countCardsForDisease().equals("cureblue")) {
+            if(countCardsForDisease().equals("curered")) {
                 if (hand.get(i).getCardType() == 3) {
                     removables.add(hand.get(i));
                 }
