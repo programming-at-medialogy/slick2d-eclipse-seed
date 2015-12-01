@@ -114,7 +114,7 @@ public class GameState extends BasicGameState implements KeyListener {
 			}
 		};
 
-		Button rollDice = new Button(Windows.scWidth/2+buttonWidth+buttonWidth/7*5, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 7, "Roll Dice", this) {
+		Button rollDice = new Button(Windows.scWidth/2+buttonWidth+buttonWidth+buttonWidth/7*5, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 7, "Roll Dice", this) {
 			@Override
 			public void isClicked() {		
 				diceNumber(1);
