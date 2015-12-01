@@ -15,6 +15,8 @@ public class Play extends BasicGameState {
 	OnScreenButton buttons;
 	OnScreenTextField textField;
 	
+	Image playBackground;
+	
 	public Card cardHelp;
 	public Card infoCard;
 	public Card[] developmentPile = new Card[25];
@@ -33,6 +35,8 @@ public class Play extends BasicGameState {
 		textField = new OnScreenTextField();
 		textField.create(gc);
 		
+		playBackground = new Image("images/PlayBackground.png");
+		
 		infoCard = new Card();
 		infoCard.cardType = new Image ("images/info.png");
 		infoCard.x = 990;
@@ -44,6 +48,8 @@ public class Play extends BasicGameState {
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 
+		g.drawImage(playBackground, 0,0);
+		
 		map.render(gc, g);
 		roadArea.render(gc, g);
 		houseArea.render(gc, g);
