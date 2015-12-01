@@ -2,6 +2,7 @@ package example;
 
 import org.newdawn.slick.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,6 +17,9 @@ public class Player extends BasicGame {
     private Image curLocation;
     private Image othersLocation;
     private Image curCityImg;
+
+    private List<Cards> hand = new ArrayList<Cards>(0);
+    private Cards[] playerCards;
 
     private int xPos;
     private int yPos;
@@ -39,6 +43,8 @@ public class Player extends BasicGame {
 
     @Override
     public void init(GameContainer gc) throws SlickException {
+
+        playerCards = new Cards[48];
 
         curLocation = new Image ("assets/guielements/currentlocation.png");
         othersLocation = new Image ("assets/guielements/otherslocation.png");
@@ -72,12 +78,13 @@ public class Player extends BasicGame {
         g.drawImage(playerImage[roleP3], xPos-10, yPos+180);
         else
         g.drawImage(playerImage[roleP4], xPos+35, yPos+180);
-
+System.out.println(playerID);
     }
 
     public boolean checkMovability(City city) {
-        if ((getNeighborCityAsList().contains(city.getCityName())) || (currentLocation.isHasResearchSt() && city.isHasResearchSt()))
+        if ((getNeighborCityAsList().contains(city.getCityName())) || (currentLocation.isHasResearchSt() && city.isHasResearchSt())) {
             return true;
+        }
         else
             return false;
     }
@@ -96,8 +103,15 @@ public class Player extends BasicGame {
 
     public void setPlayerPosition(City city) {
 
+        //IF YOU ARE NEXT TO A CITY OR ON A CITY WITH A RESEARCH STATION
         if (checkMovability(city)) {
             this.currentLocation = city;
+        }
+        //ONLY IN THE INSTANCE WHERE YOU USE A CARD FOR TRAVEL!
+        else if (convertHandToStringList().contains(city.getCityName()) && !checkMovability(city)) {
+            this.currentLocation = city;
+            hand.remove(city.getPlayerCards());
+
         }
     }
 
@@ -146,5 +160,41 @@ public class Player extends BasicGame {
 
     public void setMoveSelected(boolean value) {
         this.moveSelected = value;
+    }
+
+    public void addCardsToHand (String card) {
+
+        for (int  i = 0; i < playerCards.length; i++) {
+            if (card.equals(playerCards[i].getCityName())) {
+                hand.add(hand.size(), playerCards[i]);
+            }
+        }
+    }
+
+    public void displayHand(GameContainer gc, Graphics g, int playerHandNo) throws SlickException {
+
+        for (int i = 0; i < hand.size(); i++) {
+            hand.get(i).setxPos(25 + playerHandNo*230);
+            hand.get(i).setyPos(76+30*i);
+            hand.get(i).render(gc, g);
+        }
+    }
+
+    public void setPlayerCards(City [] cities) {
+
+        for (int i = 0; i < playerCards.length; i++) {
+            playerCards[i] = cities[i].getPlayerCards();
+        }
+    }
+
+    public List<String> convertHandToStringList () {
+
+        List<String> handAsString = new ArrayList<String>();
+
+        for (int i = 0; i < hand.size(); i++) {
+            handAsString.add(hand.get(i).getCityName());
+        }
+
+        return handAsString;
     }
 }

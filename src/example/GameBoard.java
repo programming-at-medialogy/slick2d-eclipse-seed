@@ -27,12 +27,15 @@ public class GameBoard extends BasicGameState {
     private Infection_Marker infectionMarker;
     private Outbreak_Marker outbreakMarker;
     private ActionMenu actionMenu;
-    private Image handToggle;
 
     private int playerNo;
     private int roleNo;
 
     private List<Player> players;
+
+    int noOfResearchStationsLeft = 6;
+
+
 
     public GameBoard(GameStateCommons gsc, ServerCalls serverCalls, List<Player> players) {
 
@@ -52,7 +55,6 @@ public class GameBoard extends BasicGameState {
         outbreakMarker.init(gc);
         actionMenu = new ActionMenu("actionMenu");
         actionMenu.init(gc);
-        handToggle = new Image("assets/cards/handtmp.png");
 
         cities = new City[48];
         cities[0] = new City("pandemic", "atlanta", 230, 300, new String[]{"miami", "washington", "chicago"}, 0);
@@ -112,6 +114,8 @@ public class GameBoard extends BasicGameState {
             cities[i].init(gc);
         }
 
+
+
         player1Hand = new Button("Player1", 25, 11, 12); //EVERYONE'S A MEDIC
         player2Hand = new Button("Player2", 255, 11, 12);
         player3Hand = new Button("Player3", 485, 11, 12);
@@ -124,8 +128,8 @@ public class GameBoard extends BasicGameState {
 
         //PLACE THE CDC IN ATLANTA
         cities[0].setHasResearchSt(true);
-        cities[38].setHasResearchSt(true);
 
+        //CUBE TESTS SHOULD OBVIOUSLY NOT BE HERE
         cities[1].setCubeBlue(3);
         cities[0].setCubeYellow(3);
         cities[0].setCubeBlack(3);
@@ -133,6 +137,25 @@ public class GameBoard extends BasicGameState {
         cities[16].setCubeBlack(3);
         cities[28].setCubeYellow(3);
         cities[39].setCubeRed(3);
+
+        for (int j = 0; j < players.size(); j++) {
+            players.get(j).setPlayerCards(cities);
+        }
+
+
+        //TEST OF CARDS
+        players.get(0).addCardsToHand("hochiminhcity");
+        players.get(0).addCardsToHand("mexicocity");
+        players.get(0).addCardsToHand("bangkok");
+
+        players.get(1).addCardsToHand("atlanta");
+        players.get(1).addCardsToHand("manila");
+
+        players.get(2).addCardsToHand("kolkata");
+
+        players.get(3).addCardsToHand("essen");
+
+
     }
 
     @Override
@@ -186,10 +209,11 @@ public class GameBoard extends BasicGameState {
         player4Hand.render(gc, g);
 
 
-        //MOVE RENDER FUNCTIONALITY & REMOVE CUBE RENDER FUNCTIONALITY
+        //MOVE RENDER FUNCTIONALITY & REMOVE CUBE RENDER FUNCTIONALITY && PLACE RESEARCH STATION RENDER FUNCTIONALITY
         for (int i = 0; i < cities.length; i++) {
-            if (((players.get(playerNo).getNeighborCityAsList().contains(cities[i].getCityName())) && actionMenu.getIsMoveActive())
+            if (       ((players.get(playerNo).getNeighborCityAsList().contains(cities[i].getCityName())) && actionMenu.getIsMoveActive())
                     || ((players.get(playerNo).getPlayerPosition().isHasResearchSt() && cities[i].isHasResearchSt()) && actionMenu.getIsMoveActive())
+                    || ((players.get(playerNo).convertHandToStringList().contains(cities[i].getCityName())) && actionMenu.getIsMoveActive()) // TEST RIGHT NOW
                     || cities[i].getCityName().equals(players.get(playerNo).getPlayerPosition().getCityName()) && actionMenu.getIsRemoveCubeActive()
                     || cities[i].getCityName().equals(players.get(playerNo).getPlayerPosition().getCityName()) && !cities[i].isHasResearchSt() && actionMenu.getIsResearchSActive())
 
@@ -276,24 +300,29 @@ public class GameBoard extends BasicGameState {
         //PLACE RESEARCH STATION
         if (actionMenu.getIsResearchSActive()) {
             for (int i = 0; i < cities.length; i++) {
-                if (cities[i].getButton().clickWithin(gc)) {
+                if (cities[i].getButton().clickWithin(gc) && noOfResearchStationsLeft>0) {
                     cities[i].placeResearchStation(players, playerNo);
+                    noOfResearchStationsLeft -= 1;
                 }
             }
         }
 
 
         if (showHand1) {
-            g.drawImage(handToggle, 25, 76);
+            //g.drawImage(handToggle, 25, 76);
+            players.get(0).displayHand(gc,g,0);
         }
         if (showHand2) {
-            g.drawImage(handToggle, 255, 76);
+            players.get(1).displayHand(gc,g,1);
+            //g.drawImage(handToggle, 255, 76);
         }
         if (showHand3) {
-            g.drawImage(handToggle, 485, 76);
+            players.get(2).displayHand(gc,g,2);
+            //g.drawImage(handToggle, 485, 76);
         }
         if (showHand4) {
-            g.drawImage(handToggle, 715, 76);
+            players.get(3).displayHand(gc,g,3);
+            //g.drawImage(handToggle, 715, 76);
         }
 
         actionMenu.render(gc, g);
