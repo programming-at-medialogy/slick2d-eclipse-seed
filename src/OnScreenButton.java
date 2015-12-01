@@ -17,6 +17,7 @@ public class OnScreenButton {
 	OnScreenButtonSpawn buttonPlaceHouse;
 	OnScreenButtonSpawn buttonPlaceRoad;
 	OnScreenButtonSpawn buttonPlaceDice;
+	OnScreenButtonSpawn buttonYourTurn;
 	OnScreenButtonSpawn buttonEndTurn;
 	
 	boolean buttonRoadControl = false;
@@ -37,19 +38,33 @@ public class OnScreenButton {
 		
 		this.control = control;
 		
-		
 		buttonPlaceHouse = new OnScreenButtonSpawn(buttonStartPosX, buttonStartPosY, 1);
 		buttonPlaceRoad  = new OnScreenButtonSpawn(buttonStartPosX, buttonStartPosY - buttonSpacing, 2);
 		buttonPlaceDice  = new OnScreenButtonSpawn(buttonStartPosX, buttonStartPosY - (buttonSpacing * 2), 3);
-		buttonEndTurn    = new OnScreenButtonSpawn(buttonStartPosX, buttonStartPosY - (buttonSpacing * 3), 4);
+		buttonYourTurn    = new OnScreenButtonSpawn(buttonStartPosX, buttonStartPosY - (buttonSpacing * 3), 4);
+
+		buttonEndTurn = new OnScreenButtonSpawn(buttonStartPosX, buttonStartPosY - (buttonSpacing * 3), 6);
 	}
 
 	public void render(GameContainer gc, Graphics g) throws SlickException {
+
+		playerTurn = game.client.obj.playerTurn;
 		
 		buttonPlaceHouse.render(gc, g);
 		buttonPlaceRoad.render(gc, g);
 		buttonPlaceDice.render(gc, g);
 		buttonEndTurn.render(gc, g);
+		
+		if(playerTurn == 1 && playerTurn == control.playerNo){
+			buttonYourTurn.render(gc, g);
+		} else if (playerTurn == 2 && playerTurn == control.playerNo){
+			buttonYourTurn.render(gc, g);
+		} else if (playerTurn == 3 && playerTurn == control.playerNo){
+			buttonYourTurn.render(gc, g);
+		} else if (playerTurn == 4 && playerTurn == control.playerNo){
+			buttonYourTurn.render(gc, g);
+		}
+							
 		g.drawString("Rounds left: " + game.client.obj.roundCount, 380, 6);
 		
 	}
@@ -57,7 +72,6 @@ public class OnScreenButton {
 	public void update(GameContainer gc, int i) throws SlickException, IOException {
 	
 		playerTurn = game.client.obj.playerTurn;
-		
 		int xMousePos = Mouse.getX(); //gets x position of mouse
 		int yMousePos = Mouse.getY(); //gets y position of mouse
 		
@@ -86,14 +100,13 @@ public class OnScreenButton {
 			}
 			
 		//ButtomEndTurn
-		
 		if ((xMousePos > buttonStartPosX && xMousePos < buttonStartPosX + buttonWidth)
 				&& (yMousePos < screenHeight - buttonStartPosY + buttonSpacing * 3
 						&& yMousePos > screenHeight - buttonStartPosY + buttonSpacing * 3 - buttonHeight)) {
 
 			if (input.isMouseButtonDown(0)) {
-				if (playerTurn == playerNumber) {
-
+				if(playerTurn == control.playerNo) {
+				
 					if (playerTurn == 1 && playerTurn == control.playerNo) {
 						game.client.obj.playerTurn = 2;
 						game.client.sendData(game.client.obj);
@@ -112,9 +125,8 @@ public class OnScreenButton {
 					else if (playerTurn == 4 && playerTurn == control.playerNo) {
 						game.client.obj.playerTurn = 1;
 						game.client.obj.roundCount--;
-						game.client.sendData(game.client.obj);
+						game.client.sendData(game.client.obj);	
 					}
-
 				}
 			}
 		}
