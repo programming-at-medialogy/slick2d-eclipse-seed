@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -13,7 +15,7 @@ public class OnScreenTextField {
 	DieRoll dice;
 
 	public OnScreenTextField() throws SlickException {
-		diceButton = new OnScreenButton();
+		diceButton = new OnScreenButton(control);
 		control = new Controller();
 		dice = new DieRoll();
 	}
@@ -66,10 +68,10 @@ public class OnScreenTextField {
 		textField4.render(gc, g);
 	}
 
-	public void update(GameContainer gc, int i) throws SlickException {
+	public void update(GameContainer gc, int i) throws SlickException, IOException {
 		diceButton.update(gc, i);
 
-		if (control.isPlayerTurn == true && diceButton.buttonDiceControl == true) {
+		if (diceButton.buttonDiceControl == true) {
 			if (once < 1) {
 				writeDiceToConsole();
 				once++;

@@ -9,7 +9,7 @@ public class Card {
 	Image cardType;
 	public int x;
 	public int y;
-	int resCardSize = 50;
+	int resCardSize = 50;   
 	
 	public Card () throws SlickException{
 		

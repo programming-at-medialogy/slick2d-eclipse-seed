@@ -1,5 +1,4 @@
-
-
+import java.io.IOException;
 
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.GameContainer;
@@ -13,10 +12,12 @@ public class OnScreenButton {
 	int screenHeight = 700;
 	
 	Controller control;
+	Game game;
 	
 	OnScreenButtonSpawn buttonPlaceHouse;
 	OnScreenButtonSpawn buttonPlaceRoad;
 	OnScreenButtonSpawn buttonPlaceDice;
+	OnScreenButtonSpawn buttonEndTurn;
 	
 	boolean buttonRoadControl = false;
 	boolean buttonHouseControl = false;
@@ -29,14 +30,18 @@ public class OnScreenButton {
 	int buttonStartPosX = screenWidth-buttonWidth-20;
 	int buttonStartPosY = screenHeight-buttonHeight-20;
 	int buttonSpacing = 65;
+	int playerTurn;
+	int playerNumber;
 	
-	OnScreenButton () throws SlickException {
+	OnScreenButton (Controller control) throws SlickException {
 		
-		control = new Controller();
+		this.control = control;
 		
-		buttonPlaceHouse = new OnScreenButtonSpawn(buttonStartPosX, buttonStartPosY,1);
-		buttonPlaceRoad = new OnScreenButtonSpawn(buttonStartPosX, buttonStartPosY-buttonSpacing,2);
-		buttonPlaceDice = new OnScreenButtonSpawn(buttonStartPosX, buttonStartPosY-(buttonSpacing*2), 3);
+		
+		buttonPlaceHouse = new OnScreenButtonSpawn(buttonStartPosX, buttonStartPosY, 1);
+		buttonPlaceRoad  = new OnScreenButtonSpawn(buttonStartPosX, buttonStartPosY - buttonSpacing, 2);
+		buttonPlaceDice  = new OnScreenButtonSpawn(buttonStartPosX, buttonStartPosY - (buttonSpacing * 2), 3);
+		buttonEndTurn    = new OnScreenButtonSpawn(buttonStartPosX, buttonStartPosY - (buttonSpacing * 3), 4);
 	}
 
 	public void render(GameContainer gc, Graphics g) throws SlickException {
@@ -44,12 +49,15 @@ public class OnScreenButton {
 		buttonPlaceHouse.render(gc, g);
 		buttonPlaceRoad.render(gc, g);
 		buttonPlaceDice.render(gc, g);
-		g.drawRect(buttonStartPosX, buttonStartPosY-buttonSpacing*3, buttonWidth, buttonHeight);
+		buttonEndTurn.render(gc, g);
+		g.drawString("Rounds left: " + game.client.obj.roundCount, 380, 6);
 		
 	}
 	
-	public void update(GameContainer gc, int i) throws SlickException {
+	public void update(GameContainer gc, int i) throws SlickException, IOException {
 	
+		playerTurn = game.client.obj.playerTurn;
+		
 		int xMousePos = Mouse.getX(); //gets x position of mouse
 		int yMousePos = Mouse.getY(); //gets y position of mouse
 		
@@ -78,15 +86,37 @@ public class OnScreenButton {
 			}
 			
 		//ButtomEndTurn
-			if((xMousePos > buttonStartPosX && xMousePos < buttonStartPosX+buttonWidth) && (yMousePos < screenHeight-buttonStartPosY+buttonSpacing*2 && yMousePos > screenHeight-buttonStartPosY+buttonSpacing*2-buttonHeight)) {
-				if(input.isMouseButtonDown(0)) {
-						control.endPlayerTurn();
-						control.refilHouses();
-						control.refilRoads();
+		
+		if ((xMousePos > buttonStartPosX && xMousePos < buttonStartPosX + buttonWidth)
+				&& (yMousePos < screenHeight - buttonStartPosY + buttonSpacing * 3
+						&& yMousePos > screenHeight - buttonStartPosY + buttonSpacing * 3 - buttonHeight)) {
+
+			if (input.isMouseButtonDown(0)) {
+				if (playerTurn == playerNumber) {
+
+					if (playerTurn == 1 && playerTurn == control.playerNo) {
+						game.client.obj.playerTurn = 2;
+						game.client.sendData(game.client.obj);
 					}
+
+					else if (playerTurn == 2 && playerTurn == control.playerNo) {
+						game.client.obj.playerTurn = 3;
+						game.client.sendData(game.client.obj);
+					}
+
+					else if (playerTurn == 3 && playerTurn == control.playerNo) {
+						game.client.obj.playerTurn = 4;
+						game.client.sendData(game.client.obj);
+					}
+
+					else if (playerTurn == 4 && playerTurn == control.playerNo) {
+						game.client.obj.playerTurn = 1;
+						game.client.obj.roundCount--;
+						game.client.sendData(game.client.obj);
+					}
+
+				}
 			}
+		}
 	}
 }
-			
-		
-	

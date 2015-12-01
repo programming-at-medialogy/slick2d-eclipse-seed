@@ -1,6 +1,3 @@
-
-
-
 import java.io.IOException;
 import java.util.Random;
 
@@ -24,7 +21,7 @@ public class HouseClickArea {
 	int houseSize = 25;
 	
 	Controller control; //need values and methods from this class
-	OnScreenButton houseButtom; //needed to get boolean and rendering of this button
+	OnScreenButton houseButton; //needed to get boolean and rendering of this button
 	Game game;
 	
 	//Default string to the mouse. If no input from the mouse is recieved
@@ -33,6 +30,7 @@ public class HouseClickArea {
 	//Make an instance of the HouseSpawn class.
 	HouseSpawn[] house;
 	HouseSpawn[] houseTest;
+	Resource resource;
 	
 	//create boolean array to see if an area has been clicked.
 	boolean[] areaClicked;
@@ -81,7 +79,9 @@ public class HouseClickArea {
 	
 
 	//Constructor
-	HouseClickArea() throws SlickException {
+	HouseClickArea(Controller control) throws SlickException {
+		
+		this.control = control;
 		
 		house = new HouseSpawn[totalAreas]; //create 54 instances of the HouseSpawn class
 		houseTest = new HouseSpawn [totalAreas];
@@ -90,10 +90,10 @@ public class HouseClickArea {
 		arraycoordinateY = new int[totalAreas]; //create 54 array slots for the Y coodinates
 		indexer = 0; //count, set it to 0
 		
-		//creates a new onScreenButton instance
-		houseButtom = new OnScreenButton();
+		resource = new Resource(15,500);
 		
-		control = new Controller(); //set player number
+		//creates a new onScreenButton instance
+		houseButton = new OnScreenButton(control);
 		
 		houseCoordinates(); //call the method giving the coodinates
 	}
@@ -101,45 +101,44 @@ public class HouseClickArea {
 	//update method
 	public void update(GameContainer gc, int i) throws SlickException, IOException {
 		
-		
+
 		for(int j = 0;  j < areaClicked.length; j ++) {
 			areaClicked[j] = game.client.obj.SOChouseArea[j];
 		}
 		
-		
 
-
-		
-		houseButtom.update(gc, i); //keeps checking if the button has been clicked.
+		houseButton.update(gc, i); //keeps checking if the button has been clicked.
 		
 		int xMousePos = Mouse.getX(); //gets x position of mouse
 		int yMousePos = Mouse.getY(); //gets y position of mouse
-		
-		mouse = "Mouse X: "+xMousePos+" - Mouse Y: "+yMousePos; //stores it in the string and used in render
 		
 		Input input = gc.getInput(); //used to get mouse inputs
 
 		
 		//For-loop to check if an area has been clicked.
-		if(control.isPlayerTurn == true && control.placeHouseAmount != 0) { //if it is the players turn and if the player still have houses to place
-		for(i = 0; i< totalAreas; i ++) {
-			
-		if((xMousePos > arraycoordinateX[i]-fineTuneX && xMousePos < arraycoordinateX[i]+areaClickSize) && (yMousePos < screenHeight-arraycoordinateY[i]+fineTuneY && yMousePos > screenHeight-arraycoordinateY[i]-areaClickSize-fineTuneY)) {
-			if(input.isMouseButtonDown(0)) {
-				if(houseButtom.buttonHouseControl == true) { //has the house button been pressed?
-				if(areaClicked[i] != true){
-				areaClicked[i] = true;
-				game.client.obj.houseColour[i] = control.playerNo;
-				game.client.obj.SOChouseArea[i] = areaClicked[i];
-				game.client.sendData(game.client.obj);
-				houseButtom.buttonHouseControl = false; //toggle the house button false
-				control.reduceHouseAmount(); //reduce the amount of houses available.
+			for (i = 0; i < totalAreas; i++) {
+
+				if ((xMousePos > arraycoordinateX[i] - fineTuneX && xMousePos < arraycoordinateX[i] + areaClickSize)
+						&& (yMousePos < screenHeight - arraycoordinateY[i] + fineTuneY
+								&& yMousePos > screenHeight - arraycoordinateY[i] - areaClickSize - fineTuneY)) {
+					if (input.isMouseButtonDown(0)) {
+						if (houseButton.buttonHouseControl == true) {
+							if (game.client.obj.playerTurn == control.playerNo) {
+								if (areaClicked[i] != true) {
+									
+									placeHouse(i);
+									game.client.obj.houseColour[i] = control.playerNo;
+									game.client.obj.SOChouseArea[i] = areaClicked[i];
+									game.client.sendData(game.client.obj);
+									houseButton.buttonHouseControl = false;
+									
+								}
+							}
+						}
 					}
 				}
-				}
 			}
-		}
-	}
+		
 		
 		for(int j = 0; j < house.length; j ++) {
 			house[j].playerNo = game.client.obj.houseColour[j];
@@ -157,10 +156,34 @@ public class HouseClickArea {
 			}
 		}
 		
-		g.drawString(mouse, 10, screenHeight-houseSize); //Rendered string to display x and y of mouse
 	
 	}
+	
+	
+	public void placeHouse(int i) {
 
+		if (checkHouseCost()) {
+			control.resources.clayResource--;
+			control.resources.woodResource--;
+			control.resources.woolResource--;
+			control.resources.wheatResource--;
+			
+			control.resources.victoryPoint++;
+			control.resources.houseCount++;
+			game.client.obj.playerVictoryPoints[control.playerNo-1][0] = control.resources.victoryPoint;
+			areaClicked[i] = true;
+		}
+	}
+
+	public boolean checkHouseCost() {
+		boolean isTrue = false;
+		if (control.resources.clayResource >= 1 && control.resources.woodResource >= 1
+				&& control.resources.woolResource >= 1 && control.resources.wheatResource >= 1) {
+			isTrue = true;
+		}
+
+		return isTrue;
+	}
 
 	
 	//method to get the coodinates of all the houses/areas
