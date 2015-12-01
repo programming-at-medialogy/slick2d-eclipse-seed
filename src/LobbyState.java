@@ -47,7 +47,7 @@ public class LobbyState extends BasicGameState implements KeyListener{
 		ipBoxY = 300;
 		portBoxX = Windows.scWidth/2 - 150;
 		portBoxY = 385;*/
-		titleFont = Resource.getFont("title", 38);
+		titleFont = Resource.getFont("title", 50);
 		miscFont = Resource.getFont("std", 14);
 		warningFont = Resource.getFont("std", 22);	
 		int bWidth = (int) (1000*Windows.scFactor);
@@ -138,7 +138,7 @@ public class LobbyState extends BasicGameState implements KeyListener{
 		//draw buttons
 		Button.draw(g, this);
 		//draw title
-		titleFont.drawString(Windows.scWidth/2 - 165, 10, "Welcome to Settlers", new Color(0, 0, 0));
+		titleFont.drawString(Windows.scWidth/2 - titleFont.getWidth("Welcome to Settlers")/2, 10, "Welcome to Settlers", new Color(0, 0, 0));
 		miscFont.drawString(20, 50, "IP: " + ip, new Color(0, 0, 0));
 		miscFont.drawString(20, 80, "Port: " + port, new Color(0, 0, 0));
 		
@@ -148,8 +148,8 @@ public class LobbyState extends BasicGameState implements KeyListener{
 			g.fillRect(0, 0, Windows.scWidth, Windows.scHeight);
 			TextBox.draw(g, this);
 			int fY = (int) (200*Windows.scFactor);
-			warningFont.drawString(Windows.scWidth/2 - tWidth/4, Windows.scHeight/2 - tHeight/2 - fY, "Enter your server IP", new Color(0, 0, 0));
-			warningFont.drawString(Windows.scWidth/2 - tWidth/4, Windows.scHeight/2 + fY, "Enter server port", new Color(0, 0, 0));
+			warningFont.drawString(Windows.scWidth/2 - warningFont.getWidth("Enter your server IP")/2, Windows.scHeight/2 - tHeight/2 - fY, "Enter your server IP", new Color(0, 0, 0));
+			warningFont.drawString(Windows.scWidth/2 - warningFont.getWidth("Enter your server port")/2, Windows.scHeight/2 + tHeight/2 - 15, "Enter your server port", new Color(0, 0, 0));
 		}
 	}
 	

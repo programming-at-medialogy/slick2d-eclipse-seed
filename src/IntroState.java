@@ -87,7 +87,7 @@ public class IntroState extends BasicGameState implements KeyListener{
 	@Override
 	public void render(GameContainer gc, StateBasedGame s, Graphics g) throws SlickException {	
 		g.drawImage(background, 0, 0, Windows.scWidth, Windows.scHeight, 0, 0, 1366, 768);
-		titleFont.drawString(Windows.scWidth/2 - 165, 10, "Welcome to Settlers", new Color(0, 0, 0));
+		titleFont.drawString(Windows.scWidth/2 - titleFont.getWidth("Welcome to Settlers")/2, 10, "Welcome to Settlers", new Color(0, 0, 0));
 		Button.draw(g, this); 
 		
 		//if startGame is true, this method should draw a textBox and darken the background 
@@ -95,7 +95,7 @@ public class IntroState extends BasicGameState implements KeyListener{
 			g.setColor(new Color(150, 150, 150, 200));
 			g.fillRect(0, 0, Windows.scWidth, Windows.scHeight);
 			int fY = (int) (200*Windows.scFactor);
-			warningFont.drawString(Windows.scWidth/2 - tWidth/2, Windows.scHeight/2 - tHeight/2 - fY, "Write your name in the textbos and hit 'ENTER'", new Color(0, 0, 0));	
+			warningFont.drawString(Windows.scWidth/2 - warningFont.getWidth("Write your name in the textbos and hit 'ENTER'")/2, Windows.scHeight/2 - tHeight/2 - fY, "Write your name in the textbos and hit 'ENTER'", new Color(0, 0, 0));	
 			TextBox.draw(g, this);
 		}
 	}

@@ -8,7 +8,7 @@ public class Windows {
 	public static int scHeight = 1080; // Game screen height
 
 	public static float scFactor = 0.3f; 
-	public static boolean fullscreen = true;
+	public static boolean fullscreen = false;
 	public static float padding = GameState.hexWidth/22*scFactor;
 	/*
 	public static float screenSizeFactorCalculate(){
