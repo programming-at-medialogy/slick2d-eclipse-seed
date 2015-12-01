@@ -8,8 +8,6 @@ public class ServerClientDecider {
 	public static void main(String[] args) {
 		if (isServer)
 			ServerMain.start();
-		else if (!isTest)
-			Main.start();
 		else {
 			try {
 				testMain.init();

@@ -88,7 +88,7 @@ public class LobbyState extends BasicGameState implements KeyListener{
 			@Override
 			public void isClicked() {
 				findGame = true;
-				final TextBox IpBox = new TextBox(Windows.scWidth/2 - tWidth/2, Windows.scHeight/2 - tHeight, tWidth, tHeight, 10, this.state){
+				final TextBox IpBox = new TextBox(Windows.scWidth/2 - tWidth/2, Windows.scHeight/2 - tHeight, tWidth, tHeight, 20, this.state){
 
 					@Override
 					public void onSubmit() {

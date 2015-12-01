@@ -10,5 +10,5 @@ public class States {
 	public static final int LobbyState = 1;
 	public static final int PreGameState = 2;
 	public static final int GameState = 3;
-	//public static final int PostGameState = 4;
+	public static final int PostGameState = 4;
 }
