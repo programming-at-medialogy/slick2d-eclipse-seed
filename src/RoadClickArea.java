@@ -111,7 +111,7 @@ public class RoadClickArea {
 					if (input.isMouseButtonDown(0)) { // has the mouse been clicked?
 						areaClickSmall[i] = true; // the small area has been clicked; spawn a road.
 						roadButton.buttonRoadControl = false; // toggles the button false
-						control.reduceRoadAmount(); // reduce the amount of roads the player have available
+						
 					}
 				}
 			}
@@ -127,7 +127,6 @@ public class RoadClickArea {
 						if (input.isMouseButtonDown(0)) {
 							areaClickBig[i] = true; // if the area is clicked, that area's boolean must become true.
 							roadButton.buttonRoadControl = false;
-							control.reduceRoadAmount();
 						}
 					}
 				}

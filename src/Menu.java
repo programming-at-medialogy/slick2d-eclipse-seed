@@ -23,8 +23,8 @@ public class Menu extends BasicGameState {
 	
 	public boolean playerOneReady = false;
 	public boolean playerTwoReady = false;
-	public boolean playerThreeReady = true;
-	public boolean playerFourReady = true;
+	public boolean playerThreeReady = false;
+	public boolean playerFourReady = false;
 	
 	Game game; 
 	Controller controller;

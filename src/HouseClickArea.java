@@ -1,6 +1,4 @@
 
-
-
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -20,6 +18,7 @@ public class HouseClickArea {
 	//Size of the house - used in the coordinates
 	int houseSize = 25;
 	
+	Game game;
 	Controller control; //need values and methods from this class
 	OnScreenButton houseButtom; //needed to get boolean and rendering of this button
 	
@@ -101,8 +100,6 @@ public class HouseClickArea {
 				house[i].render(gc, g); //renders the houses
 			}
 		}
-		
-		g.drawString(mouse, 10, screenHeight-houseSize); //Rendered string to display x and y of mouse
 	
 	}
 
@@ -125,13 +122,13 @@ public class HouseClickArea {
 			if(input.isMouseButtonDown(0)) {
 				if(houseButtom.buttonHouseControl == true) { //has the house button been pressed?
 				areaClicked[i] = true; //if the area is clicked, that area's boolean must become true.
+
 				houseButtom.buttonHouseControl = false; //toggle the house button false
-				control.reduceHouseAmount(); //reduce the amount of houses available.
+						}
 					}
 				}
 			}
 		}
-	}
 	}
 	
 	//method to get the coodinates of all the houses/areas
