@@ -25,8 +25,7 @@ public class Button extends BasicGame {
     private boolean isActive;
 
 
-
-    private Image[] images = new Image[29];
+    private Image[] images = new Image[31];
 
 
     public Button(String title, int x, int y, int picIndexNo) {
@@ -125,8 +124,12 @@ public class Button extends BasicGame {
         this.imgY = i;
     }
 
-    public int getImageWidth() { return images[picIndexNo].getWidth(); }
+    public int getImageWidth() {
+        return images[picIndexNo].getWidth();
+    }
 
-    public int getImageHeight() { return images[picIndexNo].getHeight(); }
+    public int getImageHeight() {
+        return images[picIndexNo].getHeight();
+    }
 
 }

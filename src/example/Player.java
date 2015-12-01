@@ -80,8 +80,8 @@ public class Player extends BasicGame {
     @Override
     public void render(GameContainer gc, Graphics g) throws SlickException {
 
-        if (playerID == 0);
-            //g.drawImage(playerImage[roleP1], xPos - 10, yPos + 135);
+        if (playerID == 0)
+            g.drawImage(playerImage[roleP1], xPos - 10, yPos + 135);
         else if (playerID == 1)
             g.drawImage(playerImage[roleP2], xPos + 35, yPos + 135);
         else if (playerID == 2)
@@ -193,18 +193,18 @@ public class Player extends BasicGame {
         }
     }
 
-    public void displayTurnsLeft(Graphics g){
+    public void displayTurnsLeft(Graphics g) {
 
-        if(turnsLeft == 1) {
+        if (turnsLeft == 1) {
             g.drawImage(playerTurnsLeft, 1181, 697);
-        } else if(turnsLeft == 2) {
+        } else if (turnsLeft == 2) {
             g.drawImage(playerTurnsLeft, 1181, 697);
             g.drawImage(playerTurnsLeft, 1221, 697);
-        } else if(turnsLeft == 3) {
+        } else if (turnsLeft == 3) {
             g.drawImage(playerTurnsLeft, 1181, 697);
             g.drawImage(playerTurnsLeft, 1221, 697);
             g.drawImage(playerTurnsLeft, 1261, 697);
-        } else if(turnsLeft == 4){
+        } else if (turnsLeft == 4) {
             g.drawImage(playerTurnsLeft, 1181, 697);
             g.drawImage(playerTurnsLeft, 1221, 697);
             g.drawImage(playerTurnsLeft, 1261, 697);
@@ -240,17 +240,17 @@ public class Player extends BasicGame {
                     removables.add(hand.get(i));
                 }
             }
-            if(countCardsForDisease().equals("cureyellow")) {
+            if (countCardsForDisease().equals("cureyellow")) {
                 if (hand.get(i).getCardType() == 1) {
                     removables.add(hand.get(i));
                 }
             }
-            if(countCardsForDisease().equals("cureblack")) {
+            if (countCardsForDisease().equals("cureblack")) {
                 if (hand.get(i).getCardType() == 2) {
                     removables.add(hand.get(i));
                 }
             }
-            if(countCardsForDisease().equals("curered")) {
+            if (countCardsForDisease().equals("curered")) {
                 if (hand.get(i).getCardType() == 3) {
                     removables.add(hand.get(i));
                 }
@@ -296,9 +296,9 @@ public class Player extends BasicGame {
         }
     }
 
-    public void turnsSpent(){
+    public void turnsSpent() {
         if (turnsLeft > 0)
-        turnsLeft -= 1;
+            turnsLeft -= 1;
         else
             outOfTurns = true;
     }

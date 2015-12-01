@@ -43,7 +43,6 @@ public class City extends BasicGame {
     private int noOfResearchStationsLeft = 7;
 
 
-
     private int color;
 
     private Button button;
@@ -62,7 +61,7 @@ public class City extends BasicGame {
     /**
      * The constructor for the city class, defining the parameters needed to create a city object
      * instance in the Gameboard class.
-     **/
+     */
     public City(String title, String cityName, int xPos, int yPos, String[] neighborCities, int color) {
         super(title);
         this.cityName = cityName;
@@ -125,7 +124,6 @@ public class City extends BasicGame {
         button.render(gc, g);
         if (cubeBlack == 3 || cubeBlue == 3 || cubeRed == 3 || cubeYellow == 3)
             g.drawImage(warning, xPos + 2, yPos - button.getImageWidth() / 2 - warning.getWidth() / 2);
-
 
 
         /**
@@ -201,7 +199,7 @@ public class City extends BasicGame {
 
     public void placeResearchStation(List<Player> players, int playerno) {
 
-        if (playerOnLocation(players, playerno) && !hasResearchSt && noOfResearchStationsLeft>0) {
+        if (playerOnLocation(players, playerno) && !hasResearchSt && noOfResearchStationsLeft > 0) {
             hasResearchSt = true;
         }
 
