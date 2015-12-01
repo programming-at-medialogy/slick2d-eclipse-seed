@@ -40,6 +40,10 @@ public class City extends BasicGame {
     private boolean placeResearchStationSelected;
     private String[] neighborCities;
 
+    private int noOfResearchStationsLeft = 7;
+
+
+
     private int color;
 
     private Button button;
@@ -51,8 +55,9 @@ public class City extends BasicGame {
     private Image researchStation;
     private Image warning;
 
-    Cards playerCards;
-    Cards infectionCards;
+    private Cards playerCards;
+    private Cards infectionCards;
+
 
     /**
      * The constructor for the city class, defining the parameters needed to create a city object
@@ -103,7 +108,7 @@ public class City extends BasicGame {
         cityOverview = new Image("assets/guielements/cityoverview.png");
         cityOverviewName = new Image("assets/cities/" + cityName + ".png");
         researchStation = new Image("assets/guielements/researchstation.png");
-        warning = new Image("assets/guielements/warning.png"); //REMEMBER TO CHANGE
+        warning = new Image("assets/guielements/warning.png");
 
 
         button.init(gc);
@@ -116,8 +121,6 @@ public class City extends BasicGame {
 
     @Override
     public void render(GameContainer gc, Graphics g) throws SlickException {
-
-
 
         button.render(gc, g);
         if (cubeBlack == 3 || cubeBlue == 3 || cubeRed == 3 || cubeYellow == 3)
@@ -134,9 +137,6 @@ public class City extends BasicGame {
                 g.drawImage(nonMovableCity, xPos, yPos);
             }
         }
-
-        //playerCards.render(gc,g);
-
     }
 
 
@@ -201,7 +201,7 @@ public class City extends BasicGame {
 
     public void placeResearchStation(List<Player> players, int playerno) {
 
-        if (playerOnLocation(players, playerno) && !hasResearchSt) {
+        if (playerOnLocation(players, playerno) && !hasResearchSt && noOfResearchStationsLeft>0) {
             hasResearchSt = true;
         }
 
@@ -437,6 +437,10 @@ public class City extends BasicGame {
 
     public void setPlaceResearchStationSelected(boolean placeResearchStation) {
         this.placeResearchStationSelected = placeResearchStation;
+    }
+
+    public Cards getPlayerCards() {
+        return playerCards;
     }
 
 }
