@@ -2,7 +2,13 @@ import java.io.Serializable;
 
 public class PlayerInformation implements Serializable{
 
+	//Ready booleans for menu
     boolean playerOneReady, playerTwoReady, playerThreeReady, playerFourReady;
+    
+    //Player Scores
+    int playerOneScore, playerTwoScore, playerThreeScore, playerFourScore;
+    
+    //int to decide player numbers
     int playerNumber;
     int[] houseColour = new int[54];
     int[] roadsColourDiagonal = new int[72];
@@ -17,7 +23,6 @@ public class PlayerInformation implements Serializable{
     int roundCount = 1;
     
     int[][] playerVictoryPoints = new int[4][1];
-
 
     PlayerInformation(){
     	
