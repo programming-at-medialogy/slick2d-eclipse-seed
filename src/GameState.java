@@ -169,6 +169,8 @@ public class GameState extends BasicGameState implements KeyListener {
 	@Override
 	public void update(GameContainer gc, StateBasedGame s, int delta) throws SlickException {
 		Button.update(this);
+		ListBox.update(this);
+		TextBox.update(this);
 	}
 
 	@Override
