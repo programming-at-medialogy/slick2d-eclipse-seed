@@ -15,7 +15,7 @@ public class GameState extends BasicGameState implements KeyListener {
 	private Image[] hexImg = new Image[6]; // Array for hexagon images
 	private Image[] roadImg = new Image[4]; // Array for road images
 	private Image[] numImg = new Image [11]; // Array for numbers
-	private Image[] diceImg = new Image [6];
+	private Image[] diceImg = new Image [7];
 	private Image playerBck;
 
 	private Image[] crdImg = new Image [5]; // Array for resource cards
@@ -57,8 +57,8 @@ public class GameState extends BasicGameState implements KeyListener {
 		for(int b = 0; b < cityImg.length; b++) {
 			buildImg[b] = new Image("resources/buildImg" + b + ".png"); //Initializing level 1 building images
 		}
-		for (int d=1; d<diceImg.length; d++){
-			diceImg[d] = new Image ("resources/dice_"+(d)+".png");
+		for (int d=0; d<6; d++){
+			diceImg[d] = new Image ("resources/dice_"+(d+1)+".png");
 		}
 		// to initialize buttons
 
@@ -108,23 +108,32 @@ public class GameState extends BasicGameState implements KeyListener {
 				System.out.println("Buy");	
 			}
 		};
-	
-	
-	Button trade = new Button(Windows.scWidth/2+buttonWidth+buttonWidth/7*4, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 7, "Trade", this) {
-		@Override
-		public void isClicked() {		
-			System.out.println("Buy");	
-		}
-	};
+		Button trade = new Button(Windows.scWidth/2+buttonWidth+buttonWidth/7*4, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 7, "Trade", this) {
+			@Override
+			public void isClicked() {		
+				System.out.println("Buy");	
+			}
+		};
+		Button rollDice = new Button(Windows.scWidth/2+buttonWidth+buttonWidth/7*5, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 7, "Roll Dice", this) {
+			@Override
+			public void isClicked() {		
+				diceNumber(1);
+				diceNumber(2);	
+			}
+		};
 
 
+	int diceNumber(int diceIndex){
+		int diceNumber= Dice.RollDice(diceIndex);
+		return diceNumber;
 
+	}
 	@Override
 	public void render(GameContainer gc, StateBasedGame s, Graphics g) throws SlickException {
 		Color bckColor = Color.decode("#5e8ad7"); // create custom color
 		g.setBackground(bckColor); // set background color
 		
-		//playerBck.draw(0, Windows.scHeight-playerBck.getHeight()*Windows.scFactor, Windows.scFactor);
+		playerBck.draw(0, Windows.scHeight-playerBck.getHeight()*Windows.scFactor, Windows.scFactor);
 		// drawing the UI of the board
 		drawHexagons(g);
 		drawRobber(g);
@@ -140,9 +149,11 @@ public class GameState extends BasicGameState implements KeyListener {
 			g.popTransform();
 		}
 
-		diceImg[4].draw(Windows.scWidth-hexWidth*Windows.scFactor*2 ,Windows.scHeight/2, Windows.scFactor*0.8f);
+		diceImg[Dice.dice1-1].draw((int) Math.random()*(Windows.scWidth-hexWidth*Windows.scFactor*2+diceImg[1].getWidth())+(Windows.scWidth-hexWidth*Windows.scFactor*2)          ,Windows.scHeight/2 , Windows.scFactor*0.8f);
+		diceImg[Dice.dice2-1].draw(Windows.scWidth-hexWidth*Windows.scFactor*2-diceImg[1].getWidth()*Windows.scFactor ,Windows.scHeight/2, Windows.scFactor*0.8f);
 		Button.draw(g, this);
 	}
+	
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame s, int delta) throws SlickException {
