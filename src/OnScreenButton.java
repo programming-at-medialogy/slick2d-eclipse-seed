@@ -43,14 +43,10 @@ public class OnScreenButton {
 		buttonPlaceHouse = new OnScreenButtonSpawn(buttonStartPosX, buttonStartPosY, 1);
 		buttonPlaceRoad  = new OnScreenButtonSpawn(buttonStartPosX, buttonStartPosY - buttonSpacing, 2);
 		buttonPlaceDice  = new OnScreenButtonSpawn(buttonStartPosX, buttonStartPosY - (buttonSpacing * 2), 3);
-<<<<<<< HEAD
 		buttonYourTurn    = new OnScreenButtonSpawn(buttonStartPosX, buttonStartPosY - (buttonSpacing * 3), 4);
-
 		buttonEndTurn = new OnScreenButtonSpawn(buttonStartPosX, buttonStartPosY - (buttonSpacing * 3), 6);
-=======
-		buttonEndTurn    = new OnScreenButtonSpawn(buttonStartPosX, buttonStartPosY - (buttonSpacing * 3), 4);
 		buttonBuyDevCard = new OnScreenButtonSpawn(buttonStartPosX - buttonWidth-9, buttonStartPosY, 5);
->>>>>>> origin/master
+
 	}
 
 	public void render(GameContainer gc, Graphics g) throws SlickException {
@@ -61,7 +57,6 @@ public class OnScreenButton {
 		buttonPlaceRoad.render(gc, g);
 		buttonPlaceDice.render(gc, g);
 		buttonEndTurn.render(gc, g);
-<<<<<<< HEAD
 		
 		if(playerTurn == 1 && playerTurn == control.playerNo){
 			buttonYourTurn.render(gc, g);
@@ -72,10 +67,8 @@ public class OnScreenButton {
 		} else if (playerTurn == 4 && playerTurn == control.playerNo){
 			buttonYourTurn.render(gc, g);
 		}
-							
-=======
+
 		buttonBuyDevCard.render(gc, g);
->>>>>>> origin/master
 		g.drawString("Rounds left: " + game.client.obj.roundCount, 380, 6);
 		
 	}
