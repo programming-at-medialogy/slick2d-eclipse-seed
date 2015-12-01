@@ -11,7 +11,8 @@ public class VPCard extends Card {
 	 * but when we do we need to change the class
 	 */
 	
-	public VPCard () throws SlickException{
+	public VPCard (Controller control) throws SlickException{
+		super (control);
 		cardType = new Image ("images/victorypoint.jpg");
 		
 	}

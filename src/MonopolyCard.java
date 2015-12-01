@@ -11,7 +11,8 @@ public class MonopolyCard extends Card{
 	private boolean clayType = false;
 	private boolean wheatType = false;
 	*/
-	public MonopolyCard() throws SlickException {
+	public MonopolyCard(Controller control) throws SlickException {
+		super (control);
 		cardType = new Image ("images/monopoly.jpg");
 	}
 	

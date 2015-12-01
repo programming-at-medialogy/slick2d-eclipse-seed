@@ -5,7 +5,8 @@ import org.newdawn.slick.SlickException;
 
 public class BuildRoadsCard extends Card {
 
-	public BuildRoadsCard () throws SlickException{
+	public BuildRoadsCard (Controller control) throws SlickException{
+		super(control);
 		cardType = new Image ("images/buildroads.jpg");
 	}
 	
