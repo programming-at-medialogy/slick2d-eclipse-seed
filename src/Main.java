@@ -290,8 +290,8 @@ public class Main extends BasicGame{ //Is not the actually main.
 		try
 		{
 			AppGameContainer game = new AppGameContainer(new Main("Settlers"));
-			game.setTargetFrameRate(24); // framerate
-			game.setMaximumLogicUpdateInterval(24); // maximum framerate
+			game.setTargetFrameRate(60); // framerate
+			game.setMaximumLogicUpdateInterval(60); // maximum framerate
 			game.setVSync(true); // Vertical sync
 			game.setDisplayMode(scWidth,scHeight, false); // sets screen size, false or true for full screen
 			game.start(); // to start Slick 2D
