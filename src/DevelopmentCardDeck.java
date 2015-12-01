@@ -9,7 +9,7 @@ public class DevelopmentCardDeck {
 	/**
 	 * Arraylist for a developmentdeck
 	 */
-	private static ArrayList<CardType> cards;
+	public static ArrayList<CardType> cards;
 
 	/**
 	 * Constructor for creating a developmentCard deck, shuffling and add the
@@ -83,7 +83,7 @@ public class DevelopmentCardDeck {
 	 * 
 	 * @return the card bought
 	 */
-	public static CardType BuyCard() {
+	 public static CardType BuyCard() {
 		if (cards.size() != 0 && Player.resources[ResourceType.CORN.toInt()] >= 1
 				&& Player.resources[ResourceType.ROCK.toInt()] >= 1
 				&& Player.resources[ResourceType.SHEEP.toInt()] >= 1) {
@@ -95,9 +95,7 @@ public class DevelopmentCardDeck {
 		return null;
 	}
 
-	/**
-	 * Clears the developmentCard deck.
-	 */
+	
 	public void clear() {
 		cards.clear();
 

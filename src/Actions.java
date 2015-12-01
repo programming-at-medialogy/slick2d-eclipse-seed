@@ -84,6 +84,18 @@ public class Actions {
 	static void collect(){
 		NetworkClient.sendMessage("Collect");
 	}
+	
+	static void addDevelopmentCard() {
+		NetworkClient.sendMessage("addDevelop");
+	}
+	
+	static void buyDevelopmentCard() {
+		NetworkClient.sendMessage("buyDevelop");
+	}
+	
+	static void playDevelopmentCard() {
+		NetworkClient.sendMessage("PlayDevelop");
+	}
 
 	/**
 	 * Called when a player wants to propose a trade Checks if possible and
