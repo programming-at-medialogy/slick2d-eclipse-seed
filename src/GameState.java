@@ -80,7 +80,9 @@ public class GameState extends BasicGameState implements KeyListener {
 		crdHeight = crdImg[0].getHeight();
 		
 		Windows.padding = hexWidth/22 * Windows.scFactor;
+	}
 		
+
 		//Board Action Buttons
 		Button buyDevCard = new Button(Windows.scWidth/2-buttonWidth*3, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 5, "Buy Development Card", this) {
 			@Override
@@ -106,13 +108,15 @@ public class GameState extends BasicGameState implements KeyListener {
 				System.out.println("Buy");	
 			}
 		};
-	};
+	
+	
 	Button trade = new Button(Windows.scWidth/2+buttonWidth+buttonWidth/7*4, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 7, "Trade", this) {
 		@Override
 		public void isClicked() {		
 			System.out.println("Buy");	
 		}
 	};
+
 
 
 	@Override

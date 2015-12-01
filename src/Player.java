@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 
 /**
- * Class describing a player
  * Created by kristianhjensen on 02/11/2015.
  */
 public class Player  {
@@ -115,10 +114,10 @@ public class Player  {
 	
 	
 	public void addDevelopmentCard() {
-		//if(Player.resources[ResourceType.CORN.toInt()]>=1 && Player.resources[ResourceType.ROCK.toInt()]>=1 && Player.resources[ResourceType.SHEEP.toInt()]>=1 ){
+		if(Player.resources[ResourceType.CORN.toInt()]>=1 && Player.resources[ResourceType.ROCK.toInt()]>=1 && Player.resources[ResourceType.SHEEP.toInt()]>=1 ){
 			devCard[DevelopmentCardDeck.BuyCard().toInt()]++;
 		}
-	//}
+	}
 	
 	public void PlayDevCard(CardType type){
 		switch(type) {
@@ -181,16 +180,5 @@ public class Player  {
 		}
 		
 	}
-
-
-public static void main(String[] args) {
-	Player p1 = new Player("LOL",2);
-	DevelopmentCardDeck d1 = new DevelopmentCardDeck(25,25,25,25);
-	p1.addDevelopmentCard();
-	System.out.println("lol"+p1.getAmountOfDevCards(1));
-}
-
-	
-
 
 }
