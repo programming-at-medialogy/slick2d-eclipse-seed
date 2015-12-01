@@ -225,6 +225,24 @@ public class Actions {
 		if (message == "Undo Building") {
 			// do something
 		}
+		
+		if (message == "SendName") {
+			NetworkClient.sendMessage("Name " + IntroState.playerName);
+		}
+		
+		if (message == "0") {
+			GameData.ownIndex = 0;
+		}
+		if (message == "1") {
+			GameData.ownIndex = 1;
+		}
+		if (message == "2") {
+			GameData.ownIndex = 2;
+		}
+		if (message == "3") {
+			GameData.ownIndex = 3;
+		}
+		
 
 		if (expR != -1) {
 			endR = gson.fromJson(message, Position.class);
@@ -313,7 +331,7 @@ public class Actions {
 							GameData.tObject.acceptPlayer).resources[GameData.tObject.hasType] += GameData.tObject.has.length;
 					GameData.players.get(
 							GameData.tObject.acceptPlayer).resources[GameData.tObject.wantsType] -= GameData.tObject.wants.length;
-				} else if (objectType.equals("Collect")){
+				} else if (objectType.equals("Players")){
 					GameData.players = gson.fromJson(message, ArrayList.class);
 				}
 			}
