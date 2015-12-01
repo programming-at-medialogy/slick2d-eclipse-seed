@@ -17,12 +17,15 @@ public class Player extends BasicGame {
     private Image curLocation;
     private Image othersLocation;
     private Image curCityImg;
+    private Image playerTurnsLeft;
 
     private List<Cards> hand = new ArrayList<Cards>(0);
     private Cards[] playerCards;
 
     private int xPos;
     private int yPos;
+
+    private int turnsLeft = 4;
 
     private int roleP1, roleP2, roleP3, roleP4;
 
@@ -34,6 +37,7 @@ public class Player extends BasicGame {
 
     private boolean moveSelected;
     private boolean cureSelected;
+    private boolean outOfTurns;
 
 
     public Player(String gametitle) {
@@ -50,6 +54,7 @@ public class Player extends BasicGame {
         curLocation = new Image("assets/guielements/currentlocation.png");
         othersLocation = new Image("assets/guielements/otherslocation.png");
         curCityImg = new Image("assets/cities/currentlyincity.png");
+        playerTurnsLeft = new Image("assets/guielements/playerturns.png");
 
         for (int i = 0; i < playerImage.length; i++) {
             playerImage[i] = new Image("assets/guielements/players/" + i + ".png");
@@ -64,6 +69,10 @@ public class Player extends BasicGame {
 
         role.update(gc, i);
 
+        if (turnsLeft == 0) {
+            outOfTurns = true;
+        }
+
         xPos = currentLocation.getxPos();
         yPos = currentLocation.getyPos();
     }
@@ -71,8 +80,8 @@ public class Player extends BasicGame {
     @Override
     public void render(GameContainer gc, Graphics g) throws SlickException {
 
-        if (playerID == 0)
-            g.drawImage(playerImage[roleP1], xPos - 10, yPos + 135);
+        if (playerID == 0);
+            //g.drawImage(playerImage[roleP1], xPos - 10, yPos + 135);
         else if (playerID == 1)
             g.drawImage(playerImage[roleP2], xPos + 35, yPos + 135);
         else if (playerID == 2)
@@ -184,6 +193,25 @@ public class Player extends BasicGame {
         }
     }
 
+    public void displayTurnsLeft(Graphics g){
+
+        if(turnsLeft == 1) {
+            g.drawImage(playerTurnsLeft, 1181, 697);
+        } else if(turnsLeft == 2) {
+            g.drawImage(playerTurnsLeft, 1181, 697);
+            g.drawImage(playerTurnsLeft, 1221, 697);
+        } else if(turnsLeft == 3) {
+            g.drawImage(playerTurnsLeft, 1181, 697);
+            g.drawImage(playerTurnsLeft, 1221, 697);
+            g.drawImage(playerTurnsLeft, 1261, 697);
+        } else if(turnsLeft == 4){
+            g.drawImage(playerTurnsLeft, 1181, 697);
+            g.drawImage(playerTurnsLeft, 1221, 697);
+            g.drawImage(playerTurnsLeft, 1261, 697);
+            g.drawImage(playerTurnsLeft, 1301, 697);
+        }
+    }
+
     public void setPlayerCards(City[] cities) {
 
         for (int i = 0; i < playerCards.length; i++) {
@@ -268,4 +296,26 @@ public class Player extends BasicGame {
         }
     }
 
+    public void turnsSpent(){
+        if (turnsLeft > 0)
+        turnsLeft -= 1;
+        else
+            outOfTurns = true;
+    }
+
+    public boolean getOutOfTurns() {
+        return outOfTurns;
+    }
+
+    public void setOutOfTurns(boolean outOfTurns) {
+        this.outOfTurns = outOfTurns;
+    }
+
+    public int getTurnsLeft() {
+        return turnsLeft;
+    }
+
+    public void setTurnsLeft(int turnsLeft) {
+        this.turnsLeft = turnsLeft;
+    }
 }
