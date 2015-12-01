@@ -14,5 +14,11 @@ public class GameData {
 	static int longestRoad; //the index of the player in the player-ArraList with the longest road
 	int mostKnights; //the index of the player in the player-ArraList with the most knights
 	int thief; //the placement of the thief
-	static int ownIndex = 0; //This particular clients index in the player-array
+	static int ownIndex;
+	
+	static void initGameData(){
+		buildings = new ArrayList<Building>(); 
+		roads = new ArrayList<Road>();
+		players = new ArrayList<Player>();
+	}
 }

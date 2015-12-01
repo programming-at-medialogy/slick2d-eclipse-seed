@@ -11,6 +11,7 @@ public class ServerActions {
 	static Gson gson;
 	static Position rStartPos;
 	static int expectingRoad;
+	static int startIndex;
 	
 	/**
 	 * An object of this class is never instantiated, so this function should be called in order to initialize certain variables. 
@@ -18,6 +19,7 @@ public class ServerActions {
 	static void initActions() {
 		gson = new Gson();
 		expectingRoad = -1;
+		startIndex = -1;
 	}
 	
 	/**
@@ -73,7 +75,7 @@ public class ServerActions {
 			NetworkServer.sendToAll("Collect " + outMessage);
 		}
 		
-		if (expectingRoad == clientId) {
+		else if (expectingRoad == clientId) {
 			Position rEndPos = gson.fromJson(message, Position.class);
 			if (Road.buildRoad(rStartPos, rEndPos, clientId) != null) {
 				NetworkServer.sendToAll("Road " + clientId + gson.toJson(rStartPos));
@@ -116,13 +118,36 @@ public class ServerActions {
 			GameData.players.get(GameData.tObject.acceptPlayer).resources[GameData.tObject.hasType] += GameData.tObject.has.length;
 			GameData.players.get(GameData.tObject.acceptPlayer).resources[GameData.tObject.wantsType] -= GameData.tObject.wants.length;
 			NetworkServer.sendToAll("TradeAccept " + message);
+		} else if (message == "Name"){
+			startIndex ++;
+			if(startIndex == 0){
+				Player playerOne = new Player(message,0);
+				GameData.players.add(playerOne);
+				String indexMessage = "0";
+				NetworkServer.send(0, indexMessage);
+			} else if(startIndex == 1){
+				Player playerTwo = new Player(message,1);
+				GameData.players.add(playerTwo);
+				String indexMessage = "1";
+				NetworkServer.send(1, indexMessage);
+			} else if(startIndex == 2){
+				Player playerThree = new Player(message,2);
+				String indexMessage = "2";
+				GameData.players.add(playerThree);
+				NetworkServer.send(2, indexMessage);
+			} else if(startIndex == 3){
+				Player playerFour = new Player(message,3);
+				String indexMessage = "3";
+				GameData.players.add(playerFour);
+				NetworkServer.send(3, indexMessage);
+			}
+			String outMessage = gson.toJson(GameData.players);
+			NetworkServer.sendToAll("Players " + outMessage);
 		}
 		
 	}
 	
-	public static void updateGameData() {
-		for (int i = 0; i < 4; i++) {
-			NetworkServer.send(i, "ID " + i);
-		}
+	public static void nameRequest() {
+			NetworkServer.sendToAll("SendName");
 	}
 }
