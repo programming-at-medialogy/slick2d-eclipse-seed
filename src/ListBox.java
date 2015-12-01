@@ -5,6 +5,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.BasicGameState;
 
 public class ListBox {
@@ -17,6 +18,7 @@ public class ListBox {
 	private int lastMY;
 	int fontSize;
 	private static int width;
+	private TrueTypeFont listFont;
 
 	private int height;
 	private int offsetY;
@@ -39,6 +41,8 @@ public class ListBox {
 		this.offsetY = 0;
 		this.isClicked = false;
 		this.isActive = false;
+		
+		listFont = Resource.getFont("std", fontSize);
 		
 		// sets max chars based on width
 		MAX_CHARS = (int)(width / 11);
@@ -146,13 +150,13 @@ public class ListBox {
 					int textY = listBox.y + listBox.height - (i + 2) * 20 + listBox.offsetY;
 					if (textY > listBox.y && textY < (listBox.y + listBox.height - 20)) {
 						if (listBox.playerIndex.get(i) == 0)
-							Resource.buttonFont[listBox.fontSize].drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.red);
+							listBox.listFont.drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.red);
 						else if (listBox.playerIndex.get(i) == 1)
-							Resource.buttonFont[listBox.fontSize].drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.blue);
+							listBox.listFont.drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.blue);
 						else if (listBox.playerIndex.get(i) == 2)
-							Resource.buttonFont[listBox.fontSize].drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.green);
+							listBox.listFont.drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.green);
 						else
-							Resource.buttonFont[listBox.fontSize].drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.orange);
+							listBox.listFont.drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.orange);
 					}
 						//g.drawString(listBox.content.get(i), listBox.x + PADDING, textY);
 				}

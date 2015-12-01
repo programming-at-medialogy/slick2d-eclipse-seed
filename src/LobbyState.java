@@ -6,6 +6,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.KeyListener;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -25,6 +26,9 @@ public class LobbyState extends BasicGameState implements KeyListener{
 	boolean foundIp;
 	//Storing IP and port
 	String ip, port;
+	TrueTypeFont titleFont;
+	TrueTypeFont miscFont;
+	TrueTypeFont warningFont;
 
 	/**
 	 * public void init is the initial phase of the lobbyState
@@ -41,13 +45,15 @@ public class LobbyState extends BasicGameState implements KeyListener{
 		ipBoxY = 300;
 		portBoxX = Windows.scWidth/2 - 150;
 		portBoxY = 385;
-		
+		titleFont = Resource.getFont("title", 38);
+		miscFont = Resource.getFont("std", 14);
+		warningFont = Resource.getFont("std", 22);
 		
 		/**
 		 * Example of button instantiation and the abstracts method isClicked() from the button class
 		 * Creating the appropriate buttons at the appropriate locations
 		 */
-		Button Back = new Button(Windows.scWidth/2- 163, Windows.scHeight/4 + 202, 326, 86, 15, "Back", this) {
+		Button Back = new Button(Windows.scWidth/2- 163, Windows.scHeight/4 + 202, 326, 86, 30, "Back", this) {
 			@Override
 			public void isClicked() {
 				//need to implement a non-static bool
@@ -57,7 +63,7 @@ public class LobbyState extends BasicGameState implements KeyListener{
 			}
 		};
 
-		Button Join = new Button(Windows.scWidth/2- 163, Windows.scHeight/4 + 101, 326, 86, 15, "Join",this) {
+		Button Join = new Button(Windows.scWidth/2- 163, Windows.scHeight/4 + 101, 326, 86, 30, "Join",this) {
 			@Override
 			public void isClicked() {
 				s.enterState(States.PreGameState);
@@ -69,7 +75,7 @@ public class LobbyState extends BasicGameState implements KeyListener{
 		 * onSubmit is an abstract method similar to isClicked(), but originates from the TextBox class
 		 * 
 		 **/
-		Button SearchForGame = new Button(Windows.scWidth/2 - 163, Windows.scHeight/4, 326, 86, 15, "Search",this) {
+		Button SearchForGame = new Button(Windows.scWidth/2 - 163, Windows.scHeight/4, 326, 86, 30, "Search",this) {
 			@Override
 			public void isClicked() {
 				findGame = true;
@@ -84,7 +90,7 @@ public class LobbyState extends BasicGameState implements KeyListener{
 				IpBox.activate();
 				IpBox.setPermissions(false, true, false);
 				
-				TextBox portBox = new TextBox(portBoxX, portBoxY, 300, 40, 10, this.state){
+				TextBox portBox = new TextBox(portBoxX, portBoxY, 300, 40, 20, this.state){
 					
 					@Override
 					public void onSubmit() {
@@ -128,17 +134,17 @@ public class LobbyState extends BasicGameState implements KeyListener{
 		//draw buttons
 		Button.draw(g, this);
 		//draw title
-		Resource.titleFont.drawString(Windows.scWidth/2 - 165, 10, "Welcome to Settlers", new Color(0, 0, 0));
-		Resource.miscFont.drawString(20, 50, "IP: " + ip, new Color(0, 0, 0));
-		Resource.miscFont.drawString(20, 80, "Port: " + port, new Color(0, 0, 0));
+		titleFont.drawString(Windows.scWidth/2 - 165, 10, "Welcome to Settlers", new Color(0, 0, 0));
+		miscFont.drawString(20, 50, "IP: " + ip, new Color(0, 0, 0));
+		miscFont.drawString(20, 80, "Port: " + port, new Color(0, 0, 0));
 		
 		//if findGame is true, this method should draw a textBox and darken the background 
 		if(findGame == true){
 			g.setColor(new Color(150, 150, 150, 200));
 			g.fillRect(0, 0, Windows.scWidth, Windows.scHeight);
 			TextBox.draw(g, this);
-			Resource.warningFont.drawString(ipBoxX + 150, ipBoxY - 30, "Write your server IP", new Color(0, 0, 0));
-			Resource.warningFont.drawString(portBoxX + 30, portBoxY - 30, "Write server port", new Color(0, 0, 0));
+			warningFont.drawString(ipBoxX + 150, ipBoxY - 30, "Write your server IP", new Color(0, 0, 0));
+			warningFont.drawString(portBoxX + 30, portBoxY - 30, "Write server port", new Color(0, 0, 0));
 		}
 	}
 	

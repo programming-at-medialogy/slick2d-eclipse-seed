@@ -4,6 +4,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.BasicGameState;
 
 public abstract class TextBox {
@@ -14,6 +15,7 @@ public abstract class TextBox {
 	private int x, y;
 	private int width, height;
 	int fontSize;
+	private TrueTypeFont textFont;
 	
 	private String content;
 	
@@ -44,6 +46,8 @@ public abstract class TextBox {
 		this.isWhiteSpace = true;
 		this.content = "";
 		
+		textFont = Resource.getFont("std", fontSize);
+		
 		if (notActive == null) {
 			try {
 				notActive = new Image("resources/TextField.png");
@@ -73,7 +77,7 @@ public abstract class TextBox {
 					notActive.draw(textBox.x, textBox.y, textBox.width, textBox.height);
 				}
 				g.setColor(new Color(255, 255, 255));
-				Resource.buttonFont[textBox.fontSize].drawString(textBox.x + PADDING * 2, textBox.y + textBox.height / 2 - Resource.buttonFont[textBox.fontSize].getHeight(textBox.content) / 2, textBox.content);
+				textBox.textFont.drawString(textBox.x + PADDING * 2, textBox.y + textBox.height / 2 - textBox.textFont.getHeight(textBox.content) / 2, textBox.content);
 			}
 		}
 	}
@@ -109,7 +113,7 @@ public abstract class TextBox {
 		for (TextBox textBox : textBoxs) { 
 			if (state == textBox.state) {
 				if (textBox.isActive) {
-					if (Resource.buttonFont[textBox.fontSize].getWidth(textBox.content) < textBox.width - PADDING * 4) {
+					if (textBox.textFont.getWidth(textBox.content) < textBox.width - PADDING * 4) {
 						if (Character.isAlphabetic(c) && textBox.isAlpha) {
 							textBox.content += c;
 						} else if ((Character.isDigit(c) || key == 52) && textBox.isNumeric) { // 52 is '.'

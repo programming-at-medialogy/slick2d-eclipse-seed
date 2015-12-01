@@ -6,6 +6,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.KeyListener;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -21,6 +22,8 @@ public class IntroState extends BasicGameState implements KeyListener{
 	Image background;
 	static boolean startGame;
 	static String playerName;
+	static TrueTypeFont warningFont;
+	static TrueTypeFont titleFont;
 
 	/**
 	 * public void init is the initial phase of the IntroState
@@ -31,18 +34,20 @@ public class IntroState extends BasicGameState implements KeyListener{
 	 */	
 	@Override
 	public void init(final GameContainer gc, final StateBasedGame s) throws SlickException {
-		background = new Image("resources/background.png");
 		Resource.initResources();
+		warningFont = Resource.getFont("std", 22);
+		titleFont = Resource.getFont("title", 50);
+		background = new Image("resources/background.png");
 		/**
 		 * Example of button instantiation and the abstracts method isClicked() from the button class
 		 * Example of textBox instantiation and the abstracts method onSubmit() from the button class
 		 * Creating the appropriate buttons and textBox at the appropriate locations
 		 */
-		Button PlayNow = new Button(Windows.scWidth/2 - 163, Windows.scHeight/4, 326, 86, 15, "Play",this) {
+		Button PlayNow = new Button(Windows.scWidth/2 - 163, Windows.scHeight/4, 326, 86, 30, "Play",this) {
 			@Override
 			public void isClicked() {
 				startGame = true;
-				TextBox nameBox = new TextBox(Windows.scWidth/2 - 255, 330, 500, 50, 15, this.state){
+				TextBox nameBox = new TextBox(Windows.scWidth/2 - 255, 330, 500, 50, 30, this.state){
 					@Override
 					public void onSubmit() {
 						playerName = this.getContent();
@@ -61,7 +66,7 @@ public class IntroState extends BasicGameState implements KeyListener{
 			}
 		};
 		
-		Button ExitGame = new Button(Windows.scWidth/2- 163, Windows.scHeight/4 + 101, 326, 86, 15, "Exit",this) {
+		Button ExitGame = new Button(Windows.scWidth/2- 163, Windows.scHeight/4 + 101, 326, 86, 30, "Exit",this) {
 			@Override
 			public void isClicked() {
 				startGame = false;
@@ -78,14 +83,14 @@ public class IntroState extends BasicGameState implements KeyListener{
 	@Override
 	public void render(GameContainer gc, StateBasedGame s, Graphics g) throws SlickException {	
 		g.drawImage(background, 0, 0, Windows.scWidth, Windows.scHeight, 0, 0, 1366, 768);
-		Resource.titleFont.drawString(Windows.scWidth/2 - 165, 10, "Welcome to Settlers", new Color(0, 0, 0));
+		titleFont.drawString(Windows.scWidth/2 - 165, 10, "Welcome to Settlers", new Color(0, 0, 0));
 		Button.draw(g, this); 
 		
 		//if startGame is true, this method should draw a textBox and darken the background 
 		if(startGame == true){
 			g.setColor(new Color(150, 150, 150, 200));
 			g.fillRect(0, 0, Windows.scWidth, Windows.scHeight);
-			Resource.warningFont.drawString(Windows.scWidth/2 - 210, Windows.scHeight/3 + 35, "Write your name in the textbos and hit 'ENTER'", new Color(0, 0, 0));	
+			warningFont.drawString(Windows.scWidth/2 - 210, Windows.scHeight/3 + 35, "Write your name in the textbos and hit 'ENTER'", new Color(0, 0, 0));	
 			TextBox.draw(g, this);
 		}
 	}
