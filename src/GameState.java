@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -171,6 +172,10 @@ public class GameState extends BasicGameState implements KeyListener {
 		Button.update(this);
 		ListBox.update(this);
 		TextBox.update(this);
+		
+		if (Mouse.isButtonDown(0)) {
+			System.out.println("I'm da greatest!");
+		}
 	}
 
 	@Override

@@ -41,7 +41,7 @@ public class PostGameState extends BasicGameState implements KeyListener {
 	@Override
 	public int getID() {
 		// TODO Auto-generated method stub
-		return States.PostGameState;
+		return 0; //States.PostGameState;
 	}
 
 }
