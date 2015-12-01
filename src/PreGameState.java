@@ -33,7 +33,7 @@ public class PreGameState extends BasicGameState implements KeyListener{
 	public void init(GameContainer gc, final StateBasedGame s) throws SlickException { 
 		//instantiate objects
 		background = new Image("resources/background.png");	
-		titleFont = Resource.getFont("title", 38);
+		titleFont = Resource.getFont("title", 50);
 
 		/**
 		 * Example of button instantiation and the abstracts method isClicked() from the button class
@@ -96,7 +96,7 @@ public class PreGameState extends BasicGameState implements KeyListener{
 		//draw background
 		g.drawImage(background, 0, 0, Windows.scWidth, Windows.scHeight, 0, 0, 1366, 768);
 		//draw title
-		titleFont.drawString(Windows.scWidth/2 - 165, 10, "Welcome to Settlers", new Color(0, 0, 0));
+		titleFont.drawString(Windows.scWidth/2 - titleFont.getWidth("Welcome to Settlers")/2, 10, "Welcome to Settlers", new Color(0, 0, 0));
 
 		//draw buttons, listbox, and textbox
 		Button.draw(g, this);
