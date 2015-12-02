@@ -39,7 +39,7 @@ public class Actions {
 
 		Building newBuilding = Building.build(pos, player);
 		if (newBuilding != null) {
-			String message = gson.toJson(newBuilding);
+			String message = gson.toJson(pos);
 			NetworkClient.sendMessage("Building " + message);
 		}
 
