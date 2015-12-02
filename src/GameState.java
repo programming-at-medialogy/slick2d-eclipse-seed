@@ -221,8 +221,10 @@ public class GameState extends BasicGameState implements KeyListener {
 			
 			if (bPos != null) {
 				Building building = Building.build(bPos, GameData.ownIndex);
-				if (building != null)
+				if (building != null) {
 					isPlacingBuilding = false;
+					Actions.buyBuilding(bPos, GameData.ownIndex);
+				}
 				else 
 					buildingWarning.activate();
 			} 
