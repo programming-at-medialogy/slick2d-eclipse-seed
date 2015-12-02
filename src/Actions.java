@@ -222,29 +222,31 @@ public class Actions {
 	 *            Messaged received by the server
 	 */
 	static void received(String message) {
-		if (message == "Undo Building") {
+		System.out.println(message);
+		
+		if (message.equals("Undo Building")) {
 			// do something
 		}
 		
-		if (message == "SendName") {
+		else if (message.equals("SendName")) {
 			NetworkClient.sendMessage("Name " + IntroState.playerName);
 		}
 		
-		if (message == "0") {
+		else if (message.equals("0")) {
 			GameData.ownIndex = 0;
 		}
-		if (message == "1") {
+		else if (message.equals("1")) {
 			GameData.ownIndex = 1;
 		}
-		if (message == "2") {
+		else if (message.equals("2")) {
 			GameData.ownIndex = 2;
 		}
-		if (message == "3") {
+		else if (message.equals("3")) {
 			GameData.ownIndex = 3;
 		}
 		
 
-		if (expR != -1) {
+		else if (expR != -1) {
 			endR = gson.fromJson(message, Position.class);
 			Boolean canBuild = null;
 			for (int i = 0; i < GameData.roads.size(); i++) {
@@ -269,7 +271,7 @@ public class Actions {
 			String objectType = "";
 			int playerID = 0;
 			int jsonIndex = 0;
-			for (int i = 0; !Character.isSpaceChar(message.charAt(i)); i++) {
+			for (int i = 0; !Character.isSpaceChar(message.charAt(i)) && i < message.length(); i++) {
 				objectType += message.charAt(i);
 				jsonIndex = i + 2;
 			}
@@ -293,6 +295,7 @@ public class Actions {
 				if (objectType.equals("Building")) {
 					message = message.substring(jsonIndex);
 					Position position = gson.fromJson(message, Position.class);
+					System.out.println("Test");
 					if (Building.getByPosition(position) != null) {
 						// The building already exists
 					} else {

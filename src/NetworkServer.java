@@ -35,7 +35,7 @@ public class NetworkServer extends Thread  {
 			handlers.add(new ClientHandler(client, handlers.size()));
 			handlers.get(handlers.size() - 1).start();
 			ServerMain.addPlayer(handlers.size() - 1);
-		} while (handlers.size() != 4);
+		} while (handlers.size() != 2);
 	}
 	
 	public static void send(int id, String message) {
