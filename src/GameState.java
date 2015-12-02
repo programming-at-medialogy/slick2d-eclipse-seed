@@ -141,13 +141,16 @@ public class GameState extends BasicGameState implements KeyListener {
 				}
 			}
 		};
+		
+		ListBox chatOutput = new ListBox(0, Windows.scHeight - 35 - 300, (int)(1200*Windows.scFactor), 300, 20, this);
+		
 		TextBox chatInput = new TextBox(0, Windows.scHeight - 35, (int)(1200*Windows.scFactor), 35, 20, this) {
 			@Override
 			public void onSubmit() {
+				chatOutput.addString(IntroState.playerName + ", " + this.getContent(), GameData.ownIndex);
+				this.clear();
 			}
 		};
-		
-		ListBox chatOutput = new ListBox(0, Windows.scHeight - 35 - 300, (int)(1200*Windows.scFactor), 300, 20, this);
 	}
 
 	int diceNumber(int diceIndex){
