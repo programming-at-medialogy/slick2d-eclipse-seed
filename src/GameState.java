@@ -263,6 +263,7 @@ public class GameState extends BasicGameState implements KeyListener {
 			Hexagon rHex = Hexagon.findHexagon(Mouse.getX() - Windows.scWidth/2, Windows.scHeight - Mouse.getY() - Windows.scHeight/2);
 			if (rHex != null) {
 				rHex.rob();
+				Actions.moveRobber(rHex.getIndexInArray());
 				moveRobber = false;
 				endTurn();
 			}

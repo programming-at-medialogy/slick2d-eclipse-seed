@@ -101,6 +101,10 @@ public class Actions {
 	static void playDevelopmentCard() {
 		NetworkClient.sendMessage("PlayDevelop");
 	}
+	
+	static void moveRobber(int hexIndex) {
+		NetworkClient.sendMessage("Robber " + hexIndex);
+	}
 
 	/**
 	 * Called when a player wants to propose a trade Checks if possible and
@@ -302,6 +306,9 @@ public class Actions {
 			} else if (objectType.equals("Turn")) {
 				message = message.substring(jsonIndex);
 				GameData.turn = Integer.parseInt(message);
+			} else if (objectType.equals("Robber")) {
+				message = message.substring(jsonIndex);
+				Hexagon.getHexagons()[Integer.parseInt(message)].rob();
 			}
 			
 			else {
