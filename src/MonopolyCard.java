@@ -11,6 +11,8 @@ public class MonopolyCard extends Card{
 	private boolean clayType = false;
 	private boolean wheatType = false;
 	*/
+	Controller control;
+	
 	public MonopolyCard(Controller control) throws SlickException {
 		super (control);
 		cardType = new Image ("images/monopoly.jpg");
@@ -20,10 +22,6 @@ public class MonopolyCard extends Card{
 	
 	@Override
 	public void effect (){
-		/*
-		 * the player playing this card will choose a type of resource
-		 * ore, wool, clay, wheat, wood
-		 * the other players then have to give that player all their resource cards of that type
-		 */
+		control.receivedMonoCard = true;
 	}
 }

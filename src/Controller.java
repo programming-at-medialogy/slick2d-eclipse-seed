@@ -6,6 +6,7 @@ public class Controller {
 	Resource resources;
 	
 	int receivedExCard = 0;
+	boolean receivedMonoCard = false;
 	
 	boolean devCardButtonClicked = false;
 	

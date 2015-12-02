@@ -39,7 +39,9 @@ public class OnScreenButton {
 	int buttonWidth = 97;
 	
 	int xResourceSpacing = 55;
-
+	int chooseResourcePosX = 680;
+	int chooseResourcePosY = 635;
+	
 	int buttonStartPosX = screenWidth - buttonWidth - 20;
 	int buttonStartPosY = screenHeight - buttonHeight - 20;
 	int buttonSpacing = 65;
@@ -76,13 +78,13 @@ public class OnScreenButton {
 		buttonEndTurn.render(gc, g);
 		buttonBuyDevCard.render(gc, g);
 		
-		if(control.receivedExCard > 0) {
+		if(control.receivedExCard > 0 || control.receivedMonoCard == true) {
 		g.drawString("Choose your resource: ", 720,600);
-        g.drawImage(chooseOre, 680, 635);
-        g.drawImage(chooseClay, 680+xResourceSpacing, 635);
-        g.drawImage(chooseWood, 680+xResourceSpacing*2, 635);
-        g.drawImage(chooseWool, 680+xResourceSpacing*3, 635);
-        g.drawImage(chooseWheat, 680+xResourceSpacing*4, 635);
+        g.drawImage(chooseOre, chooseResourcePosX, chooseResourcePosY);
+        g.drawImage(chooseClay, chooseResourcePosX+xResourceSpacing, chooseResourcePosY);
+        g.drawImage(chooseWood, chooseResourcePosX+xResourceSpacing*2, chooseResourcePosY);
+        g.drawImage(chooseWool, chooseResourcePosX+xResourceSpacing*3, chooseResourcePosY);
+        g.drawImage(chooseWheat, chooseResourcePosX+xResourceSpacing*4, chooseResourcePosY);
 		}
 		
 		if(playerTurn == 1 && playerTurn == control.playerNo){
@@ -144,8 +146,38 @@ public class OnScreenButton {
                 control.resources.wheatResource++;
                 control.receivedExCard--;
                 }
-        }
+        	}
 		}
+		
+			//MOnopoly card
+			if(control.receivedMonoCard == true) {
+		        if((xMousePos > 680 && xMousePos < 680 + 45) && (yMousePos < screenHeight - 635 && yMousePos > screenHeight - 635 - 45 )){
+		                if(input.isMousePressed(0)) {
+		                	System.out.println("WOOHOO!");
+		                	control.receivedMonoCard = false;
+		                }
+		        }
+		        if((xMousePos > 680 + xResourceSpacing && xMousePos < 680 + 45 + xResourceSpacing) && (yMousePos < screenHeight - 635 && yMousePos > screenHeight - 635 - 45 )){
+		                if(input.isMousePressed(0)) {
+		                	control.receivedMonoCard = false;
+		                }
+		        }
+		        if((xMousePos > 680 + xResourceSpacing*2 && xMousePos < 680 + 45 + xResourceSpacing*2) && (yMousePos < screenHeight - 635 && yMousePos > screenHeight - 635 - 45 )){
+		                if(input.isMousePressed(0)) {
+		                	control.receivedMonoCard = false;
+		                }
+		        }
+		        if((xMousePos > 680 + xResourceSpacing*3 && xMousePos < 680 + 45 + xResourceSpacing*3) && (yMousePos < screenHeight - 635 && yMousePos > screenHeight - 635 - 45 )){
+		                if(input.isMousePressed(0)) {
+		                	control.receivedMonoCard = false;
+		                }
+		        }
+		        if((xMousePos > 680 + xResourceSpacing*4 && xMousePos < 680 + 45 + xResourceSpacing*4) && (yMousePos < screenHeight - 635 && yMousePos > screenHeight - 635 - 45 )){
+		                if(input.isMousePressed(0)) {
+		                	control.receivedMonoCard = false;
+		                }
+		        	}
+				}
 
 		// ButtomHouse
 		if ((xMousePos > buttonStartPosX && xMousePos < buttonStartPosX + buttonWidth)
