@@ -197,6 +197,8 @@ public class GameBoard extends BasicGameState {
         placeResearchStation(gc);
         makeCure(gc);
 
+        players.get(playerNo).discardCards(gc);
+
         outOfTurns = players.get(playerNo).getOutOfTurns();
         actionMenu.setPlayerOutTurns(outOfTurns);
 

@@ -309,6 +309,20 @@ public class Player extends BasicGame {
             outOfTurns = true;
     }
 
+    public void discardCards(GameContainer gc){
+
+        if(hand.size() > 7){
+
+            for(int i = 0; i < hand.size(); i++){
+
+                if(hand.get(i).clickWithin(gc)){
+
+                    hand.remove(i);
+                }
+            }
+        }
+    }
+
     public boolean getOutOfTurns() {
         return outOfTurns;
     }
