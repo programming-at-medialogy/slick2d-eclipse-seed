@@ -15,7 +15,8 @@ import org.newdawn.slick.state.BasicGameState;
 public abstract class Button {
 	//class variables 
 	int x, y, width, height, fontSize;
-	static Image image, highlight, pressed;
+	static Image sImage, sHighlight, sPressed;
+	Image image, highlight, pressed;
 	String message;
 	static boolean mouseDown;
 	static ArrayList<Button> buttons = new ArrayList();
@@ -41,15 +42,37 @@ public abstract class Button {
 		this.message = message;
 		//this.fontSize = fontSize;
 		
-		buttonFont = Resource.getFont("std", fontSize);
-		
 		try {
-			this.image = new Image("resources/btImg_0.png");
-			this.highlight = new Image("resources/btImg_1.png");
-			this.pressed = new Image("resources/btImg_2.png");
+			if (sImage == null) {
+				sImage = new Image("resources/btImg_0.png");
+				sHighlight = new Image("resources/btImg_1.png");
+				sPressed = new Image("resources/btImg_2.png");
+			}
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
+		
+		buttonFont = Resource.getFont("std", fontSize);
+	
+		this.image = sImage;
+		this.highlight = sHighlight;
+		this.pressed = sPressed;
+		
+		mouseDown = false;
+		buttons.add(this);
+		this.state = state;
+	}
+	
+	Button(int x, int y, int width, int height, Image image, Image highlight, Image pressed, BasicGameState state) {
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+		
+		this.image = image;
+		this.highlight = highlight;
+		this.pressed = pressed;
+
 		mouseDown = false;
 		buttons.add(this);
 		this.state = state;
