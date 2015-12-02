@@ -90,7 +90,7 @@ public class OnScreenTextField {
 			if (allow == true) {
 				output = input[rand.nextInt(input.length)];
 				textField.setConsumeEvents(true);
-				textField.setText(output.effectLine);
+				textField.setText(output.effectline);
 				textField.getText();
 				pileOutput = output;
 				allow = false;
@@ -98,19 +98,19 @@ public class OnScreenTextField {
 		} else if (control.playerNo == 2) {
 			output = input[rand.nextInt(input.length)];
 			textField2.setConsumeEvents(true);
-			textField2.setText(output.effectLine);
+			textField2.setText(output.effectline);
 			textField2.getText();
 			pileOutput = output;
 		} else if (control.playerNo == 3) {
 			output = input[rand.nextInt(input.length)];
 			textField3.setConsumeEvents(true);
-			textField3.setText(output.effectLine);
+			textField3.setText(output.effectline);
 			textField3.getText();
 			pileOutput = output;
 		} else if (control.playerNo == 4) {
 			output = input[rand.nextInt(input.length)];
 			textField4.setConsumeEvents(true);
-			textField4.setText(output.effectLine);
+			textField4.setText(output.effectline);
 			textField4.getText();
 			pileOutput = output;
 		}
