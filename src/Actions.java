@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * Class containing all actions the client can do. Sends messages to and
@@ -60,9 +61,9 @@ public class Actions {
 		boolean canBuild = false;
 		for (int i = 0; i < GameData.roads.size(); i++) {
 			if ((Position.comparePosition(start, GameData.roads.get(i).start)
-					&& Position.comparePosition(end, GameData.roads.get(i).end))
-					|| (Position.comparePosition(end, GameData.roads.get(i).start)
-							&& Position.comparePosition(start, GameData.roads.get(i).end))) {
+				&& Position.comparePosition(end, GameData.roads.get(i).end))
+				|| (Position.comparePosition(end, GameData.roads.get(i).start)
+				&& Position.comparePosition(start, GameData.roads.get(i).end))) {
 				System.out.println("There is already a road here!");
 				canBuild = false;
 				break;
@@ -231,22 +232,9 @@ public class Actions {
 		else if (message.equals("SendName")) {
 			NetworkClient.sendMessage("Name " + IntroState.playerName);
 		}
-		
-		else if (message.equals("0")) {
-			GameData.ownIndex = 0;
-		}
-		else if (message.equals("1")) {
-			GameData.ownIndex = 1;
-		}
-		else if (message.equals("2")) {
-			GameData.ownIndex = 2;
-		}
-		else if (message.equals("3")) {
-			GameData.ownIndex = 3;
-		}
-		
 
 		else if (expR != -1) {
+			System.out.println("Expecting road!");
 			endR = gson.fromJson(message, Position.class);
 			Boolean canBuild = null;
 			for (int i = 0; i < GameData.roads.size(); i++) {
@@ -263,6 +251,7 @@ public class Actions {
 			}
 			if (canBuild) {
 				Road newRoad = Road.buildRoad(startR, endR, expR);
+				System.out.println("Road built!");
 			}
 			expR = -1;
 		}
@@ -280,13 +269,23 @@ public class Actions {
 				message = message.substring(jsonIndex);
 				Hexagon hex = gson.fromJson(message, Hexagon.class);
 				Hexagon.addHex(hex);
-
-				System.out.println("Hexgaons");
+				System.out.println("Map loaded!");
 			} else if (objectType.equals("ID")) {
 				message = message.substring(jsonIndex);
 				int ownIndex = Integer.parseInt(message);
 				GameData.ownIndex = ownIndex;
-			} else {
+				System.out.println("I am index " + ownIndex + "!");
+			} else if (objectType.equals("PlayerNums")) {
+				message = message.substring(jsonIndex);
+				int playerNum = Integer.parseInt(message);
+				GameData.setPlayerNum(playerNum);
+				System.out.println("There are " + playerNum + " players!");
+			} else if (objectType.equals("Players")) {
+				message = message.substring(jsonIndex);
+				GameData.players = gson.fromJson(message, new TypeToken<ArrayList<Player>>(){}.getType());
+			}
+			
+			else {
 				for (int i = jsonIndex; !Character.isSpaceChar(message.charAt(i)); i++) {
 					playerID = Integer.parseInt(String.valueOf(message.charAt(i)));
 					jsonIndex = i + 2;
@@ -295,12 +294,11 @@ public class Actions {
 				if (objectType.equals("Building")) {
 					message = message.substring(jsonIndex);
 					Position position = gson.fromJson(message, Position.class);
-					System.out.println("Test");
 					if (Building.getByPosition(position) != null) {
 						// The building already exists
 					} else {
 						Building.build(position, playerID);
-						System.out.println("Upgrade this nigger");
+						System.out.println("Building here");
 					}
 				} else if (objectType.equals("Road")) {
 					message = message.substring(jsonIndex);

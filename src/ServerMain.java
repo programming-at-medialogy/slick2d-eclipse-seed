@@ -8,8 +8,10 @@ public class ServerMain {
 		NetworkServer networkServer = new NetworkServer();
 		System.out.println("Test");
 		networkServer.run();
-		GameData.initGameData();
+		GameData.initGameData(networkServer.getNumClients());
+		System.out.println(networkServer.getNumClients());
 		ServerActions.initActions();
+		ServerActions.sendPlayerAmount();
 		ServerActions.nameRequest();
 		ServerActions.generateMap();
 	}

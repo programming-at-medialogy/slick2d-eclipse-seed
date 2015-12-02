@@ -20,7 +20,7 @@ public class ServerActions {
 	static void initActions() {
 		gson = new Gson();
 		expectingRoad = -1;
-		startIndex = -1;
+		startIndex = 0;
 	}
 
 	/**
@@ -34,6 +34,10 @@ public class ServerActions {
 			message = "Hexagon " + gson.toJson(hexagon);
 			NetworkServer.sendToAll(message);
 		}
+	}
+	
+	public static void sendPlayerAmount() {
+		NetworkServer.sendToAll("PlayerNums " + GameData.players.size());
 	}
 
 	static void collectResources() {
@@ -110,18 +114,18 @@ public class ServerActions {
 	 */
 	public synchronized static void received(int clientId, String message) {
 
-		if (message == "Collect") {
+		if (message.equals("Collect")) {
 			collectResources();
 			String outMessage = gson.toJson(GameData.players);
 			NetworkServer.sendToAll("Collect " + outMessage);
 		}
-		if (message == "addDevelop") {
+		else if (message.equals("addDevelop")) {
 			addDevelopmentCard(clientId);
 			buyCard(clientId);
 			String outMessage = gson.toJson(GameData.players);
 			NetworkServer.sendToAll("Collect " + outMessage);
 		}
-		if (message == "PlayDevelop"){
+		else if (message.equals("PlayDevelop")){
 			//Missing Graphical Representation
 			//playDevelopmentCard();
 		}
@@ -134,7 +138,7 @@ public class ServerActions {
 			}
 			expectingRoad = -1;
 		} else if (clientId == GameData.turn && message.equals("rollDice")) {
-
+			
 		}
 
 		String objectType = "";
@@ -173,36 +177,41 @@ public class ServerActions {
 			GameData.players.get(
 					GameData.tObject.acceptPlayer).resources[GameData.tObject.wantsType] -= GameData.tObject.wants.length;
 			NetworkServer.sendToAll("TradeAccept " + message);
-		} else if (message == "Name"){
-			startIndex ++;
-			if(startIndex == 0){
-				Player playerOne = new Player(message,0);
-				GameData.players.add(playerOne);
-				String indexMessage = "0";
-				NetworkServer.send(0, indexMessage);
-			} else if(startIndex == 1){
-				Player playerTwo = new Player(message,1);
-				GameData.players.add(playerTwo);
-				String indexMessage = "1";
-				NetworkServer.send(1, indexMessage);
-			} else if(startIndex == 2){
-				Player playerThree = new Player(message,2);
-				String indexMessage = "2";
-				GameData.players.add(playerThree);
-				NetworkServer.send(2, indexMessage);
-			} else if(startIndex == 3){
-				Player playerFour = new Player(message,3);
-				String indexMessage = "3";
-				GameData.players.add(playerFour);
-				NetworkServer.send(3, indexMessage);
+		} else if (objectType.equals("Name")){
+			System.out.println("Name received");
+			GameData.players.set(clientId, new Player(message, clientId));
+			startIndex++;
+//			if(startIndex == 0){
+//				Player playerOne = new Player(message,0);
+//				GameData.players.add(playerOne);
+//				String indexMessage = "0";
+//				NetworkServer.send(0, indexMessage);
+//			} else if(startIndex == 1){
+//				Player playerTwo = new Player(message,1);
+//				GameData.players.add(playerTwo);
+//				String indexMessage = "1";
+//				NetworkServer.send(1, indexMessage);
+//			} else if(startIndex == 2){
+//				Player playerThree = new Player(message,2);
+//				String indexMessage = "2";
+//				GameData.players.add(playerThree);
+//				NetworkServer.send(2, indexMessage);
+//			} else if(startIndex == 3){
+//				Player playerFour = new Player(message,3);
+//				String indexMessage = "3";
+//				GameData.players.add(playerFour);
+//				NetworkServer.send(3, indexMessage);
+//			}
+			
+			if (startIndex == GameData.players.size()) {
+				String outMessage = gson.toJson(GameData.players);
+				NetworkServer.sendToAll("Players " + outMessage);
 			}
-			String outMessage = gson.toJson(GameData.players);
-			NetworkServer.sendToAll("Players " + outMessage);
 		}
 
 	}
 	
 	public static void nameRequest() {
-			NetworkServer.sendToAll("SendName");
+		NetworkServer.sendToAll("SendName");
 	}
 }

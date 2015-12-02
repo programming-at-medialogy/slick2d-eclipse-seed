@@ -47,6 +47,10 @@ public class NetworkServer extends Thread  {
 		for (ClientHandler handler : handlers)
 			handler.send(message);
 	}
+	
+	public int getNumClients() {
+		return handlers.size();
+	}
 }
 
 class ClientHandler extends Thread {
