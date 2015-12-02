@@ -63,11 +63,25 @@ public class DialogBox {
 	public void deactivate (){
 		isActive = false;
 	}
+	/**
+	 * 
+	 * @param image takes an image for the ImageCoord arrayList
+	 * @param x image x coordinate
+	 * @param y image y coordinate
+	 * @param width image width
+	 * @param height image height
+	 */
 	public void addImage(Image image, int x, int y, int width, int height){
 		x = x - image.getWidth() / 2;
 		y = y - image.getHeight() / 2;
 		pictures.add(new ImageCoord(x, y, width, height, image));
 	}
+	/**
+	 * 
+	 * @param text
+	 * @param x
+	 * @param y
+	 */
 	public void addString(String text, int x, int y){
 		x = x - dialogBoxFont.getWidth(text) / 2;
 		y = y - dialogBoxFont.getHeight(text) / 2;
