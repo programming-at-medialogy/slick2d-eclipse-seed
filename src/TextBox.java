@@ -173,6 +173,7 @@ public abstract class TextBox {
 	public abstract void onSubmit();
 	
 	public static void remove(){
-		textBoxs = new ArrayList();
+		if (textBoxs != null && textBoxs.size() != 0)
+			textBoxs.remove(textBoxs.size() - 1);
 	}
 }

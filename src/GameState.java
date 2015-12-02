@@ -127,27 +127,26 @@ public class GameState extends BasicGameState implements KeyListener {
 				// TODO Auto-generated method stub	
 			}
 		};
-		
-		
-		
-		
-		
-		
 
 		Button trade = new Button(Windows.scWidth-buttonWidth*2-buttonWidth/4,(int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor-buttonHeight), buttonWidth, buttonHeight, 20, "Trade", this) {
 			@Override
 			public void isClicked() {		
 				System.out.println("Buy");	
+				endTurn();
 			}
 		};
 
 		Button rollD = new Button(Windows.scWidth-buttonWidth-buttonWidth/8,(int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor-buttonHeight), buttonWidth, buttonHeight, 20, "Roll Dice", this) {
 			@Override
-			public void isClicked() {		
-				diceNumber(1);
-				diceNumber(2);	
-				if (Dice.dice1 + Dice.dice2 == 7)
-					moveRobber = true;
+			public void isClicked() {	
+				if (GameData.turn == GameData.ownIndex) {
+					diceNumber(1);
+					diceNumber(2);	
+					if (Dice.dice1 + Dice.dice2 == 7)
+						moveRobber = true;
+					else if (Dice.dice1 != Dice.dice2)
+						endTurn();
+				}
 			}
 		};
 		
@@ -234,8 +233,13 @@ public class GameState extends BasicGameState implements KeyListener {
 			if (rHex != null) {
 				rHex.rob();
 				moveRobber = false;
+				endTurn();
 			}
 		}
+	}
+	
+	public void endTurn() {
+		GameData.turn = (GameData.turn + 1) % 4;
 	}
 
 	@Override
