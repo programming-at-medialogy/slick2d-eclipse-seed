@@ -175,7 +175,6 @@ public class GameState extends BasicGameState implements KeyListener {
 		// drawing the UI of the board
 		drawHexagons(g);
 		drawRobber(g);
-		drawBuilding(g);
 
 		for (int i = 0; i < Road.getRoads().size(); i++) {
 			float x = Road.getRoads().get(i).getCenterX();
@@ -186,6 +185,8 @@ public class GameState extends BasicGameState implements KeyListener {
 				roadImg[3].draw(x + Windows.scWidth/2 - roadImg[1].getWidth()/2*Windows.scFactor, y + Windows.scHeight/2  - roadImg[1].getHeight()/2*Windows.scFactor, Windows.scFactor);
 			g.popTransform();
 		}
+		
+		drawBuilding(g);
 
 		diceImg[Dice.dice1-1].draw((int) Math.random()*(Windows.scWidth-hexWidth*Windows.scFactor*2+diceImg[1].getWidth())+(Windows.scWidth-hexWidth*Windows.scFactor*2)          ,Windows.scHeight/2 , Windows.scFactor*0.8f);
 		diceImg[Dice.dice2-1].draw(Windows.scWidth-hexWidth*Windows.scFactor*2-diceImg[1].getWidth()*Windows.scFactor ,Windows.scHeight/2, Windows.scFactor*0.8f);
@@ -207,7 +208,7 @@ public class GameState extends BasicGameState implements KeyListener {
 			Position bPos = Position.findPosition(Mouse.getX() - Windows.scWidth/2, Windows.scHeight - Mouse.getY() - Windows.scHeight/2);
 			
 			if (bPos != null) {
-				Building building = Building.build(bPos, 0);
+				Building building = Building.build(bPos, GameData.ownIndex);
 				isPlacingBuilding = false;
 			}
 		}
