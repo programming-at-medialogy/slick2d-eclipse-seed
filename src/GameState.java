@@ -42,6 +42,7 @@ public class GameState extends BasicGameState implements KeyListener {
 	
 	static boolean isPlacingBuilding;
 	static boolean isPlacingRoad;
+	static boolean isUpgradingBuilding;
 	static boolean moveRobber = false;
 	static boolean isClicked = false;
 	
@@ -70,7 +71,8 @@ public class GameState extends BasicGameState implements KeyListener {
 			devCrdImg[c] = new Image ("resources/r_card_1.jpg");
 		}
 		for(int b = 0; b < cityImg.length; b++) {
-			buildImg[b] = new Image("resources/buildImg" + b + ".png"); //Initializing level 1 building images
+			buildImg[b] = new Image("resources/buildImg" + b + ".png"); // Initializing level 1 building images
+			cityImg[b] = new Image("resources/cityImg" + b + ".png"); // Initializing level 2 building images
 		}
 		for (int d=0; d<6; d++){
 			diceImg[d] = new Image ("resources/dice_"+(d+1)+".png");
@@ -95,10 +97,12 @@ public class GameState extends BasicGameState implements KeyListener {
 		Actions.initActions();
 		hexWidth = hexImg[0].getWidth();
 		hexHeight = hexImg[0].getHeight();
-		crdWidth = crdImg[0].getWidth();
-		crdHeight = crdImg[0].getHeight();
+		crdWidth = crdImg[0].getWidth()*Windows.scFactor;
+		crdHeight = crdImg[0].getHeight()*Windows.scFactor;
 		isPlacingBuilding = false;
 		isPlacingRoad = false;
+		isUpgradingBuilding = false;
+		
 		Windows.padding = hexWidth/22 * Windows.scFactor;
 		
 		//Board Development Buttons
@@ -118,11 +122,13 @@ public class GameState extends BasicGameState implements KeyListener {
 		Button upgCity = new Button(Windows.scWidth-aButtonWidth, (int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor)-aButtonHeight*2, aButtonWidth, aButtonHeight, butImg[6], butImg[8], butImg[7], this) {
 			@Override
 			public void isClicked() {
+				isUpgradingBuilding = true;
 			}
 		};
 		Button devCard = new Button(Windows.scWidth-aButtonWidth, (int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor)-aButtonHeight, aButtonWidth, aButtonHeight, butImg[9], butImg[10], butImg[11], this) {
 			@Override
 			public void isClicked() {
+				
 			}
 		};
 		
@@ -167,7 +173,9 @@ public class GameState extends BasicGameState implements KeyListener {
 	int diceNumber(int diceIndex){
 		int diceNumber = Dice.RollDice(diceIndex);
 		return diceNumber;
+
 	}
+	
 	@Override
 	public void render(GameContainer gc, StateBasedGame s, Graphics g) throws SlickException {
 		Color bkColor = Color.decode("#5e8ad7"); // create custom color
@@ -176,7 +184,6 @@ public class GameState extends BasicGameState implements KeyListener {
 		bkWater.draw(Windows.scWidth/2-bkWater.getWidth()/2*Windows.scFactor, (Windows.scHeight/2-bkWater.getHeight()/2*Windows.scFactor)-hexHeight*Windows.scFactor/1.5f, Windows.scFactor );
 		playerBck.draw(0, Windows.scHeight-playerBck.getHeight()*Windows.scFactor, Windows.scWidth, playerBck.getHeight()*Windows.scFactor);
 
-		// drawing the UI of the board
 		drawHexagons(g);
 		drawRobber(g);
 
@@ -195,10 +202,13 @@ public class GameState extends BasicGameState implements KeyListener {
 		Button.draw(g, this);
 		ListBox.draw(g, this);
 		TextBox.draw(g, this);
-		DialogBox.draw(g, this);
 	}
 	
-
+	
+	
+	
+	
+	
 	@Override
 	public void update(GameContainer gc, StateBasedGame s, int delta) throws SlickException {
 		Button.update(this);
@@ -234,8 +244,22 @@ public class GameState extends BasicGameState implements KeyListener {
 			Position[] rPos = Position.findPositions(Mouse.getX() - Windows.scWidth/2, Windows.scHeight - Mouse.getY() - Windows.scHeight/2);
 			if (rPos != null) {
 				Road.buildRoad(rPos[0], rPos[1], GameData.ownIndex);
+				// change above to - Actions.buyRoad(rPos[0], rPos[1], GameData.ownIndex); - for server testing
 				isPlacingRoad = false;
 			}
+		}
+		
+
+		else if(Mouse.isButtonDown(0) && isUpgradingBuilding && !isClicked) {
+			Position bPos = Position.findPosition(Mouse.getX() - Windows.scWidth/2, Windows.scHeight - Mouse.getY() - Windows.scHeight/2);
+			Building building = Building.getByPosition(bPos);
+			
+			if(building != null) {
+				building.upgrade(); 
+				// change above to - Actions.upgradeCity(bPos, GameData.ownIndex); - for server testing
+				System.out.println(building.isUpgraded());
+			}
+			isUpgradingBuilding = false;
 		}
 		
 		else if(moveRobber && Mouse.isButtonDown(0) && !isClicked){
@@ -259,7 +283,6 @@ public class GameState extends BasicGameState implements KeyListener {
 
 	@Override
 	public int getID() {
-		// TODO Auto-generated method stub
 		return States.GameState;
 	}
 	@Override
@@ -274,30 +297,17 @@ public class GameState extends BasicGameState implements KeyListener {
 	
 	// methods for initial phase
 	private void drawHexagons(Graphics g) {
-
 		butImg[12].draw(Windows.scWidth-aButtonWidth, (int)((Windows.scHeight-playerBck.getHeight()*Windows.scFactor)-aButtonHeight*4.5), Windows.scFactor);
 		Hexagon[] hexagons = Hexagon.getHexagons();
-		
 		for (int i = 0; i < hexagons.length; i++){
 			hexImg[hexagons[i].TYPE.toInt()].draw(hexagons[i].getX() + Windows.scWidth/2-hexImg[0].getWidth()/2*Windows.scFactor, hexagons[i].getY() + Windows.scHeight/2-hexImg[0].getHeight()/2*Windows.scFactor, Windows.scFactor);
 			numImg[hexagons[i].NUMBER-2].draw(hexagons[i].getX() + Windows.scWidth/2-numImg[2].getWidth()/2*Windows.scFactor, hexagons[i].getY() + Windows.scHeight/2-numImg[2].getHeight()/2*Windows.scFactor, Windows.scFactor);
 		}
-		// For displaying resource cards
-		for (int c = 0; c<Player.resources.length;  c++){ 
-			float crdPosX = cardPosition(c, Player.resources.length); // 5 is to change - amount of resource cards
-			crdImg[c].draw(crdPosX+(Windows.scWidth/2-crdWidth*Windows.scFactor), (Windows.scHeight-crdHeight*Windows.scFactor)-crdHeight/12.5f, Windows.scFactor);
-		}
-		for (int d=0; d<5; d++){
-			devCrdImg[d].draw(Windows.scWidth-crdWidth*Windows.scFactor, Windows.scHeight-crdHeight*Windows.scFactor, Windows.scFactor);
-		}
-		ListBox.update(this);
-		TextBox.update(this);
-
 	}
 	
 	// Method to get resource cards positions
 		float cardPosition(int cardIndex, int cardAmount){
-			float crdPosX = cardIndex*(crdWidth * Windows.scFactor-crdWidth/140)-cardAmount/2*(crdWidth/2*Windows.scFactor)-crdWidth/2.28f*Windows.scFactor;
+			float crdPosX = cardIndex*(crdWidth-crdWidth/140)-cardAmount/2*(crdWidth/2)-crdWidth/2.28f;
 			return crdPosX;
 		}
 	
@@ -315,7 +325,7 @@ public class GameState extends BasicGameState implements KeyListener {
 			float xPos = building.POSITION.getX();
 			float yPos = building.POSITION.getY();
 			if (building.isUpgraded()) {
-				cityImg[building.PLAYER].draw(xPos + Windows.scWidth/2 - cityImg[building.PLAYER].getWidth()/2 * Windows.scFactor, yPos + Windows.scHeight/2 - cityImg[building.PLAYER].getHeight()/2 * Windows.scFactor);
+				cityImg[building.PLAYER].draw(xPos + Windows.scWidth/2 - cityImg[building.PLAYER].getWidth()/2, yPos + Windows.scHeight/2 - cityImg[building.PLAYER].getHeight()/2);
 			} else {
 				buildImg[building.PLAYER].draw(xPos + Windows.scWidth/2 - buildImg[building.PLAYER].getWidth() / 2, yPos + Windows.scHeight/2 - buildImg[building.PLAYER].getHeight() / 2);
 			}
