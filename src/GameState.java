@@ -44,6 +44,9 @@ public class GameState extends BasicGameState implements KeyListener {
 	static boolean isPlacingRoad;
 	static boolean moveRobber = false;
 	
+	Position startRoadPos;
+	Position endRoadPos;
+	
     Random rand = new Random();
 
 	@Override
@@ -212,22 +215,16 @@ public class GameState extends BasicGameState implements KeyListener {
 			}
 		}
 		
-		if(Mouse.isButtonDown(0) && isPlacingRoad) {
+		//System.out.println(Mouse.getEventButtonState());
+		//System.out.println(Mouse.next());
+		//System.out.println(Mouse.getEventButton() + "\n");
+		
+		if (Mouse.isButtonDown(0) && isPlacingRoad) {
+			Position[] rPos = Position.findPositions(Mouse.getX() - Windows.scWidth/2, Windows.scHeight - Mouse.getY() - Windows.scHeight/2);
 			
-			Position startPos = Position.findPosition(Mouse.getX() - Windows.scWidth/2, Windows.scHeight - Mouse.getY() - Windows.scHeight/2);
-			Position endPos = null;
-			
-			System.out.println(startPos.getX() + " " + startPos.getY());
-			
-			if(startPos != null && endPos == null) {
-				
-				endPos = Position.findPosition(Mouse.getX() - Windows.scWidth/2, Windows.scHeight - Mouse.getY() - Windows.scHeight/2);
+			if (rPos != null) {
+				Road.buildRoad(rPos[0], rPos[1], GameData.ownIndex);
 				isPlacingRoad = false;
-				
-			}
-			
-			if(startPos != null && endPos != null) {
-				Road.buildRoad(startPos, endPos, 0);
 			}
 		}
 		
