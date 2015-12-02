@@ -9,6 +9,7 @@ public class Card {
 	Image cardType;
 	public int x;
 	public int y;
+	String effectline;
 	
 	Controller control;
 	

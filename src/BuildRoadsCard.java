@@ -8,6 +8,8 @@ public class BuildRoadsCard extends Card {
 	public BuildRoadsCard (Controller control) throws SlickException{
 		super(control);
 		cardType = new Image ("images/buildroads.jpg");
+		
+		effectline = new String("drew build roads card");
 	}
 	
 	@Override

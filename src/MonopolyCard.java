@@ -14,6 +14,8 @@ public class MonopolyCard extends Card{
 	public MonopolyCard(Controller control) throws SlickException {
 		super (control);
 		cardType = new Image ("images/monopoly.jpg");
+		
+		effectline = new String("drew monopoly card");
 	}
 	
 	@Override
