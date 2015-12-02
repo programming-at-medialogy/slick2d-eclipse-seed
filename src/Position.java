@@ -90,6 +90,47 @@ public class Position {
 		return positions[closestIndex];
 	}
 	
+	public static Position[] findPositions(float x, float y) {
+		if (positions == null)
+			initializePositions();
+		
+		float[] closestX = new float[2];
+		float[] closestY = new float[2];
+		closestX[0] = 0.0f;
+		closestX[1] = 0.0f;
+		closestY[0] = -64.0f;
+		closestY[1] = -64.0f;
+		int[] closestIndex = new int[2];
+		closestIndex[0] = -1;
+		closestIndex[1] = -1;
+		
+		for (int i = 0; i < positions.length; i++) {
+			if ((Math.sqrt(Math.pow(positions[i].getX() - x, 2) + Math.pow(positions[i].getY() - y, 2))) <
+				(Math.sqrt(Math.pow(closestX[0] - x, 2) + Math.pow(closestY[0] - y, 2)))) {
+				closestX[1] = closestX[0];
+				closestY[1] = closestY[0];
+				closestIndex[1] = closestIndex[0];
+				closestX[0] = positions[i].getX();
+				closestY[0] = positions[i].getY();
+				closestIndex[0] = i;
+			} else if ((Math.sqrt(Math.pow(positions[i].getX() - x, 2) + Math.pow(positions[i].getY() - y, 2))) <
+					   (Math.sqrt(Math.pow(closestX[1] - x, 2) + Math.pow(closestY[1] - y, 2)))) {
+				closestX[1] = positions[i].getX();
+				closestY[1] = positions[i].getY();
+				closestIndex[1] = i;
+			}
+			
+		}
+		
+		if (closestIndex[0] < 0 || closestIndex[1] < 0 || Math.sqrt(Math.pow(closestX[0] - x,  2) + Math.pow(closestY[0] - y, 2)) > 50)
+			return null;
+			
+		Position[] retPos = new Position[2];
+		retPos[0] = positions[closestIndex[0]];
+		retPos[1] = positions[closestIndex[1]];
+		return retPos;
+	}
+	
 	/**
 	 * Checks whether two position objects are equal to eachother
 	 * @param pos1 the first Position
