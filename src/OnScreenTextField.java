@@ -11,8 +11,6 @@ import org.newdawn.slick.gui.TextField;
 
 public class OnScreenTextField {
 
-	private int once = 0;
-	private int cardOnce = 0;
 	TextField textField, textField2, textField3, textField4;
 	private int textFieldXPos = 970;
 	private int textFieldYPos = 10;

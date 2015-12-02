@@ -131,7 +131,7 @@ public class OnScreenButton {
 			if (input.isMousePressed(0)) {
 				control.devCardButtonClicked = true;
 				buttonDiceControl = false;
-				//System.out.println("pressed");
+				
 			}
 		}
 
