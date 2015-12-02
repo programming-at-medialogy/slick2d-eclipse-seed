@@ -46,7 +46,7 @@ public class DialogBox {
 				}
 				//for each loop
 				for (StringCoord line : dialogBoxes.get(i).texts){
-					dialogBoxes.get(i).dialogBoxFont.drawString((line.x + dialogBoxes.get(i).width / 2 - dialogBoxes.get(i).dialogBoxFont.getWidth(line.text) / 2), line.y +  dialogBoxes.get(i).height / 2 - dialogBoxes.get(i).dialogBoxFont.getHeight(line.text) / 2, line.text, new Color(100, 54, 26));
+					dialogBoxes.get(i).dialogBoxFont.drawString(line.x, line.y, line.text, new Color(255, 255, 255));
 				}
 			}
 		}
@@ -64,9 +64,13 @@ public class DialogBox {
 		isActive = false;
 	}
 	public void addImage(Image image, int x, int y, int width, int height){
+		x = x - image.getWidth() / 2;
+		y = y - image.getHeight() / 2;
 		pictures.add(new ImageCoord(x, y, width, height, image));
 	}
 	public void addString(String text, int x, int y){
+		x = x - dialogBoxFont.getWidth(text) / 2;
+		y = y - dialogBoxFont.getHeight(text) / 2;
 		texts.add(new StringCoord(x, y, text));
 	}
 }
