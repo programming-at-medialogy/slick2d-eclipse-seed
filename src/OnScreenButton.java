@@ -3,6 +3,7 @@ import java.io.IOException;
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
@@ -25,6 +26,8 @@ public class OnScreenButton {
 	OnScreenButtonSpawn buttonRoadPressed;
 	OnScreenButtonSpawn buttonHousePressed;
 	OnScreenButtonSpawn buttonBuyDevCard;
+	
+	Image chooseOre, chooseClay, chooseWood, chooseWool, chooseWheat;
 
 	boolean buttonRoadControl = false;
 	boolean buttonHouseControl = false;
@@ -34,6 +37,8 @@ public class OnScreenButton {
 
 	int buttonHeight = 56;
 	int buttonWidth = 97;
+	
+	int xResourceSpacing = 55;
 
 	int buttonStartPosX = screenWidth - buttonWidth - 20;
 	int buttonStartPosY = screenHeight - buttonHeight - 20;
@@ -53,6 +58,12 @@ public class OnScreenButton {
 		buttonEndTurn = new OnScreenButtonSpawn(buttonStartPosX, buttonStartPosY - (buttonSpacing * 3), 6);
 		buttonRoadPressed = new OnScreenButtonSpawn(buttonStartPosX, buttonStartPosY - buttonSpacing, 8);
 		buttonHousePressed = new OnScreenButtonSpawn(buttonStartPosX, buttonStartPosY, 9);
+		
+		chooseOre = new Image("images/ore.png");
+        chooseClay = new Image("images/clay.png");
+        chooseWood = new Image("images/wood.png");
+        chooseWool = new Image("images/wool.png");
+        chooseWheat = new Image("images/wheat.png");
 	}
 
 	public void render(GameContainer gc, Graphics g) throws SlickException {
@@ -65,6 +76,14 @@ public class OnScreenButton {
 		buttonEndTurn.render(gc, g);
 		buttonBuyDevCard.render(gc, g);
 		
+		if(control.receivedExCard > 0) {
+		g.drawString("Choose your resource: ", 720,600);
+        g.drawImage(chooseOre, 680, 635);
+        g.drawImage(chooseClay, 680+xResourceSpacing, 635);
+        g.drawImage(chooseWood, 680+xResourceSpacing*2, 635);
+        g.drawImage(chooseWool, 680+xResourceSpacing*3, 635);
+        g.drawImage(chooseWheat, 680+xResourceSpacing*4, 635);
+		}
 		
 		if(playerTurn == 1 && playerTurn == control.playerNo){
 			buttonYourTurn.render(gc, g);
@@ -93,6 +112,40 @@ public class OnScreenButton {
 		int yMousePos = Mouse.getY(); //gets y position of mouse
 
 		Input input = gc.getInput();
+		
+		   //ExcavationCard
+		if(control.receivedExCard > 0) {
+        if((xMousePos > 680 && xMousePos < 680 + 45) && (yMousePos < screenHeight - 635 && yMousePos > screenHeight - 635 - 45 )){
+                if(input.isMousePressed(0)) {
+                control.resources.oreResource++;
+                control.receivedExCard--;
+                }
+        }
+        if((xMousePos > 680 + xResourceSpacing && xMousePos < 680 + 45 + xResourceSpacing) && (yMousePos < screenHeight - 635 && yMousePos > screenHeight - 635 - 45 )){
+                if(input.isMousePressed(0)) {
+                control.resources.clayResource++;
+                control.receivedExCard--;
+                }
+        }
+        if((xMousePos > 680 + xResourceSpacing*2 && xMousePos < 680 + 45 + xResourceSpacing*2) && (yMousePos < screenHeight - 635 && yMousePos > screenHeight - 635 - 45 )){
+                if(input.isMousePressed(0)) {
+                control.resources.woodResource++;
+                control.receivedExCard--;
+                }
+        }
+        if((xMousePos > 680 + xResourceSpacing*3 && xMousePos < 680 + 45 + xResourceSpacing*3) && (yMousePos < screenHeight - 635 && yMousePos > screenHeight - 635 - 45 )){
+                if(input.isMousePressed(0)) {
+                control.resources.woolResource++;
+                control.receivedExCard--;
+                }
+        }
+        if((xMousePos > 680 + xResourceSpacing*4 && xMousePos < 680 + 45 + xResourceSpacing*4) && (yMousePos < screenHeight - 635 && yMousePos > screenHeight - 635 - 45 )){
+                if(input.isMousePressed(0)) {
+                control.resources.wheatResource++;
+                control.receivedExCard--;
+                }
+        }
+		}
 
 		// ButtomHouse
 		if ((xMousePos > buttonStartPosX && xMousePos < buttonStartPosX + buttonWidth)
