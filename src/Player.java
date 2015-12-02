@@ -118,7 +118,7 @@ public class Player  {
 			devCard[DevelopmentCardDeck.BuyCard().toInt()]++;
 		}
 	}*/
-	
+	/* added to the actions/ServerActions
 	public void PlayDevCard(CardType type){
 		switch(type) {
 		case KNIGHT:
@@ -140,7 +140,7 @@ public class Player  {
 			//Select a resource whicht the other players must hand over.
 			break;
 		}
-	}
+	}*/ 
 	
 	public void addResource(int[] index) {
 		for (int i = 0; i < index.length; i++) {
