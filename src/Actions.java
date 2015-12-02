@@ -282,7 +282,17 @@ public class Actions {
 				System.out.println("There are " + playerNum + " players!");
 			} else if (objectType.equals("Players")) {
 				message = message.substring(jsonIndex);
+				
+				// create arraylist of players
 				GameData.players = gson.fromJson(message, new TypeToken<ArrayList<Player>>(){}.getType());
+				
+				// set own index
+				for (Player player : GameData.players) {
+					if (player.getName().equals(IntroState.playerName)) {
+						GameData.ownIndex = player.NUMBER;
+						break;
+					}
+				}
 			}
 			
 			else {
