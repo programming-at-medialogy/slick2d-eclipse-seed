@@ -12,7 +12,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 /**
  * LobbyState is the second state in the program
- * Containing two textboxes; IP and PORT, three game buttons; searchForGame, joinGame, and a back button
+ * Containing two textBoxes; IP and PORT, three game buttons; searchForGame, joinGame, and a back button
  * @author frede_000
  * It extends BasicGameState from Slick2D
  * It implements a KeyListener to be able give keyboard input / output
@@ -20,7 +20,6 @@ import org.newdawn.slick.state.StateBasedGame;
 public class LobbyState extends BasicGameState implements KeyListener{
 	//variables 
 	Image background;
-	
 	int tWidth = (int) (1500*Windows.scFactor);
 	int tHeight = (int) (150*Windows.scFactor);
 	static boolean findGame;
@@ -43,10 +42,6 @@ public class LobbyState extends BasicGameState implements KeyListener{
 	public void init(GameContainer gc, final StateBasedGame s) throws SlickException {
 		//initializing variables and loading image from resources
 		background = new Image("resources/background.png");
-		/*ipBoxX = Windows.scWidth/2 - Windows.scWidth/4;
-		ipBoxY = 300;
-		portBoxX = Windows.scWidth/2 - 150;
-		portBoxY = 385;*/
 		titleFont = Resource.getFont("title", 50);
 		miscFont = Resource.getFont("std", 14);
 		warningFont = Resource.getFont("std", 22);	
@@ -59,7 +54,6 @@ public class LobbyState extends BasicGameState implements KeyListener{
 		 */
 
 		Button back = new Button(Windows.scWidth/2 - bWidth/2, Windows.scHeight/2 - bHeight/2 + bHeight, bWidth, bHeight, 30, "Back", this) {
-
 			@Override
 			public void isClicked() {
 				//need to implement a non-static bool
@@ -69,14 +63,7 @@ public class LobbyState extends BasicGameState implements KeyListener{
 			}
 		};
 
-		Button join = new Button(Windows.scWidth/2 - bWidth/2, Windows.scHeight/2 - bHeight/2, bWidth, bHeight, 30, "Join",this) {
-
-			@Override
-			public void isClicked() {
-				s.enterState(States.PreGameState);
-				System.out.println("Try to join game");
-			}
-		};
+		
 		/**
 		 * Example of a textBox object being instantiated
 		 * onSubmit is an abstract method similar to isClicked(), but originates from the TextBox class
@@ -92,8 +79,7 @@ public class LobbyState extends BasicGameState implements KeyListener{
 
 					@Override
 					public void onSubmit() {
-						ip = this.getContent();
-						findGame = false;
+
 					}
 				};
 				IpBox.activate();
@@ -107,6 +93,7 @@ public class LobbyState extends BasicGameState implements KeyListener{
 						 * At this specific example onSubmit tries to connect to server.
 						 * If there are no server connected it can crash
 						 */
+						ip = IpBox.getContent();
 						port = this.getContent();
 						findGame = false;
 						try {
@@ -114,6 +101,15 @@ public class LobbyState extends BasicGameState implements KeyListener{
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
+						//join button does not show before a game has been searched for
+						Button join = new Button(Windows.scWidth/2 - bWidth/2, Windows.scHeight/2 - bHeight/2, bWidth, bHeight, 30, "Join", this.state) {
+
+							@Override
+							public void isClicked() {
+								s.enterState(States.PreGameState);
+								System.out.println("Try to join game");
+							}
+						};
 					}
 				};
 				/**

@@ -42,6 +42,7 @@ public class IntroState extends BasicGameState implements KeyListener{
 		background = new Image("resources/background.png");
 		int bWidth = (int) (1000*Windows.scFactor);
 		int bHeight = (int) (300*Windows.scFactor);
+
 		/**
 		 * Example of button instantiation and the abstracts method isClicked() from the button class
 		 * Example of textBox instantiation and the abstracts method onSubmit() from the button class
@@ -60,8 +61,8 @@ public class IntroState extends BasicGameState implements KeyListener{
 					}
 				};
 				nameBox.activate();
-				
-				/**
+								
+				/**0
 				 * 1. false/true if the box should contain alphabetical signs
 				 * 2. false/true if the box should contain numeric signs
 				 * 3. false/true if the box should contain whitespace
@@ -69,7 +70,12 @@ public class IntroState extends BasicGameState implements KeyListener{
 				nameBox.setPermissions(true, true, true);				
 			}
 		};
-		
+		//test
+		DialogBox tempBox = new DialogBox(Windows.scWidth/2, Windows.scHeight/2, 100, 100, "Hallo this is test!", 20, this);
+		tempBox.activate();
+		tempBox.addImage(background, Windows.scWidth/2, Windows.scHeight/2, 50, 50);
+		tempBox.addString("Test test test", Windows.scWidth/2, Windows.scHeight/2);
+
 		Button ExitGame = new Button(Windows.scWidth/2 - bWidth/2, Windows.scHeight/2, bWidth, bHeight, 30, "Exit",this) {
 			@Override
 			public void isClicked() {
@@ -89,13 +95,14 @@ public class IntroState extends BasicGameState implements KeyListener{
 		g.drawImage(background, 0, 0, Windows.scWidth, Windows.scHeight, 0, 0, 1366, 768);
 		titleFont.drawString(Windows.scWidth/2 - titleFont.getWidth("Welcome to Settlers")/2, 10, "Welcome to Settlers", new Color(0, 0, 0));
 		Button.draw(g, this); 
-		
+		DialogBox.draw(g, this);
+
 		//if startGame is true, this method should draw a textBox and darken the background 
 		if(startGame == true){
 			g.setColor(new Color(150, 150, 150, 200));
 			g.fillRect(0, 0, Windows.scWidth, Windows.scHeight);
 			int fY = (int) (200*Windows.scFactor);
-			warningFont.drawString(Windows.scWidth/2 - warningFont.getWidth("Write your name in the textbos and hit 'ENTER'")/2, Windows.scHeight/2 - tHeight/2 - fY, "Write your name in the textbos and hit 'ENTER'", new Color(0, 0, 0));	
+			warningFont.drawString(Windows.scWidth/2 - warningFont.getWidth("Write your name in the textbox and hit 'ENTER'")/2, Windows.scHeight/2 - tHeight/2 - fY, "Write your name in the textbos and hit 'ENTER'", new Color(0, 0, 0));	
 			TextBox.draw(g, this);
 		}
 	}

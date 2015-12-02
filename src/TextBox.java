@@ -28,7 +28,7 @@ public abstract class TextBox {
 	
 	private boolean isActive;
 	
-	private BasicGameState state;
+	public BasicGameState state;
 	
 	private static ArrayList<TextBox> textBoxs = new ArrayList<TextBox>();
 	
