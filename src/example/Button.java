@@ -25,7 +25,7 @@ public class Button extends BasicGame {
     private boolean isActive;
 
 
-    private Image[] images = new Image[31];
+    private Image[] images = new Image[32];
 
 
     public Button(String title, int x, int y, int picIndexNo) {
@@ -59,6 +59,7 @@ public class Button extends BasicGame {
     public void render(GameContainer gc, Graphics g) throws SlickException {
 
         g.drawImage(images[picIndexNo], imgX, imgY);
+
 
     }
 

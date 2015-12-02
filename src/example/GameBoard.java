@@ -39,6 +39,7 @@ public class GameBoard extends BasicGameState {
     private int roleNo;
 
     private boolean outOfTurns;
+    private boolean endTurn;
 
     private List<Player> players;
 
@@ -67,6 +68,7 @@ public class GameBoard extends BasicGameState {
 
         yes = new Button("yes", 455, 374, 30);
         no = new Button("no", 705, 374, 29);
+
         yes.init(gc);
         no.init(gc);
         confirmMenu = new Image("assets/guielements/confirmmenu.png");
@@ -197,7 +199,21 @@ public class GameBoard extends BasicGameState {
         placeResearchStation(gc);
         makeCure(gc);
 
-        players.get(playerNo).discardCards(gc);
+        endTurn = actionMenu.getEndTurn();
+        if (endTurn && players.get(playerNo).getHandLength() > 7) {
+            if (playerNo == 0)
+                showHand1 = true;
+            else if (playerNo == 1)
+                showHand2 = true;
+            else if (playerNo == 2)
+                showHand3 = true;
+            else
+                showHand4 = true;
+
+            players.get(playerNo).discardCards(gc);
+        } else if(endTurn && players.get(playerNo).getHandLength() <= 7) {
+            System.out.println("SÅ SKAL DER TEGNES KNAP");
+        }
 
         outOfTurns = players.get(playerNo).getOutOfTurns();
         actionMenu.setPlayerOutTurns(outOfTurns);
