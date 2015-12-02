@@ -139,6 +139,9 @@ public class ServerActions {
 			expectingRoad = -1;
 		} else if (clientId == GameData.turn && message.equals("rollDice")) {
 			
+		} else if (message.equals("End turn")) {
+			GameData.turn = (GameData.turn + 1) % GameData.players.size();
+			NetworkServer.sendToAll("Turn " + GameData.turn);
 		}
 
 		String objectType = "";

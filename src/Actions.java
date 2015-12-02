@@ -82,6 +82,10 @@ public class Actions {
 		}
 	}
 	
+	static void endTurn() {
+		NetworkClient.sendMessage("End turn");
+	}
+	
 	static void collect(){
 		NetworkClient.sendMessage("Collect");
 	}
@@ -295,6 +299,9 @@ public class Actions {
 				
 				System.out.println("Own index: " + GameData.ownIndex + "!");
 				System.out.println("Loaded players: " + GameData.players + "!");
+			} else if (objectType.equals("Turn")) {
+				message = message.substring(jsonIndex);
+				GameData.turn = Integer.parseInt(message);
 			}
 			
 			else {

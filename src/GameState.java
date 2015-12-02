@@ -275,7 +275,10 @@ public class GameState extends BasicGameState implements KeyListener {
 	}
 	
 	public void endTurn() {
-		GameData.turn = (GameData.turn + 1) % GameData.players.size();
+		if (GameData.turn == GameData.ownIndex) {
+			GameData.turn = (GameData.turn + 1) % GameData.players.size();
+			Actions.endTurn();
+		}
 	}
 
 	@Override
