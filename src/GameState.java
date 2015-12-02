@@ -37,6 +37,9 @@ public class GameState extends BasicGameState implements KeyListener {
 	static int buttonWidth = (int)(381*Windows.scFactor);
 	static int buttonHeight = (int)(126*Windows.scFactor);
 	
+	static boolean isPlacingBuilding;
+	static boolean isPlacingRoad;
+	
     Random rand = new Random();
 
 	@Override
@@ -78,6 +81,9 @@ public class GameState extends BasicGameState implements KeyListener {
 		crdWidth = crdImg[0].getWidth();
 		crdHeight = crdImg[0].getHeight();
 		
+		isPlacingBuilding = false;
+		isPlacingRoad = false;
+		
 		Windows.padding = hexWidth/22 * Windows.scFactor;
 		
 		//Board Action Buttons
@@ -90,13 +96,17 @@ public class GameState extends BasicGameState implements KeyListener {
 		Button buySettlement = new Button(Windows.scWidth/2-buttonWidth*2+buttonWidth/7, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 7, "Buy Settlement", this) {
 			@Override
 			public void isClicked() {		
-				System.out.println("Buy");	
+				System.out.println("Buy");
+				
+				isPlacingBuilding = true;
 			}
 		};
 		Button buyRoad = new Button(Windows.scWidth/2-buttonWidth+buttonWidth/7*2, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 7, "Buy Road", this) {
 			@Override
 			public void isClicked() {		
 				System.out.println("Buy");	
+				
+				isPlacingRoad = true;
 			}
 		};
 		Button upgCity = new Button(Windows.scWidth/2+buttonWidth/7*3, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 7, "Upgrade to City", this) {
@@ -174,13 +184,33 @@ public class GameState extends BasicGameState implements KeyListener {
 		ListBox.update(this);
 		TextBox.update(this);
 		
-		if (Mouse.isButtonDown(0)) {
+		if(Mouse.isButtonDown(0) && isPlacingBuilding) {
 			//System.out.println(Mouse.getX() + " " + Mouse.getY());
 			Position bPos = Position.findPosition(Mouse.getX() - Windows.scWidth/2, Windows.scHeight - Mouse.getY() - Windows.scHeight/2);
+			
 			if (bPos != null) {
 				Building building = Building.build(bPos, 0);
+				isPlacingBuilding = false;
 			}
-			System.out.println("I'm da greatest!");
+		}
+		
+		if(Mouse.isButtonDown(0) && isPlacingRoad) {
+			
+			Position startPos = Position.findPosition(Mouse.getX() - Windows.scWidth/2, Windows.scHeight - Mouse.getY() - Windows.scHeight/2);
+			Position endPos = null;
+			
+			System.out.println(startPos.getX() + " " + startPos.getY());
+			
+			if(startPos != null && endPos == null) {
+				
+				endPos = Position.findPosition(Mouse.getX() - Windows.scWidth/2, Windows.scHeight - Mouse.getY() - Windows.scHeight/2);
+				isPlacingRoad = false;
+				
+			}
+			
+			if(startPos != null && endPos != null) {
+				Road.buildRoad(startPos, endPos, 0);
+			}
 		}
 	}
 

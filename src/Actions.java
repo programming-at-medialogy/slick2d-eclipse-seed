@@ -162,7 +162,7 @@ public class Actions {
 	 * @param player
 	 *            Index of the player
 	 */
-	static void buyCity(Position pos, int player) {
+	static void buyBuilding(Position pos, int player) {
 		// Check if player have funds
 		if (GameData.players.get(player).resources[ResourceType.BRICK.toInt()] >= 1
 				&& GameData.players.get(player).resources[ResourceType.CORN.toInt()] >= 1
