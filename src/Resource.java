@@ -15,6 +15,7 @@ public class Resource {
 	int xSpacing = 40;
 	int ySpacing = 15;
 	Image ore, clay, wood, wool, wheat;
+	int armySize = 0;
 	
 	Resource(int x, int y) throws SlickException{
 		this.x = x;

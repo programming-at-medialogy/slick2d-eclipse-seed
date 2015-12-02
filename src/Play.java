@@ -17,7 +17,6 @@ public class Play extends BasicGameState {
 	
 	public Card cardHelp;
 	public Card infoCard;
-	public Card[] cardsInHand = new Card[25];
 	
 	
 	public Play(int state) {
@@ -35,11 +34,11 @@ public class Play extends BasicGameState {
 		
 		playBackground = new Image("images/PlayBackground.png");
 		
-		infoCard = new Card();
+		infoCard = new Card(control);
 		infoCard.cardType = new Image ("images/info.png");
 		infoCard.x = 990;
 		infoCard.y = 170;
-		cardHelp = new Card();
+		cardHelp = new Card(control);
 
 	}
 
@@ -55,22 +54,13 @@ public class Play extends BasicGameState {
 		textField.render(gc, g);
 		infoCard.render(gc, g);
 		control.resources.render(gc, g);
-
+		
 	}
 	
 	
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
-		
-		if (textField.buttons.buttonDevCardControl == true){
-			int _index = 0;
-			if (cardsInHand[_index] == null){
-				cardsInHand[_index] = textField.pileOutput;
-			}else if (cardsInHand[_index] != null){
-				_index++;
-			}
-		}
-		
+				
 		if(game.client.obj.roundCount == 0){
 			sbg.enterState(2);
 		}
