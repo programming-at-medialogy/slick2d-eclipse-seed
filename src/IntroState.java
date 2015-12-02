@@ -70,11 +70,6 @@ public class IntroState extends BasicGameState implements KeyListener{
 				nameBox.setPermissions(true, true, true);				
 			}
 		};
-		//test
-		DialogBox tempBox = new DialogBox(Windows.scWidth/2, Windows.scHeight/2, 100, 100, 20, this);
-		tempBox.activate();
-		tempBox.addImage(background, Windows.scWidth/2, Windows.scHeight/2, 50, 50);
-		tempBox.addString("Test test test", Windows.scWidth/2, Windows.scHeight/2);
 
 		Button ExitGame = new Button(Windows.scWidth/2 - bWidth/2, Windows.scHeight/2, bWidth, bHeight, 30, "Exit",this) {
 			@Override
@@ -95,7 +90,6 @@ public class IntroState extends BasicGameState implements KeyListener{
 		g.drawImage(background, 0, 0, Windows.scWidth, Windows.scHeight, 0, 0, 1366, 768);
 		titleFont.drawString(Windows.scWidth/2 - titleFont.getWidth("Welcome to Settlers")/2, 10, "Welcome to Settlers", new Color(0, 0, 0));
 		Button.draw(g, this); 
-		DialogBox.draw(g, this);
 
 		//if startGame is true, this method should draw a textBox and darken the background 
 		if(startGame == true){

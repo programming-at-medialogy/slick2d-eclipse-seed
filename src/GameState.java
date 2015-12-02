@@ -43,6 +43,10 @@ public class GameState extends BasicGameState implements KeyListener {
 	static boolean isPlacingBuilding;
 	static boolean isPlacingRoad;
 	static boolean moveRobber = false;
+	static boolean isClicked = false;
+	
+	DialogBox robberWarning;
+	DialogBox buildingWarning;
 	
 	Position startRoadPos;
 	Position endRoadPos;
@@ -80,6 +84,8 @@ public class GameState extends BasicGameState implements KeyListener {
 		aButtonWidth = (int)(butImg[0].getWidth()*Windows.scFactor); // Action button width
 		aButtonHeight = (int)(butImg[0].getHeight()*Windows.scFactor); // Action button height
 		
+		buildingWarning = new DialogBox(Windows.scWidth/2 - 250, Windows.scHeight/2 - 250, 500, 500, 30, this);
+		buildingWarning.addString("You cannot built here", Windows.scWidth/2, Windows.scHeight/2);
 		
 		// game data init
 		GameData.roads = new ArrayList<Road>();
@@ -134,32 +140,36 @@ public class GameState extends BasicGameState implements KeyListener {
 				if (GameData.turn == GameData.ownIndex) {
 					diceNumber(1);
 					diceNumber(2);	
-					if (Dice.dice1 + Dice.dice2 == 7)
+					if (Dice.dice1 + Dice.dice2 == 7) {
 						moveRobber = true;
+						robberWarning = new DialogBox(Windows.scWidth/2 - 250, Windows.scHeight/2 - 250, 500, 500, 30, this.state);
+						robberWarning.activate();
+						robberWarning.addImage(robImg, Windows.scWidth/2 + 150, Windows.scHeight/2, 200, 200);
+						robberWarning.addString("Move the robber", Windows.scWidth/2, Windows.scHeight/2);
+					}
 					else if (Dice.dice1 != Dice.dice2)
 						endTurn();
 				}
 			}
 		};
+		
+		ListBox chatOutput = new ListBox(0, Windows.scHeight - 35 - 300, (int)(1200*Windows.scFactor), 300, 20, this);
+		
 		TextBox chatInput = new TextBox(0, Windows.scHeight - 35, (int)(1200*Windows.scFactor), 35, 20, this) {
 			@Override
 			public void onSubmit() {
+				chatOutput.addString(IntroState.playerName + ", " + this.getContent(), GameData.ownIndex);
+				this.clear();
 			}
 		};
-		
-		ListBox chatOutput = new ListBox(0, Windows.scHeight - 35 - 300, (int)(1200*Windows.scFactor), 300, 20, this);
 	}
 
 	int diceNumber(int diceIndex){
 		int diceNumber = Dice.RollDice(diceIndex);
 		return diceNumber;
 
-		
-		
-		
-		
-		
 	}
+	
 	@Override
 	public void render(GameContainer gc, StateBasedGame s, Graphics g) throws SlickException {
 		Color bkColor = Color.decode("#5e8ad7"); // create custom color
@@ -186,20 +196,6 @@ public class GameState extends BasicGameState implements KeyListener {
 		Button.draw(g, this);
 		ListBox.draw(g, this);
 		TextBox.draw(g, this);
-		
-		// For displaying resource cards
-		for (int c = 0; c<Player.resources.length;  c++){ 
-			float crdPosX = cardPosition(c, Player.resources.length); // 5 is to change - amount of resource cards
-			crdImg[c].draw(crdPosX+(Windows.scWidth/2-crdWidth), (Windows.scHeight-crdHeight)-crdHeight/12.5f, Windows.scFactor);
-			// font for card numbers
-			LobbyState.testFont.drawString(crdPosX+crdWidth/2*Windows.scFactor+(Windows.scWidth/2-crdWidth), (Windows.scHeight-crdHeight)+crdHeight, "x", new Color(250, 235, 204)); 
-		}
-		// For displaying Development cards
-		for (int d=0; d<5; d++){
-			devCrdImg[d].draw(Windows.scWidth-crdWidth*Windows.scFactor, Windows.scHeight-crdHeight*Windows.scFactor, Windows.scFactor);
-		}
-		ListBox.update(this);
-		TextBox.update(this);
 	}
 	
 	
@@ -213,17 +209,32 @@ public class GameState extends BasicGameState implements KeyListener {
 		ListBox.update(this);
 		TextBox.update(this);
 
-		if(Mouse.isButtonDown(0) && isPlacingBuilding) {
+		if (robberWarning != null && robberWarning.isActive && !isClicked) {
+			if (Mouse.isButtonDown(0))
+				robberWarning.deactivate();
+		
+		} else if (buildingWarning.isActive && !isClicked) {
+			if (Mouse.isButtonDown(0))
+				buildingWarning.deactivate();
+		}
+		
+		
+		else if(Mouse.isButtonDown(0) && isPlacingBuilding && !isClicked) {
 			//System.out.println(Mouse.getX() + " " + Mouse.getY());
 			Position bPos = Position.findPosition(Mouse.getX() - Windows.scWidth/2, Windows.scHeight - Mouse.getY() - Windows.scHeight/2);
 			
 			if (bPos != null) {
 				Building building = Building.build(bPos, GameData.ownIndex);
-				isPlacingBuilding = false;
-			}
+				if (building != null) {
+					isPlacingBuilding = false;
+					Actions.buyBuilding(bPos, GameData.ownIndex);
+				}
+				else 
+					buildingWarning.activate();
+			} 
 		}
 		
-		if (Mouse.isButtonDown(0) && isPlacingRoad) {
+		else if (Mouse.isButtonDown(0) && isPlacingRoad && !isClicked) {
 			Position[] rPos = Position.findPositions(Mouse.getX() - Windows.scWidth/2, Windows.scHeight - Mouse.getY() - Windows.scHeight/2);
 			if (rPos != null) {
 				Road.buildRoad(rPos[0], rPos[1], GameData.ownIndex);
@@ -231,7 +242,7 @@ public class GameState extends BasicGameState implements KeyListener {
 			}
 		}
 		
-		if(moveRobber && Mouse.isButtonDown(0)){
+		else if(moveRobber && Mouse.isButtonDown(0) && !isClicked){
 			Hexagon rHex = Hexagon.findHexagon(Mouse.getX() - Windows.scWidth/2, Windows.scHeight - Mouse.getY() - Windows.scHeight/2);
 			if (rHex != null) {
 				rHex.rob();
@@ -239,6 +250,11 @@ public class GameState extends BasicGameState implements KeyListener {
 				endTurn();
 			}
 		}
+		
+		if (Mouse.isButtonDown(0)) {
+			isClicked = true;
+		} else
+			isClicked = false;
 	}
 	
 	public void endTurn() {
@@ -252,7 +268,12 @@ public class GameState extends BasicGameState implements KeyListener {
 	}
 	@Override
 	public void keyPressed(int key, char c) {
-		TextBox.keyPress(key, c, this);
+		if (key == 1) { //esc
+			isPlacingRoad = false;
+			isPlacingBuilding = false;
+		}
+		else
+			TextBox.keyPress(key, c, this);
 	}
 	
 	// methods for initial phase
