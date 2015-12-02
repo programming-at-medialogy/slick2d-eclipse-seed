@@ -13,6 +13,7 @@ public class ActionMenu extends BasicGame {
     private Button share;
     private Button eventCard;
     private Button cure;
+    private Button drawCard;
 
     private Image notAvailable;
 
@@ -22,6 +23,9 @@ public class ActionMenu extends BasicGame {
     private boolean isShareActive;
     private boolean isEventCardActive;
     private boolean isCureActive;
+    private boolean endTurn;
+    int draw2Cards = 0;
+
 
     private boolean playerOutTurns = false;
 
@@ -47,6 +51,7 @@ public class ActionMenu extends BasicGame {
         share = new Button("share", 1160, 10, 9);
         eventCard = new Button("eventCard", 1225, 15, 10);
         cure = new Button("cure", 1275, 15, 11);
+        drawCard = new Button("drawcard", 446, 307, 31);
 
 
         move.init(gc);
@@ -55,6 +60,7 @@ public class ActionMenu extends BasicGame {
         share.init(gc);
         eventCard.init(gc);
         cure.init(gc);
+        drawCard.init(gc);
     }
 
     @Override
@@ -68,6 +74,7 @@ public class ActionMenu extends BasicGame {
                 isCureActive = false;
                 isShareActive = false;
                 isEventCardActive = false;
+                drawCard.setActive(false);
             }
 
             if (researchSt.clickWithin(gc)) {
@@ -77,6 +84,7 @@ public class ActionMenu extends BasicGame {
                 isCureActive = false;
                 isShareActive = false;
                 isEventCardActive = false;
+                drawCard.setActive(false);
             }
 
             if (removeCube.clickWithin(gc)) {
@@ -86,6 +94,7 @@ public class ActionMenu extends BasicGame {
                 isCureActive = false;
                 isShareActive = false;
                 isEventCardActive = false;
+                drawCard.setActive(false);
             }
 
             if (share.clickWithin(gc)) {
@@ -95,6 +104,7 @@ public class ActionMenu extends BasicGame {
                 isResearchSActive = false;
                 isCureActive = false;
                 isEventCardActive = false;
+                drawCard.setActive(false);
             }
 
             if (eventCard.clickWithin(gc)) {
@@ -104,6 +114,7 @@ public class ActionMenu extends BasicGame {
                 isResearchSActive = false;
                 isCureActive = false;
                 isShareActive = false;
+                drawCard.setActive(false);
             }
 
             if (cure.clickWithin(gc)) {
@@ -113,8 +124,22 @@ public class ActionMenu extends BasicGame {
                 isRemoveCubeActive = false;
                 isShareActive = false;
                 isEventCardActive = false;
+                drawCard.setActive(false);
             }
 
+        } else if (playerOutTurns && !endTurn) {
+            isMoveActive = false;
+            move.setActive(false);
+            isResearchSActive = false;
+            researchSt.setActive(false);
+            isRemoveCubeActive = false;
+            removeCube.setActive(false);
+            isShareActive = false;
+            share.setActive(false);
+            isEventCardActive = false;
+            eventCard.setActive(false);
+            isCureActive = false;
+            cure.setActive(false);
         } else {
             isMoveActive = false;
             move.setActive(false);
@@ -128,6 +153,7 @@ public class ActionMenu extends BasicGame {
             eventCard.setActive(false);
             isCureActive = false;
             cure.setActive(false);
+            drawCard.setActive(false);
         }
 
 
@@ -168,6 +194,8 @@ public class ActionMenu extends BasicGame {
             cure.setPicIndexNo(11);
         }
 
+        drawCard(gc);
+
 
     }
 
@@ -185,6 +213,23 @@ public class ActionMenu extends BasicGame {
             g.drawImage(notAvailable, 682 - notAvailable.getWidth() / 2, 384 - notAvailable.getHeight() / 2);
         }
 
+        if (playerOutTurns && !endTurn) {
+            drawCard.render(gc, g);
+        }
+
+    }
+
+    public void drawCard(GameContainer gc) {
+
+        //SEND TIL SERVER
+        if (draw2Cards < 2) {
+            if (drawCard.clickWithin(gc)) {
+                System.out.println("CLIENT RULES, SERVER DROOLS!!!");
+                draw2Cards += 1;
+            }
+        } else if (draw2Cards == 2) {
+            endTurn = true;
+        }
     }
 
     public boolean getIsMoveActive() {
@@ -238,5 +283,7 @@ public class ActionMenu extends BasicGame {
     public void setCureActive(boolean isCureActive) {
         this.isCureActive = isCureActive;
     }
+
+    public boolean getEndTurn() { return endTurn; }
 }
 

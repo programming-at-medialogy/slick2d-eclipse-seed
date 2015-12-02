@@ -341,4 +341,8 @@ public class Player extends BasicGame {
 
     public void removeExtraCards (GameContainer gc) {
     }
+
+    public int getHandLength () {
+        return hand.size();
+    }
 }
