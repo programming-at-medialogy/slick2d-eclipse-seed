@@ -18,93 +18,103 @@ public class OnScreenTextField {
 	private int textFieldYOffset = 40;
 	private int textFieldWidth = 220;
 	private int textFieldHeight = 35;
-	OnScreenButton buttons;
+	OnScreenButton relButton;
 	Controller control;
+	Game game;
 	DieRoll dice;
 	Card cardHelp;
 	Card[] developmentPile = new Card[25];
 	Card pileOutput;
+	boolean allow = false;
 
 	public OnScreenTextField() throws SlickException {
-		buttons = new OnScreenButton(control);
+		relButton = new OnScreenButton(control);
 		control = new Controller();
 		dice = new DieRoll();
-		cardHelp = new Card();
-		pileOutput = new Card();
+		cardHelp = new Card(control);
+		pileOutput = new Card(control);
 		cardHelp.createDevPile(developmentPile);
 		Collections.shuffle(Arrays.asList(developmentPile));
 	}
 
 	public void create(GameContainer gc) {
 
-		textField = new TextField(gc, gc.getDefaultFont(), textFieldXPos,textFieldYPos,textFieldWidth,textFieldHeight);
+		textField = new TextField(gc, gc.getDefaultFont(), textFieldXPos, textFieldYPos, textFieldWidth,
+				textFieldHeight);
 		textField.setBorderColor(Color.green);
 		textField.setBackgroundColor(Color.gray);
-		
-		textField2 = new TextField(gc, gc.getDefaultFont(), textFieldXPos,textFieldYPos+(textFieldYOffset),textFieldWidth,textFieldHeight);
+
+		textField2 = new TextField(gc, gc.getDefaultFont(), textFieldXPos, textFieldYPos + (textFieldYOffset),
+				textFieldWidth, textFieldHeight);
 		textField2.setBorderColor(Color.red);
 		textField2.setBackgroundColor(Color.gray);
-		
-		textField3 = new TextField(gc, gc.getDefaultFont(), textFieldXPos,textFieldYPos+(textFieldYOffset*2),textFieldWidth,textFieldHeight);
+
+		textField3 = new TextField(gc, gc.getDefaultFont(), textFieldXPos, textFieldYPos + (textFieldYOffset * 2),
+				textFieldWidth, textFieldHeight);
 		textField3.setBorderColor(Color.blue);
 		textField3.setBackgroundColor(Color.gray);
-		
-		textField4 = new TextField(gc, gc.getDefaultFont(), textFieldXPos,textFieldYPos+(textFieldYOffset*3),textFieldWidth,textFieldHeight);
+
+		textField4 = new TextField(gc, gc.getDefaultFont(), textFieldXPos, textFieldYPos + (textFieldYOffset * 3),
+				textFieldWidth, textFieldHeight);
 		textField4.setBorderColor(Color.magenta);
 		textField4.setBackgroundColor(Color.gray);
 	}
 
-	public void writeDiceToConsole() {
-		//depending on how we recognize players, this much change accordingly
-		if (control.playerNo == 1){
+	public void writeDiceToConsole() throws IOException {
+		// depending on how we recognize players, this much change accordingly
+		if (control.playerNo == 1) {
 			textField.setConsumeEvents(true);
 			textField.setText(Integer.toString(dice.rollDice()));
 			textField.getText();
-		}else if (control.playerNo == 2){
+		} else if (control.playerNo == 2) {
 			textField2.setConsumeEvents(true);
 			textField2.setText(Integer.toString(dice.rollDice()));
 			textField2.getText();
-		}else if (control.playerNo == 3){
+		} else if (control.playerNo == 3) {
 			textField3.setConsumeEvents(true);
 			textField3.setText(Integer.toString(dice.rollDice()));
 			textField3.getText();
-		}else if (control.playerNo == 4){
+		} else if (control.playerNo == 4) {
 			textField4.setConsumeEvents(true);
 			textField4.setText(Integer.toString(dice.rollDice()));
 			textField4.getText();
 		}
-		
+
 	}
-	
-	public void writeBuyToConsole(Card[] input) throws SlickException{
-		Card output = new Card();
+
+	public void writeBuyToConsole(Card[] input, boolean allow) throws SlickException {
+		Card output = new Card(control);
 		Random rand = new Random();
-		
-		if (control.playerNo == 1){
-			output = input[rand.nextInt(25)];
-			textField.setConsumeEvents(true);
-			textField.setText("Bought development card");
-			textField.getText();
-			pileOutput = output;
-		}else if (control.playerNo == 2){
-			output = input[rand.nextInt(25)];
+
+		if (control.playerNo == 1) {
+			if (allow == true) {
+				output = input[rand.nextInt(input.length)];
+				textField.setConsumeEvents(true);
+				textField.setText(output.effectLine);
+				textField.getText();
+				pileOutput = output;
+				allow = false;
+			}
+		} else if (control.playerNo == 2) {
+			output = input[rand.nextInt(input.length)];
 			textField2.setConsumeEvents(true);
-			textField2.setText("Bought development card");
+			textField2.setText(output.effectLine);
 			textField2.getText();
 			pileOutput = output;
-		}else if (control.playerNo == 3){
-			output = input[rand.nextInt(25)];
+		} else if (control.playerNo == 3) {
+			output = input[rand.nextInt(input.length)];
 			textField3.setConsumeEvents(true);
-			textField3.setText("Bought development card");
+			textField3.setText(output.effectLine);
 			textField3.getText();
 			pileOutput = output;
-		}else if (control.playerNo == 4){
-			output = input[rand.nextInt(25)];
+		} else if (control.playerNo == 4) {
+			output = input[rand.nextInt(input.length)];
 			textField4.setConsumeEvents(true);
-			textField4.setText("Bought development card");
+			textField4.setText(output.effectLine);
 			textField4.getText();
 			pileOutput = output;
 		}
+		relButton.buttonDevCardControl = false;
 	}
 
 	public void render(GameContainer gc, Graphics g) throws SlickException {
@@ -115,18 +125,27 @@ public class OnScreenTextField {
 	}
 
 	public void update(GameContainer gc, int i) throws SlickException, IOException {
-		buttons.update(gc, i);
+		relButton.update(gc, i);
 
-		if (buttons.buttonDiceControl == true) {
-			if (once < 1) {
-				writeDiceToConsole();
-				once++;
-				buttons.buttonDiceControl = false;
+		if (relButton.buttonDiceControl == true) {
+			if (game.client.obj.playerTurn == control.playerNo) {
+				if (once < 1) {
+					writeDiceToConsole();
+					once++;
+					relButton.buttonDiceControl = false;
+				}
 			}
 		}
-		if (buttons.buttonDevCardControl == true) {
-			writeBuyToConsole(developmentPile);
-			buttons.buttonDevCardControl = false;
+
+		if (relButton.buttonDevCardControl == true) {
+			if (game.client.obj.playerTurn == control.playerNo) {
+				if (cardHelp.checkDevCardCost() == true) {
+					allow = true;
+					cardHelp.buyCard();
+					writeBuyToConsole(developmentPile, allow);
+					relButton.buttonDevCardControl = false;
+				}
+			}
 		}
 	}
 }
