@@ -121,7 +121,7 @@ public class GameState extends BasicGameState implements KeyListener {
 		};
 		
 		// Board action buttons
-		Button trade = new Button(Windows.scWidth-buttonWidth*2-buttonWidth*2,(int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor-buttonHeight), buttonWidth, buttonHeight, 20, "Trade", this) {
+		Button trade = new Button((int)(Windows.scWidth-buttonWidth*2-buttonWidth*1.3), (int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor-buttonHeight), buttonWidth, buttonHeight, 20, "Trade", this) {
 			@Override
 			public void isClicked() {		
 				System.out.println("Trade");
@@ -141,13 +141,9 @@ public class GameState extends BasicGameState implements KeyListener {
 				}
 			}
 		};
-		
-
-
 		TextBox chatInput = new TextBox(0, Windows.scHeight - 35, (int)(1200*Windows.scFactor), 35, 20, this) {
 			@Override
 			public void onSubmit() {
-				
 			}
 		};
 		
@@ -180,13 +176,10 @@ public class GameState extends BasicGameState implements KeyListener {
 				roadImg[3].draw(x + Windows.scWidth/2 - roadImg[1].getWidth()/2*Windows.scFactor, y + Windows.scHeight/2  - roadImg[1].getHeight()/2*Windows.scFactor, Windows.scFactor);
 			g.popTransform();
 		}
-		
 		drawBuilding(g);
-
 		diceImg[Dice.dice1-1].draw((int) Math.random()*(Windows.scWidth-hexWidth*Windows.scFactor*2+diceImg[1].getWidth())+(Windows.scWidth-hexWidth*Windows.scFactor*2)          ,Windows.scHeight/2 , Windows.scFactor*0.8f);
 		diceImg[Dice.dice2-1].draw(Windows.scWidth-hexWidth*Windows.scFactor*2-diceImg[1].getWidth()*Windows.scFactor ,Windows.scHeight/2, Windows.scFactor*0.8f);
 		Button.draw(g, this);
-		
 		ListBox.draw(g, this);
 		TextBox.draw(g, this);
 	}
@@ -253,7 +246,7 @@ public class GameState extends BasicGameState implements KeyListener {
 		// For displaying resource cards
 		for (int c = 0; c<Player.resources.length;  c++){ 
 			float crdPosX = cardPosition(c, Player.resources.length); // 5 is to change - amount of resource cards
-			crdImg[c].draw(crdPosX+(Windows.scWidth/2-crdWidth/2*Windows.scFactor), (Windows.scHeight-crdHeight*Windows.scFactor)-crdHeight/100, Windows.scFactor);
+			crdImg[c].draw(crdPosX+(Windows.scWidth/2-crdWidth*Windows.scFactor), (Windows.scHeight-crdHeight*Windows.scFactor)-crdHeight/20, Windows.scFactor);
 		}
 		for (int d=0; d<5; d++){
 			devCrdImg[d].draw(Windows.scWidth-crdWidth*Windows.scFactor, Windows.scHeight-crdHeight*Windows.scFactor, Windows.scFactor);
@@ -265,7 +258,7 @@ public class GameState extends BasicGameState implements KeyListener {
 	
 	// Method to get resource cards positions
 		float cardPosition(int cardIndex, int cardAmount){
-			float crdPosX = cardIndex*(crdWidth/2* Windows.scFactor)-cardAmount/2*(crdWidth/2*Windows.scFactor);
+			float crdPosX = cardIndex*(crdWidth/30* Windows.scFactor)-cardAmount/2*(crdWidth/2*Windows.scFactor);
 			return crdPosX;
 		}
 	
