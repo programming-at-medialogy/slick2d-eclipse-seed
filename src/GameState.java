@@ -40,6 +40,7 @@ public class GameState extends BasicGameState implements KeyListener {
 	
 	static boolean isPlacingBuilding;
 	static boolean isPlacingRoad;
+	static boolean moveRobber = false;
 	
     Random rand = new Random();
 
@@ -131,6 +132,8 @@ public class GameState extends BasicGameState implements KeyListener {
 			public void isClicked() {		
 				diceNumber(1);
 				diceNumber(2);	
+				if (Dice.dice1 + Dice.dice2 == 7)
+					moveRobber = true;
 			}
 		};
 
@@ -213,6 +216,15 @@ public class GameState extends BasicGameState implements KeyListener {
 			
 			if(startPos != null && endPos != null) {
 				Road.buildRoad(startPos, endPos, 0);
+			}
+		}
+		
+		if(moveRobber && Mouse.isButtonDown(0)){
+			Hexagon rHex = Hexagon.findHexagon(Mouse.getX() - Windows.scWidth/2, Windows.scHeight - Mouse.getY() - Windows.scHeight/2);
+			
+			if (rHex != null) {
+				rHex.rob();
+				moveRobber = false;
 			}
 		}
 	}

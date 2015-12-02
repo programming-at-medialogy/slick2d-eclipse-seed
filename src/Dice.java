@@ -11,7 +11,7 @@ static public int RollDice(int index) {
 	}
 	else if (index ==2){
 		dice2 = (int) (Math.random()*6+1);
-	}		return dice2;
-
+	}		
+	return dice2;
 	}
 }

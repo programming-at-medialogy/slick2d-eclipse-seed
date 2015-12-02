@@ -108,6 +108,50 @@ public class Hexagon {
 		return false;
 	}
 	
+	public static Hexagon findHexagon(int x, int y) {
+		
+		if (hexagons == null)
+			generateMap();
+		
+		float closestX = 0.0f;
+		float closestY = 0.0f;
+		int closestIndex = -1;
+		for (int i = 0; i < hexagons.length; i++) {
+			if ((Math.sqrt(Math.pow(hexagons[i].getX() - x, 2) + Math.pow(hexagons[i].getY() - y, 2))) <
+				(Math.sqrt(Math.pow(closestX - x, 2) + Math.pow(closestY - y, 2)))) {
+				closestX = hexagons[i].getX();
+				closestY = hexagons[i].getY();
+				closestIndex = i;
+			}
+		}
+		
+		if (Math.sqrt(Math.pow(closestX - x, 2) + Math.pow(closestY - y, 2)) > 100)
+			return null;
+		return hexagons[closestIndex];
+		
+		// error checking
+//		if (positions == null)
+//			initializePositions();
+//		
+//		// finds the closest position
+//		float closestX = 0.0f;
+//		float closestY = 0.0f;
+//		int closestIndex = -1;
+//		for (int i = 0; i < positions.length; i++) {
+//			if ((Math.sqrt(Math.pow(positions[i].getX() - x, 2) + Math.pow(positions[i].getY() - y, 2))) <
+//				(Math.sqrt(Math.pow(closestX - x, 2) + Math.pow(closestY - y, 2)))) {
+//				closestX = positions[i].getX();
+//				closestY = positions[i].getY();
+//				closestIndex = i;
+//			}
+//		}
+//		
+//		// returns the closest position
+//		if (closestIndex < 0 || Math.sqrt(Math.pow(closestX - x,  2) + Math.pow(closestY - y, 2)) > 50)
+//			return null;
+//		return positions[closestIndex];
+	}
+	
 	/**
 	 * Get the hexagon array.
 	 * @return the hexagon array
@@ -240,6 +284,17 @@ public class Hexagon {
 	 */
 	public boolean isRobbed() {
 		return robbed;
+	}
+	
+	public void rob() {
+		for (Hexagon hex : hexagons) {
+			if (hex.isRobbed()) {
+				hex.robbed = false;
+				break;
+			}
+		}
+		
+		this.robbed = true;
 	}
 	
 	/**
