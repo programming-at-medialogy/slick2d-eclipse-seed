@@ -24,6 +24,8 @@ public class HouseClickArea {
 	OnScreenButton houseButton; //needed to get boolean and rendering of this button
 	Game game;
 	
+	int houseButtonClicked;
+	
 	//Default string to the mouse. If no input from the mouse is recieved
 	public String mouse = "No Input Mouse";
 	
@@ -116,22 +118,22 @@ public class HouseClickArea {
 
 		
 		//For-loop to check if an area has been clicked.
+		if (game.client.obj.playerTurn == control.playerNo) {
+		if (houseButton.buttonHouseControl == true) {
+			houseButtonClicked = 1;
 			for (i = 0; i < totalAreas; i++) {
-
 				if ((xMousePos > arraycoordinateX[i] - fineTuneX && xMousePos < arraycoordinateX[i] + areaClickSize)
-						&& (yMousePos < screenHeight - arraycoordinateY[i] + fineTuneY
-								&& yMousePos > screenHeight - arraycoordinateY[i] - areaClickSize - fineTuneY)) {
+					&& (yMousePos < screenHeight - arraycoordinateY[i] + fineTuneY
+					&& yMousePos > screenHeight - arraycoordinateY[i] - areaClickSize - fineTuneY)) {
 					if (input.isMouseButtonDown(0)) {
-						if (houseButton.buttonHouseControl == true) {
-							if (game.client.obj.playerTurn == control.playerNo) {
 								if (areaClicked[i] != true) {
 									
 									placeHouse(i);
 									game.client.obj.houseColour[i] = control.playerNo;
 									game.client.obj.SOChouseArea[i] = areaClicked[i];
 									game.client.sendData(game.client.obj);
-									houseButton.buttonHouseControl = false;
-									
+									houseButtonClicked = 0;
+									houseButton.buttonHouseControl = false;									
 								}
 							}
 						}
@@ -148,6 +150,10 @@ public class HouseClickArea {
 	//Render method
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
+		
+		if(houseButtonClicked > 0) {
+			houseButton.buttonHousePressed.render(gc, g);
+		}
 		
 		//For-loop used to render all the clicked areas. If an area is true, a house should be spawned.
 		for(int i = 0; i < areaClicked.length; i ++) {
