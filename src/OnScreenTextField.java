@@ -12,6 +12,7 @@ import org.newdawn.slick.gui.TextField;
 public class OnScreenTextField {
 
 	private int once = 0;
+	private int cardOnce = 0;
 	TextField textField, textField2, textField3, textField4;
 	private int textFieldXPos = 970;
 	private int textFieldYPos = 10;
@@ -26,9 +27,9 @@ public class OnScreenTextField {
 	Card[] developmentPile = new Card[25];
 	Card pileOutput;
 
-	public OnScreenTextField() throws SlickException {
+	public OnScreenTextField(Controller control) throws SlickException {
 		relButton = new OnScreenButton(control);
-		control = new Controller();
+		this.control = control;
 		dice = new DieRoll();
 		cardHelp = new Card(control);
 		pileOutput = new Card(control);
@@ -125,23 +126,21 @@ public class OnScreenTextField {
 
 		if (relButton.buttonDiceControl == true) {
 			if (game.client.obj.playerTurn == control.playerNo) {
-				if (once < 1) {
-					writeDiceToConsole();
-					once++;
-					relButton.buttonDiceControl = false;
-				}
+				writeDiceToConsole();
+				relButton.buttonDiceControl = false;
 			}
 		}
 
-		if (relButton.buttonDevCardControl == true) {
+		if (control.devCardButtonClicked == true) {
 			if (game.client.obj.playerTurn == control.playerNo) {
 				if (cardHelp.checkDevCardCost() == true) {
 					cardHelp.buyCard();
 					writeBuyToConsole(developmentPile);
 					pileOutput.effect();
-					relButton.buttonDevCardControl = false;
+					control.devCardButtonClicked = false;
+					
 				}
-			}
+			}	
 		}
 	}
 }

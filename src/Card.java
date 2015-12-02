@@ -54,8 +54,8 @@ public class Card {
 		return isTrue;
 	}
 	public void buyCard(){
-		control.resources.wheatResource -= 1;
-		control.resources.woolResource -= 1;
-		control.resources.oreResource -= 1;
+		control.resources.wheatResource--;
+		control.resources.woolResource--;
+		control.resources.oreResource--;
 	}
 }

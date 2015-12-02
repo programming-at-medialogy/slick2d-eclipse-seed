@@ -15,7 +15,6 @@ public class Play extends BasicGameState {
 	
 	Image playBackground;
 	
-	public Card cardHelp;
 	public Card infoCard;
 	
 	
@@ -29,7 +28,7 @@ public class Play extends BasicGameState {
 		houseArea = new HouseClickArea(control);
 		roadArea = new RoadClickArea(control);
 		buttons = new OnScreenButton(control);
-		textField = new OnScreenTextField();
+		textField = new OnScreenTextField(control);
 		textField.create(gc);
 		
 		playBackground = new Image("images/PlayBackground.png");
@@ -38,7 +37,6 @@ public class Play extends BasicGameState {
 		infoCard.cardType = new Image ("images/info.png");
 		infoCard.x = 990;
 		infoCard.y = 170;
-		cardHelp = new Card(control);
 
 	}
 

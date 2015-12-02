@@ -115,9 +115,10 @@ public class OnScreenButton {
 				&& xMousePos < (buttonStartPosX - buttonWidth - 9) + buttonWidth)
 				&& (yMousePos < screenHeight - buttonStartPosY + buttonSpacing
 						&& yMousePos > screenHeight - buttonStartPosY + buttonSpacing - buttonHeight)) {
-			if (input.isMouseButtonDown(0)) {
-				buttonDevCardControl = true;
+			if (input.isMousePressed(0)) {
+				control.devCardButtonClicked = true;
 				buttonDiceControl = false;
+				//System.out.println("pressed");
 			}
 		}
 
