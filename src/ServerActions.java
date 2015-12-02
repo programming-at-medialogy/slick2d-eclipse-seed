@@ -49,7 +49,7 @@ public class ServerActions {
 								GameData.players.get(i).resourceAmount += 2;
 
 							}
-							if (nearbyHexagons[k].TYPE.toInt() != 5 && !nearbyHexagons[k].isRobbed()) {
+							if (nearbyHexagons[k].TYPE.toInt() != 5) {
 								GameData.players.get(i).resources[nearbyHexagons[k].TYPE.toInt()]++;
 								GameData.players.get(i).resourceAmount++;
 							}
