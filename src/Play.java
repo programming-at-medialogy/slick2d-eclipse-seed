@@ -44,10 +44,11 @@ public class Play extends BasicGameState {
 
 		g.drawImage(playBackground, 0,0);
 		
+
+		buttons.render(gc, g);
 		map.render(gc, g);
 		roadArea.render(gc, g);
 		houseArea.render(gc, g);
-		buttons.render(gc, g);
 		textField.render(gc, g);
 		infoCard.render(gc, g);
 		control.resources.render(gc, g);
