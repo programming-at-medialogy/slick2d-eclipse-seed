@@ -5,6 +5,8 @@ public class Controller {
 	Game game;
 	Resource resources;
 	
+	int receivedExCard = 0;
+	
 	boolean devCardButtonClicked = false;
 	
 	Controller() throws SlickException{
