@@ -8,10 +8,11 @@ public class Setup{
 	ArrayList<City> infectCards;
 	ArrayList<City> usedInfecCards;
 	ArrayList<City> drawnPlayerCards;
-	ArrayList<City> playerDeck;
+	static ArrayList<City> playerDeck;
 	ArrayList<City> infectionDeck;
 	Random ran;
 	int x;
+	int initialPos;
 	
 	Setup(){
 	
@@ -19,6 +20,8 @@ public class Setup{
 		
 		roleCards = new ArrayList<>(Arrays.asList("Medic", "Dispatcher","Researcher", "Scientist","Consistency planner", "Operations expert"));
 		Collections.shuffle(roleCards);
+		
+		
 		infectionDeck = new ArrayList<City>();
 		infectionDeck.add(new City("Seul",100,100,0 ));
 		infectionDeck.add(new City("Atlanta",200,200,0 ));
@@ -38,11 +41,7 @@ public class Setup{
 		 infectionDeck.add(new City("Tokyo",300,300,0 ));
 		 Collections.shuffle(infectionDeck);
 		 x = infectionDeck.size();
-		 for(City str: infectionDeck){
-			//System.out.println(str.toString());
-		}
-		 
-
+		
 		usedInfecCards = new ArrayList<>(Arrays.asList()); 						
 		
 		// adds one card from infection deck and place into used cards deck
@@ -51,7 +50,7 @@ public class Setup{
 		// prints one card from the array
 		//System.out.println(usedCardsArray.toString()); 
 	
-		ArrayList<City> playerDeck = new ArrayList<City>();
+		playerDeck = new ArrayList<City>();
 		playerDeck.add(new City("Seul",100,100,0 ));
 		playerDeck.add(new City("Atlanta",200,200,0 ));
 		playerDeck.add(new City("Rihadh",300,300,0 ));
@@ -69,22 +68,23 @@ public class Setup{
 		playerDeck.add(new City("Kolkata",300,300,0 ));
 		playerDeck.add(new City("Tokyo",300,300,0 ));
 		
-		Collections.shuffle( playerDeck);
-			// new empty array list where program is going to place drawn cards.
+		
+		Collections.shuffle(playerDeck);
+		
+		// new empty array list where program is going to place drawn cards.
 		drawnPlayerCards = new ArrayList<>(Arrays.asList()); 		
 		//System.out.println(drawnPlayerCards.toString()); 
 		
-		drawInfectionCards(1);
-
+		drawInfectionCards(9);
+		asignPlayerCards (4);
 		
+		placeToInisialPos ("Atlanta");
 	}
 	//This function should be at the server
 	public void drawInfectionCards( int amountOfCardsDrawn){
 		for (int i=0; i < amountOfCardsDrawn; i++ ){
 			//int ran= Math.random()*0+infectionDeck.size();	
-			// we put zero because of the dynamic arraylist
-			
-
+		
 			usedInfecCards.add(infectionDeck.get(0));
 			//String drawnCityName = usedInfecCards.getcityName();
 			infectCities();
@@ -103,10 +103,31 @@ public void infectCities (){
 
 public void asignRoles () {
 	
+	
 }	
-
-
-	public static void main(String[] args) {
+public void asignPlayerCards(int amountOfPlayerCards) {
+	for (int i =1; i < amountOfPlayerCards; i ++){
+		drawnPlayerCards.add(playerDeck.get(0));
+		playerDeck.remove(0);
+	}
+	
+	
+	
+public void placeToInisialPos (String city){
+	//int cityIndexPosition;
+	for(int i= 0 ; i < playerDeck.size(); i ++){
+		if (City.getcityName == "Atlanta"){
+			
+		
+		player1.add(playerDeck.size());	
+		player2.add(playerDeck.size());	
+		}
+		
+	}
+	}
+  		
+	    	
+public static void main(String[] args) {
 		Setup main = new Setup();
 		
 		
