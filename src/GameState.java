@@ -104,15 +104,13 @@ public class GameState extends BasicGameState implements KeyListener {
 		Button buyRoad = new Button(Windows.scWidth-aButtonWidth,(int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor)-aButtonHeight*4, aButtonWidth, aButtonHeight, butImg[0], butImg[1], butImg[2], this) {
 			@Override
 			public void isClicked() {
-				// TODO Auto-generated method stub
-				
+				isPlacingRoad = true;
 			}
 		};
 		Button buySettlement = new Button(Windows.scWidth-aButtonWidth,(int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor)-aButtonHeight*3, aButtonWidth, aButtonHeight, butImg[3], butImg[4], butImg[5], this) {
 			@Override
 			public void isClicked() {
-				// TODO Auto-generated method stub
-				
+				isPlacingBuilding = true;
 			}
 		};
 		Button upgCity = new Button(Windows.scWidth-aButtonWidth, (int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor)-aButtonHeight*2, aButtonWidth, aButtonHeight, butImg[6], butImg[7], butImg[8], this) {
@@ -214,10 +212,6 @@ public class GameState extends BasicGameState implements KeyListener {
 				isPlacingBuilding = false;
 			}
 		}
-		
-		//System.out.println(Mouse.getEventButtonState());
-		//System.out.println(Mouse.next());
-		//System.out.println(Mouse.getEventButton() + "\n");
 		
 		if (Mouse.isButtonDown(0) && isPlacingRoad) {
 			Position[] rPos = Position.findPositions(Mouse.getX() - Windows.scWidth/2, Windows.scHeight - Mouse.getY() - Windows.scHeight/2);
