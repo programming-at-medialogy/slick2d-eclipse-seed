@@ -89,8 +89,8 @@ public class GameState extends BasicGameState implements KeyListener {
 		Actions.initActions();
 		hexWidth = hexImg[0].getWidth();
 		hexHeight = hexImg[0].getHeight();
-		crdWidth = crdImg[0].getWidth();
-		crdHeight = crdImg[0].getHeight();
+		crdWidth = crdImg[0].getWidth()*Windows.scFactor;
+		crdHeight = crdImg[0].getHeight()*Windows.scFactor;
 		isPlacingBuilding = false;
 		isPlacingRoad = false;
 		Windows.padding = hexWidth/22 * Windows.scFactor;
@@ -154,6 +154,11 @@ public class GameState extends BasicGameState implements KeyListener {
 		int diceNumber = Dice.RollDice(diceIndex);
 		return diceNumber;
 
+		
+		
+		
+		
+		
 	}
 	@Override
 	public void render(GameContainer gc, StateBasedGame s, Graphics g) throws SlickException {
@@ -163,7 +168,6 @@ public class GameState extends BasicGameState implements KeyListener {
 		bkWater.draw(Windows.scWidth/2-bkWater.getWidth()/2*Windows.scFactor, (Windows.scHeight/2-bkWater.getHeight()/2*Windows.scFactor)-hexHeight*Windows.scFactor/1.5f, Windows.scFactor );
 		playerBck.draw(0, Windows.scHeight-playerBck.getHeight()*Windows.scFactor, Windows.scWidth, playerBck.getHeight()*Windows.scFactor);
 
-		// drawing the UI of the board
 		drawHexagons(g);
 		drawRobber(g);
 
@@ -182,9 +186,27 @@ public class GameState extends BasicGameState implements KeyListener {
 		Button.draw(g, this);
 		ListBox.draw(g, this);
 		TextBox.draw(g, this);
+		
+		// For displaying resource cards
+		for (int c = 0; c<Player.resources.length;  c++){ 
+			float crdPosX = cardPosition(c, Player.resources.length); // 5 is to change - amount of resource cards
+			crdImg[c].draw(crdPosX+(Windows.scWidth/2-crdWidth), (Windows.scHeight-crdHeight)-crdHeight/12.5f, Windows.scFactor);
+			// font for card numbers
+			LobbyState.testFont.drawString(crdPosX+crdWidth/2*Windows.scFactor+(Windows.scWidth/2-crdWidth), (Windows.scHeight-crdHeight)+crdHeight, "x", new Color(250, 235, 204)); 
+		}
+		// For displaying Development cards
+		for (int d=0; d<5; d++){
+			devCrdImg[d].draw(Windows.scWidth-crdWidth*Windows.scFactor, Windows.scHeight-crdHeight*Windows.scFactor, Windows.scFactor);
+		}
+		ListBox.update(this);
+		TextBox.update(this);
 	}
 	
-
+	
+	
+	
+	
+	
 	@Override
 	public void update(GameContainer gc, StateBasedGame s, int delta) throws SlickException {
 		Button.update(this);
@@ -235,30 +257,17 @@ public class GameState extends BasicGameState implements KeyListener {
 	
 	// methods for initial phase
 	private void drawHexagons(Graphics g) {
-
 		butImg[12].draw(Windows.scWidth-aButtonWidth, (int)((Windows.scHeight-playerBck.getHeight()*Windows.scFactor)-aButtonHeight*4.5), Windows.scFactor);
 		Hexagon[] hexagons = Hexagon.getHexagons();
-		
 		for (int i = 0; i < hexagons.length; i++){
 			hexImg[hexagons[i].TYPE.toInt()].draw(hexagons[i].getX() + Windows.scWidth/2-hexImg[0].getWidth()/2*Windows.scFactor, hexagons[i].getY() + Windows.scHeight/2-hexImg[0].getHeight()/2*Windows.scFactor, Windows.scFactor);
 			numImg[hexagons[i].NUMBER-2].draw(hexagons[i].getX() + Windows.scWidth/2-numImg[2].getWidth()/2*Windows.scFactor, hexagons[i].getY() + Windows.scHeight/2-numImg[2].getHeight()/2*Windows.scFactor, Windows.scFactor);
 		}
-		// For displaying resource cards
-		for (int c = 0; c<Player.resources.length;  c++){ 
-			float crdPosX = cardPosition(c, Player.resources.length); // 5 is to change - amount of resource cards
-			crdImg[c].draw(crdPosX+(Windows.scWidth/2-crdWidth*Windows.scFactor), (Windows.scHeight-crdHeight*Windows.scFactor)-crdHeight/12.5f, Windows.scFactor);
-		}
-		for (int d=0; d<5; d++){
-			devCrdImg[d].draw(Windows.scWidth-crdWidth*Windows.scFactor, Windows.scHeight-crdHeight*Windows.scFactor, Windows.scFactor);
-		}
-		ListBox.update(this);
-		TextBox.update(this);
-
 	}
 	
 	// Method to get resource cards positions
 		float cardPosition(int cardIndex, int cardAmount){
-			float crdPosX = cardIndex*(crdWidth * Windows.scFactor-crdWidth/140)-cardAmount/2*(crdWidth/2*Windows.scFactor)-crdWidth/2.28f*Windows.scFactor;
+			float crdPosX = cardIndex*(crdWidth-crdWidth/140)-cardAmount/2*(crdWidth/2)-crdWidth/2.28f;
 			return crdPosX;
 		}
 	

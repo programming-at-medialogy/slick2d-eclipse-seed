@@ -71,7 +71,7 @@ public class IntroState extends BasicGameState implements KeyListener{
 			}
 		};
 		//test
-		DialogBox tempBox = new DialogBox(Windows.scWidth/2, Windows.scHeight/2, 100, 100, "Hallo this is test!", 20, this);
+		DialogBox tempBox = new DialogBox(Windows.scWidth/2, Windows.scHeight/2, 100, 100, 20, this);
 		tempBox.activate();
 		tempBox.addImage(background, Windows.scWidth/2, Windows.scHeight/2, 50, 50);
 		tempBox.addString("Test test test", Windows.scWidth/2, Windows.scHeight/2);
