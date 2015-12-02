@@ -220,13 +220,13 @@ public class GameState extends BasicGameState implements KeyListener {
 			Position bPos = Position.findPosition(Mouse.getX() - Windows.scWidth/2, Windows.scHeight - Mouse.getY() - Windows.scHeight/2);
 			
 			if (bPos != null) {
-				Building building = Building.build(bPos, GameData.ownIndex);
-				if (building != null) {
-					isPlacingBuilding = false;
-					Actions.buyBuilding(bPos, GameData.ownIndex);
-				}
-				else 
-					buildingWarning.activate();
+				//Building building = Building.build(bPos, GameData.ownIndex);
+				//if (building != null) {
+					//isPlacingBuilding = false;
+					Actions.placeBuilding(bPos, GameData.ownIndex);
+				//}
+				//else 
+					//buildingWarning.activate();
 			} 
 		}
 		
