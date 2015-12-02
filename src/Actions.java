@@ -309,7 +309,8 @@ public class Actions {
 					
 					// convert string to position
 					message = message.substring(jsonIndex);
-					Position position = gson.fromJson(message, Position.class);
+					Position tempPos = gson.fromJson(message, Position.class);
+					Position position = Position.assignPosition(tempPos.DIVISION, tempPos.INDEX);
 					
 					// error checking
 					if (Building.getByPosition(position) != null) {

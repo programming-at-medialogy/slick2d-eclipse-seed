@@ -244,6 +244,7 @@ public class GameState extends BasicGameState implements KeyListener {
 				//if (building != null) {
 					//isPlacingBuilding = false;
 					Actions.placeBuilding(bPos, GameData.ownIndex);
+					isPlacingBuilding = false;
 				//}
 				//else 
 					//buildingWarning.activate();
