@@ -19,6 +19,7 @@ public class GameState extends BasicGameState implements KeyListener {
 
 	private Image[] diceImg = new Image [6];
 	private Image playerBck;
+	private Image chartImg;
 
 	private Image[] crdImg = new Image [5]; // Array for resource cards
 	private Image[] devCrdImg = new Image [5];
@@ -67,6 +68,7 @@ public class GameState extends BasicGameState implements KeyListener {
 		robImg = new Image("resources/robber.png");
 		bkWater = new Image("resources/bkWater.png");
 		playerBck = new Image("resources/playerBck.jpg");
+		chartImg = new Image("resources/chartImg.jpg");
 		
 		// game data init
 		GameData.roads = new ArrayList<Road>();
@@ -87,13 +89,13 @@ public class GameState extends BasicGameState implements KeyListener {
 		Windows.padding = hexWidth/22 * Windows.scFactor;
 		
 		//Board Action Buttons
-		Button buyDevCard = new Button(Windows.scWidth/2-buttonWidth*3, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 5, "Buy Development Card", this) {
+		Button buyDevCard = new Button(Windows.scWidth/2-buttonWidth*3, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 13, "Buy Special Card", this) {
 			@Override
 			public void isClicked() {		
 				System.out.println("Buy");	
 			}
 		};
-		Button buySettlement = new Button(Windows.scWidth/2-buttonWidth*2+buttonWidth/7, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 7, "Buy Settlement", this) {
+		Button buySettlement = new Button(Windows.scWidth/2-buttonWidth*2+buttonWidth/7, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 14, "Buy Settlement", this) {
 			@Override
 			public void isClicked() {		
 				System.out.println("Buy");
@@ -101,7 +103,7 @@ public class GameState extends BasicGameState implements KeyListener {
 				isPlacingBuilding = true;
 			}
 		};
-		Button buyRoad = new Button(Windows.scWidth/2-buttonWidth+buttonWidth/7*2, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 7, "Buy Road", this) {
+		Button buyRoad = new Button(Windows.scWidth/2-buttonWidth+buttonWidth/7*2, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 14, "Buy Road", this) {
 			@Override
 			public void isClicked() {		
 				System.out.println("Buy");	
@@ -109,29 +111,29 @@ public class GameState extends BasicGameState implements KeyListener {
 				isPlacingRoad = true;
 			}
 		};
-		Button upgCity = new Button(Windows.scWidth/2+buttonWidth/7*3, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 7, "Upgrade to City", this) {
-
+		Button upgCity = new Button(0, (int)((chartImg.getHeight()*Windows.scFactor)/2+(chartImg.getHeight()*Windows.scFactor)/20), (int)(chartImg.getWidth()*Windows.scFactor), (int)(chartImg.getHeight()*Windows.scFactor)/4, 14, "Upgrade to City", this) {
 			@Override
 			public void isClicked() {
-				
+				System.out.println("Upgrading to City");	
 			}
 		};
+		
 
-
-		Button trade = new Button(Windows.scWidth/2+buttonWidth+buttonWidth/7*4, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 7, "Trade", this) {
+		Button trade = new Button(Windows.scWidth-buttonWidth*2-buttonWidth/4,(int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor-buttonHeight), buttonWidth, buttonHeight, 20, "Trade", this) {
 			@Override
 			public void isClicked() {		
 				System.out.println("Buy");	
 			}
 		};
 
-		Button rollDice = new Button(Windows.scWidth/2+buttonWidth+buttonWidth+buttonWidth/7*5, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 7, "Roll Dice", this) {
+		Button rollD = new Button(Windows.scWidth-buttonWidth-buttonWidth/8,(int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor-buttonHeight), buttonWidth, buttonHeight, 20, "Roll Dice", this) {
 			@Override
 			public void isClicked() {		
 				diceNumber(1);
 				diceNumber(2);	
 			}
 		};
+
 		TextBox chatInput = new TextBox(0, Windows.scHeight - 35, (int)(1200*Windows.scFactor), 35, 20, this) {
 			@Override
 			public void onSubmit() {
@@ -143,7 +145,7 @@ public class GameState extends BasicGameState implements KeyListener {
 	}
 
 	int diceNumber(int diceIndex){
-		int diceNumber= Dice.RollDice(diceIndex);
+		int diceNumber = Dice.RollDice(diceIndex);
 		return diceNumber;
 
 	}
@@ -153,6 +155,7 @@ public class GameState extends BasicGameState implements KeyListener {
 		g.setBackground(bkColor); // set background color
 		
 		playerBck.draw(0, Windows.scHeight-playerBck.getHeight()*Windows.scFactor, Windows.scWidth, playerBck.getHeight()*Windows.scFactor);
+		chartImg.draw(0,0, Windows.scFactor);
 
 		// drawing the UI of the board
 		drawHexagons(g);
@@ -183,7 +186,7 @@ public class GameState extends BasicGameState implements KeyListener {
 		Button.update(this);
 		ListBox.update(this);
 		TextBox.update(this);
-		
+
 		if(Mouse.isButtonDown(0) && isPlacingBuilding) {
 			//System.out.println(Mouse.getX() + " " + Mouse.getY());
 			Position bPos = Position.findPosition(Mouse.getX() - Windows.scWidth/2, Windows.scHeight - Mouse.getY() - Windows.scHeight/2);
@@ -219,7 +222,6 @@ public class GameState extends BasicGameState implements KeyListener {
 		// TODO Auto-generated method stub
 		return States.GameState;
 	}
-
 	@Override
 	public void keyPressed(int key, char c) {
 		TextBox.keyPress(key, c, this);
