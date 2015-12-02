@@ -35,7 +35,7 @@ public class Card {
 				input[i] = new BuildRoadsCard(control);
 			} else if (i < 6){
 				input[i] = new ExcavationCard(control);
-			} else if (i < 21){
+			} else if (i < 20){
 				input[i] = new KnightCard(control);
 			} else if (i < 25){
 				input[i] = new VPCard(control);
