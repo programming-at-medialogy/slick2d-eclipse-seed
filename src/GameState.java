@@ -19,17 +19,17 @@ public class GameState extends BasicGameState implements KeyListener {
 
 	private Image[] diceImg = new Image [6];
 	private Image playerBck;
-	private Image chartImg;
 
 	private Image[] crdImg = new Image [5]; // Array for resource cards
 	private Image[] devCrdImg = new Image [5];
 
 	private Image[] buildImg = new Image[4]; // Array for level 1 building images
 	private Image[] cityImg = new Image[4]; // Array for level 2 building images
-
+	private static Image[] butImg = new Image[15]; //Action buttons
+	
 	private Image robImg;
 	private Image bkWater;
-	
+	 
 	static float hexHeight; // to get height of hexagon
 	static float hexWidth; // to get width of hexagon
 	static float crdHeight;
@@ -37,6 +37,8 @@ public class GameState extends BasicGameState implements KeyListener {
 	
 	static int buttonWidth = (int)(381*Windows.scFactor);
 	static int buttonHeight = (int)(126*Windows.scFactor);
+	static int aButtonWidth;
+	static int aButtonHeight;
 	
 	static boolean isPlacingBuilding;
 	static boolean isPlacingRoad;
@@ -66,10 +68,15 @@ public class GameState extends BasicGameState implements KeyListener {
 		for (int d=0; d<6; d++){
 			diceImg[d] = new Image ("resources/dice_"+(d+1)+".png");
 		}
+		for (int a=0; a<15; a++){
+			butImg[a] = new Image("resources/but_"+(a)+".jpg");
+		}
 		robImg = new Image("resources/robber.png");
 		bkWater = new Image("resources/bkWater.png");
 		playerBck = new Image("resources/playerBck.jpg");
-		chartImg = new Image("resources/chartImg.jpg");
+		aButtonWidth = (int)(butImg[0].getWidth()*Windows.scFactor); // Action button width
+		aButtonHeight = (int)(butImg[0].getHeight()*Windows.scFactor); // Action button height
+		
 		
 		// game data init
 		GameData.roads = new ArrayList<Road>();
@@ -90,34 +97,38 @@ public class GameState extends BasicGameState implements KeyListener {
 		Windows.padding = hexWidth/22 * Windows.scFactor;
 		
 		//Board Action Buttons
-		Button buyDevCard = new Button(Windows.scWidth/2-buttonWidth*3, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 13, "Buy Special Card", this) {
-			@Override
-			public void isClicked() {		
-				System.out.println("Buy");	
-			}
-		};
-		Button buySettlement = new Button(Windows.scWidth/2-buttonWidth*2+buttonWidth/7, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 14, "Buy Settlement", this) {
-			@Override
-			public void isClicked() {		
-				System.out.println("Buy");
-				
-				isPlacingBuilding = true;
-			}
-		};
-		Button buyRoad = new Button(Windows.scWidth/2-buttonWidth+buttonWidth/7*2, Windows.scHeight-buttonHeight-buttonHeight/2, buttonWidth, buttonHeight, 14, "Buy Road", this) {
-			@Override
-			public void isClicked() {		
-				System.out.println("Buy");	
-				
-				isPlacingRoad = true;
-			}
-		};
-		Button upgCity = new Button(0, (int)((chartImg.getHeight()*Windows.scFactor)/2+(chartImg.getHeight()*Windows.scFactor)/20), (int)(chartImg.getWidth()*Windows.scFactor), (int)(chartImg.getHeight()*Windows.scFactor)/4, 14, "Upgrade to City", this) {
+		
+		Button buyRoad = new Button(Windows.scWidth-aButtonWidth,(int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor)-aButtonHeight*4, aButtonWidth, aButtonHeight, butImg[0], butImg[1], butImg[2], this) {
 			@Override
 			public void isClicked() {
-				System.out.println("Upgrading to City");	
+				// TODO Auto-generated method stub
+				
 			}
 		};
+		Button buySettlement = new Button(Windows.scWidth-aButtonWidth,(int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor)-aButtonHeight*3, aButtonWidth, aButtonHeight, butImg[3], butImg[4], butImg[5], this) {
+			@Override
+			public void isClicked() {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+		Button upgCity = new Button(Windows.scWidth-aButtonWidth, (int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor)-aButtonHeight*2, aButtonWidth, aButtonHeight, butImg[6], butImg[7], butImg[8], this) {
+			@Override
+			public void isClicked() {
+				// TODO Auto-generated method stub	
+			}
+		};
+		Button devCard = new Button(Windows.scWidth-aButtonWidth, (int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor)-aButtonHeight, aButtonWidth, aButtonHeight, butImg[9], butImg[10], butImg[11], this) {
+			@Override
+			public void isClicked() {
+				// TODO Auto-generated method stub	
+			}
+		};
+		
+		
+		
+		
+		
 		
 
 		Button trade = new Button(Windows.scWidth-buttonWidth*2-buttonWidth/4,(int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor-buttonHeight), buttonWidth, buttonHeight, 20, "Trade", this) {
@@ -136,6 +147,8 @@ public class GameState extends BasicGameState implements KeyListener {
 					moveRobber = true;
 			}
 		};
+		
+
 
 		TextBox chatInput = new TextBox(0, Windows.scHeight - 35, (int)(1200*Windows.scFactor), 35, 20, this) {
 			@Override
@@ -158,7 +171,6 @@ public class GameState extends BasicGameState implements KeyListener {
 		g.setBackground(bkColor); // set background color
 		
 		playerBck.draw(0, Windows.scHeight-playerBck.getHeight()*Windows.scFactor, Windows.scWidth, playerBck.getHeight()*Windows.scFactor);
-		chartImg.draw(0,0, Windows.scFactor);
 
 		// drawing the UI of the board
 		drawHexagons(g);

@@ -98,8 +98,8 @@ public abstract class Button {
 					buttons.get(i).pressed.draw(buttons.get(i).x, buttons.get(i).y, buttons.get(i).width, buttons.get(i).height);
 				} else {
 					buttons.get(i).image.draw(buttons.get(i).x, buttons.get(i).y, buttons.get(i).width, buttons.get(i).height);
-				}
-				buttons.get(i).buttonFont.drawString(buttons.get(i).x + buttons.get(i).width / 2 - buttons.get(i).buttonFont.getWidth(buttons.get(i).message) / 2, buttons.get(i).y + buttons.get(i).height / 2 - buttons.get(i).buttonFont.getHeight(buttons.get(i).message) / 2, buttons.get(i).message, new Color(100, 54, 26));
+				} if (buttons.get(i).image == sImage)
+					buttons.get(i).buttonFont.drawString(buttons.get(i).x + buttons.get(i).width / 2 - buttons.get(i).buttonFont.getWidth(buttons.get(i).message) / 2, buttons.get(i).y + buttons.get(i).height / 2 - buttons.get(i).buttonFont.getHeight(buttons.get(i).message) / 2, buttons.get(i).message, new Color(100, 54, 26));
 			}
 		}
 	}
