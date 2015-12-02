@@ -190,4 +190,8 @@ public class Player  {
 		return playerName;
 	}
 
+	@Override
+	public String toString() {
+		return "Name: " + playerName + "\nNumber: " + NUMBER;
+	}
 }

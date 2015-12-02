@@ -277,9 +277,8 @@ public class Actions {
 				System.out.println("I am index " + ownIndex + "!");
 			} else if (objectType.equals("PlayerNums")) {
 				message = message.substring(jsonIndex);
-				int playerNum = Integer.parseInt(message);
-				GameData.setPlayerNum(playerNum);
-				System.out.println("There are " + playerNum + " players!");
+				System.out.println("There are " + Integer.parseInt(message) + " players!");
+				GameData.setPlayerNum(Integer.parseInt(message));
 			} else if (objectType.equals("Players")) {
 				message = message.substring(jsonIndex);
 				
@@ -293,6 +292,9 @@ public class Actions {
 						break;
 					}
 				}
+				
+				System.out.println("Own index: " + GameData.ownIndex + "!");
+				System.out.println("Loaded players: " + GameData.players + "!");
 			}
 			
 			else {
@@ -302,14 +304,22 @@ public class Actions {
 				}
 
 				if (objectType.equals("Building")) {
+					System.out.println("Received a building from +" + playerID + "!");
+					
+					// convert string to position
 					message = message.substring(jsonIndex);
 					Position position = gson.fromJson(message, Position.class);
+					
+					// error checking
 					if (Building.getByPosition(position) != null) {
 						// The building already exists
-					} else {
+					} 
+					
+					else {
 						Building.build(position, playerID);
 						System.out.println("Building here");
 					}
+					
 				} else if (objectType.equals("Road")) {
 					message = message.substring(jsonIndex);
 					startR = gson.fromJson(message, Position.class);
