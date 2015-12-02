@@ -43,13 +43,13 @@ public class ServerActions {
 				if (GameData.buildings.get(j).PLAYER == GameData.players.get(i).NUMBER) {
 					Hexagon[] nearbyHexagons = GameData.buildings.get(j).POSITION.getNearbyHexagons();
 					for (int k = 0; k < nearbyHexagons.length; k++) {
-						if (nearbyHexagons[k].NUMBER == dieRoll) {
+						if (nearbyHexagons[k].NUMBER == dieRoll && !nearbyHexagons[k].isRobbed()) {
 							if (GameData.buildings.get(k).isUpgraded()) {
 								GameData.players.get(i).resources[nearbyHexagons[k].TYPE.toInt()] += 2;
 								GameData.players.get(i).resourceAmount += 2;
 
 							}
-							if (nearbyHexagons[k].TYPE.toInt() != 5) {
+							if (nearbyHexagons[k].TYPE.toInt() != 5 && !nearbyHexagons[k].isRobbed()) {
 								GameData.players.get(i).resources[nearbyHexagons[k].TYPE.toInt()]++;
 								GameData.players.get(i).resourceAmount++;
 							}
