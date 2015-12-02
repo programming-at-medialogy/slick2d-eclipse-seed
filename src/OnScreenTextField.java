@@ -25,7 +25,6 @@ public class OnScreenTextField {
 	Card cardHelp;
 	Card[] developmentPile = new Card[25];
 	Card pileOutput;
-	boolean allow = false;
 
 	public OnScreenTextField() throws SlickException {
 		relButton = new OnScreenButton(control);
@@ -82,19 +81,16 @@ public class OnScreenTextField {
 
 	}
 
-	public void writeBuyToConsole(Card[] input, boolean allow) throws SlickException {
+	public void writeBuyToConsole(Card[] input) throws SlickException {
 		Card output = new Card(control);
 		Random rand = new Random();
 
 		if (control.playerNo == 1) {
-			if (allow == true) {
-				output = input[rand.nextInt(input.length)];
-				textField.setConsumeEvents(true);
-				textField.setText(output.effectline);
-				textField.getText();
-				pileOutput = output;
-				allow = false;
-			}
+			output = input[rand.nextInt(input.length)];
+			textField.setConsumeEvents(true);
+			textField.setText(output.effectline);
+			textField.getText();
+			pileOutput = output;
 		} else if (control.playerNo == 2) {
 			output = input[rand.nextInt(input.length)];
 			textField2.setConsumeEvents(true);
@@ -140,9 +136,9 @@ public class OnScreenTextField {
 		if (relButton.buttonDevCardControl == true) {
 			if (game.client.obj.playerTurn == control.playerNo) {
 				if (cardHelp.checkDevCardCost() == true) {
-					allow = true;
 					cardHelp.buyCard();
-					writeBuyToConsole(developmentPile, allow);
+					writeBuyToConsole(developmentPile);
+					pileOutput.effect();
 					relButton.buttonDevCardControl = false;
 				}
 			}
