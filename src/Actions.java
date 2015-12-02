@@ -304,7 +304,8 @@ public class Actions {
 				}
 
 				if (objectType.equals("Building")) {
-					System.out.println("Received a building from +" + playerID + "!");
+					System.out.println("Received a building from " + playerID + "!");
+					System.out.println(message);
 					
 					// convert string to position
 					message = message.substring(jsonIndex);

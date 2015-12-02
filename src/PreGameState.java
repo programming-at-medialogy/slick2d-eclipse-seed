@@ -55,7 +55,6 @@ public class PreGameState extends BasicGameState implements KeyListener{
 			@Override
 			public void isClicked() {
 				//not implemented yet, should not we accessible before 4 players are ready
-				Hexagon.generateMap();
 				s.enterState(States.GameState);
 			}
 		};
