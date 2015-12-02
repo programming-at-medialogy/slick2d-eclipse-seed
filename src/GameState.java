@@ -246,7 +246,7 @@ public class GameState extends BasicGameState implements KeyListener {
 		// For displaying resource cards
 		for (int c = 0; c<Player.resources.length;  c++){ 
 			float crdPosX = cardPosition(c, Player.resources.length); // 5 is to change - amount of resource cards
-			crdImg[c].draw(crdPosX+(Windows.scWidth/2-crdWidth*Windows.scFactor), (Windows.scHeight-crdHeight*Windows.scFactor)-crdHeight/20, Windows.scFactor);
+			crdImg[c].draw(crdPosX+(Windows.scWidth/2-crdWidth*Windows.scFactor), (Windows.scHeight-crdHeight*Windows.scFactor)-crdHeight/12.5f, Windows.scFactor);
 		}
 		for (int d=0; d<5; d++){
 			devCrdImg[d].draw(Windows.scWidth-crdWidth*Windows.scFactor, Windows.scHeight-crdHeight*Windows.scFactor, Windows.scFactor);
@@ -258,7 +258,7 @@ public class GameState extends BasicGameState implements KeyListener {
 	
 	// Method to get resource cards positions
 		float cardPosition(int cardIndex, int cardAmount){
-			float crdPosX = cardIndex*(crdWidth/30* Windows.scFactor)-cardAmount/2*(crdWidth/2*Windows.scFactor);
+			float crdPosX = cardIndex*(crdWidth * Windows.scFactor-crdWidth/140)-cardAmount/2*(crdWidth/2*Windows.scFactor)-crdWidth/2.28f*Windows.scFactor;
 			return crdPosX;
 		}
 	
