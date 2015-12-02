@@ -86,32 +86,25 @@ public class GameState extends BasicGameState implements KeyListener {
 		GameData.buildings = new ArrayList<Building>();
 		GameData.players = new ArrayList<Player>();
 		
-		// actions init
 		Actions.initActions();
-		
 		hexWidth = hexImg[0].getWidth();
 		hexHeight = hexImg[0].getHeight();
 		crdWidth = crdImg[0].getWidth();
 		crdHeight = crdImg[0].getHeight();
-		
 		isPlacingBuilding = false;
 		isPlacingRoad = false;
-		
 		Windows.padding = hexWidth/22 * Windows.scFactor;
 		
-		//Board Action Buttons
-		
+		//Board Development Buttons
 		Button buyRoad = new Button(Windows.scWidth-aButtonWidth,(int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor)-aButtonHeight*4, aButtonWidth, aButtonHeight, butImg[0], butImg[2], butImg[1], this) {
 			@Override
 			public void isClicked() {
-
 				isPlacingRoad = true;
 			}
 		};
 		Button buySettlement = new Button(Windows.scWidth-aButtonWidth,(int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor)-aButtonHeight*3, aButtonWidth, aButtonHeight, butImg[3], butImg[5], butImg[4], this) {
 			@Override
 			public void isClicked() {
-
 				isPlacingBuilding = true;
 			}
 		};
@@ -119,25 +112,22 @@ public class GameState extends BasicGameState implements KeyListener {
 		Button upgCity = new Button(Windows.scWidth-aButtonWidth, (int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor)-aButtonHeight*2, aButtonWidth, aButtonHeight, butImg[6], butImg[8], butImg[7], this) {
 			@Override
 			public void isClicked() {
-				// TODO Auto-generated method stub	
 			}
 		};
 		Button devCard = new Button(Windows.scWidth-aButtonWidth, (int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor)-aButtonHeight, aButtonWidth, aButtonHeight, butImg[9], butImg[10], butImg[11], this) {
 			@Override
 			public void isClicked() {
-				// TODO Auto-generated method stub	
 			}
 		};
 		
-
+		// Board action buttons
 		Button trade = new Button(Windows.scWidth-buttonWidth*2-buttonWidth*2,(int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor-buttonHeight), buttonWidth, buttonHeight, 20, "Trade", this) {
 			@Override
 			public void isClicked() {		
-				System.out.println("Buy");	
+				System.out.println("Trade");	
 			}
 		};
-
-		Button rollD = new Button((int)(Windows.scWidth-buttonWidth-buttonWidth*1.5),(int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor-buttonHeight), buttonWidth, buttonHeight, 20, "Roll Dice", this) {
+		Button rollD = new Button((int)(Windows.scWidth-buttonWidth-buttonWidth*1.2),(int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor-buttonHeight), buttonWidth, buttonHeight, 20, "Roll Dice", this) {
 			@Override
 			public void isClicked() {		
 				diceNumber(1);
@@ -215,7 +205,6 @@ public class GameState extends BasicGameState implements KeyListener {
 		
 		if (Mouse.isButtonDown(0) && isPlacingRoad) {
 			Position[] rPos = Position.findPositions(Mouse.getX() - Windows.scWidth/2, Windows.scHeight - Mouse.getY() - Windows.scHeight/2);
-			
 			if (rPos != null) {
 				Road.buildRoad(rPos[0], rPos[1], GameData.ownIndex);
 				isPlacingRoad = false;
@@ -224,7 +213,6 @@ public class GameState extends BasicGameState implements KeyListener {
 		
 		if(moveRobber && Mouse.isButtonDown(0)){
 			Hexagon rHex = Hexagon.findHexagon(Mouse.getX() - Windows.scWidth/2, Windows.scHeight - Mouse.getY() - Windows.scHeight/2);
-			
 			if (rHex != null) {
 				rHex.rob();
 				moveRobber = false;
@@ -281,11 +269,9 @@ public class GameState extends BasicGameState implements KeyListener {
 	}
 	
 	void drawBuilding(Graphics g) {
-		
 		for (Building building : Building.getBuildings()) {
 			float xPos = building.POSITION.getX();
 			float yPos = building.POSITION.getY();
-			
 			if (building.isUpgraded()) {
 				cityImg[building.PLAYER].draw(xPos + Windows.scWidth/2 - cityImg[building.PLAYER].getWidth()/2 * Windows.scFactor, yPos + Windows.scHeight/2 - cityImg[building.PLAYER].getHeight()/2 * Windows.scFactor);
 			} else {
