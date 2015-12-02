@@ -30,7 +30,7 @@ public class LobbyState extends BasicGameState implements KeyListener{
 	TrueTypeFont titleFont;
 	TrueTypeFont miscFont;
 	TrueTypeFont warningFont;
-	static TrueTypeFont testFont;
+	static TrueTypeFont cardNumFont;
 
 	/**
 	 * public void init is the initial phase of the lobbyState
@@ -46,7 +46,7 @@ public class LobbyState extends BasicGameState implements KeyListener{
 		titleFont = Resource.getFont("title", 50);
 		miscFont = Resource.getFont("std", 14);
 		warningFont = Resource.getFont("std", 22);	
-		testFont = Resource.getFont("std", 22);
+		cardNumFont = Resource.getFont("std", 22);
 		int bWidth = (int) (1000*Windows.scFactor);
 		int bHeight = (int) (300*Windows.scFactor);
 		
@@ -98,11 +98,11 @@ public class LobbyState extends BasicGameState implements KeyListener{
 						ip = IpBox.getContent();
 						port = this.getContent();
 						findGame = false;
-//						try {
-//							NetworkClient.startClient(IpBox.getContent(), this.getContent());
-//						} catch (IOException e) {
-//							e.printStackTrace();
-//						}
+						try {
+							NetworkClient.startClient(IpBox.getContent(), this.getContent());
+						} catch (IOException e) {
+						e.printStackTrace();
+						}
 						//join button does not show before a game has been searched for
 						Button join = new Button(Windows.scWidth/2 - bWidth/2, Windows.scHeight/2 - bHeight/2, bWidth, bHeight, 30, "Join", this.state) {
 

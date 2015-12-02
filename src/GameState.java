@@ -42,7 +42,6 @@ public class GameState extends BasicGameState implements KeyListener {
 	
 	static boolean isPlacingBuilding;
 	static boolean isPlacingRoad;
-	static boolean isUpgradingBuilding;
 	static boolean moveRobber = false;
 	static boolean isClicked = false;
 	
@@ -71,8 +70,7 @@ public class GameState extends BasicGameState implements KeyListener {
 			devCrdImg[c] = new Image ("resources/r_card_1.jpg");
 		}
 		for(int b = 0; b < cityImg.length; b++) {
-			buildImg[b] = new Image("resources/buildImg" + b + ".png"); // Initializing level 1 building images
-			cityImg[b] = new Image("resources/cityImg" + b + ".png"); // Initializing level 2 building images
+			buildImg[b] = new Image("resources/buildImg" + b + ".png"); //Initializing level 1 building images
 		}
 		for (int d=0; d<6; d++){
 			diceImg[d] = new Image ("resources/dice_"+(d+1)+".png");
@@ -101,8 +99,6 @@ public class GameState extends BasicGameState implements KeyListener {
 		crdHeight = crdImg[0].getHeight()*Windows.scFactor;
 		isPlacingBuilding = false;
 		isPlacingRoad = false;
-		isUpgradingBuilding = false;
-		
 		Windows.padding = hexWidth/22 * Windows.scFactor;
 		
 		//Board Development Buttons
@@ -122,13 +118,11 @@ public class GameState extends BasicGameState implements KeyListener {
 		Button upgCity = new Button(Windows.scWidth-aButtonWidth, (int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor)-aButtonHeight*2, aButtonWidth, aButtonHeight, butImg[6], butImg[8], butImg[7], this) {
 			@Override
 			public void isClicked() {
-				isUpgradingBuilding = true;
 			}
 		};
 		Button devCard = new Button(Windows.scWidth-aButtonWidth, (int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor)-aButtonHeight, aButtonWidth, aButtonHeight, butImg[9], butImg[10], butImg[11], this) {
 			@Override
 			public void isClicked() {
-				
 			}
 		};
 		
@@ -173,8 +167,8 @@ public class GameState extends BasicGameState implements KeyListener {
 	int diceNumber(int diceIndex){
 		int diceNumber = Dice.RollDice(diceIndex);
 		return diceNumber;
-
 	}
+	
 	
 	@Override
 	public void render(GameContainer gc, StateBasedGame s, Graphics g) throws SlickException {
@@ -202,6 +196,21 @@ public class GameState extends BasicGameState implements KeyListener {
 		Button.draw(g, this);
 		ListBox.draw(g, this);
 		TextBox.draw(g, this);
+
+		// For displaying resource cards
+		for (int c = 0; c<Player.resources.length;  c++){ 
+			float crdPosX = cardPosition(c, Player.resources.length); // 5 is to change - amount of resource cards
+			crdImg[c].draw(crdPosX+(Windows.scWidth/2-crdWidth), (Windows.scHeight-crdHeight)-crdHeight/3.8f, Windows.scFactor);
+			// font for card numbers
+			LobbyState.cardNumFont.drawString(crdPosX+(Windows.scWidth/2-crdWidth), (Windows.scHeight+crdHeight-playerBck.getHeight()*Windows.scWidth), "x", new Color(250, 235, 204)); 
+		}
+		// For displaying Development cards
+		for (int d=0; d<5; d++){
+			devCrdImg[d].draw(Windows.scWidth-crdWidth, Windows.scHeight-crdHeight, Windows.scFactor);
+		}
+		ListBox.update(this);
+		TextBox.update(this);
+		DialogBox.draw(g, this);
 	}
 	
 	
@@ -237,29 +246,15 @@ public class GameState extends BasicGameState implements KeyListener {
 				}
 				else 
 					buildingWarning.activate();
-			}
+			} 
 		}
 		
 		else if (Mouse.isButtonDown(0) && isPlacingRoad && !isClicked) {
 			Position[] rPos = Position.findPositions(Mouse.getX() - Windows.scWidth/2, Windows.scHeight - Mouse.getY() - Windows.scHeight/2);
 			if (rPos != null) {
 				Road.buildRoad(rPos[0], rPos[1], GameData.ownIndex);
-				// change above to - Actions.buyRoad(rPos[0], rPos[1], GameData.ownIndex); - for server testing
 				isPlacingRoad = false;
 			}
-		}
-		
-
-		else if(Mouse.isButtonDown(0) && isUpgradingBuilding && !isClicked) {
-			Position bPos = Position.findPosition(Mouse.getX() - Windows.scWidth/2, Windows.scHeight - Mouse.getY() - Windows.scHeight/2);
-			Building building = Building.getByPosition(bPos);
-			
-			if(building != null) {
-				building.upgrade(); 
-				// change above to - Actions.upgradeCity(bPos, GameData.ownIndex); - for server testing
-				System.out.println(building.isUpgraded());
-			}
-			isUpgradingBuilding = false;
 		}
 		
 		else if(moveRobber && Mouse.isButtonDown(0) && !isClicked){
@@ -283,6 +278,7 @@ public class GameState extends BasicGameState implements KeyListener {
 
 	@Override
 	public int getID() {
+		// TODO Auto-generated method stub
 		return States.GameState;
 	}
 	@Override
@@ -325,7 +321,7 @@ public class GameState extends BasicGameState implements KeyListener {
 			float xPos = building.POSITION.getX();
 			float yPos = building.POSITION.getY();
 			if (building.isUpgraded()) {
-				cityImg[building.PLAYER].draw(xPos + Windows.scWidth/2 - cityImg[building.PLAYER].getWidth()/2, yPos + Windows.scHeight/2 - cityImg[building.PLAYER].getHeight()/2);
+				cityImg[building.PLAYER].draw(xPos + Windows.scWidth/2 - cityImg[building.PLAYER].getWidth()/2 * Windows.scFactor, yPos + Windows.scHeight/2 - cityImg[building.PLAYER].getHeight()/2 * Windows.scFactor);
 			} else {
 				buildImg[building.PLAYER].draw(xPos + Windows.scWidth/2 - buildImg[building.PLAYER].getWidth() / 2, yPos + Windows.scHeight/2 - buildImg[building.PLAYER].getHeight() / 2);
 			}
