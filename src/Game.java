@@ -11,7 +11,6 @@ public class Game extends StateBasedGame {
 	public static final int winState = 2; //for the winstate
 	static int screenWidth = 1200; //Declare screen canvas size
 	static int screenHeight = 700; //Declare screen canvas size
-	public static int test;
 
 	static Client client; //Instance of client 
 	Play play = new Play(playState); //Needed to go to play state of game

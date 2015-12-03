@@ -22,8 +22,6 @@ public class DieRoll {
 	private Random rand = new Random();
 	int x,y;
 	Dice diceOne, diceTwo;
-	boolean testBool = false;
-	int test = 0;
 	
 	//Constructor
 	DieRoll(Controller control, int x, int y) throws SlickException{
