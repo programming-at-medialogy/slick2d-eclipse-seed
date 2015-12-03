@@ -163,13 +163,13 @@ public class ListBox {
 					int textY = listBox.y + listBox.height - (i + 2) * 20 + listBox.offsetY;
 					if (textY > listBox.y && textY < (listBox.y + listBox.height - 20)) {
 						if (listBox.playerIndex.get(i) == 0)
-							listBox.listFont.drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.red);
+							listBox.listFont.drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.orange);
 						else if (listBox.playerIndex.get(i) == 1)
 							listBox.listFont.drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.blue);
 						else if (listBox.playerIndex.get(i) == 2)
-							listBox.listFont.drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.green);
+							listBox.listFont.drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.red);
 						else
-							listBox.listFont.drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.orange);
+							listBox.listFont.drawString(listBox.x + PADDING, textY, listBox.content.get(i), Color.green);
 					}
 						//g.drawString(listBox.content.get(i), listBox.x + PADDING, textY);
 				}

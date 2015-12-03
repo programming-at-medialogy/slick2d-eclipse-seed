@@ -14,6 +14,9 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class GameState extends BasicGameState implements KeyListener {
 	
+	TrueTypeFont playerFont;
+	TrueTypeFont pointFont;
+	
 	private Image[] hexImg = new Image[6]; // Array for hexagon images
 	private Image[] roadImg = new Image[4]; // Array for road images
 	private Image[] numImg = new Image [11]; // Array for numbers
@@ -75,6 +78,7 @@ public class GameState extends BasicGameState implements KeyListener {
 	public void init(GameContainer gc, StateBasedGame s) throws SlickException {	
 		thisState = this;
 		tempFont = Resource.getFont("std", 30);
+		playerFont = Resource.getFont("std", 15);
 		
 		instructionWarning = new DialogBox(Windows.scWidth/2 - 250, Windows.scHeight/2 - 250, 500, 500, 30, thisState);
 		instructionWarning.activate();
@@ -244,13 +248,14 @@ public class GameState extends BasicGameState implements KeyListener {
 		Button.draw(g, this);
 		ListBox.draw(g, this);
 		TextBox.draw(g, this);
+		drawOwnCards(g);
 
 		// For displaying resource cards
 		for (int c = 0; c < GameData.players.get(GameData.ownIndex).resources.length;  c++){ 
 			float crdPosX = cardPosition(c, GameData.players.get(GameData.ownIndex).resources.length); // 5 is to change - amount of resource cards
 			crdImg[c].draw(crdPosX+(Windows.scWidth/2-crdWidth), (Windows.scHeight-crdHeight)-crdHeight/3.8f, Windows.scFactor);
 			// font for card numbers
-			LobbyState.cardNumFont.drawString(crdPosX+(Windows.scWidth/2-crdWidth), (Windows.scHeight+crdHeight-playerBck.getHeight()*Windows.scWidth), "x", new Color(250, 235, 204)); 
+			LobbyState.cardNumFont.drawString(crdPosX+(Windows.scWidth/2-crdWidth), (Windows.scHeight+crdHeight-playerBck.getHeight()*Windows.scWidth), "FISSE", new Color(250, 235, 204)); 
 		}
 		// For displaying Development cards
 		for (int d=0; d<5; d++){
@@ -369,6 +374,7 @@ public class GameState extends BasicGameState implements KeyListener {
 	
 	// methods for initial phase
 	private void drawHexagons(Graphics g) {
+		playerFont = Resource.getFont("std", 15);
 		butImg[12].draw(Windows.scWidth-aButtonWidth, (int)((Windows.scHeight-playerBck.getHeight()*Windows.scFactor)-aButtonHeight*4.5), Windows.scFactor);
 		Hexagon[] hexagons = Hexagon.getHexagons();
 		for (int i = 0; i < hexagons.length; i++){
@@ -392,8 +398,26 @@ public class GameState extends BasicGameState implements KeyListener {
 		}
 	}
 	
+	void drawOwnCards(Graphics g){
+		pointFont = Resource.getFont("pik", 25);
+		Color color = new Color(0,0,0);
+		if(GameData.ownIndex == 0){
+			color = new Color(255,140,0);
+		} else if(GameData.ownIndex == 1){
+			color = new Color(0,0,255);
+		} else if(GameData.ownIndex == 2){
+			color = new Color(255,0,0);
+		} else if(GameData.ownIndex == 3){
+			color = new Color(0,255,0);
+		}
+		for (int c = 0; c < GameData.players.get(GameData.ownIndex).resources.length;  c++){ 
+			float crdPosX = cardPosition(c, GameData.players.get(GameData.ownIndex).resources.length);		
+			pointFont.drawString(crdPosX+(Windows.scWidth/2-crdWidth/2)- pointFont.getWidth("0")/2, Windows.scHeight - (pointFont.getHeight("0")+20), "" +GameData.players.get(GameData.ownIndex).getAmountOfResources(c), color);
+		}
+		pointFont.drawString(Windows.scWidth - 320, Windows.scHeight - 150, "Score: \n " + GameData.players.get(GameData.ownIndex).points, color);
+	}
+	
 	void drawPlayers(Graphics g){
-		TrueTypeFont pointFont = Resource.getFont("std", 15);
 		int playerPlace = 0;
 		for(int i = 0; i < GameData.players.size(); i++){
 			if (i != GameData.ownIndex && playerPlace == 0 ){
@@ -407,15 +431,15 @@ public class GameState extends BasicGameState implements KeyListener {
 					playerSideGreen.draw(0,0,Windows.scFactor*0.6f);
 				}
 				
-				pointFont.drawString(playerSideRed.getWidth()/2*Windows.scFactor*0.6f - pointFont.getWidth("" + GameData.players.get(i).getName())/2, 10, GameData.players.get(i).getName(), new Color(250, 235, 204));
-				pointFont.drawString(playerSideRed.getWidth()/2*Windows.scFactor*0.6f - pointFont.getWidth("" + GameData.players.get(i).points)/2, 80, Integer.toString(GameData.players.get(i).points), new Color(250, 235, 204));
+				playerFont.drawString(playerSideRed.getWidth()/2*Windows.scFactor*0.6f - playerFont.getWidth("" + GameData.players.get(i).getName())/2, 10, GameData.players.get(i).getName(), new Color(250, 235, 204));
+				playerFont.drawString(playerSideRed.getWidth()/2*Windows.scFactor*0.6f - playerFont.getWidth("" + GameData.players.get(i).points)/2, 80, Integer.toString(GameData.players.get(i).points), new Color(250, 235, 204));
 				if(GameData.longestRoad==i){
-					pointFont.drawString(playerSideRed.getWidth()/2*Windows.scFactor*0.6f - pointFont.getWidth("YES")/2, 150, "YES", new Color(250, 235, 204));
+					playerFont.drawString(playerSideRed.getWidth()/2*Windows.scFactor*0.6f - playerFont.getWidth("YES")/2, 150, "YES", new Color(250, 235, 204));
 				} else{
-					pointFont.drawString(playerSideRed.getWidth()/2*Windows.scFactor*0.6f - pointFont.getWidth("NO")/2, 150, "NO", new Color(250, 235, 204));
+					playerFont.drawString(playerSideRed.getWidth()/2*Windows.scFactor*0.6f - playerFont.getWidth("NO")/2, 150, "NO", new Color(250, 235, 204));
 				}
-				pointFont.drawString(playerSideRed.getWidth()/2*Windows.scFactor*0.6f - pointFont.getWidth("" + GameData.players.get(i).getTotalAmountOfDevCards())/2, 230, Integer.toString(GameData.players.get(i).getTotalAmountOfDevCards()), new Color(250, 235, 204));
-				pointFont.drawString(playerSideRed.getWidth()/2*Windows.scFactor*0.6f - pointFont.getWidth("" + GameData.players.get(i).resourceAmount)/2, 300, Integer.toString(GameData.players.get(i).resourceAmount), new Color(250, 235, 204));
+				playerFont.drawString(playerSideRed.getWidth()/2*Windows.scFactor*0.6f - playerFont.getWidth("" + GameData.players.get(i).getTotalAmountOfDevCards())/2, 230, Integer.toString(GameData.players.get(i).getTotalAmountOfDevCards()), new Color(250, 235, 204));
+				playerFont.drawString(playerSideRed.getWidth()/2*Windows.scFactor*0.6f - playerFont.getWidth("" + GameData.players.get(i).resourceAmount)/2, 300, Integer.toString(GameData.players.get(i).resourceAmount), new Color(250, 235, 204));
 				playerPlace = 1;
 				
 			} else if (i != GameData.ownIndex && playerPlace == 1 ){
@@ -429,15 +453,15 @@ public class GameState extends BasicGameState implements KeyListener {
 					playerTopGreen.draw(Windows.scWidth/2-playerTopRed.getWidth()/2*Windows.scFactor*0.6f,0,Windows.scFactor*0.6f);
 				}
 				
-				pointFont.drawString(Windows.scWidth/2 - 200, 50, GameData.players.get(i).getName(), new Color(250, 235, 204));
-				pointFont.drawString(Windows.scWidth/2 - 60, 50, Integer.toString(GameData.players.get(i).points), new Color(250, 235, 204));
+				playerFont.drawString(Windows.scWidth/2 - 200, 50, GameData.players.get(i).getName(), new Color(250, 235, 204));
+				playerFont.drawString(Windows.scWidth/2 - 60, 50, Integer.toString(GameData.players.get(i).points), new Color(250, 235, 204));
 				if(GameData.longestRoad==i){
-					pointFont.drawString(Windows.scWidth/2 + 10, 50, "YES", new Color(250, 235, 204));
+					playerFont.drawString(Windows.scWidth/2 + 10, 50, "YES", new Color(250, 235, 204));
 				} else{
-					pointFont.drawString(Windows.scWidth/2 + 10, 50, "NO", new Color(250, 235, 204));
+					playerFont.drawString(Windows.scWidth/2 + 10, 50, "NO", new Color(250, 235, 204));
 				}
-				pointFont.drawString(Windows.scWidth/2 + 90, 50, Integer.toString(GameData.players.get(i).getTotalAmountOfDevCards()), new Color(250, 235, 204));
-				pointFont.drawString(Windows.scWidth/2 + 160, 50, Integer.toString(GameData.players.get(i).resourceAmount), new Color(250, 235, 204));
+				playerFont.drawString(Windows.scWidth/2 + 90, 50, Integer.toString(GameData.players.get(i).getTotalAmountOfDevCards()), new Color(250, 235, 204));
+				playerFont.drawString(Windows.scWidth/2 + 160, 50, Integer.toString(GameData.players.get(i).resourceAmount), new Color(250, 235, 204));
 				playerPlace = 2;
 				
 			} else if (i != GameData.ownIndex && playerPlace == 2 ){
@@ -450,34 +474,17 @@ public class GameState extends BasicGameState implements KeyListener {
 				} else if(i == 3){
 					playerSideGreen.draw(Windows.scWidth-playerSideRed.getWidth()*Windows.scFactor*0.6f,0,Windows.scFactor*0.6f);
 				}
-				pointFont.drawString(Windows.scWidth - playerSideRed.getWidth()/2*Windows.scFactor*0.6f - pointFont.getWidth("" + GameData.players.get(i).getName())/2, 10, GameData.players.get(i).getName(), new Color(250, 235, 204));
-				pointFont.drawString(Windows.scWidth -playerSideRed.getWidth()/2*Windows.scFactor*0.6f - pointFont.getWidth("" + GameData.players.get(i).points)/2, 80, Integer.toString(GameData.players.get(i).points), new Color(250, 235, 204));
+				playerFont.drawString(Windows.scWidth - playerSideRed.getWidth()/2*Windows.scFactor*0.6f - playerFont.getWidth("" + GameData.players.get(i).getName())/2, 10, GameData.players.get(i).getName(), new Color(250, 235, 204));
+				playerFont.drawString(Windows.scWidth -playerSideRed.getWidth()/2*Windows.scFactor*0.6f - playerFont.getWidth("" + GameData.players.get(i).points)/2, 80, Integer.toString(GameData.players.get(i).points), new Color(250, 235, 204));
 				if(GameData.longestRoad==i){
-					pointFont.drawString(Windows.scWidth -playerSideRed.getWidth()/2*Windows.scFactor*0.6f - pointFont.getWidth("YES")/2, 150, "YES", new Color(250, 235, 204));
+					playerFont.drawString(Windows.scWidth -playerSideRed.getWidth()/2*Windows.scFactor*0.6f - playerFont.getWidth("YES")/2, 150, "YES", new Color(250, 235, 204));
 				} else{
-					pointFont.drawString(Windows.scWidth -playerSideRed.getWidth()/2*Windows.scFactor*0.6f - pointFont.getWidth("NO")/2, 150, "NO", new Color(250, 235, 204));
+					playerFont.drawString(Windows.scWidth -playerSideRed.getWidth()/2*Windows.scFactor*0.6f - playerFont.getWidth("NO")/2, 150, "NO", new Color(250, 235, 204));
 				}
-				pointFont.drawString(Windows.scWidth -playerSideRed.getWidth()/2*Windows.scFactor*0.6f - pointFont.getWidth("" + GameData.players.get(i).getTotalAmountOfDevCards())/2, 230, Integer.toString(GameData.players.get(i).getTotalAmountOfDevCards()), new Color(250, 235, 204));
-				pointFont.drawString(Windows.scWidth -playerSideRed.getWidth()/2*Windows.scFactor*0.6f - pointFont.getWidth("" + GameData.players.get(i).resourceAmount)/2, 300, Integer.toString(GameData.players.get(i).resourceAmount), new Color(250, 235, 204));				playerPlace = 0;
+				playerFont.drawString(Windows.scWidth -playerSideRed.getWidth()/2*Windows.scFactor*0.6f - playerFont.getWidth("" + GameData.players.get(i).getTotalAmountOfDevCards())/2, 230, Integer.toString(GameData.players.get(i).getTotalAmountOfDevCards()), new Color(250, 235, 204));
+				playerFont.drawString(Windows.scWidth -playerSideRed.getWidth()/2*Windows.scFactor*0.6f - playerFont.getWidth("" + GameData.players.get(i).resourceAmount)/2, 300, Integer.toString(GameData.players.get(i).resourceAmount), new Color(250, 235, 204));				playerPlace = 0;
 		}
 		}
-	/*			if(GameData.longestRoad == 0 && GameData.longestRoad !=GameData.ownIndex){
-					pointFont.drawString(playerLeft.getWidth()/2*Windows.scFactor*0.3f, 30, "YES", new Color(250, 235, 204));
-					pointFont.drawString(Windows.scWidth/2-30, 30, "NO", new Color(250, 235, 204));
-					pointFont.drawString(Windows.scWidth-playerLeft.getWidth()/2*Windows.scFactor*0.3f, 30, "NO", new Color(250, 235, 204));
-				} else if(GameData.longestRoad == 1 && GameData.longestRoad !=GameData.ownIndex){
-					pointFont.drawString(playerLeft.getWidth()/2*Windows.scFactor*0.3f, 30, "NO", new Color(250, 235, 204));
-					pointFont.drawString(Windows.scWidth/2-30, 30, "YES", new Color(250, 235, 204));
-					pointFont.drawString(Windows.scWidth-playerLeft.getWidth()/2*Windows.scFactor*0.3f, 30, "NO", new Color(250, 235, 204));
-				} else if(GameData.longestRoad == 2 && GameData.longestRoad !=GameData.ownIndex){
-					pointFont.drawString(playerLeft.getWidth()/2*Windows.scFactor*0.3f, 30, "NO", new Color(250, 235, 204));
-					pointFont.drawString(Windows.scWidth/2-30, 30, "NO", new Color(250, 235, 204));
-					pointFont.drawString(Windows.scWidth-playerLeft.getWidth()/2*Windows.scFactor*0.3f, 30, "YES", new Color(250, 235, 204));
-				} else if(GameData.longestRoad == 3 && GameData.longestRoad !=GameData.ownIndex){
-					pointFont.drawString(playerLeft.getWidth()/2*Windows.scFactor*0.3f, 30, "YES", new Color(250, 235, 204));
-					pointFont.drawString(Windows.scWidth/2-30, 30, "NO", new Color(250, 235, 204));
-					pointFont.drawString(Windows.scWidth-playerLeft.getWidth()/2*Windows.scFactor*0.3f, 30, "NO", new Color(250, 235, 204));
-		}*/
 	}
 	
 	void drawBuilding(Graphics g) {
