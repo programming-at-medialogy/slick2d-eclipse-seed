@@ -220,7 +220,7 @@ public class GameState extends BasicGameState implements KeyListener {
 	public void render(GameContainer gc, StateBasedGame s, Graphics g) throws SlickException {
 		Color bkColor = Color.decode("#5e8ad7"); // create custom color
 		g.setBackground(bkColor); // set background color
-		
+
 		bkWater.draw(Windows.scWidth/2-bkWater.getWidth()/2*Windows.scFactor, (Windows.scHeight/2-bkWater.getHeight()/2*Windows.scFactor)-hexHeight*Windows.scFactor/1.5f, Windows.scFactor );
 		playerBck.draw(0, Windows.scHeight-playerBck.getHeight()*Windows.scFactor, Windows.scWidth, playerBck.getHeight()*Windows.scFactor);
 
@@ -255,6 +255,11 @@ public class GameState extends BasicGameState implements KeyListener {
 		// For displaying Development cards
 		for (int d=0; d<5; d++){
 			devCrdImg[d].draw(Windows.scWidth-crdWidth, Windows.scHeight-crdHeight, Windows.scFactor);
+		}
+		for(int i = 0; i < GameData.players.size(); i ++){
+			if(GameData.players.get(i) == GameData.players.get(GameData.turn)){
+				tempFont.drawString(Windows.scWidth/6 - tempFont.getWidth(GameData.players.get(i).getName())/2, 20, GameData.players.get(i).getName()+ "'s turn", new Color(0, 0, 0));
+			}
 		}
 		ListBox.update(this);
 		TextBox.update(this);
@@ -350,7 +355,6 @@ public class GameState extends BasicGameState implements KeyListener {
 
 	@Override
 	public int getID() {
-		// TODO Auto-generated method stub
 		return States.GameState;
 	}
 	@Override
@@ -507,7 +511,7 @@ public class GameState extends BasicGameState implements KeyListener {
 					victoryWarning.addString("Condolences", Windows.scWidth/2, Windows.scHeight/2 - 200 + tempFont.getHeight("IGF"));
 			}
 			victoryWarning.addString("Ranking", Windows.scWidth/2, Windows.scHeight/2 - 200 + (2*tempFont.getHeight("IGF")));	
-			victoryWarning.addString("Name: " + GameData.players.get(i).getName() + " and Points: " + GameData.players.get(i).points, Windows.scWidth/2, Windows.scHeight/2 - 200 + ((i+3)*tempFont.getHeight("IGF")));
+			victoryWarning.addString("Name: " + GameData.players.get(i).getName() + " Points: " + GameData.players.get(i).points, Windows.scWidth/2, Windows.scHeight/2 - 200 + ((i+3)*tempFont.getHeight("IGF")));
 		}
 	}
 }
