@@ -16,9 +16,22 @@ public class GameData {
 	int thief; //the placement of the thief
 	static int ownIndex;
 	
-	static void initGameData(){
+	static void initGameData(int pA){
 		buildings = new ArrayList<Building>(); 
 		roads = new ArrayList<Road>();
 		players = new ArrayList<Player>();
+		for (int i = 0; i < pA; i++)
+			players.add(null);
+	}
+	
+	static void initGameData() {
+		buildings = new ArrayList<Building>(); 
+		roads = new ArrayList<Road>();
+		players = new ArrayList<Player>();
+	}
+	
+	static void setPlayerNum(int pA) {
+		for (int i = 0; i < pA; i++)
+			players.add(null);
 	}
 }

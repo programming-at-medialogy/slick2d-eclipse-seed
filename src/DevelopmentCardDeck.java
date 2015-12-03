@@ -83,10 +83,10 @@ public class DevelopmentCardDeck {
 	 * 
 	 * @return the card bought
 	 */
-	 public static CardType BuyCard() {
-		if (cards.size() != 0 && Player.resources[ResourceType.CORN.toInt()] >= 1
-				&& Player.resources[ResourceType.ROCK.toInt()] >= 1
-				&& Player.resources[ResourceType.SHEEP.toInt()] >= 1) {
+	 public static CardType BuyCard(int playerIndex) {
+		if (cards.size() != 0 && GameData.players.get(playerIndex).resources[ResourceType.CORN.toInt()] >= 1
+				&& GameData.players.get(playerIndex).resources[ResourceType.ROCK.toInt()] >= 1
+				&& GameData.players.get(playerIndex).resources[ResourceType.SHEEP.toInt()] >= 1) {
 			CardType returnCard = cards.get(0);
 			cards.remove(0);
 			return returnCard;

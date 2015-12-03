@@ -8,6 +8,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.KeyListener;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -19,6 +20,10 @@ public class GameState extends BasicGameState implements KeyListener {
 
 	private Image[] diceImg = new Image [6];
 	private Image playerBck;
+	
+	private Image playerTop;
+	private Image playerLeft;
+	private Image playerRight;
 
 	private Image[] crdImg = new Image [5]; // Array for resource cards
 	private Image[] devCrdImg = new Image [5];
@@ -27,7 +32,7 @@ public class GameState extends BasicGameState implements KeyListener {
 	private Image[] cityImg = new Image[4]; // Array for level 2 building images
 	private static Image[] butImg = new Image[13]; //Action buttons
 	
-	private Image robImg;
+	private static Image robImg;
 	private Image bkWater;
 	 
 	static float hexHeight; // to get height of hexagon
@@ -39,22 +44,45 @@ public class GameState extends BasicGameState implements KeyListener {
 	static int buttonHeight = (int)(126*Windows.scFactor);
 	static int aButtonWidth;
 	static int aButtonHeight;
+	static int roadsPlaced = 0;
 	
 	static boolean isPlacingBuilding;
 	static boolean isPlacingRoad;
 	static boolean moveRobber = false;
 	static boolean isClicked = false;
+	static boolean isInit = true;
 	
-	DialogBox robberWarning;
+	static BasicGameState thisState;
+	
+	static DialogBox robberWarning;
 	DialogBox buildingWarning;
+	DialogBox instructionWarning;
+	static DialogBox victoryWarning;
 	
 	Position startRoadPos;
 	Position endRoadPos;
 	
     Random rand = new Random();
+    
+	static TrueTypeFont tempFont;
 
 	@Override
-	public void init(GameContainer gc, StateBasedGame s) throws SlickException {		
+	public void init(GameContainer gc, StateBasedGame s) throws SlickException {	
+		thisState = this;
+		tempFont = Resource.getFont("std", 30);
+		
+		instructionWarning = new DialogBox(Windows.scWidth/2 - 250, Windows.scHeight/2 - 250, 500, 500, 30, thisState);
+		instructionWarning.activate();
+		instructionWarning.addString("Welcome to Settlers", Windows.scWidth/2, Windows.scHeight/2 - 200);
+		instructionWarning.addString("Instructions: Flow of the Game", Windows.scWidth/2, Windows.scHeight/2 - 200 + tempFont.getHeight("IGF"));
+		instructionWarning.addString("- Start of turn", Windows.scWidth/2, Windows.scHeight/2 - 200 + (2*tempFont.getHeight("IGF")));
+		instructionWarning.addString("- Trade", Windows.scWidth/2, Windows.scHeight/2 - 200 + (3*tempFont.getHeight("IGF")));
+		instructionWarning.addString("- Build", Windows.scWidth/2, Windows.scHeight/2 - 200 + (4*tempFont.getHeight("IGF")));
+		instructionWarning.addString("- Roll Dice", Windows.scWidth/2, Windows.scHeight/2 - 200 + (5*tempFont.getHeight("IGF")));
+		instructionWarning.addString("- End of turn", Windows.scWidth/2, Windows.scHeight/2 - 200 + (6*tempFont.getHeight("IGF")));
+
+
+		
 		// to initialize multiple images
 		for(int i=0; i<hexImg.length; i++){ //goes trough hexagon array
 			hexImg[i] = new Image("resources/hexagon_" + (i) + ".png"); //Assigns every hexagon a name
@@ -78,6 +106,9 @@ public class GameState extends BasicGameState implements KeyListener {
 		for (int a=0; a<13; a++){
 			butImg[a] = new Image("resources/but_"+(a)+".jpg");
 		}
+		playerTop = new Image("resources/playerTop.jpg");
+		playerLeft = new Image("resources/playerSide.jpg");
+		playerRight = new Image("resources/playerSide.jpg");
 		robImg = new Image("resources/robber.png");
 		bkWater = new Image("resources/bkWater.png");
 		playerBck = new Image("resources/playerBck.jpg");
@@ -91,7 +122,7 @@ public class GameState extends BasicGameState implements KeyListener {
 		GameData.roads = new ArrayList<Road>();
 		GameData.buildings = new ArrayList<Building>();
 		GameData.players = new ArrayList<Player>();
-		
+
 		Actions.initActions();
 		hexWidth = hexImg[0].getWidth();
 		hexHeight = hexImg[0].getHeight();
@@ -105,7 +136,8 @@ public class GameState extends BasicGameState implements KeyListener {
 		Button buyRoad = new Button(Windows.scWidth-aButtonWidth,(int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor)-aButtonHeight*4, aButtonWidth, aButtonHeight, butImg[0], butImg[2], butImg[1], this) {
 			@Override
 			public void isClicked() {
-				isPlacingRoad = true;
+				if (roadsPlaced == 0 || !isInit)
+					isPlacingRoad = true;
 			}
 		};
 		Button buySettlement = new Button(Windows.scWidth-aButtonWidth,(int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor)-aButtonHeight*3, aButtonWidth, aButtonHeight, butImg[3], butImg[5], butImg[4], this) {
@@ -131,37 +163,41 @@ public class GameState extends BasicGameState implements KeyListener {
 			@Override
 			public void isClicked() {		
 				System.out.println("Trade");
-				endTurn();
 			}
 		};
 		Button rollD = new Button((int)(Windows.scWidth-buttonWidth-buttonWidth*1.2),(int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor-buttonHeight), buttonWidth, buttonHeight, 20, "Roll Dice", this) {
 			@Override
 			public void isClicked() {	
-				if (GameData.turn == GameData.ownIndex) {
-					diceNumber(1);
-					diceNumber(2);	
-					if (Dice.dice1 + Dice.dice2 == 7) {
-						moveRobber = true;
-						robberWarning = new DialogBox(Windows.scWidth/2 - 250, Windows.scHeight/2 - 250, 500, 500, 30, this.state);
-						robberWarning.activate();
-						robberWarning.addImage(robImg, Windows.scWidth/2 + 150, Windows.scHeight/2, 200, 200);
-						robberWarning.addString("Move the robber", Windows.scWidth/2, Windows.scHeight/2);
-					}
-					else if (Dice.dice1 != Dice.dice2)
-						endTurn();
+				if (GameData.turn == GameData.ownIndex && !isInit) {
+					Actions.rollDice();
+					//GameData.turn = (GameData.turn + 1) % GameData.players.size();
 				}
 			}
 		};
 		
-		ListBox chatOutput = new ListBox(0, Windows.scHeight - 35 - 300, (int)(1200*Windows.scFactor), 300, 20, this);
+		final ListBox chatOutput = new ListBox(0, Windows.scHeight - 35 - 300, (int)(1200*Windows.scFactor), 300, 20, this);
 		
 		TextBox chatInput = new TextBox(0, Windows.scHeight - 35, (int)(1200*Windows.scFactor), 35, 20, this) {
 			@Override
 			public void onSubmit() {
 				chatOutput.addString(IntroState.playerName + ", " + this.getContent(), GameData.ownIndex);
+				Actions.chat(IntroState.playerName + ": " + this.getContent());
 				this.clear();
 			}
 		};
+	}
+	
+	public static void processDie() {
+		if (Dice.dice1 + Dice.dice2 == 7 && GameData.turn == GameData.ownIndex) {
+			moveRobber = true;
+			robberWarning = new DialogBox(Windows.scWidth/2 - 250, Windows.scHeight/2 - 250, 500, 500, 30, thisState);
+			robberWarning.activate();
+			robberWarning.addImage(robImg, Windows.scWidth/2 + 150, Windows.scHeight/2, 200, 200);
+			robberWarning.addString("Move the robber", Windows.scWidth/2, Windows.scHeight/2);
+		}
+		else if (Dice.dice1 != Dice.dice2 && GameData.turn == GameData.ownIndex)
+			endTurn();
+		// collect resources
 	}
 
 	int diceNumber(int diceIndex){
@@ -177,9 +213,13 @@ public class GameState extends BasicGameState implements KeyListener {
 		
 		bkWater.draw(Windows.scWidth/2-bkWater.getWidth()/2*Windows.scFactor, (Windows.scHeight/2-bkWater.getHeight()/2*Windows.scFactor)-hexHeight*Windows.scFactor/1.5f, Windows.scFactor );
 		playerBck.draw(0, Windows.scHeight-playerBck.getHeight()*Windows.scFactor, Windows.scWidth, playerBck.getHeight()*Windows.scFactor);
-
+		playerTop.draw(Windows.scWidth/2-playerTop.getWidth()/2*Windows.scFactor*0.6f,0,Windows.scFactor*0.6f);
+		playerLeft.draw(0,0,Windows.scFactor*0.6f);
+		playerRight.draw(Windows.scWidth-playerRight.getWidth()*Windows.scFactor*0.6f,0,Windows.scFactor*0.6f);
+		
 		drawHexagons(g);
 		drawRobber(g);
+		drawPlayers(g);
 
 		for (int i = 0; i < Road.getRoads().size(); i++) {
 			float x = Road.getRoads().get(i).getCenterX();
@@ -198,8 +238,8 @@ public class GameState extends BasicGameState implements KeyListener {
 		TextBox.draw(g, this);
 
 		// For displaying resource cards
-		for (int c = 0; c<Player.resources.length;  c++){ 
-			float crdPosX = cardPosition(c, Player.resources.length); // 5 is to change - amount of resource cards
+		for (int c = 0; c < GameData.players.get(GameData.ownIndex).resources.length;  c++){ 
+			float crdPosX = cardPosition(c, GameData.players.get(GameData.ownIndex).resources.length); // 5 is to change - amount of resource cards
 			crdImg[c].draw(crdPosX+(Windows.scWidth/2-crdWidth), (Windows.scHeight-crdHeight)-crdHeight/3.8f, Windows.scFactor);
 			// font for card numbers
 			LobbyState.cardNumFont.drawString(crdPosX+(Windows.scWidth/2-crdWidth), (Windows.scHeight+crdHeight-playerBck.getHeight()*Windows.scWidth), "x", new Color(250, 235, 204)); 
@@ -213,25 +253,30 @@ public class GameState extends BasicGameState implements KeyListener {
 		DialogBox.draw(g, this);
 	}
 	
-	
-	
-	
-	
-	
 	@Override
 	public void update(GameContainer gc, StateBasedGame s, int delta) throws SlickException {
 		Button.update(this);
 		ListBox.update(this);
 		TextBox.update(this);
-
-		if (robberWarning != null && robberWarning.isActive && !isClicked) {
+		
+			for(int i = 0; i < GameData.players.size(); i++){
+				if(GameData.players.get(i).hasWon == true && victoryWarning != null){	
+					victoryWarning.activate();
+				}
+			}
+		
+		if (instructionWarning != null && instructionWarning.isActive && !isClicked) {
+			if (Mouse.isButtonDown(0))
+				instructionWarning.deactivate();
+			
+		} else if (robberWarning != null && robberWarning.isActive && !isClicked) {
 			if (Mouse.isButtonDown(0))
 				robberWarning.deactivate();
 		
 		} else if (buildingWarning.isActive && !isClicked) {
 			if (Mouse.isButtonDown(0))
 				buildingWarning.deactivate();
-		}
+		} 
 		
 		
 		else if(Mouse.isButtonDown(0) && isPlacingBuilding && !isClicked) {
@@ -243,7 +288,15 @@ public class GameState extends BasicGameState implements KeyListener {
 				//Building building = Building.build(bPos, GameData.ownIndex);
 				//if (building != null) {
 					//isPlacingBuilding = false;
-					Actions.placeBuilding(bPos, GameData.ownIndex);
+					if (!isInit)
+						Actions.buyBuilding(bPos, GameData.ownIndex);
+					else {
+						roadsPlaced = 0;
+						Actions.placeBuilding(bPos, GameData.ownIndex);
+						Actions.endTurn();
+					}
+					
+					isPlacingBuilding = false;
 				//}
 				//else 
 					//buildingWarning.activate();
@@ -253,7 +306,13 @@ public class GameState extends BasicGameState implements KeyListener {
 		else if (Mouse.isButtonDown(0) && isPlacingRoad && !isClicked) {
 			Position[] rPos = Position.findPositions(Mouse.getX() - Windows.scWidth/2, Windows.scHeight - Mouse.getY() - Windows.scHeight/2);
 			if (rPos != null) {
-				Road.buildRoad(rPos[0], rPos[1], GameData.ownIndex);
+				//Road.buildRoad(rPos[0], rPos[1], GameData.ownIndex);
+				if (!isInit)
+					Actions.buyRoad(rPos[0], rPos[1], GameData.ownIndex);
+				else
+					Actions.placeRoad(rPos[0], rPos[1], GameData.ownIndex);
+				
+				roadsPlaced++;
 				isPlacingRoad = false;
 			}
 		}
@@ -262,6 +321,7 @@ public class GameState extends BasicGameState implements KeyListener {
 			Hexagon rHex = Hexagon.findHexagon(Mouse.getX() - Windows.scWidth/2, Windows.scHeight - Mouse.getY() - Windows.scHeight/2);
 			if (rHex != null) {
 				rHex.rob();
+				Actions.moveRobber(rHex.getIndexInArray());
 				moveRobber = false;
 				endTurn();
 			}
@@ -273,8 +333,11 @@ public class GameState extends BasicGameState implements KeyListener {
 			isClicked = false;
 	}
 	
-	public void endTurn() {
-		GameData.turn = (GameData.turn + 1) % 4;
+	public static void endTurn() {
+		if (GameData.turn == GameData.ownIndex) {
+			GameData.turn = (GameData.turn + 1) % GameData.players.size();
+			Actions.endTurn();
+		}
 	}
 
 	@Override
@@ -316,6 +379,62 @@ public class GameState extends BasicGameState implements KeyListener {
 			}
 		}
 	}
+	void drawPlayers(Graphics g){
+		TrueTypeFont pointFont = Resource.getFont("std", 15);
+		int playerPlace = 0;
+		for(int i = 0; i < GameData.players.size(); i++){
+			if (i != GameData.ownIndex && playerPlace == 0 ){
+				pointFont.drawString(playerLeft.getWidth()/2*Windows.scFactor*0.6f - pointFont.getWidth("" + GameData.players.get(i).getName())/2, 10, GameData.players.get(i).getName(), new Color(250, 235, 204));
+				pointFont.drawString(playerLeft.getWidth()/2*Windows.scFactor*0.6f - pointFont.getWidth("" + GameData.players.get(i).points)/2, 80, Integer.toString(GameData.players.get(i).points), new Color(250, 235, 204));
+				if(GameData.longestRoad==i){
+					pointFont.drawString(playerLeft.getWidth()/2*Windows.scFactor*0.6f - pointFont.getWidth("YES")/2, 150, "YES", new Color(250, 235, 204));
+				} else{
+					pointFont.drawString(playerLeft.getWidth()/2*Windows.scFactor*0.6f - pointFont.getWidth("NO")/2, 150, "NO", new Color(250, 235, 204));
+				}
+				pointFont.drawString(playerLeft.getWidth()/2*Windows.scFactor*0.6f - pointFont.getWidth("" + GameData.players.get(i).getTotalAmountOfDevCards())/2, 230, Integer.toString(GameData.players.get(i).getTotalAmountOfDevCards()), new Color(250, 235, 204));
+				pointFont.drawString(playerLeft.getWidth()/2*Windows.scFactor*0.6f - pointFont.getWidth("" + GameData.players.get(i).resourceAmount)/2, 300, Integer.toString(GameData.players.get(i).resourceAmount), new Color(250, 235, 204));
+				playerPlace = 1;
+			} else if (i != GameData.ownIndex && playerPlace == 1 ){
+				pointFont.drawString(Windows.scWidth/2 - 200, 50, GameData.players.get(i).getName(), new Color(250, 235, 204));
+				pointFont.drawString(Windows.scWidth/2 - 60, 50, Integer.toString(GameData.players.get(i).points), new Color(250, 235, 204));
+				if(GameData.longestRoad==i){
+					pointFont.drawString(Windows.scWidth/2 + 10, 50, "YES", new Color(250, 235, 204));
+				} else{
+					pointFont.drawString(Windows.scWidth/2 + 10, 50, "NO", new Color(250, 235, 204));
+				}
+				pointFont.drawString(Windows.scWidth/2 + 90, 50, Integer.toString(GameData.players.get(i).getTotalAmountOfDevCards()), new Color(250, 235, 204));
+				pointFont.drawString(Windows.scWidth/2 + 160, 50, Integer.toString(GameData.players.get(i).resourceAmount), new Color(250, 235, 204));
+				playerPlace = 2;
+			} else if (i != GameData.ownIndex && playerPlace == 2 ){
+				pointFont.drawString(Windows.scWidth - playerLeft.getWidth()/2*Windows.scFactor*0.6f - pointFont.getWidth("" + GameData.players.get(i).getName())/2, 10, GameData.players.get(i).getName(), new Color(250, 235, 204));
+				pointFont.drawString(Windows.scWidth -playerLeft.getWidth()/2*Windows.scFactor*0.6f - pointFont.getWidth("" + GameData.players.get(i).points)/2, 80, Integer.toString(GameData.players.get(i).points), new Color(250, 235, 204));
+				if(GameData.longestRoad==i){
+					pointFont.drawString(Windows.scWidth -playerLeft.getWidth()/2*Windows.scFactor*0.6f - pointFont.getWidth("YES")/2, 150, "YES", new Color(250, 235, 204));
+				} else{
+					pointFont.drawString(Windows.scWidth -playerLeft.getWidth()/2*Windows.scFactor*0.6f - pointFont.getWidth("NO")/2, 150, "NO", new Color(250, 235, 204));
+				}
+				pointFont.drawString(Windows.scWidth -playerLeft.getWidth()/2*Windows.scFactor*0.6f - pointFont.getWidth("" + GameData.players.get(i).getTotalAmountOfDevCards())/2, 230, Integer.toString(GameData.players.get(i).getTotalAmountOfDevCards()), new Color(250, 235, 204));
+				pointFont.drawString(Windows.scWidth -playerLeft.getWidth()/2*Windows.scFactor*0.6f - pointFont.getWidth("" + GameData.players.get(i).resourceAmount)/2, 300, Integer.toString(GameData.players.get(i).resourceAmount), new Color(250, 235, 204));				playerPlace = 0;
+		}
+		}
+	/*			if(GameData.longestRoad == 0 && GameData.longestRoad !=GameData.ownIndex){
+					pointFont.drawString(playerLeft.getWidth()/2*Windows.scFactor*0.3f, 30, "YES", new Color(250, 235, 204));
+					pointFont.drawString(Windows.scWidth/2-30, 30, "NO", new Color(250, 235, 204));
+					pointFont.drawString(Windows.scWidth-playerLeft.getWidth()/2*Windows.scFactor*0.3f, 30, "NO", new Color(250, 235, 204));
+				} else if(GameData.longestRoad == 1 && GameData.longestRoad !=GameData.ownIndex){
+					pointFont.drawString(playerLeft.getWidth()/2*Windows.scFactor*0.3f, 30, "NO", new Color(250, 235, 204));
+					pointFont.drawString(Windows.scWidth/2-30, 30, "YES", new Color(250, 235, 204));
+					pointFont.drawString(Windows.scWidth-playerLeft.getWidth()/2*Windows.scFactor*0.3f, 30, "NO", new Color(250, 235, 204));
+				} else if(GameData.longestRoad == 2 && GameData.longestRoad !=GameData.ownIndex){
+					pointFont.drawString(playerLeft.getWidth()/2*Windows.scFactor*0.3f, 30, "NO", new Color(250, 235, 204));
+					pointFont.drawString(Windows.scWidth/2-30, 30, "NO", new Color(250, 235, 204));
+					pointFont.drawString(Windows.scWidth-playerLeft.getWidth()/2*Windows.scFactor*0.3f, 30, "YES", new Color(250, 235, 204));
+				} else if(GameData.longestRoad == 3 && GameData.longestRoad !=GameData.ownIndex){
+					pointFont.drawString(playerLeft.getWidth()/2*Windows.scFactor*0.3f, 30, "YES", new Color(250, 235, 204));
+					pointFont.drawString(Windows.scWidth/2-30, 30, "NO", new Color(250, 235, 204));
+					pointFont.drawString(Windows.scWidth-playerLeft.getWidth()/2*Windows.scFactor*0.3f, 30, "NO", new Color(250, 235, 204));
+		}*/
+	}
 	
 	void drawBuilding(Graphics g) {
 		for (Building building : Building.getBuildings()) {
@@ -333,5 +452,22 @@ public class GameState extends BasicGameState implements KeyListener {
 		System.out.println(message);
 	}
 	
-	
+	/**
+	 * Method taking care of the dialogue box when the game is finished. 
+	 * It lists all victor and all the other players
+	 */
+	public static void endGame(){
+		victoryWarning = new DialogBox(Windows.scWidth/2 - 250, Windows.scHeight/2 - 250, 500, 500, 30, thisState);
+		for(int i = 0; i < GameData.players.size(); i ++){
+			if(GameData.players.get(i).points == GameData.players.get(i).tempPoints){
+					victoryWarning.addString("Victory", Windows.scWidth/2, Windows.scHeight/2 - 200);
+					victoryWarning.addString("Congratulation", Windows.scWidth/2, Windows.scHeight/2 - 200 + tempFont.getHeight("IGF"));
+			}else {
+					victoryWarning.addString("Defeat", Windows.scWidth/2, Windows.scHeight/2 - 200);
+					victoryWarning.addString("Condolences", Windows.scWidth/2, Windows.scHeight/2 - 200 + tempFont.getHeight("IGF"));
+			}
+			victoryWarning.addString("Ranking", Windows.scWidth/2, Windows.scHeight/2 - 200 + (2*tempFont.getHeight("IGF")));	
+			victoryWarning.addString("Name: " + GameData.players.get(i).getName() + " and Points: " + GameData.players.get(i).points, Windows.scWidth/2, Windows.scHeight/2 - 200 + ((i+3)*tempFont.getHeight("IGF")));
+		}
+	}
 }

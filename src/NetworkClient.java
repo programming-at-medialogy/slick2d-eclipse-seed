@@ -85,6 +85,7 @@ class ServerHandler extends Thread {
 	}
 	
 	public void sendMessage(String message) {
+		System.out.println("Sending: " + message);
 		output.println(message);
 	}
 }
