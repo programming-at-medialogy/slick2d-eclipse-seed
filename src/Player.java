@@ -14,7 +14,7 @@ public class Player  {
 	//private Road[] road;
 	
 	//ressources
-	public static int [] resources = new int[5];
+	public int [] resources = new int[5];
 	
 	int resourceAmount;
 	
@@ -201,5 +201,12 @@ public class Player  {
 	@Override
 	public String toString() {
 		return "Name: " + playerName + "\nNumber: " + NUMBER;
+	}
+
+	public void updateResAmount() {
+		resourceAmount = 0;
+		for (int i = 0; i < resources.length; i++) {
+			resourceAmount += resources[i];
+		}
 	}
 }

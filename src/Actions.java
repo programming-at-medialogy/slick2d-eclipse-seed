@@ -57,28 +57,13 @@ public class Actions {
 	 *            Index of the player
 	 */
 	static void placeRoad(Position start, Position end, int player) {
-		// Check if request is possible
-		boolean canBuild = false;
-		for (int i = 0; i < GameData.roads.size(); i++) {
-			if ((Position.comparePosition(start, GameData.roads.get(i).start)
-				&& Position.comparePosition(end, GameData.roads.get(i).end))
-				|| (Position.comparePosition(end, GameData.roads.get(i).start)
-				&& Position.comparePosition(start, GameData.roads.get(i).end))) {
-				System.out.println("There is already a road here!");
-				canBuild = false;
-				break;
-			} else {
-				canBuild = true;
-			}
-		}
-		if (canBuild) {
-			Road newRoad = Road.buildRoad(start, end, player);
-			if (newRoad != null) {
-				String message = gson.toJson(start);
-				NetworkClient.sendMessage("Road " + message);
-				String message2 = gson.toJson(end);
-				NetworkClient.sendMessage(message2);
-			}
+		
+		Road newRoad = Road.buildRoad(start, end, player);
+		if (newRoad != null) {
+			String message = gson.toJson(start);
+			NetworkClient.sendMessage("Road " + message);
+			String message2 = gson.toJson(end);
+			NetworkClient.sendMessage(message2);
 		}
 	}
 	
@@ -157,7 +142,7 @@ public class Actions {
 	static void buyRoad(Position start, Position end, int player) {
 		// Check if player have funds
 		if (GameData.players.get(player).resources[ResourceType.BRICK.toInt()] >= 1
-				&& GameData.players.get(player).resources[ResourceType.TREE.toInt()] >= 1) {
+			&& GameData.players.get(player).resources[ResourceType.TREE.toInt()] >= 1) {
 			// Check if request is possible and send message
 			placeRoad(start, end, player);
 		}
@@ -175,9 +160,9 @@ public class Actions {
 	static void buyBuilding(Position pos, int player) {
 		// Check if player have funds
 		if (GameData.players.get(player).resources[ResourceType.BRICK.toInt()] >= 1
-				&& GameData.players.get(player).resources[ResourceType.CORN.toInt()] >= 1
-				&& GameData.players.get(player).resources[ResourceType.SHEEP.toInt()] >= 1
-				&& GameData.players.get(player).resources[ResourceType.TREE.toInt()] >= 1) {
+			&& GameData.players.get(player).resources[ResourceType.CORN.toInt()] >= 1
+			&& GameData.players.get(player).resources[ResourceType.SHEEP.toInt()] >= 1
+			&& GameData.players.get(player).resources[ResourceType.TREE.toInt()] >= 1) {
 			// Check if request is possible and send message
 			placeBuilding(pos, player);
 		}
@@ -247,24 +232,14 @@ public class Actions {
 		else if (expR != -1) {
 			System.out.println("Expecting road!");
 			endR = gson.fromJson(message, Position.class);
-			Boolean canBuild = null;
-			for (int i = 0; i < GameData.roads.size(); i++) {
-				if ((Position.comparePosition(startR, GameData.roads.get(i).start)
-						&& Position.comparePosition(endR, GameData.roads.get(i).end))
-						|| (Position.comparePosition(endR, GameData.roads.get(i).start)
-								&& Position.comparePosition(startR, GameData.roads.get(i).end))) {
-					System.out.println("There is already a road here!");
-					canBuild = false;
-					break;
-				} else {
-					canBuild = true;
-				}
-			}
-			if (canBuild) {
-				Road newRoad = Road.buildRoad(startR, endR, expR);
-				System.out.println("Road built!");
-			}
+
+			Road newRoad = Road.buildRoad(Position.assignPosition(startR.DIVISION, startR.INDEX), Position.assignPosition(endR.DIVISION, endR.INDEX), expR);
+			System.out.println("Road built!");
+			
 			expR = -1;
+		} else if (message.equals("InitDone")) {
+			System.out.println("First phase done");
+			GameState.isInit = false;
 		}
 
 		else {
@@ -347,7 +322,20 @@ public class Actions {
 						System.out.println("Building here");
 					}
 					
-				} else if (objectType.equals("Road")) {
+				} else if (objectType.equals("Resource")) {
+					System.out.println("Received updated resource for player " + playerID);
+					message = message.substring(jsonIndex);
+					ArrayList<Integer> tempResources = gson.fromJson(message, new TypeToken<ArrayList<Integer>>(){}.getType());
+					int[] res = new int[tempResources.size()];
+					for (int i = 0; i < res.length; i++) {
+						res[i] = tempResources.get(i);
+					}
+					GameData.players.get(playerID).resources = res;
+					GameData.players.get(playerID).updateResAmount();
+				}
+				
+				else if (objectType.equals("Road")) {
+					System.out.println("Received a road from: " + playerID);
 					message = message.substring(jsonIndex);
 					startR = gson.fromJson(message, Position.class);
 					expR = playerID;

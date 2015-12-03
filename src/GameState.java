@@ -44,11 +44,13 @@ public class GameState extends BasicGameState implements KeyListener {
 	static int buttonHeight = (int)(126*Windows.scFactor);
 	static int aButtonWidth;
 	static int aButtonHeight;
+	static int roadsPlaced = 0;
 	
 	static boolean isPlacingBuilding;
 	static boolean isPlacingRoad;
 	static boolean moveRobber = false;
 	static boolean isClicked = false;
+	static boolean isInit = true;
 	
 	static BasicGameState thisState;
 	
@@ -104,6 +106,7 @@ public class GameState extends BasicGameState implements KeyListener {
 		GameData.buildings = new ArrayList<Building>();
 		GameData.players = new ArrayList<Player>();
 		
+		
 		Actions.initActions();
 		hexWidth = hexImg[0].getWidth();
 		hexHeight = hexImg[0].getHeight();
@@ -117,7 +120,8 @@ public class GameState extends BasicGameState implements KeyListener {
 		Button buyRoad = new Button(Windows.scWidth-aButtonWidth,(int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor)-aButtonHeight*4, aButtonWidth, aButtonHeight, butImg[0], butImg[2], butImg[1], this) {
 			@Override
 			public void isClicked() {
-				isPlacingRoad = true;
+				if (roadsPlaced == 0 || !isInit)
+					isPlacingRoad = true;
 			}
 		};
 		Button buySettlement = new Button(Windows.scWidth-aButtonWidth,(int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor)-aButtonHeight*3, aButtonWidth, aButtonHeight, butImg[3], butImg[5], butImg[4], this) {
@@ -143,13 +147,12 @@ public class GameState extends BasicGameState implements KeyListener {
 			@Override
 			public void isClicked() {		
 				System.out.println("Trade");
-				endTurn();
 			}
 		};
 		Button rollD = new Button((int)(Windows.scWidth-buttonWidth-buttonWidth*1.2),(int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor-buttonHeight), buttonWidth, buttonHeight, 20, "Roll Dice", this) {
 			@Override
 			public void isClicked() {	
-				if (GameData.turn == GameData.ownIndex) {
+				if (GameData.turn == GameData.ownIndex && !isInit) {
 					Actions.rollDice();
 					//GameData.turn = (GameData.turn + 1) % GameData.players.size();
 				}
@@ -219,8 +222,8 @@ public class GameState extends BasicGameState implements KeyListener {
 		TextBox.draw(g, this);
 
 		// For displaying resource cards
-		for (int c = 0; c<Player.resources.length;  c++){ 
-			float crdPosX = cardPosition(c, Player.resources.length); // 5 is to change - amount of resource cards
+		for (int c = 0; c < GameData.players.get(GameData.ownIndex).resources.length;  c++){ 
+			float crdPosX = cardPosition(c, GameData.players.get(GameData.ownIndex).resources.length); // 5 is to change - amount of resource cards
 			crdImg[c].draw(crdPosX+(Windows.scWidth/2-crdWidth), (Windows.scHeight-crdHeight)-crdHeight/3.8f, Windows.scFactor);
 			// font for card numbers
 			LobbyState.cardNumFont.drawString(crdPosX+(Windows.scWidth/2-crdWidth), (Windows.scHeight+crdHeight-playerBck.getHeight()*Windows.scWidth), "x", new Color(250, 235, 204)); 
@@ -264,7 +267,14 @@ public class GameState extends BasicGameState implements KeyListener {
 				//Building building = Building.build(bPos, GameData.ownIndex);
 				//if (building != null) {
 					//isPlacingBuilding = false;
-					Actions.placeBuilding(bPos, GameData.ownIndex);
+					if (!isInit)
+						Actions.buyBuilding(bPos, GameData.ownIndex);
+					else {
+						roadsPlaced = 0;
+						Actions.placeBuilding(bPos, GameData.ownIndex);
+						Actions.endTurn();
+					}
+					
 					isPlacingBuilding = false;
 				//}
 				//else 
@@ -275,7 +285,13 @@ public class GameState extends BasicGameState implements KeyListener {
 		else if (Mouse.isButtonDown(0) && isPlacingRoad && !isClicked) {
 			Position[] rPos = Position.findPositions(Mouse.getX() - Windows.scWidth/2, Windows.scHeight - Mouse.getY() - Windows.scHeight/2);
 			if (rPos != null) {
-				Road.buildRoad(rPos[0], rPos[1], GameData.ownIndex);
+				//Road.buildRoad(rPos[0], rPos[1], GameData.ownIndex);
+				if (!isInit)
+					Actions.buyRoad(rPos[0], rPos[1], GameData.ownIndex);
+				else
+					Actions.placeRoad(rPos[0], rPos[1], GameData.ownIndex);
+				
+				roadsPlaced++;
 				isPlacingRoad = false;
 			}
 		}
