@@ -15,6 +15,10 @@ import org.newdawn.slick.geom.Shape;
 
 public class Main extends BasicGame
 {
+	
+
+
+	
 	public static int boardWidth = 1920;
 	public static int boardHight = 1080;
 	private Shape circle = null;
@@ -39,7 +43,7 @@ public class Main extends BasicGame
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
 	
-	Image background = new Image ("images/boardMap.jpg");//background image	
+	Image background = new Image ("images/board.jpg");//background image	
 		g.drawImage(background, 0, 0);// rendering background 
 		g.draw(circle);
 		//g.drawString("WORKS!", 250, 200);

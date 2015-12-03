@@ -4,7 +4,7 @@ import java.util.ArrayList.*;
 
 public class City {
 
-	private String cityName;
+	private  String cityName;
 	private int cityPosX;
 	private int cityPosY;
 	private int infectionRate;
@@ -17,11 +17,12 @@ public class City {
 		 this.infectionRate=infectionRate ;
 
 }
-	    public String getcityName() {
-	         return cityName;
-	    }
+
 	    public void setcityName(String cityName) {
 		this.cityName = cityName;
+	    }
+	    public  String getcityName() {
+		return cityName;
 	    }
 	    public int getcityPosX() {
 		return cityPosX;

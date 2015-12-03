@@ -6,12 +6,12 @@ import java.util.Collections;
 import java.util.Random;
 
 public class Setup {
-	ArrayList<String> roleCards;
+	static ArrayList<String> roleCards;
 	ArrayList<String> infectionDeck;
 	ArrayList<String> usedInfecCards;
 	ArrayList<String> drawnPlayerCards;
 	static ArrayList<String> playerDeck;
-	ArrayList<City> citiesOnBoard;
+	static ArrayList<City> citiesOnBoard;
 
 	Random ran;
 	int x;
@@ -67,7 +67,7 @@ public class Setup {
 		drawnPlayerCards = new ArrayList<>(Arrays.asList());
 		// System.out.println(drawnPlayerCards.toString());
 
-		drawInfectionCards(9);
+		drawInfectionCards(1);
 		//asignPlayerCards(4);
 
 
@@ -97,6 +97,13 @@ public class Setup {
 
 	public void asignRoles() {
 
+	}
+	static String getPlayerRole(){
+		String playerRole;
+		playerRole = roleCards.get(0);
+		roleCards.remove(0);
+		
+		return playerRole;
 	}
 
 	public void asignPlayerCards(int amountOfPlayerCards) {
