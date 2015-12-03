@@ -92,7 +92,7 @@ public class GameState extends BasicGameState implements KeyListener {
 		for(int i=0; i<hexImg.length; i++){ //goes trough hexagon array
 			hexImg[i] = new Image("resources/hexagon_" + (i) + ".png"); //Assigns every hexagon a name
 		}
-		for(int r=1; r<4; r++){
+		for(int r=0; r<roadImg.length; r++){
 			roadImg[r] = new Image("resources/road_" + (r) + ".png"); //initializing road images
 		}
 		for (int n=2; n<=12; n++){
@@ -235,7 +235,7 @@ public class GameState extends BasicGameState implements KeyListener {
 			
 			g.pushTransform();
 				g.rotate(x + Windows.scWidth/2, y + Windows.scHeight/2, Road.getRoads().get(i).getAngle());
-				roadImg[3].draw(x + Windows.scWidth/2 - roadImg[1].getWidth()/2*Windows.scFactor, y + Windows.scHeight/2  - roadImg[1].getHeight()/2*Windows.scFactor, Windows.scFactor);
+				roadImg[GameData.roads.get(i).PLAYER_INDEX].draw(x + Windows.scWidth/2 - roadImg[1].getWidth()/2*Windows.scFactor, y + Windows.scHeight/2  - roadImg[1].getHeight()/2*Windows.scFactor, Windows.scFactor);
 			g.popTransform();
 		}
 		drawBuilding(g);
