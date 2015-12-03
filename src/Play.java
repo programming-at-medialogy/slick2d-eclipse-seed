@@ -13,7 +13,7 @@ public class Play extends BasicGameState {
 	Controller control;
 	DieRoll die;
 	OnScreenButton buttons;
-	int VPWinAmount = 150;
+	int VPWinAmount = 1;
 	OnScreenTextField textField;
 	Image playBackground;
 	public Card infoCard;
@@ -69,9 +69,7 @@ public class Play extends BasicGameState {
 			e1.printStackTrace();
 		}
 
-		if(game.client.obj.roundCount == 0 || control.resources.victoryPoint >= VPWinAmount){
-			sbg.enterState(2);
-		}
+		checkWinCondition(sbg);
 
 		Thread t1 = new Thread() {
 			@Override
@@ -147,6 +145,14 @@ public class Play extends BasicGameState {
 		} catch (InterruptedException e) {
 		}
 
+	}
+	
+	public void checkWinCondition(StateBasedGame sbg){
+		for(int j = 0; j < game.client.obj.playerVictoryPoints.length; j++){
+			if(game.client.obj.playerVictoryPoints[j][0] >= VPWinAmount){
+				sbg.enterState(2);
+			}
+		}
 	}
 
 	public int getID() {
