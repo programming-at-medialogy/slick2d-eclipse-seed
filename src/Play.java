@@ -1,4 +1,3 @@
-
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
@@ -9,10 +8,13 @@ import org.newdawn.slick.state.*;
 public class Play extends BasicGameState {
 
 	HexMap map;
-	HouseClickArea houseArea;
+	Game game;
+	SettlementSpawn houseArea;
 	RoadClickArea roadArea;
-	OnScreenButton buttoms;
-	OnScreenTextField textField;
+	Controller control;
+	DieRoll die;
+	OnScreenButton buttons;
+	int VPWinAmount = 150;
 	
 	public Card cardHelp;
 	public Card infoCard;
@@ -24,12 +26,12 @@ public class Play extends BasicGameState {
 	}
 
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		map = new HexMap();
-		houseArea = new HouseClickArea();
-		roadArea = new RoadClickArea();
-		buttoms = new OnScreenButton();
-		textField = new OnScreenTextField();
-		textField.create(gc);
+		control = new Controller();
+		map = new HexMap(control);
+		die = new DieRoll(control,1000,50);
+		houseArea = new SettlementSpawn(control);
+		roadArea = new RoadClickArea(control);
+		buttons = new OnScreenButton(control);
 		
 		infoCard = new Card();
 		infoCard.cardType = new Image ("images/info.png");
@@ -38,9 +40,6 @@ public class Play extends BasicGameState {
 		cardHelp = new Card();
 		cardHelp.createDevPile(developmentPile);
 		Collections.shuffle(Arrays.asList(developmentPile));
-		/*for(int i = 0; i < developmentPile.length; i++){
-			System.out.println(developmentPile[i]);
-		}*/
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
@@ -48,12 +47,26 @@ public class Play extends BasicGameState {
 		map.render(gc, g);
 		roadArea.render(gc, g);
 		houseArea.render(gc, g);
-		buttoms.render(gc, g);
-		textField.render(gc, g);
+		die.render(gc, g);
+		buttons.render(gc, g);
 		infoCard.render(gc, g);
+		control.resources.render(gc, g);
+
 	}
+	
+	
 
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
+		try {
+			control.update(gc, delta);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		if(game.client.obj.roundCount == 0 || control.resources.victoryPoint >= VPWinAmount){
+			sbg.enterState(2);
+		}
 
 		Thread t1 = new Thread() {
 			@Override
@@ -91,10 +104,10 @@ public class Play extends BasicGameState {
 		Thread t3 = new Thread(){
 			@Override
 			public void run() {
-				synchronized (textField) {
+				synchronized (die) {
 					try {
-						textField.update(gc, delta);
-					} catch (SlickException e) {
+						die.update(gc, delta);
+					} catch (SlickException | IOException e) {
 						//e.printStackTrace();
 					}
 				}	
