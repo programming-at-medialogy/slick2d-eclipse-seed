@@ -4,7 +4,8 @@ import java.util.Scanner;
 
 
 public class Client {
-    Socket socket = new Socket("127.0.0.1", 4444);
+	String IP = "127.0.0.1";
+    Socket socket = new Socket(IP, 5555);
     ObjectOutputStream out;
     ObjectInputStream in;
     PlayerInformation obj;
