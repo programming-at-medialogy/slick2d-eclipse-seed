@@ -755,7 +755,8 @@ public class GameState extends BasicGameState implements KeyListener {
 		
 		if (sendButtons != null) {
 			for (int i = 0; i < sendButtons.length; i++) {
-				sendButtons[i].remove(true);
+				if (sendButtons[i] != null)
+					sendButtons[i].remove(true);
 			}
 		}
 		
