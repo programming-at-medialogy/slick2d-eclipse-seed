@@ -210,6 +210,20 @@ public class ServerActions {
 				NetworkServer.sendToAll("InitDone");
 			}
 			NetworkServer.sendToAll("Turn " + GameData.turn);
+		} else if (message.equals("TradeAccept")) {
+			//GameData.tObject = gson.fromJson(message, TradeObject.class);
+			
+			for (int i = 0; i < GameData.tObject.has.length; i++) {
+				GameData.players.get(GameData.tObject.initPlayer).resources[i] -= GameData.tObject.has[i];
+				GameData.players.get(GameData.tObject.initPlayer).resources[i] += GameData.tObject.wants[i];
+				GameData.players.get(GameData.tObject.acceptPlayer).resources[i] -= GameData.tObject.wants[i];
+				GameData.players.get(GameData.tObject.acceptPlayer).resources[i] += GameData.tObject.has[i];
+			}
+			System.out.println("Accepting trade");
+			NetworkServer.sendToAll("TradeAccept");
+			updatePlayerResources();
+		} else if (message.equals("TradeDecline")) {
+			NetworkServer.sendToAll("TradeDecline");
 		}
 
 		else {
@@ -254,20 +268,6 @@ public class ServerActions {
 				expectingRoad = clientId;
 			} else if (objectType.equals("Chat")) {
 				NetworkServer.sendToAll("Chat " + clientId + " " + message);
-			} else if (objectType.equals("Trade")) {
-				GameData.tObject = gson.fromJson(message, TradeObject.class);
-				NetworkServer.sendToAll("Trade " + message);
-			} else if (objectType.equals("TradeAccept")) {
-				GameData.tObject = gson.fromJson(message, TradeObject.class);
-				GameData.players.get(
-						GameData.tObject.initPlayer).resources[GameData.tObject.hasType] -= GameData.tObject.has.length;
-				GameData.players.get(
-						GameData.tObject.initPlayer).resources[GameData.tObject.wantsType] += GameData.tObject.wants.length;
-				GameData.players.get(
-						GameData.tObject.acceptPlayer).resources[GameData.tObject.hasType] += GameData.tObject.has.length;
-				GameData.players.get(
-						GameData.tObject.acceptPlayer).resources[GameData.tObject.wantsType] -= GameData.tObject.wants.length;
-				NetworkServer.sendToAll("TradeAccept " + message);
 			} else if (objectType.equals("Name")){
 				System.out.println("Name received");
 				GameData.players.set(clientId, new Player(message, clientId));
@@ -279,7 +279,27 @@ public class ServerActions {
 			} else if (objectType.equals("Robber")) {
 				System.out.println("Received robber");
 				NetworkServer.sendToAll("Robber " + message);
+			} else if (objectType.equals("Trade")) {
+				//message = message.substring(jsonIndex);
+				System.out.println(message);
+				GameData.tObject = gson.fromJson(message, TradeObject.class);
+				NetworkServer.send(GameData.tObject.acceptPlayer ,"Trade " + message);
 			} 
+			
+			/*
+			else {
+				int playerID = 0;
+				for (int i = 0; !Character.isSpaceChar(message.charAt(i)); i++) {
+					playerID = Integer.parseInt(String.valueOf(message.charAt(i)));
+					jsonIndex = i + 2;
+				}
+				
+				if (objectType.equals("Trade")) {
+					message = message.substring(jsonIndex);
+					GameData.tObject = gson.fromJson(message, TradeObject.class);
+					NetworkServer.send(playerID ,"Trade " + message);
+				}
+			}*/
 
 		}
 	}

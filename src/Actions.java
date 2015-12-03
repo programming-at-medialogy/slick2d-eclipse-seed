@@ -101,15 +101,19 @@ public class Actions {
 	 * @param player
 	 *            Index of the player
 	 */
-	static void initiateTrade(TradeObject trade, int player) {
+	static void initiateTrade(TradeObject trade) {
 		// Method to use when the player wants to trade with other players
 		// Check if player have funds
-		int type = trade.has[0];
-		if (GameData.players.get(player).resources[type] >= trade.has.length) {
-			// Send message to server
-			String message = gson.toJson(trade);
-			NetworkClient.sendMessage("Trade " + message);
+		for (int i = 0; i < trade.has.length; i++) {
+			if (GameData.players.get(GameData.ownIndex).resources[i] < trade.has[i]) {
+				System.out.println("Error in trade");
+				GameState.declinedTrade();
+				return;
+			}
 		}
+		
+		String message = gson.toJson(trade);
+		NetworkClient.sendMessage("Trade " + message);
 	}
 
 	/**
@@ -119,13 +123,27 @@ public class Actions {
 	static void acceptTrade() {
 		// Method called when user accept trade
 		// Check if player have funds
+		
+		for (int i = 0; i < GameData.players.get(0).resources.length; i++) {
+			if (GameData.players.get(GameData.ownIndex).resources[i] < GameData.tObject.wants[i]) {
+				System.out.println("You do not have enough resources!");
+				return;
+			}
+		}
+		
+		NetworkClient.sendMessage("TradeAccept");
+		/*
 		int type = GameData.tObject.wants[0];
 		if (GameData.players.get(GameData.ownIndex).resources[type] >= GameData.tObject.wants.length) {
 			GameData.tObject.acceptPlayer = GameData.ownIndex;
 			String message = gson.toJson(GameData.tObject);
 			// Send message to server
-			NetworkClient.sendMessage("TradeAccept " + message);
-		}
+			NetworkClient.sendMessage("TradeAccept");
+		}*/
+	}
+	
+	static void declineTrade() {
+		NetworkClient.sendMessage("TradeDecline");
 	}
 
 	/**
@@ -240,6 +258,12 @@ public class Actions {
 		} else if (message.equals("InitDone")) {
 			System.out.println("First phase done");
 			GameState.isInit = false;
+		} else if (message.equals("TradeAccept")) {
+			System.out.println("Trade accepted");
+			GameState.acceptedTrade();
+		} else if (message.equals("TradeDecline")) {
+			System.out.println("Trade declined");
+			GameState.declinedTrade();
 		}
 
 		else {
@@ -295,7 +319,24 @@ public class Actions {
 			} else if (objectType.equals("Robber")) {
 				message = message.substring(jsonIndex);
 				Hexagon.getHexagons()[Integer.parseInt(message)].rob();
-			}
+			} else if (objectType.equals("Trade")) {
+				// Method called when other users wants to trade resources
+				message = message.substring(jsonIndex);
+				TradeObject trade = gson.fromJson(message, TradeObject.class);
+				GameData.tObject = trade;
+				GameState.chooseTrade();
+			} else if (objectType.equals("TradeAccept")) {
+				message = message.substring(jsonIndex);
+				GameData.tObject = gson.fromJson(message, TradeObject.class);
+				GameData.players.get(
+						GameData.tObject.initPlayer).resources[GameData.tObject.hasType] -= GameData.tObject.has.length;
+				GameData.players.get(
+						GameData.tObject.initPlayer).resources[GameData.tObject.wantsType] += GameData.tObject.wants.length;
+				GameData.players.get(
+						GameData.tObject.acceptPlayer).resources[GameData.tObject.hasType] += GameData.tObject.has.length;
+				GameData.players.get(
+						GameData.tObject.acceptPlayer).resources[GameData.tObject.wantsType] -= GameData.tObject.wants.length;
+			} 
 			
 			else {
 				for (int i = jsonIndex; !Character.isSpaceChar(message.charAt(i)); i++) {
@@ -350,23 +391,6 @@ public class Actions {
 					message = message.substring(jsonIndex);
 					if (playerID != GameData.ownIndex)
 						ListBox.addString(message, playerID);
-				} else if (objectType.equals("Trade")) {
-					// Method called when other users wants to trade resources
-					TradeObject trade = gson.fromJson(message, TradeObject.class);
-					GameData.tObject = trade;
-					if (GameData.tObject.initPlayer != GameData.ownIndex) {
-						// Update graphics
-					}
-				} else if (objectType.equals("TradeAccept")) {
-					GameData.tObject = gson.fromJson(message, TradeObject.class);
-					GameData.players.get(
-							GameData.tObject.initPlayer).resources[GameData.tObject.hasType] -= GameData.tObject.has.length;
-					GameData.players.get(
-							GameData.tObject.initPlayer).resources[GameData.tObject.wantsType] += GameData.tObject.wants.length;
-					GameData.players.get(
-							GameData.tObject.acceptPlayer).resources[GameData.tObject.hasType] += GameData.tObject.has.length;
-					GameData.players.get(
-							GameData.tObject.acceptPlayer).resources[GameData.tObject.wantsType] -= GameData.tObject.wants.length;
 				} else if (objectType.equals("Players")){
 					GameData.players = gson.fromJson(message, ArrayList.class);
 				}

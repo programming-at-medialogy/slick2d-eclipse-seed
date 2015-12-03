@@ -28,6 +28,7 @@ public class DialogBox {
 		dialogBoxes.add(this);
 		isActive = false;
 	}
+	
 /**
  * Drawing the dialogBoxes at the appropriate location	
  * @param g is the slick 2d graphics element
@@ -86,6 +87,10 @@ public class DialogBox {
 		x = x - dialogBoxFont.getWidth(text) / 2;
 		y = y - dialogBoxFont.getHeight(text) / 2;
 		texts.add(new StringCoord(x, y, text));
+	}
+	
+	public void removeString() {
+		texts.remove(texts.size() - 1);
 	}
 }
 

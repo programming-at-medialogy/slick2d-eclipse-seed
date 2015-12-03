@@ -20,6 +20,7 @@ public abstract class Button {
 	String message;
 	static boolean mouseDown;
 	static ArrayList<Button> buttons = new ArrayList();
+	static ArrayList<Button> spButtons = new ArrayList();
 	BasicGameState state;
 	TrueTypeFont buttonFont;
 	
@@ -63,6 +64,11 @@ public abstract class Button {
 		this.state = state;
 	}
 	
+	Button(int x, int y, int width, int height, int fontSize, String message, BasicGameState state, boolean isSpecial) {
+		this(x, y, width, height, fontSize, message, state);
+		spButtons.add(this);
+	}
+	
 	Button(int x, int y, int width, int height, Image image, Image highlight, Image pressed, BasicGameState state) {
 		this.x = x;
 		this.y = y;
@@ -103,6 +109,23 @@ public abstract class Button {
 			}
 		}
 	}
+	
+	public static void drawSpecial(Graphics g, BasicGameState state) {
+		for(int i = 0; i < spButtons.size(); i++){
+			if (spButtons.get(i).state == state){
+				if((xPos > spButtons.get(i).x && xPos < spButtons.get(i).x + spButtons.get(i).width)&& (yPos > spButtons.get(i).y && yPos < spButtons.get(i).y + spButtons.get(i).height) && mouseDown == true){
+					spButtons.get(i).highlight.draw(spButtons.get(i).x, spButtons.get(i).y, spButtons.get(i).width, spButtons.get(i).height);
+				}
+				else if ((xPos > spButtons.get(i).x && xPos < spButtons.get(i).x + spButtons.get(i).width)&& (yPos > spButtons.get(i).y && yPos < spButtons.get(i).y + spButtons.get(i).height)) {
+					spButtons.get(i).pressed.draw(spButtons.get(i).x, spButtons.get(i).y, spButtons.get(i).width, spButtons.get(i).height);
+				} else {
+					spButtons.get(i).image.draw(spButtons.get(i).x, spButtons.get(i).y, spButtons.get(i).width, spButtons.get(i).height);
+				} if (spButtons.get(i).image == sImage)
+					spButtons.get(i).buttonFont.drawString(spButtons.get(i).x + spButtons.get(i).width / 2 - spButtons.get(i).buttonFont.getWidth(spButtons.get(i).message) / 2, spButtons.get(i).y + spButtons.get(i).height / 2 - spButtons.get(i).buttonFont.getHeight(spButtons.get(i).message) / 2, spButtons.get(i).message, new Color(100, 54, 26));
+			}
+		}
+	}
+	
 	/**
 	 * updating the mouse position and lets us know 
 	 * whether the mouse is clicked or not
@@ -134,4 +157,21 @@ public abstract class Button {
 	 */
 	
 	public abstract void isClicked();	
+	
+	public void remove(boolean isSpecial) {
+		for (int i = 0; i < buttons.size(); i++) {
+			if (buttons.get(i) == this) {
+				buttons.remove(i);
+			}
+			
+		}
+		
+		if (isSpecial) {
+			for (int i = 0; i < spButtons.size(); i++) {
+				if (spButtons.get(i) == this) {
+					spButtons.remove(i);
+				}
+			}
+		}
+	}
 }

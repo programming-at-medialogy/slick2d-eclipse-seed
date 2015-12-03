@@ -1,6 +1,7 @@
 import org.newdawn.slick.SlickException;
 
 public class ServerClientDecider {
+
 	/**
 	 * When isServer = true the server launches
 	 * When isServer = false the client launches
