@@ -34,6 +34,7 @@ public class OnScreenButton {
     OnScreenButtonSpawn buttonTradePressed;
 
     Image chooseOre, chooseClay, chooseWood, chooseWool, chooseWheat;
+    Image tradeArrowDown;
 	
 	boolean buttonRoadControl = false;
 	boolean buttonHouseControl = false;
@@ -79,6 +80,8 @@ public class OnScreenButton {
         chooseWood = new Image("images/wood.png");
         chooseWool = new Image("images/wool.png");
         chooseWheat = new Image("images/wheat.png");
+        
+        tradeArrowDown = new Image("images/arrowDown.png");
 	}
 
 	public void render(GameContainer gc, Graphics g) throws SlickException {
@@ -101,11 +104,11 @@ public class OnScreenButton {
         
 		if (control.tradeButtonControl == true || control.playerNo != game.client.obj.playerTurn) {
 			buttonTradePressed.render(gc, g);
+			g.drawImage(tradeArrowDown, chooseResourcePosX-50, chooseResourcePosY-40);
+			g.drawString("4 x Resource for 1 x Resource", chooseResourcePosX, chooseResourcePosY-80);
 		} else{
 			buttonTrade.render(gc, g);
 		}
- 
-
 
         if(control.receivedExCard > 0 || control.receivedMonoCard == true) {
             g.drawString("Choose your resource: ", 720,600);
@@ -145,8 +148,8 @@ public class OnScreenButton {
 					control.tradeButtonControl = true;
 					for(int j = 0; j < 5; j++){
 					trade.playerResource[j][0] = false;
-					control.deselectButtonControl = true;
 					trade.playerResource[j][1] = false;
+					control.deselectButtonControl = true;
 					}
 				}
 			}

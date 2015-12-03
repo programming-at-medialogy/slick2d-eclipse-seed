@@ -33,7 +33,7 @@ public class Game extends StateBasedGame {
 		this.getState(winState).init(gc, this);
 		this.getState(menu).init(gc, this);
 		this.getState(playState).init(gc, this);
-		this.enterState(menu); //tell which state to enter first.
+		this.enterState(playState); //tell which state to enter first.
 
 	}
 	
