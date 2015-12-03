@@ -210,4 +210,8 @@ public class ServerActions {
 	public static void nameRequest() {
 		NetworkServer.sendToAll("SendName");
 	}
+
+	public static void sendId(int i) {
+		NetworkServer.send(i, "ID " + i);
+	}
 }

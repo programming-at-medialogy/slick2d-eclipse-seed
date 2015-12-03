@@ -5,12 +5,10 @@ public class ServerMain {
 
 	public static void start() {
 		System.out.println("Server is running");
+		ServerActions.initActions();
 		NetworkServer networkServer = new NetworkServer();
-		System.out.println("Test");
 		networkServer.run();
 		GameData.initGameData(networkServer.getNumClients());
-		System.out.println(networkServer.getNumClients());
-		ServerActions.initActions();
 		ServerActions.sendPlayerAmount();
 		ServerActions.nameRequest();
 		ServerActions.generateMap();

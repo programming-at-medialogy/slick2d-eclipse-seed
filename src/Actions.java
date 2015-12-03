@@ -297,6 +297,7 @@ public class Actions {
 				message = message.substring(jsonIndex);
 				System.out.println("There are " + Integer.parseInt(message) + " players!");
 				GameData.setPlayerNum(Integer.parseInt(message));
+				PreGameState.canStart();
 			} else if (objectType.equals("Players")) {
 				message = message.substring(jsonIndex);
 				

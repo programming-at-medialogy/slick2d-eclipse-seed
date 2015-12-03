@@ -35,6 +35,7 @@ public class NetworkServer extends Thread  {
 			handlers.add(new ClientHandler(client, handlers.size()));
 			handlers.get(handlers.size() - 1).start();
 			ServerMain.addPlayer(handlers.size() - 1);
+			ServerActions.sendId(handlers.size() - 1);
 		} while (handlers.size() != 2);
 	}
 	
@@ -77,14 +78,11 @@ class ClientHandler extends Thread {
 	public void run() {
 		
 		String received;
-		//System.out.println("Testtt");
+
 		do {
 			received = input.nextLine();
 			ServerActions.received(id, received);
-			System.out.println("Testtt");
 		} while (!received.equals(exitCode));
-		
-		System.out.println("Testtt");
 		
 		NetworkServer.sendToAll(exitCode);
 		

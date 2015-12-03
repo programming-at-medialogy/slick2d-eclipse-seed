@@ -21,6 +21,10 @@ public class PreGameState extends BasicGameState implements KeyListener{
 	//image objects 
 	Image background;
 	TrueTypeFont titleFont;
+	static boolean canStart = false;
+	
+	int bWidth = (int) (1000*Windows.scFactor);
+	int bHeight = (int) (300*Windows.scFactor);
 
 	/**
 	 * public void init is the initial phase of the PreGameState
@@ -38,8 +42,7 @@ public class PreGameState extends BasicGameState implements KeyListener{
 		/**
 		 * Example of button instantiation and the abstracts method isClicked() from the button class
 		 */
-		int bWidth = (int) (1000*Windows.scFactor);
-		int bHeight = (int) (300*Windows.scFactor);
+		
 		
 		/**
 		 * Example of button instantiation and the abstracts method isClicked() from the button class
@@ -51,13 +54,7 @@ public class PreGameState extends BasicGameState implements KeyListener{
 			}
 		};
 		
-		Button startGame = new Button(Windows.scWidth - Windows.scWidth/4 - bWidth/2, Windows.scHeight - 136, bWidth, bHeight, 30, "Start Game", this) {
-			@Override
-			public void isClicked() {
-				//not implemented yet, should not we accessible before 4 players are ready
-				s.enterState(States.GameState);
-			}
-		};
+		
 		/**
 		 * The listBox is the chat windows
 		 * that shows the output text from all players
@@ -76,7 +73,7 @@ public class PreGameState extends BasicGameState implements KeyListener{
 			@Override
 			public void onSubmit() {
 				box.addString(IntroState.playerName + ": " + this.getContent(), GameData.ownIndex);
-				//Actions.chat(IntroState.playerName + ": " + this.getContent());
+				Actions.chat(IntroState.playerName + ": " + this.getContent());
 				this.clear();
 			}
 		};
@@ -111,6 +108,17 @@ public class PreGameState extends BasicGameState implements KeyListener{
 	//updates the flow
 	@Override
 	public void update(GameContainer gc, StateBasedGame s, int delta) throws SlickException {
+		
+		if (canStart) {
+			canStart = false;
+			Button startGame = new Button(Windows.scWidth - Windows.scWidth/4 - bWidth/2, Windows.scHeight - 136, bWidth, bHeight, 30, "Start Game", this) {
+				@Override
+				public void isClicked() {
+					s.enterState(States.GameState);
+				}
+			};
+		}
+		
 		//update buttons
 		Button.update(this);
 		ListBox.update(this);
@@ -132,6 +140,9 @@ public class PreGameState extends BasicGameState implements KeyListener{
 	@Override
 	public void keyPressed(int key, char c) {
 		TextBox.keyPress(key, c, this);
+	}
+	public static void canStart() {
+		canStart = true;
 	}
 
 }

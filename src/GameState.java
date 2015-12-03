@@ -154,6 +154,7 @@ public class GameState extends BasicGameState implements KeyListener {
 			@Override
 			public void onSubmit() {
 				chatOutput.addString(IntroState.playerName + ", " + this.getContent(), GameData.ownIndex);
+				Actions.chat(IntroState.playerName + ": " + this.getContent());
 				this.clear();
 			}
 		};
