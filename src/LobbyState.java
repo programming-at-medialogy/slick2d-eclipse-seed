@@ -47,8 +47,8 @@ public class LobbyState extends BasicGameState implements KeyListener{
 		miscFont = Resource.getFont("std", 14);
 		warningFont = Resource.getFont("std", 22);	
 		cardNumFont = Resource.getFont("std", 22);
-		int bWidth = (int) (1000*Windows.scFactor);
-		int bHeight = (int) (300*Windows.scFactor);
+		final int bWidth = (int) (1000*Windows.scFactor);
+		final int bHeight = (int) (300*Windows.scFactor);
 		
 		/**
 		 * Example of button instantiation and the abstracts method isClicked() from the button class
