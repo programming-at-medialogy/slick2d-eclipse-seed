@@ -23,6 +23,6 @@ public class ExcavationCard extends Card{
 	
 	@Override
 	public void effect (){
-		control.receivedExCard = 2;
+		control.receivedExCard = 2; //The player may now choose two resources.
 	}
 }

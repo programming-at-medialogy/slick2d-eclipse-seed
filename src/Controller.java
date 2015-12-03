@@ -5,22 +5,27 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
 public class Controller {
+	
+	//Int to set the player number
 	int playerNo;
+	
 	Game game;
 	Resource resources;
-	int receivedExCard = 0;
-	boolean receivedMonoCard = false;
-	boolean devCardButtonClicked = false;
-	int [][] tile = new int[19][3];
-	int [] tileNumber = new int[19];
+	
+	int receivedExCard = 0; //Int to control if a player gets an excavation card
+	boolean receivedMonoCard = false; //boolean to control if a player gets a monopoly card
+	boolean devCardButtonClicked = false; //checks if a player have bought a card.
+	
+	int [][] tile = new int[19][3]; //2D array to store the middle position and index of all 19 tiles
+	int [] tileNumber = new int[19]; 
 	int [][] settlement = new int[54][2];
 	int dieNumber = 0;
 	int [] tileResource = new int[2];
-	boolean diceButtonClicked = false;
-	int clickOnce = 0;
+	boolean diceButtonClicked = false; //boolean to control if the dices have been clicked.
+	int clickOnce = 0; //int to make sure the endturn button is only clicked once.
 	int [][] settlementData = new int[54][3];
-	boolean deselectButtonControl;
-	Random rand = new Random();
+	boolean deselectButtonControl; //boolean to the deselect button
+	Random rand = new Random(); //Make use of RANDOOOOOM
 	
 	Controller() throws SlickException{
 		resources = new Resource(900,10,playerNo);
@@ -54,21 +59,17 @@ public class Controller {
 	
 	public void distributeResources() {
 		
-
 		for (int i = 0; i < settlementData.length; i++) {
 			if (settlementData[i] != null) {
 				distance(settlementData[i][0], settlementData[i][1], tile[tileResource[0]][0],
 						tile[tileResource[0]][1], tile[tileResource[0]][2],settlementData[i][2]);
-				
 			}
 		}
 
-		
 		for (int i = 0; i < settlementData.length; i++) {
 			if (settlementData[i] != null) {
 				distance(settlementData[i][0], settlementData[i][1], tile[tileResource[1]][0],
-						tile[tileResource[1]][1], tile[tileResource[1]][2],settlementData[i][2]);
-				
+						tile[tileResource[1]][1], tile[tileResource[1]][2],settlementData[i][2]);	
 			}
 		}
 
@@ -76,11 +77,13 @@ public class Controller {
 		for (int i = 0; i < tileResource.length; i++){
 			tileResource[i] = 0;
 		}
-
-		
 	}
 	
-	
+	/*
+	 * A method to measure the distance between the middle point of a tile and a settlement.
+	 * Checks the index of the tile to know what resource must be distributed 
+	 * and the playerIndex tells who needs to get the resource.
+	 */
 	public void distance(int x, int y, int x2, int y2, int tileIndex, int playerIndex) {
 		int i = 0;
 		int minDist = 60;
