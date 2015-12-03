@@ -3,10 +3,14 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-public class Resource {
-	
+/* This class stores and renders on screen the integers for victoryPoints, armySize, amount of roads & houses. 
+ * The integers for the amount of each resource and the images for each resource type.
+ * The integers for numbering each player (playerNo) and the spacing for the images are also stored here.
+ */
 
+public class Resource {
 	Game game;
+	
 	int oreResource, clayResource, wheatResource, woodResource, woolResource;
 	int x, y;
 	int spacing = 125;
@@ -17,6 +21,7 @@ public class Resource {
 	int ySpacing = 15;
 	int playerNo;
 	int armySize = 0;
+	
 	Image ore, clay, wood, wool, wheat;
 	
 	Resource(int x, int y, int playerNo) throws SlickException{
@@ -29,6 +34,8 @@ public class Resource {
 		wood = new Image("images/wood.png");
 		wool = new Image("images/wool.png");
 		wheat = new Image("images/wheat.png");
+		
+		//Set each integer for the resources to zero
 		oreResource = 0;
 		clayResource = 0;
 		wheatResource = 0;
@@ -38,7 +45,6 @@ public class Resource {
 	
 	
 	public void render(GameContainer gc, Graphics g) throws SlickException {
-		
 		//ORE//
 		g.drawString(""+oreResource, x - xSpacing, y + ySpacing);
 		g.drawImage(ore, x, y);
@@ -64,11 +70,21 @@ public class Resource {
 		g.drawImage(wool, x, y + spacing * 2);
 		////////
 		
+		//HOUSE COUNT//
 		g.drawString("House count: " + houseCount, 10, 50);
+		////////
+		
+		//ROAD COUNT//
 		g.drawString("Road count: " + roadCount, 10, 70);
+		////////
+		
+		//VP POINTS//
 		g.drawString("Victory points: " + victoryPoint, 10, 90);
+		////////
+		
+		//ARMY SIZE//
 		g.drawString("Army size: "+ armySize, 10, 110);
-
+		////////
 	}
 }
 
