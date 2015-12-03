@@ -14,8 +14,10 @@ public class Player  {
 	//Buildings
 	//private Road[] road;
 	
-	//resources
-	public static int [] resources = new int[5];
+
+	//ressources
+	public int [] resources = new int[5];
+
 	
 	int resourceAmount;
 	
@@ -109,6 +111,14 @@ public class Player  {
 		return devCard[type];
 	}
 	
+	public int getTotalAmountOfDevCards(){ 
+		int total = 0;
+		for(int i = 0; i < 5; i++){
+		total += devCard[i];
+		}
+		return total;
+	}
+	
 	/* Added to actions/Serveractions
 	public void addDevelopmentCard() {
 		if(Player.resources[ResourceType.CORN.toInt()]>=1 && Player.resources[ResourceType.ROCK.toInt()]>=1 && Player.resources[ResourceType.SHEEP.toInt()]>=1 ){
@@ -192,5 +202,12 @@ public class Player  {
 	@Override
 	public String toString() {
 		return "Name: " + playerName + "\nNumber: " + NUMBER;
+	}
+
+	public void updateResAmount() {
+		resourceAmount = 0;
+		for (int i = 0; i < resources.length; i++) {
+			resourceAmount += resources[i];
+		}
 	}
 }
