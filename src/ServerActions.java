@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.Gson;
 
 /**
@@ -48,12 +50,12 @@ public class ServerActions {
 					Hexagon[] nearbyHexagons = GameData.buildings.get(j).POSITION.getNearbyHexagons();
 					for (int k = 0; k < nearbyHexagons.length; k++) {
 						if (nearbyHexagons[k].NUMBER == dieRoll && !nearbyHexagons[k].isRobbed()) {
-							if (GameData.buildings.get(k).isUpgraded()) {
+							if (GameData.buildings.get(j).isUpgraded()) {
 								GameData.players.get(i).resources[nearbyHexagons[k].TYPE.toInt()] += 2;
 								GameData.players.get(i).resourceAmount += 2;
 
 							}
-							if (nearbyHexagons[k].TYPE.toInt() != 5) {
+							if (nearbyHexagons[k].TYPE != ResourceType.DESERT && nearbyHexagons[k].isRobbed()) {
 								GameData.players.get(i).resources[nearbyHexagons[k].TYPE.toInt()]++;
 								GameData.players.get(i).resourceAmount++;
 							}
@@ -61,6 +63,20 @@ public class ServerActions {
 					}
 				}
 			}
+			GameData.players.get(i).updateResAmount();
+		}
+		
+		updatePlayerResources();
+	}
+
+	private static void updatePlayerResources() {
+		for (int i = 0; i < GameData.players.size(); i++) {
+			ArrayList<Integer> resources = new ArrayList<>();
+			for (int j = 0; j < GameData.players.get(i).resources.length; j++)
+				resources.add(GameData.players.get(i).resources[j]);
+			
+			String message = gson.toJson(resources, new TypeToken<ArrayList<Integer>>(){}.getType());
+			NetworkServer.sendToAll("Resource " + i + " " + message);
 		}
 	}
 
@@ -133,12 +149,14 @@ public class ServerActions {
 		else if (message.equals("Roll")) {
 			NetworkServer.sendToAll("Roll1 " + Dice.RollDice(1));
 			NetworkServer.sendToAll("Roll2 " + Dice.RollDice(2));
+			collectResources();
 		}
 		
 		else if (expectingRoad == clientId) {
+			System.out.println("Road");
 			Position rEndPos = gson.fromJson(message, Position.class);
-			if (Road.buildRoad(rStartPos, rEndPos, clientId) != null) {
-				NetworkServer.sendToAll("Road " + clientId + gson.toJson(rStartPos));
+			if (Road.buildRoad(Position.assignPosition(rStartPos.DIVISION, rStartPos.INDEX), Position.assignPosition(rEndPos.DIVISION, rEndPos.INDEX), clientId) != null) {
+				NetworkServer.sendToAll("Road " + clientId + " " + gson.toJson(rStartPos));
 				NetworkServer.sendToAll(message);
 			}
 			expectingRoad = -1;
@@ -202,7 +220,7 @@ public class ServerActions {
 			} else if (objectType.equals("Robber")) {
 				System.out.println("Received robber");
 				NetworkServer.sendToAll("Robber " + message);
-			}
+			} 
 
 		}
 	}

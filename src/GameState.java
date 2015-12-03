@@ -264,7 +264,8 @@ public class GameState extends BasicGameState implements KeyListener {
 		else if (Mouse.isButtonDown(0) && isPlacingRoad && !isClicked) {
 			Position[] rPos = Position.findPositions(Mouse.getX() - Windows.scWidth/2, Windows.scHeight - Mouse.getY() - Windows.scHeight/2);
 			if (rPos != null) {
-				Road.buildRoad(rPos[0], rPos[1], GameData.ownIndex);
+				//Road.buildRoad(rPos[0], rPos[1], GameData.ownIndex);
+				Actions.placeRoad(rPos[0], rPos[1], GameData.ownIndex);
 				isPlacingRoad = false;
 			}
 		}

@@ -44,6 +44,19 @@ public class Road {
 	 */
 	public static Road buildRoad(Position startPos, Position endPos, int playerIndex){
 		if(Position.getLength(startPos, endPos) == 1){
+			
+			// check for existing roads
+			for (int i = 0; i < GameData.roads.size(); i++) {
+				if ((Position.comparePosition(startPos, GameData.roads.get(i).start)
+					&& Position.comparePosition(endPos, GameData.roads.get(i).end))
+					|| (Position.comparePosition(endPos, GameData.roads.get(i).start)
+					&& Position.comparePosition(startPos, GameData.roads.get(i).end))) {
+					
+					System.out.println("There is already a road here!");
+					return null;
+				}
+			}
+			
 			System.out.println("Constructing road");
 			Road road = new Road(startPos,endPos,playerIndex);
 			GameData.roads.add(road);

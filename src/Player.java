@@ -194,4 +194,11 @@ public class Player  {
 	public String toString() {
 		return "Name: " + playerName + "\nNumber: " + NUMBER;
 	}
+
+	public void updateResAmount() {
+		resourceAmount = 0;
+		for (int i = 0; i < resources.length; i++) {
+			resourceAmount += resources[i];
+		}
+	}
 }
