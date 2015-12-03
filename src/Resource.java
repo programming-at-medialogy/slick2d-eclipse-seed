@@ -43,7 +43,8 @@ public class Resource {
 		woolResource = 0;
 	}
 	
-	
+	//render method called for displaying each string and image for each resource, e.g. ore.png
+	//The string is empty and only displays the integer and the image is spawned at the x and y values.
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		//ORE//
 		g.drawString(""+oreResource, x - xSpacing, y + ySpacing);
