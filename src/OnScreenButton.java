@@ -14,6 +14,7 @@ public class OnScreenButton {
 	
 	Controller control;
 	Game game;
+	SettlementSpawn spawn;
 	
     String yourTurnString = "It is your turn!";
 	
@@ -27,6 +28,8 @@ public class OnScreenButton {
     OnScreenButtonSpawn buttonHousePressed;
     OnScreenButtonSpawn buttonBuyDevCard;
     OnScreenButtonSpawn buttonCityPressed;
+    OnScreenButtonSpawn buttonDeselect;
+    OnScreenButtonSpawn buttonDeselectPressed;
 
     Image chooseOre, chooseClay, chooseWood, chooseWool, chooseWheat;
 	
@@ -36,6 +39,7 @@ public class OnScreenButton {
 	boolean buttonTurnControl = false;
 	boolean buttonDiceControl = false;
     boolean buttonDevCardControl = false;
+    boolean buttonDeselectControl = false;
 	
 	int buttonHeight = 56;
 	int buttonWidth = 97;
@@ -63,6 +67,8 @@ public class OnScreenButton {
 	    buttonRoadPressed = new OnScreenButtonSpawn(buttonStartPosX, buttonStartPosY - buttonSpacing, 8);
 	    buttonHousePressed = new OnScreenButtonSpawn(buttonStartPosX, buttonStartPosY, 9);
 	    buttonCityPressed = new OnScreenButtonSpawn(buttonStartPosX - buttonWidth - 9, buttonStartPosY, 10);
+	    buttonDeselect = new OnScreenButtonSpawn(buttonStartPosX - buttonWidth - 9, buttonStartPosY - buttonHeight*2-9*2, 11);
+	    buttonDeselectPressed = new OnScreenButtonSpawn(buttonStartPosX - buttonWidth - 9, buttonStartPosY - buttonHeight*2-9*2, 12);
 	    
 	    chooseOre = new Image("images/ore.png");
         chooseClay = new Image("images/clay.png");
@@ -81,6 +87,12 @@ public class OnScreenButton {
 		buttonPlaceDice.render(gc, g);
 		buttonEndTurn.render(gc, g);
         buttonBuyDevCard.render(gc, g);
+        
+        if(control.deslectButtonControl == true) {
+        	buttonDeselect.render(gc, g);	
+        } else if(control.deslectButtonControl != true) {
+        	buttonDeselectPressed.render(gc, g);
+        }
 
         if(control.receivedExCard > 0 || control.receivedMonoCard == true) {
             g.drawString("Choose your resource: ", 720,600);
@@ -185,62 +197,78 @@ public class OnScreenButton {
         }
 		
 		//ButtonHouse
-			if((xMousePos > buttonStartPosX && xMousePos < buttonStartPosX+buttonWidth) && (yMousePos < screenHeight-buttonStartPosY && yMousePos > screenHeight-buttonStartPosY-buttonHeight)) {
-				if(input.isMouseButtonDown(0)) {
+		if((xMousePos > buttonStartPosX && xMousePos < buttonStartPosX+buttonWidth) && (yMousePos < screenHeight-buttonStartPosY && yMousePos > screenHeight-buttonStartPosY-buttonHeight)) {
+			if (input.isMouseButtonDown(0)) {
 					buttonRoadControl = false;
 					buttonCityControl = false;
 					buttonHouseControl = true;
-					}
+					control.deslectButtonControl = true;
 			}
+		}
+		
+		//Deselect
+		if((xMousePos > buttonStartPosX - buttonWidth - 9 && xMousePos < (buttonStartPosX - buttonWidth - 9) + buttonWidth) && (yMousePos < screenHeight - buttonStartPosY + buttonSpacing*2 && yMousePos > screenHeight - buttonStartPosY + buttonSpacing*2 - buttonHeight)) {
+			if(input.isMouseButtonDown(0)) {
+				buttonRoadControl = false;
+				buttonCityControl = false;
+				buttonHouseControl = false;
+				control.deslectButtonControl = false;
+			}
+		}
 		
 		//ButtonCity
-		if ((xMousePos > buttonStartPosX - buttonWidth - 9
-				&& xMousePos < (buttonStartPosX - buttonWidth - 9) + buttonWidth)
-				&& (yMousePos < screenHeight - buttonStartPosY
-						&& yMousePos > screenHeight - buttonStartPosY - buttonHeight)) {
-			if(input.isMouseButtonDown(0)){
-				buttonRoadControl = false;
-				buttonCityControl = true;
-				buttonHouseControl = false;
+		if ((xMousePos > buttonStartPosX - buttonWidth - 9 && xMousePos < (buttonStartPosX - buttonWidth - 9) + buttonWidth) && (yMousePos < screenHeight - buttonStartPosY && yMousePos > screenHeight - buttonStartPosY - buttonHeight)) {
+			if (input.isMouseButtonDown(0)) {
+					buttonRoadControl = false;
+					buttonCityControl = true;
+					buttonHouseControl = false;
+					control.deslectButtonControl = true;
 			}
-
 		}
 			
 		//ButtonRoad
-			if((xMousePos > buttonStartPosX && xMousePos < buttonStartPosX+buttonWidth) && (yMousePos < screenHeight-buttonStartPosY+buttonSpacing && yMousePos > screenHeight-buttonStartPosY+buttonSpacing-buttonHeight)) {
-				if(input.isMouseButtonDown(0)) {
+		if((xMousePos > buttonStartPosX && xMousePos < buttonStartPosX+buttonWidth) && (yMousePos < screenHeight-buttonStartPosY+buttonSpacing && yMousePos > screenHeight-buttonStartPosY+buttonSpacing-buttonHeight)) {
+			if (input.isMouseButtonDown(0)) {
 					buttonRoadControl = true;
 					buttonCityControl = false;
 					buttonHouseControl = false;
-					}
+					control.deslectButtonControl = true;
 			}
+		}
+			
 		//ButtonDice
 			if((xMousePos > buttonStartPosX && xMousePos < buttonStartPosX+buttonWidth) && (yMousePos < screenHeight-buttonStartPosY+(buttonSpacing*2) && yMousePos > screenHeight-buttonStartPosY+(buttonSpacing*2)-buttonHeight)) {
 				if(input.isMousePressed(0)) {
 					control.diceButtonClicked = true;
+					buttonRoadControl = false;
+					buttonCityControl = false;
+					buttonHouseControl = false;
 				}
 			}
 		
 		// ButtonBuyDevCard
-	        if ((xMousePos > buttonStartPosX - buttonWidth - 9
-	                && xMousePos < (buttonStartPosX - buttonWidth - 9) + buttonWidth)
-	                && (yMousePos < screenHeight - buttonStartPosY + buttonSpacing
-	                && yMousePos > screenHeight - buttonStartPosY + buttonSpacing - buttonHeight)) {
+	        if ((xMousePos > buttonStartPosX - buttonWidth - 9 && xMousePos < (buttonStartPosX - buttonWidth - 9) + buttonWidth) && (yMousePos < screenHeight - buttonStartPosY + buttonSpacing && yMousePos > screenHeight - buttonStartPosY + buttonSpacing - buttonHeight)) {
 	            if (input.isMouseButtonDown(0)) {
 	                control.devCardButtonClicked = true;
-	                buttonDiceControl = false;
+					buttonRoadControl = false;
+					buttonCityControl = false;
+					buttonHouseControl = false;
 	            }
 	        }
-		
 			
 		//ButtonEndTurn
 		if ((xMousePos > buttonStartPosX && xMousePos < buttonStartPosX + buttonWidth)
 				&& (yMousePos < screenHeight - buttonStartPosY + buttonSpacing * 3
-						&& yMousePos > screenHeight - buttonStartPosY + buttonSpacing * 3 - buttonHeight)) {
-
+				&& yMousePos > screenHeight - buttonStartPosY + buttonSpacing * 3 - buttonHeight)) {
 			if (input.isMousePressed(0)) {
-				if (playerTurn == control.playerNo) {
 
+				buttonRoadControl = false;
+				buttonCityControl = false;
+				buttonHouseControl = false;
+				control.diceButtonClicked = false;
+                control.devCardButtonClicked = false;
+				
+				if (playerTurn == control.playerNo) {
 					if (playerTurn == 1 && playerTurn == control.playerNo) {
 						control.testint = 0;
 						control.clickOnce = 0;

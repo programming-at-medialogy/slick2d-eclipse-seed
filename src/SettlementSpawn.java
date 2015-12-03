@@ -33,9 +33,6 @@ public class SettlementSpawn {
 	boolean[] areaClickedHouse;
 	boolean[] areaClickedCity;
 	
-    int houseButtonClicked;
-	int cityButtonClicked;
-    
 	//Used to fine tune the clickable area and placement of the houses.
 	int houseXoffset = 9;
 	int houseYoffset = 5;
@@ -126,13 +123,14 @@ public class SettlementSpawn {
 		//For-loop to check if an area has been clicked, if it has and house button has been clicked, place a house.
 		if (game.client.obj.playerTurn == control.playerNo) {
 			if (houseButton.buttonHouseControl == true) {
-				houseButtonClicked = 1;
 				for (i = 0; i < totalAreas; i++) {
 					if ((xMousePos > arraycoordinateX[i] - houseXoffset
 							&& xMousePos < arraycoordinateX[i] + areaClickSize)
 							&& (yMousePos < screenHeight - arraycoordinateY[i] + houseYoffset
 							&& yMousePos > screenHeight - arraycoordinateY[i] - areaClickSize - houseYoffset)) {
-						if (input.isMouseButtonDown(0)) {
+						if (input.isMousePressed(0)) {
+							houseButton.buttonHouseControl = false;
+							control.deslectButtonControl = false;
 							if (areaClickedHouse[i] != true) {
 								placeHouse(i);
 								game.client.obj.settlementPos[i][0] = settlement[i].xMiddle;
@@ -142,39 +140,36 @@ public class SettlementSpawn {
 								game.client.obj.SOChouseArea[i] = areaClickedHouse[i];
 								game.client.obj.areaClickedOwnership[i] = control.playerNo;
 								game.client.sendData(game.client.obj);
-								houseButton.buttonHouseControl = false;
-								houseButtonClicked = 0;
 							}
 						}
 					}
 				}
 			}
-			}
+		}
 		
 			//////////////CITY SETTLEMENT//////////////
 		if (game.client.obj.playerTurn == control.playerNo) {
 			if (cityButton.buttonCityControl == true) {
-				cityButtonClicked = 1;
 			//For-loop to check if you own the house area and it has been clicked. If it has and city button has been clicked, place a city.
 				for (i = 0; i < totalAreas; i++) {
 					if ((xMousePos > arraycoordinateX[i] - houseXoffset
 							&& xMousePos < arraycoordinateX[i] + areaClickSize)
 							&& (yMousePos < screenHeight - arraycoordinateY[i] + houseYoffset
-									&& yMousePos > screenHeight - arraycoordinateY[i] - areaClickSize - houseYoffset)) {
+							&& yMousePos > screenHeight - arraycoordinateY[i] - areaClickSize - houseYoffset)) {
 						if (input.isMouseButtonDown(0)) {
-							cityButtonClicked = 0;
+							cityButton.buttonCityControl = false;
+							control.deslectButtonControl = false;
 							if (game.client.obj.areaClickedOwnership[i] == control.playerNo) {
 								placeCity(i);
 								game.client.obj.cityColour[i] = control.playerNo;
 								game.client.obj.SOCcityArea[i] = areaClickedCity[i];
 								game.client.sendData(game.client.obj);
-								cityButton.buttonCityControl = false;
 							}
 						}
 					}
 				}
 			}
-			}
+		}
 		
 		for(int j = 0; j < settlement.length; j ++) {
 			settlement[j].playerNo = game.client.obj.houseColour[j];
@@ -184,13 +179,12 @@ public class SettlementSpawn {
 	
 	//Render method
 	public void render(GameContainer gc, Graphics g) throws SlickException
-	{
-		
-		if(houseButtonClicked > 0) {
+	{	
+		if(houseButton.buttonHouseControl == true) {
             houseButton.buttonHousePressed.render(gc, g);
         }
 		
-		if(cityButtonClicked > 0) {
+		if(cityButton.buttonCityControl == true) {
 			cityButton.buttonCityPressed.render(gc, g);
 		}
 		
