@@ -157,31 +157,46 @@ public class OnScreenButton {
 			if((xMousePos > 680 && xMousePos < 680 + 45) && (yMousePos < screenHeight - 635 + ySpacing && yMousePos > screenHeight - 635 - 45 + ySpacing )){
 	            if(input.isMousePressed(0)) {
 	            	trade.playerResource[0][0] = true;
-	            	System.out.println("ore selected");
+	            	trade.playerResource[1][0] = false;
+	            	trade.playerResource[2][0] = false;
+	            	trade.playerResource[3][0] = false;
+	            	trade.playerResource[4][0] = false;
 	            }
 	        }
 	        if((xMousePos > 680 + xResourceSpacing && xMousePos < 680 + 45 + xResourceSpacing) && (yMousePos < screenHeight - 635 + ySpacing && yMousePos > screenHeight - 635 - 45 + ySpacing)){
 	            if(input.isMousePressed(0)) {
 	            	trade.playerResource[3][0] = true;
-	            	System.out.println("clay selected");
+	            	trade.playerResource[0][0] = false;
+	            	trade.playerResource[2][0] = false;
+	            	trade.playerResource[1][0] = false;
+	            	trade.playerResource[4][0] = false;
 	            }
 	        }
 	        if((xMousePos > 680 + xResourceSpacing*2 && xMousePos < 680 + 45 + xResourceSpacing*2) && (yMousePos < screenHeight - 635 + ySpacing && yMousePos > screenHeight - 635 - 45 + ySpacing)){
 	            if(input.isMousePressed(0)) {
 	            	trade.playerResource[2][0] = true;
-	            	System.out.println("wood selected");
+	            	trade.playerResource[1][0] = false;
+	            	trade.playerResource[0][0] = false;
+	            	trade.playerResource[3][0] = false;
+	            	trade.playerResource[4][0] = false;
 	            }
 	        }
 	        if((xMousePos > 680 + xResourceSpacing*3 && xMousePos < 680 + 45 + xResourceSpacing*3) && (yMousePos < screenHeight - 635 + ySpacing && yMousePos > screenHeight - 635 - 45 + ySpacing)){
 	            if(input.isMousePressed(0)) {
 	            	trade.playerResource[4][0] = true;
-	            	System.out.println("wool selected");
+	            	trade.playerResource[1][0] = false;
+	            	trade.playerResource[2][0] = false;
+	            	trade.playerResource[3][0] = false;
+	            	trade.playerResource[0][0] = false;
 	            }
 	        }
 	        if((xMousePos > 680 + xResourceSpacing*4 && xMousePos < 680 + 45 + xResourceSpacing*4) && (yMousePos < screenHeight - 635 + ySpacing && yMousePos > screenHeight - 635 - 45 + ySpacing)){
 	            if(input.isMousePressed(0)) {
 	            	trade.playerResource[1][0] = true;
-	            	System.out.println("wheat selected");
+	            	trade.playerResource[0][0] = false;
+	            	trade.playerResource[2][0] = false;
+	            	trade.playerResource[3][0] = false;
+	            	trade.playerResource[4][0] = false;
 	            }
 	        }
 			}

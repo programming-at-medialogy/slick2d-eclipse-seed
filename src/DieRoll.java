@@ -23,7 +23,7 @@ public class DieRoll {
 	int x,y;
 	Dice diceOne, diceTwo;
 	
-	//Constructor
+	//Constructor - Initialize variables
 	DieRoll(Controller control, int x, int y) throws SlickException{
 		this.control = control;
 		this.x = x;
@@ -37,10 +37,8 @@ public class DieRoll {
 	//Renders out the dice rolls
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
-
 		diceOne.render(gc, g);
 		diceTwo.render(gc, g);
-
 	}
 	
 	/*
@@ -50,18 +48,20 @@ public class DieRoll {
 	 */
 	public void update(GameContainer gc, int i) throws SlickException, IOException {
 		
+		//This makes sure that all clients are being shown the same number on the die;
 		diceOne.index = game.client.obj.diceOneValue;
 		diceTwo.index = game.client.obj.diceTwoValue;
 
+		///------Sets the new dice values to the shared class and sends it to the server which then broadcasts it to all the clients.------///
 		if(game.client.obj.playerTurn == control.playerNo && control.diceButtonClicked == true && control.clickOnce == 0){
 			rollDice();
 			sendDieData();
-			game.client.obj.diceOneValue = roll1;
+			game.client.obj.diceOneValue = roll1; 
 			game.client.obj.diceTwoValue = roll2;
 			game.client.sendData(game.client.obj);
 			game.client.out.flush();
 			control.diceButtonClicked = false;
-			control.clickOnce = 1;
+			control.clickOnce = 1; //makes sure you can only roll the dice once every turn
 		}
 		
 		
@@ -75,20 +75,22 @@ public class DieRoll {
 		
 		for(int i = 0; i < control.tileNumber.length; i++){
 			if(control.tileNumber[i]== sum){
-				control.tileResource[indexer] = i;
-				System.out.println(i);
-				indexer++;
+				control.tileResource[indexer] = i; //stores the index of the tile number with the value of the dice.
+				System.out.println(i); //prints out the value - for developers to double check
+				indexer++; //indexer to increment the initialization of the tile index storage.
 			}
 		}
-		indexer = 0;
-		return sum;
+		indexer = 0; //sets the indexer to 0 restarting the initialization.
+		return sum; //return value of the die.
 	}
 	
+	////calls the functions to distribute the resources to the player with houses on the die number rolled//
 	public void sendDieData() throws IOException{
-		getTileType(control.dieNumber);
 		control.distributeResources();
 	}
 	
+	
+	////Function for developer - checks the tile type of the given index and returns it////
 	public int getTileType(int index){
 		int tileIndex = control.tile[index][2];
 		System.out.println("Gettiletype:"+tileIndex);
