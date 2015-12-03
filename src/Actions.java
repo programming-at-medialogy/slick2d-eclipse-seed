@@ -237,6 +237,9 @@ public class Actions {
 			System.out.println("Road built!");
 			
 			expR = -1;
+		} else if (message.equals("InitDone")) {
+			System.out.println("First phase done");
+			GameState.isInit = false;
 		}
 
 		else {

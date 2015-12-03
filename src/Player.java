@@ -14,7 +14,7 @@ public class Player  {
 	//private Road[] road;
 	
 	//ressources
-	public static int [] resources = new int[5];
+	public int [] resources = new int[5];
 	
 	int resourceAmount;
 	

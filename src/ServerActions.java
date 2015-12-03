@@ -15,6 +15,8 @@ public class ServerActions {
 	static Position rStartPos;
 	static int expectingRoad;
 	static int startIndex;
+	static boolean isInit;
+	static int initRoundNumber;
 	/**
 	 * An object of this class is never instantiated, so this function should be
 	 * called in order to initialize certain variables.
@@ -23,6 +25,8 @@ public class ServerActions {
 		gson = new Gson();
 		expectingRoad = -1;
 		startIndex = 0;
+		isInit = true;
+		initRoundNumber = 0;
 	}
 
 	/**
@@ -41,8 +45,35 @@ public class ServerActions {
 	public static void sendPlayerAmount() {
 		NetworkServer.sendToAll("PlayerNums " + GameData.players.size());
 	}
+	
+	static void collectResources(int number) {
+		for (int i = 0; i < GameData.players.size(); i++) {
+			for (int j = 0; j < GameData.buildings.size(); j++) {
+				if (GameData.buildings.get(j).PLAYER == GameData.players.get(i).NUMBER) {
+					Hexagon[] nearbyHexagons = GameData.buildings.get(j).POSITION.getNearbyHexagons();
+					for (int k = 0; k < nearbyHexagons.length; k++) {
+						if (nearbyHexagons[k].NUMBER == number && !nearbyHexagons[k].isRobbed()) {
+							if (GameData.buildings.get(j).isUpgraded()) {
+								GameData.players.get(i).resources[nearbyHexagons[k].TYPE.toInt()] += 2;
+								GameData.players.get(i).resourceAmount += 2;
+
+							}
+							if (nearbyHexagons[k].TYPE != ResourceType.DESERT && !nearbyHexagons[k].isRobbed()) {
+								GameData.players.get(i).resources[nearbyHexagons[k].TYPE.toInt()]++;
+								GameData.players.get(i).resourceAmount++;
+							}
+						}
+					}
+				}
+			}
+			GameData.players.get(i).updateResAmount();
+		}
+		
+		updatePlayerResources();
+	}
 
 	static void collectResources() {
+		System.out.println("Collecting resources");
 		int dieRoll = Dice.dice1 + Dice.dice2;
 		for (int i = 0; i < GameData.players.size(); i++) {
 			for (int j = 0; j < GameData.buildings.size(); j++) {
@@ -55,7 +86,7 @@ public class ServerActions {
 								GameData.players.get(i).resourceAmount += 2;
 
 							}
-							if (nearbyHexagons[k].TYPE != ResourceType.DESERT && nearbyHexagons[k].isRobbed()) {
+							if (nearbyHexagons[k].TYPE != ResourceType.DESERT && !nearbyHexagons[k].isRobbed()) {
 								GameData.players.get(i).resources[nearbyHexagons[k].TYPE.toInt()]++;
 								GameData.players.get(i).resourceAmount++;
 							}
@@ -81,7 +112,7 @@ public class ServerActions {
 	}
 
 	static void addDevelopmentCard(int ID) {
-			GameData.players.get(ID).devCard[DevelopmentCardDeck.BuyCard().toInt()]++;
+			GameData.players.get(ID).devCard[DevelopmentCardDeck.BuyCard(ID).toInt()]++;
 		}
 	
 	public static CardType buyCard(int ID) {
@@ -158,12 +189,26 @@ public class ServerActions {
 			if (Road.buildRoad(Position.assignPosition(rStartPos.DIVISION, rStartPos.INDEX), Position.assignPosition(rEndPos.DIVISION, rEndPos.INDEX), clientId) != null) {
 				NetworkServer.sendToAll("Road " + clientId + " " + gson.toJson(rStartPos));
 				NetworkServer.sendToAll(message);
+				if (!isInit) {
+					GameData.players.get(clientId).resources[ResourceType.BRICK.toInt()]--;
+					GameData.players.get(clientId).resources[ResourceType.TREE.toInt()]--;
+					updatePlayerResources();
+				}
 			}
 			expectingRoad = -1;
 		} else if (clientId == GameData.turn && message.equals("rollDice")) {
 			
 		} else if (message.equals("End turn")) {
 			GameData.turn = (GameData.turn + 1) % GameData.players.size();
+			if (GameData.turn == 0 && isInit)
+				initRoundNumber++;
+			if (initRoundNumber > 1 && isInit) {
+				isInit = false;
+				for (int i = 2; i <= 12; i++) {
+					collectResources(i);
+				}
+				NetworkServer.sendToAll("InitDone");
+			}
 			NetworkServer.sendToAll("Turn " + GameData.turn);
 		}
 
@@ -184,12 +229,26 @@ public class ServerActions {
 	
 			if (objectType.equals("Building")) {
 				Position inPos = gson.fromJson(message, Position.class);
-				if (Building.build(inPos, clientId) != null)
+				if (Building.build(inPos, clientId) != null) {
 					NetworkServer.sendToAll("Building " + clientId + " " + message);
+					if (!isInit) {
+						GameData.players.get(clientId).resources[ResourceType.CORN.toInt()]--;
+						GameData.players.get(clientId).resources[ResourceType.BRICK.toInt()]--;
+						GameData.players.get(clientId).resources[ResourceType.SHEEP.toInt()]--;
+						GameData.players.get(clientId).resources[ResourceType.TREE.toInt()]--;
+						updatePlayerResources();
+					}
+				}
 			} else if (objectType.equals("Upgrade")) {
 				Position inPos = gson.fromJson(message, Position.class);
-				if (Building.getByPosition(inPos).upgrade())
+				if (Building.getByPosition(inPos).upgrade()) {
 					NetworkServer.sendToAll("Upgrade " + clientId + inPos);
+					if (!isInit) {
+						GameData.players.get(clientId).resources[ResourceType.CORN.toInt()]-=2;
+						GameData.players.get(clientId).resources[ResourceType.ROCK.toInt()]-=3;
+						updatePlayerResources();
+					}
+				}
 			} else if (objectType.equals("Road")) {
 				rStartPos = gson.fromJson(message, Position.class);
 				expectingRoad = clientId;
