@@ -12,11 +12,13 @@ public class HexMap {
 	HexPiece [] waterPiece;
 	HexNumber [] numberPiece;
 	Game game;
+	Controller control;
 	
 	int [] indexArrayTile;
 	int [] indexArrayNumber;
 	
-	HexMap() throws SlickException{
+	HexMap(Controller control) throws SlickException{
+		this.control = control;
 		piece = new HexPiece [19];
 		waterPiece = new HexPiece[18];
 		numberPiece = new HexNumber[19];
@@ -89,7 +91,9 @@ public void placeMap() throws SlickException{
 			
 			if(i<3){
 			piece[i] = new HexPiece(x+width,y+0,indexArrayTile[indexer]);
-			
+			control.tile[i][0] = piece[i].xMiddle;
+			control.tile[i][1] = piece[i].yMiddle;
+			control.tile[i][2] = piece[i].index;
 			indexer++;
 			x += tileWidth;
 			
@@ -99,7 +103,9 @@ public void placeMap() throws SlickException{
 			
 			else if(i<7){
 				piece[i] = new HexPiece(offset+width-xOffset,y+height-heightOffset,indexArrayTile[indexer]);
-				
+				control.tile[i][0] = piece[i].xMiddle;
+				control.tile[i][1] = piece[i].yMiddle;
+				control.tile[i][2] = piece[i].index;
 				indexer++;
 				offset += tileWidth;
 				
@@ -109,7 +115,9 @@ public void placeMap() throws SlickException{
 			
 			else if(i<12){
 				piece[i] = new HexPiece(width+xOffsetTwo-xOffset*2,y+height*2-heightOffset*2,indexArrayTile[indexer]);
-				
+				control.tile[i][0] = piece[i].xMiddle;
+				control.tile[i][1] = piece[i].yMiddle;
+				control.tile[i][2] = piece[i].index;
 				indexer++;
 				xOffsetTwo+= tileWidth;
 				
@@ -119,7 +127,9 @@ public void placeMap() throws SlickException{
 			
 			else if(i<16){
 				piece[i] = new HexPiece(offset+width-xOffset-tileWidth*4,y+height*3-heightOffset*3,indexArrayTile[indexer]);
-				
+				control.tile[i][0] = piece[i].xMiddle;
+				control.tile[i][1] = piece[i].yMiddle;
+				control.tile[i][2] = piece[i].index;
 				indexer++;
 				offset += tileWidth;
 				
@@ -130,7 +140,9 @@ public void placeMap() throws SlickException{
 			
 			else if(i<=19){
 				piece[i] = new HexPiece(x+width-tileWidth*3,y+height*4-heightOffset*4,indexArrayTile[indexer]);
-
+				control.tile[i][0] = piece[i].xMiddle;
+				control.tile[i][1] = piece[i].yMiddle;
+				control.tile[i][2] = piece[i].index;
 				indexer++;
 				x += tileWidth;
 				
@@ -156,20 +168,7 @@ public void placeMap() throws SlickException{
 		
 		
 		for(int i = 0; i < numberPiece.length; i++) {
-			
-			//find(indexArrayNumber, 1)
-			
-			if(piece[i].index == 2) {
-				numberPiece[i] = new HexNumber(piece[i].x, piece[i].y);
-			} else {
-				if(find(indexArrayNumber, 1) == i) {
-					numberPiece[find(indexArrayNumber, 1)] = new HexNumber(piece[i].x, piece[i].y+20, indexArrayNumber[6]);
-				} else {
-				numberPiece[i] = new HexNumber(piece[i].x, piece[i].y+20, indexArrayNumber[indexNo]);
-				}
-				indexNo++;
-			}
-			
+			numberPiece[i] = new HexNumber(piece[i].x, piece[i].y+20, indexArrayNumber[i]);
 		}
 		
 		
