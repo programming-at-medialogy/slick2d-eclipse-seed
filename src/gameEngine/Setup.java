@@ -46,22 +46,22 @@ public class Setup {
 		Collections.shuffle(playerDeck);
 
 		citiesOnBoard = new ArrayList<City>();
-		citiesOnBoard.add(new City("Sydney", 100, 100, 0));
-		citiesOnBoard.add(new City("Johannesburg", 300, 300, 0));
-		citiesOnBoard.add(new City("Beijing", 100, 100, 0));
-		citiesOnBoard.add(new City("San Francisco", 200, 200, 0));
-		citiesOnBoard.add(new City("Washington", 300, 300, 0));
-		citiesOnBoard.add(new City("Hong Kong", 100, 100, 0));
-		citiesOnBoard.add(new City("Tromso", 200, 200, 0));
-		citiesOnBoard.add(new City("Moscow", 300, 300, 0));
-		citiesOnBoard.add(new City("Algiers", 100, 100, 0));
-		citiesOnBoard.add(new City("Chicago", 200, 200, 0));
-		citiesOnBoard.add(new City("London", 300, 300, 0));
-		citiesOnBoard.add(new City("Paris", 100, 100, 0));
-		citiesOnBoard.add(new City("New York", 200, 200, 0));
-		citiesOnBoard.add(new City("Kolkata", 300, 300, 0));
-		citiesOnBoard.add(new City("Atlanta", 200, 200, 0));
-		citiesOnBoard.add(new City("Tokyo", 300, 300, 0));
+		citiesOnBoard.add(new City("Sydney", 1688, 906, 0));
+		citiesOnBoard.add(new City("Johannesburg", 1062, 860, 0));
+		citiesOnBoard.add(new City("Beijing", 1540, 282, 0));
+		citiesOnBoard.add(new City("San Francisco", 324, 402, 0));
+		citiesOnBoard.add(new City("Washington", 592, 490, 0));
+		citiesOnBoard.add(new City("Hong Kong", 1502, 582, 0));
+		citiesOnBoard.add(new City("Tromso", 1038, 214, 0));
+		citiesOnBoard.add(new City("Moscow", 1168, 354, 0));
+		citiesOnBoard.add(new City("Algiers", 958, 514, 0));
+		citiesOnBoard.add(new City("Chicago", 460, 340, 0));
+		citiesOnBoard.add(new City("London", 918, 322, 0));
+		citiesOnBoard.add(new City("Paris", 1018, 380, 0));
+		citiesOnBoard.add(new City("New York", 574, 384, 0));
+		citiesOnBoard.add(new City("Kolkata", 1426, 490, 0));
+		citiesOnBoard.add(new City("Atlanta", 496, 454, 0));
+		citiesOnBoard.add(new City("Tokyo", 1676, 368, 0));
 
 		// new empty array list where program is going to place drawn cards.
 		drawnPlayerCards = new ArrayList<>(Arrays.asList());
