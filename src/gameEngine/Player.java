@@ -10,7 +10,7 @@ public class Player {
 		this.currentCity = currentCity;
 		this.role = role;
 		//Setup.citiesOnBoard.get(currentCity);
-System.out.println(currentCity);
+System.out.println(currentCity.toString());
 	}
 
 	public void setCurrentCity(City city) {

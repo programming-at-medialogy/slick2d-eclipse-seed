@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Client {
 
 	Player player1 = new Player(Setup.citiesOnBoard.get(14),Setup.getPlayerRole());
-	// Player player2 = new Player(Setup.citiesOnBoard.get(14),Setup.getPlayerRole());
+	Player player2 = new Player(Setup.citiesOnBoard.get(14),Setup.getPlayerRole());
 
 	
 	Client(){

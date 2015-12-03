@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -22,8 +23,9 @@ public class Main extends BasicGame
 	public static int boardWidth = 1920;
 	public static int boardHight = 1080;
 	private Shape circle = null;
-	
-	
+	static int circleWidth;
+	static int circleHeight;
+	static int radius;
 	public Main(String gamename)
 	
 	{
@@ -33,7 +35,7 @@ public class Main extends BasicGame
 	@Override
 	public void init(GameContainer gc) throws SlickException 
 	{
-		circle = new Circle (220,265,10);//drawing circle
+		circle = new Circle (circleWidth,circleHeight,radius);//drawing circle
 	}
     
 	@Override
@@ -42,9 +44,12 @@ public class Main extends BasicGame
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
-	
+	//Image research = new Image ("images/researcher.png");
 	Image background = new Image ("images/board.jpg");//background image	
 		g.drawImage(background, 0, 0);// rendering background 
+		//g.drawImage(research, 0,0);
+		g.setColor(Color.white);
+		g.fillOval(circleWidth,circleHeight,radius,radius);
 		g.draw(circle);
 		//g.drawString("WORKS!", 250, 200);
 		
