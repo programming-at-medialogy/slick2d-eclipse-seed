@@ -23,6 +23,6 @@ public class MonopolyCard extends Card{
 	
 	@Override
 	public void effect (){
-		control.receivedMonoCard = true;
+		control.receivedMonoCard = true; //the player receives a monopoly card.
 	}
 }

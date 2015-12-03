@@ -22,6 +22,6 @@ public class VPCard extends Card {
 	
 	@Override
 	public void effect (){
-		control.resources.victoryPoint++;
+		control.resources.victoryPoint++; //the player gets a victory point!
 	}
 }

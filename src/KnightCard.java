@@ -22,6 +22,6 @@ public class KnightCard extends Card {
 	
 	@Override
 	public void effect (){
-		control.resources.armySize++;
+		control.resources.armySize++; //increase a players army size by 1.
 	}
 }

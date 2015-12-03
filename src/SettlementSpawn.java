@@ -7,7 +7,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
-/*	This class is used to spawn houses on places where houses may be spawned.
+/*	
+ * 	This class is used to spawn houses on places where houses may be spawned.
  *  It does so by checking if an area has been clicked, by setting booleans to true
  *  If a boolean is turned true, a house must be spawned at that point.
  */
@@ -118,9 +119,16 @@ public class SettlementSpawn {
 		
 		Input input = gc.getInput(); //used to get mouse inputs
 		
+		/*
+		 * The following will control the following:
+		 * Is it the players trun
+		 * Has the button to place a house been clicked
+		 * Is the mouse pressed within any of the areas where a house can be placed
+		 * and is there not already a house there.
+		 * If so, place a house.
+		 */
 		
 		//////////////HOUSE SETTLEMENT//////////////
-		//For-loop to check if an area has been clicked, if it has and house button has been clicked, place a house.
 		if (game.client.obj.playerTurn == control.playerNo) {
 			if (houseButton.buttonHouseControl == true) {
 				for (i = 0; i < totalAreas; i++) {
@@ -147,10 +155,13 @@ public class SettlementSpawn {
 			}
 		}
 		
+		/*
+		 * Same as above with the house, this time just for a city
+		 * In addition, it checks to see if the house is already owned by the player himself.
+		 */
 			//////////////CITY SETTLEMENT//////////////
 		if (game.client.obj.playerTurn == control.playerNo) {
 			if (cityButton.buttonCityControl == true) {
-			//For-loop to check if you own the house area and it has been clicked. If it has and city button has been clicked, place a city.
 				for (i = 0; i < totalAreas; i++) {
 					if ((xMousePos > arraycoordinateX[i] - houseXoffset
 							&& xMousePos < arraycoordinateX[i] + areaClickSize)
@@ -171,6 +182,7 @@ public class SettlementSpawn {
 			}
 		}
 		
+		//For-loop to see other players colors of houses.
 		for(int j = 0; j < settlement.length; j ++) {
 			settlement[j].playerNo = game.client.obj.houseColour[j];
 		}
@@ -180,10 +192,12 @@ public class SettlementSpawn {
 	//Render method
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{	
+		//Renders a button if the house button has been clicked.
 		if(houseButton.buttonHouseControl == true) {
             houseButton.buttonHousePressed.render(gc, g);
         }
 		
+		//Renders a button if the city button has been clicked.
 		if(cityButton.buttonCityControl == true) {
 			cityButton.buttonCityPressed.render(gc, g);
 		}
@@ -195,6 +209,7 @@ public class SettlementSpawn {
 			}
 		}
 		
+		//Renders the cities.
 		for(int i = 0; i < areaClickedCity.length; i ++) {
 			if(areaClickedCity[i] == true) {
 				settlement[i].houseType = 1;
@@ -202,9 +217,10 @@ public class SettlementSpawn {
 		}
 	}
 	
-	
+	//Different resources are reduced if a player places a house
+	//The player also receives a victory point and a point towards the total a amount of houses.
+	//The area in which the house have been placed will become true.
 	public void placeHouse(int i) {
-
 		if (checkHouseCost()) {
 			game.client.obj.playerResource[control.playerNo-1][1]--; //WHEAT
 			game.client.obj.playerResource[control.playerNo-1][2]--; //WOOD
@@ -217,13 +233,11 @@ public class SettlementSpawn {
 		}
 	}
 	
-	
+	//Same as above, just with cities.
 	public void placeCity(int i) {
-
 		if (checkCityCost()) {
 			game.client.obj.playerResource[control.playerNo-1][0] -=3;
 			game.client.obj.playerResource[control.playerNo-1][1] -=2;
-			
 			control.resources.victoryPoint++;
 			control.resources.houseCount++;
 			game.client.obj.playerVictoryPoints[control.playerNo-1][0] = control.resources.victoryPoint;
@@ -231,6 +245,7 @@ public class SettlementSpawn {
 		}
 	}
 
+	//Boolean to control if the player have enough resources to buy a house
 	public boolean checkHouseCost() {
 		boolean isTrue = false;
 		if (game.client.obj.playerResource[control.playerNo-1][1] >= 1 && game.client.obj.playerResource[control.playerNo-1][2] >= 1
@@ -241,6 +256,7 @@ public class SettlementSpawn {
 		return isTrue;
 	}
 	
+	//Boolean to control if the player have enough resources to buy a city
 	public boolean checkCityCost() {
 		boolean isTrue = false;
 		if (game.client.obj.playerResource[control.playerNo-1][0] >= 3 && game.client.obj.playerResource[control.playerNo-1][1] >= 2) {

@@ -11,6 +11,7 @@ import org.newdawn.slick.SlickException;
 public class Resource {
 	Game game;
 	
+	//Int for the different resources, placement of images etc.
 	int oreResource, clayResource, wheatResource, woodResource, woolResource;
 	int x, y;
 	int spacing = 125;
@@ -22,6 +23,7 @@ public class Resource {
 	int playerNo;
 	int armySize = 0;
 	
+	//Images for the resources the player currently have.
 	Image ore, clay, wood, wool, wheat;
 	
 	Resource(int x, int y, int playerNo) throws SlickException{
