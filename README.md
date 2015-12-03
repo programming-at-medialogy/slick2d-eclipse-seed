@@ -16,7 +16,11 @@ In order to play the game, a server must be launch with a matching port and IP t
 Once a server is established, a minimum and maximum of four players must join the game. This is needed to pass the menu state of the game. However, it is possible to start directly in the play state of the game, thus skipping the menu. 
 
 
-TO START IN THE PLAYSTATE OF THE GAME, ONE HAVE TO TYPE   playState  IN THE GAME CLASS, UNDER  initStatesList    (this.enterState(playState);
+TO START IN THE PLAYSTATE OF THE GAME, ONE HAVE TO TYPE   playState  IN THE GAME CLASS, UNDER  initStatesList     (this.enterState(playState);
+
+Upon initial server  and client launch, the IP will be set for the local IP of the computer (127.0.0.1). If the game is to be played on multiple computers, the IP must be the same on all the clients, as well as the server. It is a good idea to run the server on a different IDE, i.e. Intellij, or a different computer. 
+
+The IP can be changed in the Server class for the server and the Client class for the client.
 
 
 ### House Rules
