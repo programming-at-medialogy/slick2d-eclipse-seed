@@ -186,7 +186,7 @@ public class OnScreenButton {
 		
 		//ButtonHouse
 			if((xMousePos > buttonStartPosX && xMousePos < buttonStartPosX+buttonWidth) && (yMousePos < screenHeight-buttonStartPosY && yMousePos > screenHeight-buttonStartPosY-buttonHeight)) {
-				if(input.isMousePressed(0)) {
+				if(input.isMouseButtonDown(0)) {
 					buttonRoadControl = false;
 					buttonCityControl = false;
 					buttonHouseControl = true;
@@ -198,8 +198,7 @@ public class OnScreenButton {
 				&& xMousePos < (buttonStartPosX - buttonWidth - 9) + buttonWidth)
 				&& (yMousePos < screenHeight - buttonStartPosY
 						&& yMousePos > screenHeight - buttonStartPosY - buttonHeight)) {
-			
-			if(input.isMousePressed(0)){
+			if(input.isMouseButtonDown(0)){
 				buttonRoadControl = false;
 				buttonCityControl = true;
 				buttonHouseControl = false;
@@ -209,7 +208,7 @@ public class OnScreenButton {
 			
 		//ButtonRoad
 			if((xMousePos > buttonStartPosX && xMousePos < buttonStartPosX+buttonWidth) && (yMousePos < screenHeight-buttonStartPosY+buttonSpacing && yMousePos > screenHeight-buttonStartPosY+buttonSpacing-buttonHeight)) {
-				if(input.isMousePressed(0)) {
+				if(input.isMouseButtonDown(0)) {
 					buttonRoadControl = true;
 					buttonCityControl = false;
 					buttonHouseControl = false;
@@ -227,7 +226,7 @@ public class OnScreenButton {
 	                && xMousePos < (buttonStartPosX - buttonWidth - 9) + buttonWidth)
 	                && (yMousePos < screenHeight - buttonStartPosY + buttonSpacing
 	                && yMousePos > screenHeight - buttonStartPosY + buttonSpacing - buttonHeight)) {
-	            if (input.isMousePressed(0)) {
+	            if (input.isMouseButtonDown(0)) {
 	                control.devCardButtonClicked = true;
 	                buttonDiceControl = false;
 	            }
@@ -275,7 +274,6 @@ public class OnScreenButton {
 						game.client.obj.roundCount--;
 						game.client.sendData(game.client.obj);
 					}
-
 				}
 			}
 		}
