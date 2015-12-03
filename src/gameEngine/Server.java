@@ -8,7 +8,7 @@ public class Server {
 	static Socket socket;
 	static DataOutputStream out;
 	static DataInputStream in;
-	static Users[] user = new Users[10];
+	static Users[] user = new Users[10];	//Need to cap it at two
 	
 	public static void main (String[] args) throws Exception 
 	{
