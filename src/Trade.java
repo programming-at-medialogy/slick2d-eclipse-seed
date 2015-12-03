@@ -40,6 +40,7 @@ public class Trade {
 	
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		
+		////If the player has clicked the trade button, display the resources you can trade to and with///
 		if(control.tradeButtonControl == true){
 		g.drawImage(oreBank, x, y);
         g.drawImage(clayBank, x+xSpacing, y);
@@ -57,24 +58,35 @@ public class Trade {
 	
 	public void update(GameContainer gc, int i) throws SlickException, IOException {
 		
-		if(control.tradeButtonControl == true){
-		for (int k = 0; k < 5; k++) {
-			if (playerResource[k][0]) {
-				for (int j = 0; j < 5; j++) {
-					if (playerResource[j][1]) {
-						if(game.client.obj.playerResource[control.playerNo - 1][k]>=4){
-						game.client.obj.playerResource[control.playerNo - 1][j]++;
-						game.client.obj.playerResource[control.playerNo - 1][k]-=4;
-						game.client.sendData(game.client.obj);
+		tradeResources();
+	}
+	
+	
+	///This function will check all of the booleans in the array, checking which resource the player
+	///has clicked on, and which of the banks resources the players has clicked on.
+	///For example: The player clicks on ore, index[0][0] which is the player ore, will be set to true.
+	///If the player then clicks on the banks resource, it will check if the player has 4 of that resource, 
+	///and if the player does have 4, it will perform the trade.
+	public void tradeResources() throws IOException {
+		if (control.tradeButtonControl == true) {
+			for (int k = 0; k < 5; k++) {
+				if (playerResource[k][0]) {
+					for (int j = 0; j < 5; j++) {
+						if (playerResource[j][1]) {
+							
+							if (game.client.obj.playerResource[control.playerNo - 1][k] >= 4) { //does the player have 4 or of the chosen resource?
+								game.client.obj.playerResource[control.playerNo - 1][j]++; //add the selected banks resource to your resources
+								game.client.obj.playerResource[control.playerNo - 1][k] -= 4; //removes 4 from the players chosen resource
+								game.client.sendData(game.client.obj);
+							}
+							control.deselectButtonControl = false;
+							control.tradeButtonControl = false;
+							playerResource[k][0] = false;
+							playerResource[j][1] = false;
 						}
-						control.deselectButtonControl = false;
-						control.tradeButtonControl = false;
-						playerResource[k][0] = false;
-						playerResource[j][1] = false;
 					}
 				}
 			}
-		}
 		}
 	}
 
