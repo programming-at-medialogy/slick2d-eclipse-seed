@@ -27,7 +27,7 @@ public class Player  {
 	//Number of points
 	public int points;
 	//how many point to WIN!
-	public int tempPoints = 3;
+	public int tempPoints = 10;
 	
 	//How many development cards the players has
 	public int[] devCard;

@@ -96,7 +96,7 @@ public class GameState extends BasicGameState implements KeyListener {
 		for(int i=0; i<hexImg.length; i++){ //goes trough hexagon array
 			hexImg[i] = new Image("resources/hexagon_" + (i) + ".png"); //Assigns every hexagon a name
 		}
-		for(int r=1; r<4; r++){
+		for(int r = 0; r < roadImg.length; r++){
 			roadImg[r] = new Image("resources/road_" + (r) + ".png"); //initializing road images
 		}
 		for (int n=2; n<=12; n++){
