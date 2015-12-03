@@ -107,7 +107,7 @@ public class PreGameState extends BasicGameState implements KeyListener{
 	 */
 	//updates the flow
 	@Override
-	public void update(GameContainer gc, StateBasedGame s, int delta) throws SlickException {
+	public void update(GameContainer gc, final StateBasedGame s, int delta) throws SlickException {
 		
 		if (canStart) {
 			canStart = false;

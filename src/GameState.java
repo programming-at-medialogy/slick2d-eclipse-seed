@@ -96,6 +96,7 @@ public class GameState extends BasicGameState implements KeyListener {
 		GameData.buildings = new ArrayList<Building>();
 		GameData.players = new ArrayList<Player>();
 		
+		
 		Actions.initActions();
 		hexWidth = hexImg[0].getWidth();
 		hexHeight = hexImg[0].getHeight();
