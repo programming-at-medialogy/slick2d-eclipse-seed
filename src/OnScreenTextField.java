@@ -40,7 +40,11 @@ public class OnScreenTextField {
 
 	}
 	
-	// Creates all of the individual text fields
+	/* 
+	 * Creates all of the individual text fields
+	 * This incorporates the players different colours on buildings
+	 * so the players can see which field represents them
+	 */
 	public void create(GameContainer gc) {
 
 		textField = new TextField(gc, gc.getDefaultFont(), textFieldXPos, textFieldYPos, textFieldWidth,
@@ -99,6 +103,7 @@ public class OnScreenTextField {
 		}
 	}
 
+	// Renders the text fields
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		textField.render(gc, g);
 		textField2.render(gc, g);
@@ -110,6 +115,14 @@ public class OnScreenTextField {
 	public void update(GameContainer gc, int i) throws SlickException, IOException {
 		cardButton.update(gc, i);
 
+		/*
+		 * After having clicked the button we check if the player can even purchase a card
+		 * We pay for having bought a development card, if possible
+		 * We write which card subclass has been chosen to the text field
+		 * The card subclass chosen then gets it effect triggered instantly
+		 * and the buttons boolean goes to 'false' so if the player has enough resources
+		 * he/she can buy another one if he/she wants to.
+		 */
 		if (control.devCardButtonClicked == true) {
 			if (game.client.obj.playerTurn == control.playerNo) {
 				if (cardHelp.checkDevCardCost() == true) {
