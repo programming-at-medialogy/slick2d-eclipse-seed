@@ -263,7 +263,18 @@ public class GameState extends BasicGameState implements KeyListener {
 		}
 		for(int i = 0; i < GameData.players.size(); i ++){
 			if(GameData.players.get(i) == GameData.players.get(GameData.turn)){
-				tempFont.drawString(Windows.scWidth/6 - tempFont.getWidth(GameData.players.get(i).getName())/2, 20, GameData.players.get(i).getName()+ "'s turn", new Color(0, 0, 0));
+				pointFont = Resource.getFont("pik", 25);
+				Color color = new Color(0,0,0);
+				if(i == 0){
+					color = new Color(255,140,0);
+				} else if(i == 1){
+					color = new Color(0,0,255);
+				} else if(i == 2){
+					color = new Color(255,0,0);
+				} else if(i == 3){
+					color = new Color(0,255,0);
+				}
+				tempFont.drawString(Windows.scWidth/6 - tempFont.getWidth(GameData.players.get(i).getName())/2, 20, GameData.players.get(i).getName()+ "'s turn", color);
 			}
 		}
 		ListBox.update(this);
