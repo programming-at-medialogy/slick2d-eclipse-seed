@@ -12,7 +12,7 @@ public class Server {
     protected List<ServerThread> clientSockets; //creates a list of serverThreads.
     PlayerInformation serverData; 
     int playerNumber = 1; //sets the starting player number of the first player that connects
-    String serverIP = "192.168.43.235"; //IP of the server
+    String serverIP = "127.0.0.1"; //IP of the server
     InetAddress addr = InetAddress.getByName(serverIP);
     
     SOCHexMap map; 

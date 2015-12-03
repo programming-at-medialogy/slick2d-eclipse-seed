@@ -3,7 +3,7 @@ import java.net.Socket;
 
 
 public class Client {
-	String IP = "192.168.43.235";
+	String IP = "127.0.0.1";
     Socket socket = new Socket(IP, 5555); //creates a socket at the given IP and port
     ObjectOutputStream out;
     ObjectInputStream in;
