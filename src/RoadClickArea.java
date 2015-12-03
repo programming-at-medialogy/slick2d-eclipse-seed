@@ -182,6 +182,7 @@ public class RoadClickArea {
 		if (checkRoadCost()) {
 			game.client.obj.playerResource[control.playerNo-1][3]--;
 			game.client.obj.playerResource[control.playerNo-1][2]--;
+			//game.client.obj.playerRoadCount[control.playerNo-1][0]++; ---- for most roads
 			control.resources.roadCount++;
 			DiagonalRoadArea[i] = true;
 			}
@@ -193,6 +194,7 @@ public class RoadClickArea {
 		if (checkRoadCost()) {
 			game.client.obj.playerResource[control.playerNo-1][3]--;
 			game.client.obj.playerResource[control.playerNo-1][2]--;
+			//game.client.obj.playerRoadCount[control.playerNo-1][0]++; ---- for most roads
 			control.resources.roadCount++;
 			StraightRoadArea[i] = true;
 		}
