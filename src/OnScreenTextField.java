@@ -1,4 +1,4 @@
-import java.io.IOException;
+	import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
@@ -29,6 +29,7 @@ public class OnScreenTextField {
 	Card[] developmentPile = new Card[25];
 	Card pileOutput;
 
+	//Constructor
 	public OnScreenTextField(Controller control) throws SlickException {
 		this.control = control;
 		cardButton = new OnScreenButton(control);

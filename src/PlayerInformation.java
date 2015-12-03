@@ -1,4 +1,4 @@
-import java.io.Serializable;
+	import java.io.Serializable;
 
 public class PlayerInformation implements Serializable{
 
@@ -26,7 +26,6 @@ public class PlayerInformation implements Serializable{
     int diceOneValue = 1;
     int diceTwoValue = 1;
     boolean distributeResources = false;
-    int testInt = 0;
 
     int playerTurn = 1;
     int roundCount = 30;
