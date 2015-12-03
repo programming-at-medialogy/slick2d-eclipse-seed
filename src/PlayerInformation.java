@@ -23,7 +23,6 @@ public class PlayerInformation implements Serializable{
     int[] areaClickedOwnership = new int[54];
     //int [][] playerRoadCount = new int [4][1];
 
-    boolean diceClick = true;
     int diceOneValue = 1;
     int diceTwoValue = 1;
     boolean distributeResources = false;

@@ -17,7 +17,6 @@ public class Controller {
 	int dieNumber = 0;
 	int [] tileResource = new int[2];
 	boolean diceButtonClicked = false;
-	int testint = 0;
 	int clickOnce = 0;
 	int [][] settlementData = new int[54][3];
 	boolean deselectButtonControl;
