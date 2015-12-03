@@ -223,6 +223,7 @@ public class Actions {
 		// Method used to notify server that user wants to roll the dice
 		// Send message to server. Something like:
 		// networkHelper.sendMessage("Roll dice", player);
+		NetworkClient.sendMessage("Roll");
 	}
 
 	/**
@@ -279,6 +280,12 @@ public class Actions {
 				Hexagon hex = gson.fromJson(message, Hexagon.class);
 				Hexagon.addHex(hex);
 				System.out.println("Map loaded!");
+			} else if (message.equals("Roll1")) {
+				message = message.substring(jsonIndex);
+				Dice.dice1 = Integer.parseInt(message);
+			} else if (message.equals("Roll2")) {
+				message = message.substring(jsonIndex);
+				Dice.dice2 = Integer.parseInt(message);
 			} else if (objectType.equals("ID")) {
 				message = message.substring(jsonIndex);
 				int ownIndex = Integer.parseInt(message);

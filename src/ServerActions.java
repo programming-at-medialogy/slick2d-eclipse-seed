@@ -130,6 +130,11 @@ public class ServerActions {
 			//playDevelopmentCard();
 		}
 		
+		else if (message.equals("Roll")) {
+			NetworkServer.sendToAll("Roll1 " + Dice.RollDice(1));
+			NetworkServer.sendToAll("Roll2 " + Dice.RollDice(2));
+		}
+		
 		else if (expectingRoad == clientId) {
 			Position rEndPos = gson.fromJson(message, Position.class);
 			if (Road.buildRoad(rStartPos, rEndPos, clientId) != null) {
@@ -184,28 +189,6 @@ public class ServerActions {
 			System.out.println("Name received");
 			GameData.players.set(clientId, new Player(message, clientId));
 			startIndex++;
-//			if(startIndex == 0){
-//				Player playerOne = new Player(message,0);
-//				GameData.players.add(playerOne);
-//				String indexMessage = "0";
-//				NetworkServer.send(0, indexMessage);
-//			} else if(startIndex == 1){
-//				Player playerTwo = new Player(message,1);
-//				GameData.players.add(playerTwo);
-//				String indexMessage = "1";
-//				NetworkServer.send(1, indexMessage);
-//			} else if(startIndex == 2){
-//				Player playerThree = new Player(message,2);
-//				String indexMessage = "2";
-//				GameData.players.add(playerThree);
-//				NetworkServer.send(2, indexMessage);
-//			} else if(startIndex == 3){
-//				Player playerFour = new Player(message,3);
-//				String indexMessage = "3";
-//				GameData.players.add(playerFour);
-//				NetworkServer.send(3, indexMessage);
-//			}
-			
 			if (startIndex == GameData.players.size()) {
 				String outMessage = gson.toJson(GameData.players);
 				NetworkServer.sendToAll("Players " + outMessage);

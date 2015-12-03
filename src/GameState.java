@@ -138,17 +138,7 @@ public class GameState extends BasicGameState implements KeyListener {
 			@Override
 			public void isClicked() {	
 				if (GameData.turn == GameData.ownIndex) {
-					diceNumber(1);
-					diceNumber(2);	
-					if (Dice.dice1 + Dice.dice2 == 7) {
-						moveRobber = true;
-						robberWarning = new DialogBox(Windows.scWidth/2 - 250, Windows.scHeight/2 - 250, 500, 500, 30, this.state);
-						robberWarning.activate();
-						robberWarning.addImage(robImg, Windows.scWidth/2 + 150, Windows.scHeight/2, 200, 200);
-						robberWarning.addString("Move the robber", Windows.scWidth/2, Windows.scHeight/2);
-					}
-					else if (Dice.dice1 != Dice.dice2)
-						endTurn();
+					Actions.rollDice();
 				}
 			}
 		};
@@ -162,6 +152,19 @@ public class GameState extends BasicGameState implements KeyListener {
 				this.clear();
 			}
 		};
+	}
+	
+	public void processDie() {
+		if (Dice.dice1 + Dice.dice2 == 7) {
+			moveRobber = true;
+			robberWarning = new DialogBox(Windows.scWidth/2 - 250, Windows.scHeight/2 - 250, 500, 500, 30, this.state);
+			robberWarning.activate();
+			robberWarning.addImage(robImg, Windows.scWidth/2 + 150, Windows.scHeight/2, 200, 200);
+			robberWarning.addString("Move the robber", Windows.scWidth/2, Windows.scHeight/2);
+		}
+		else if (Dice.dice1 != Dice.dice2)
+			endTurn();
+		// collect resources
 	}
 
 	int diceNumber(int diceIndex){
