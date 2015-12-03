@@ -36,6 +36,8 @@ public class IntroState extends BasicGameState implements KeyListener{
 	 */	
 	@Override
 	public void init(final GameContainer gc, final StateBasedGame s) throws SlickException {
+		//test
+		
 		Resource.initResources();
 		warningFont = Resource.getFont("std", 22);
 		titleFont = Resource.getFont("title", 50);

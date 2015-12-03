@@ -8,6 +8,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.KeyListener;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -49,15 +50,32 @@ public class GameState extends BasicGameState implements KeyListener {
 	
 	static DialogBox robberWarning;
 	DialogBox buildingWarning;
+	DialogBox instructionWarning;
+	static DialogBox victoryWarning;
 	
 	Position startRoadPos;
 	Position endRoadPos;
 	
     Random rand = new Random();
+    
+	static TrueTypeFont tempFont;
 
 	@Override
 	public void init(GameContainer gc, StateBasedGame s) throws SlickException {	
 		thisState = this;
+		tempFont = Resource.getFont("std", 30);
+		
+		instructionWarning = new DialogBox(Windows.scWidth/2 - 250, Windows.scHeight/2 - 250, 500, 500, 30, thisState);
+		instructionWarning.activate();
+		instructionWarning.addString("Welcome to Settlers", Windows.scWidth/2, Windows.scHeight/2 - 200);
+		instructionWarning.addString("Instructions: Flow of the Game", Windows.scWidth/2, Windows.scHeight/2 - 200 + tempFont.getHeight("IGF"));
+		instructionWarning.addString("- Start of turn", Windows.scWidth/2, Windows.scHeight/2 - 200 + (2*tempFont.getHeight("IGF")));
+		instructionWarning.addString("- Trade", Windows.scWidth/2, Windows.scHeight/2 - 200 + (3*tempFont.getHeight("IGF")));
+		instructionWarning.addString("- Build", Windows.scWidth/2, Windows.scHeight/2 - 200 + (4*tempFont.getHeight("IGF")));
+		instructionWarning.addString("- Roll Dice", Windows.scWidth/2, Windows.scHeight/2 - 200 + (5*tempFont.getHeight("IGF")));
+		instructionWarning.addString("- End of turn", Windows.scWidth/2, Windows.scHeight/2 - 200 + (6*tempFont.getHeight("IGF")));
+
+
 		
 		// to initialize multiple images
 		for(int i=0; i<hexImg.length; i++){ //goes trough hexagon array
@@ -95,7 +113,7 @@ public class GameState extends BasicGameState implements KeyListener {
 		GameData.roads = new ArrayList<Road>();
 		GameData.buildings = new ArrayList<Building>();
 		GameData.players = new ArrayList<Player>();
-		
+			
 		Actions.initActions();
 		hexWidth = hexImg[0].getWidth();
 		hexHeight = hexImg[0].getHeight();
@@ -222,25 +240,30 @@ public class GameState extends BasicGameState implements KeyListener {
 		DialogBox.draw(g, this);
 	}
 	
-	
-	
-	
-	
-	
 	@Override
 	public void update(GameContainer gc, StateBasedGame s, int delta) throws SlickException {
 		Button.update(this);
 		ListBox.update(this);
 		TextBox.update(this);
-
-		if (robberWarning != null && robberWarning.isActive && !isClicked) {
+		
+			for(int i = 0; i < GameData.players.size(); i++){
+				if(GameData.players.get(i).hasWon == true && victoryWarning != null){	
+					victoryWarning.activate();
+				}
+			}
+		
+		if (instructionWarning != null && instructionWarning.isActive && !isClicked) {
+			if (Mouse.isButtonDown(0))
+				instructionWarning.deactivate();
+			
+		} else if (robberWarning != null && robberWarning.isActive && !isClicked) {
 			if (Mouse.isButtonDown(0))
 				robberWarning.deactivate();
 		
 		} else if (buildingWarning.isActive && !isClicked) {
 			if (Mouse.isButtonDown(0))
 				buildingWarning.deactivate();
-		}
+		} 
 		
 		
 		else if(Mouse.isButtonDown(0) && isPlacingBuilding && !isClicked) {
@@ -347,5 +370,22 @@ public class GameState extends BasicGameState implements KeyListener {
 		System.out.println(message);
 	}
 	
-	
+	/**
+	 * Method taking care of the dialogue box when the game is finished. 
+	 * It lists all victor and all the other players
+	 */
+	public static void endGame(){
+		victoryWarning = new DialogBox(Windows.scWidth/2 - 250, Windows.scHeight/2 - 250, 500, 500, 30, thisState);
+		for(int i = 0; i < GameData.players.size(); i ++){
+			if(GameData.players.get(i).points == GameData.players.get(i).tempPoints){
+					victoryWarning.addString("Victory", Windows.scWidth/2, Windows.scHeight/2 - 200);
+					victoryWarning.addString("Congratulation", Windows.scWidth/2, Windows.scHeight/2 - 200 + tempFont.getHeight("IGF"));
+			}else {
+					victoryWarning.addString("Defeat", Windows.scWidth/2, Windows.scHeight/2 - 200);
+					victoryWarning.addString("Condolences", Windows.scWidth/2, Windows.scHeight/2 - 200 + tempFont.getHeight("IGF"));
+			}
+			victoryWarning.addString("Ranking", Windows.scWidth/2, Windows.scHeight/2 - 200 + (2*tempFont.getHeight("IGF")));	
+			victoryWarning.addString("Name: " + GameData.players.get(i).getName() + " and Points: " + GameData.players.get(i).points, Windows.scWidth/2, Windows.scHeight/2 - 200 + ((i+3)*tempFont.getHeight("IGF")));
+		}
+	}
 }
