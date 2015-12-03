@@ -155,10 +155,8 @@ public class RoadClickArea {
 		//Runs through all the straight roads to equal them to the information in PlayerInformation
 		for (int j = 0; j < StraightRoadCount; j++){
 			StraightRoad[j].playerNo = game.client.obj.roadsColourStraight[j];
+			}
 		}
-	
-	}
-		
 	}
 	
 	
@@ -167,7 +165,7 @@ public class RoadClickArea {
 		
 		//If the road button has been pressed, then render the image.
 		if(roadPressed > 0){
-			//roadButton.buttonRoadPressed.render(gc, g);
+			roadButton.buttonRoadPressed.render(gc, g);
 		}
 		
 		// Renders all the diagonal roads
