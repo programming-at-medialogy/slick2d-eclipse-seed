@@ -1,4 +1,3 @@
-
 import java.io.IOException;
 
 import org.newdawn.slick.GameContainer;
@@ -6,6 +5,12 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+/*
+ * This is the super class for all of the cards,
+ * which is all of the development cards,
+ * it contains the information which every subcalss uses.
+ * Though the render function isn't used now it was the idea to have them displayed.
+ */
 public class Card {
 	Image cardType;
 	public int x;
@@ -28,7 +33,11 @@ public class Card {
 		
 	}
 	
-	
+	/*
+	 * This method creates the player's development pile.
+	 * This makes sure that we have the same percentage amount on drawing certain cards
+	 * as we would have in the board game
+	 */
 	public void createDevPile (Card[] input) throws SlickException{
 		for (int i = 0; i < 25; i++){
 			if (i < 2){
@@ -45,6 +54,7 @@ public class Card {
 		}
 	}
 	
+	// Checks that the player can afford a development card
 	public boolean checkDevCardCost (){
 		boolean isTrue = false;
 		if (game.client.obj.playerResource [control.playerNo-1][1] >= 1 && game.client.obj.playerResource [control.playerNo-1][4] >= 1 
@@ -55,6 +65,8 @@ public class Card {
 		}
 		return isTrue;
 	}
+	
+	// Removes recources if the player buys a card
 	public void buyCard(){
 		game.client.obj.playerResource [control.playerNo-1][0]--;
 		game.client.obj.playerResource [control.playerNo-1][1]--;
