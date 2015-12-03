@@ -171,26 +171,61 @@ public class OnScreenButton {
                 if(input.isMousePressed(0)) {
                     // = to the other players resources incl ones own
                     //other players resource must return to 0.
+                	for(int j = 0 ; j<4; j++){
+                		if(j != control.playerNo-1){
+                			game.client.obj.playerResource[control.playerNo-1][0] += game.client.obj.playerResource[j][0];
+                        	game.client.obj.playerResource[j][0] = 0;
+                		}
+                	}
+                	game.client.sendData(game.client.obj);
                     control.receivedMonoCard = false;
                 }
             }
             if((xMousePos > 680 + xResourceSpacing && xMousePos < 680 + 45 + xResourceSpacing) && (yMousePos < screenHeight - 635 && yMousePos > screenHeight - 635 - 45 )){
                 if(input.isMousePressed(0)) {
+                	for(int j = 0 ; j<4; j++){
+                		if(j != control.playerNo-1){
+                			game.client.obj.playerResource[control.playerNo-1][3] += game.client.obj.playerResource[j][3];
+                        	game.client.obj.playerResource[j][3] = 0;
+                		}
+                	}
+                	game.client.sendData(game.client.obj);
                     control.receivedMonoCard = false;
                 }
             }
             if((xMousePos > 680 + xResourceSpacing*2 && xMousePos < 680 + 45 + xResourceSpacing*2) && (yMousePos < screenHeight - 635 && yMousePos > screenHeight - 635 - 45 )){
                 if(input.isMousePressed(0)) {
+                	for(int j = 0 ; j<4; j++){
+                		if(j != control.playerNo-1){
+                			game.client.obj.playerResource[control.playerNo-1][2] += game.client.obj.playerResource[j][2];
+                        	game.client.obj.playerResource[j][2] = 0;
+                		}
+                	}
+                	game.client.sendData(game.client.obj);
                     control.receivedMonoCard = false;
                 }
             }
             if((xMousePos > 680 + xResourceSpacing*3 && xMousePos < 680 + 45 + xResourceSpacing*3) && (yMousePos < screenHeight - 635 && yMousePos > screenHeight - 635 - 45 )){
                 if(input.isMousePressed(0)) {
+                	for(int j = 0 ; j<4; j++){
+                		if(j != control.playerNo-1){
+                			game.client.obj.playerResource[control.playerNo-1][4] += game.client.obj.playerResource[j][4];
+                        	game.client.obj.playerResource[j][4] = 0;
+                		}
+                	}
+                	game.client.sendData(game.client.obj);
                     control.receivedMonoCard = false;
                 }
             }
             if((xMousePos > 680 + xResourceSpacing*4 && xMousePos < 680 + 45 + xResourceSpacing*4) && (yMousePos < screenHeight - 635 && yMousePos > screenHeight - 635 - 45 )){
                 if(input.isMousePressed(0)) {
+                	for(int j = 0 ; j<4; j++){
+                		if(j != control.playerNo-1){
+                			game.client.obj.playerResource[control.playerNo-1][1] += game.client.obj.playerResource[j][1];
+                        	game.client.obj.playerResource[j][1] = 0;
+                		}
+                	}
+                	game.client.sendData(game.client.obj);
                     control.receivedMonoCard = false;
                 }
             }
@@ -247,6 +282,7 @@ public class OnScreenButton {
 			}
 		
 		// ButtonBuyDevCard
+			if(control.playerNo == game.client.obj.playerTurn){
 	        if ((xMousePos > buttonStartPosX - buttonWidth - 9 && xMousePos < (buttonStartPosX - buttonWidth - 9) + buttonWidth) && (yMousePos < screenHeight - buttonStartPosY + buttonSpacing && yMousePos > screenHeight - buttonStartPosY + buttonSpacing - buttonHeight)) {
 	            if (input.isMouseButtonDown(0)) {
 	                control.devCardButtonClicked = true;
@@ -256,6 +292,7 @@ public class OnScreenButton {
 
 	            }
 	        }
+			}
 			
 		//ButtonEndTurn
 		if ((xMousePos > buttonStartPosX && xMousePos < buttonStartPosX + buttonWidth)

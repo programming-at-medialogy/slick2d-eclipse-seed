@@ -9,6 +9,7 @@ public class MonopolyCard extends Card{
 	
 	public MonopolyCard(Controller control) throws SlickException {
 		super (control);
+		this.control = control;
 		cardType = new Image ("images/monopoly.jpg");
 		effectline = new String("Drew monopoly card");
 	}
