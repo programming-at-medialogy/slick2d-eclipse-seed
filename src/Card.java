@@ -39,6 +39,7 @@ public class Card {
 	 * as we would have in the board game
 	 */
 	public void createDevPile (Card[] input) throws SlickException{
+		
 		for (int i = 0; i < 25; i++){
 			if (i < 2){
 				input[i] = new MonopolyCard(control);
@@ -53,6 +54,7 @@ public class Card {
 			}
 		}
 	}
+	
 	
 	// Checks that the player can afford a development card
 	public boolean checkDevCardCost (){
