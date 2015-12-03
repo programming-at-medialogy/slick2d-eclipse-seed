@@ -18,7 +18,7 @@ public class Controller {
 	int testint = 0;
 	int clickOnce = 0;
 	int [][] settlementData = new int[54][3];
-	boolean deslectButtonControl;
+	boolean deselectButtonControl;
 	
 	Controller() throws SlickException{
 		resources = new Resource(900,10,playerNo);

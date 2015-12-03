@@ -88,9 +88,9 @@ public class OnScreenButton {
 		buttonEndTurn.render(gc, g);
         buttonBuyDevCard.render(gc, g);
         
-        if(control.deslectButtonControl == true) {
+        if(control.deselectButtonControl == true) {
         	buttonDeselect.render(gc, g);	
-        } else if(control.deslectButtonControl != true) {
+        } else if(control.deselectButtonControl != true) {
         	buttonDeselectPressed.render(gc, g);
         }
 
@@ -202,7 +202,7 @@ public class OnScreenButton {
 					buttonRoadControl = false;
 					buttonCityControl = false;
 					buttonHouseControl = true;
-					control.deslectButtonControl = true;
+					control.deselectButtonControl = true;
 			}
 		}
 		
@@ -212,7 +212,7 @@ public class OnScreenButton {
 				buttonRoadControl = false;
 				buttonCityControl = false;
 				buttonHouseControl = false;
-				control.deslectButtonControl = false;
+				control.deselectButtonControl = false;
 			}
 		}
 		
@@ -222,7 +222,7 @@ public class OnScreenButton {
 					buttonRoadControl = false;
 					buttonCityControl = true;
 					buttonHouseControl = false;
-					control.deslectButtonControl = true;
+					control.deselectButtonControl = true;
 			}
 		}
 			
@@ -232,7 +232,7 @@ public class OnScreenButton {
 					buttonRoadControl = true;
 					buttonCityControl = false;
 					buttonHouseControl = false;
-					control.deslectButtonControl = true;
+					control.deselectButtonControl = true;
 			}
 		}
 			

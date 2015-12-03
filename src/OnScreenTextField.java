@@ -17,7 +17,7 @@ public class OnScreenTextField {
 	private int textFieldYOffset = 40;
 	private int textFieldWidth = 220;
 	private int textFieldHeight = 35;
-	OnScreenButton relButton;
+	OnScreenButton cardButton;
 	Controller control;
 	Game game;
 	Card cardHelp;
@@ -26,7 +26,7 @@ public class OnScreenTextField {
 
 	public OnScreenTextField(Controller control) throws SlickException {
 		this.control = control;
-		relButton = new OnScreenButton(control);
+		cardButton = new OnScreenButton(control);
 		cardHelp = new Card(control);
 		pileOutput = new Card(control);
 		cardHelp.createDevPile(developmentPile);
@@ -96,7 +96,7 @@ public class OnScreenTextField {
 	}
 
 	public void update(GameContainer gc, int i) throws SlickException, IOException {
-		relButton.update(gc, i);
+		cardButton.update(gc, i);
 
 		if (control.devCardButtonClicked == true) {
 			if (game.client.obj.playerTurn == control.playerNo) {
@@ -105,7 +105,7 @@ public class OnScreenTextField {
 					writeBuyToConsole(developmentPile);
 					pileOutput.effect();
 					control.devCardButtonClicked = false;
-					
+
 				}
 			}	
 		}

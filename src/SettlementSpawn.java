@@ -130,7 +130,7 @@ public class SettlementSpawn {
 							&& yMousePos > screenHeight - arraycoordinateY[i] - areaClickSize - houseYoffset)) {
 						if (input.isMousePressed(0)) {
 							houseButton.buttonHouseControl = false;
-							control.deslectButtonControl = false;
+							control.deselectButtonControl = false;
 							if (areaClickedHouse[i] != true) {
 								placeHouse(i);
 								game.client.obj.settlementPos[i][0] = settlement[i].xMiddle;
@@ -158,7 +158,7 @@ public class SettlementSpawn {
 							&& yMousePos > screenHeight - arraycoordinateY[i] - areaClickSize - houseYoffset)) {
 						if (input.isMouseButtonDown(0)) {
 							cityButton.buttonCityControl = false;
-							control.deslectButtonControl = false;
+							control.deselectButtonControl = false;
 							if (game.client.obj.areaClickedOwnership[i] == control.playerNo) {
 								placeCity(i);
 								game.client.obj.cityColour[i] = control.playerNo;

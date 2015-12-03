@@ -104,7 +104,7 @@ public class RoadClickArea {
 					&& (yMousePos < screenHeight - diagonal_ypos[i]
 					&& yMousePos > screenHeight - diagonal_ypos[i] - areaClickSizeYsmall)) {// checks the coordinates of the click
 					if (input.isMouseButtonDown(0)) { // has the mouse been clicked?
-						control.deslectButtonControl = false;
+						control.deselectButtonControl = false;
 						if(DiagonalRoadArea[i] != true){ //If the index is false
 						placeDiagonalRoad(i); // the diagonal area has been clicked; spawn a road at no. i
 						game.client.obj.roadsColourDiagonal[i] = control.playerNo; //Set the area equal to the player no; that player now owns the area
@@ -125,7 +125,7 @@ public class RoadClickArea {
 						&& (yMousePos < screenHeight - straight_ypos[i]
 						&& yMousePos > screenHeight - straight_ypos[i] - areaClickSizeYbig)) {
 						if (input.isMouseButtonDown(0)) {
-							control.deslectButtonControl = false;
+							control.deselectButtonControl = false;
 							if(StraightRoadArea[i] != true){			
 							placeStraightRoad(i); // if the area is clicked, that area's boolean must become true.
 							game.client.obj.roadsColourStraight[i] = control.playerNo;
