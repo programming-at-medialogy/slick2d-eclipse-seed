@@ -21,7 +21,6 @@ public class PlayerInformation implements Serializable{
     boolean[] SOCroadAreaDiagonal = new boolean[72];
     boolean[] SOCroadAreaStraight = new boolean[72];
     int[] areaClickedOwnership = new int[54];
-    //int [][] playerRoadCount = new int [4][1];
 
     int diceOneValue = 1;
     int diceTwoValue = 1;
