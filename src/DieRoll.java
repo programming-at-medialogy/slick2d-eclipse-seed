@@ -43,7 +43,7 @@ public class DieRoll {
 		diceOne.index = game.client.obj.diceOneValue;
 		diceTwo.index = game.client.obj.diceTwoValue;
 
-		if(game.client.obj.diceClick == true && game.client.obj.playerTurn == control.playerNo && control.diceButtonClicked == true){
+		if(game.client.obj.diceClick == true && game.client.obj.playerTurn == control.playerNo && control.diceButtonClicked == true && control.clickOnce == 0){
 			rollDice();
 			sendDieData();
 			game.client.obj.diceOneValue = roll1;
@@ -51,6 +51,7 @@ public class DieRoll {
 			game.client.sendData(game.client.obj);
 			game.client.out.flush();
 			control.diceButtonClicked = false;
+			control.clickOnce = 1;
 		}
 		
 		
