@@ -1,14 +1,16 @@
-
-
-
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+/*
+ * Is used in the OnScreenButton class to make us able to create buttons.
+ * The buttons can be assigned certain positions and are given a number to find
+ * the picture related to the button we want to make.
+ */
 public class OnScreenButtonSpawn {
 
-
+	// Image variable used to display the button
 	Image button;
 	
 	//X and Y for the constructor
