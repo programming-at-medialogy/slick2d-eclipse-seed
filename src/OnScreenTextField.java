@@ -9,6 +9,11 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.gui.TextField;
 
+/*
+ * This class is used to create the different players' individual text field.
+ * The text field, as it is now, only tells the player 
+ * which type of development card the player draws.
+ */
 public class OnScreenTextField {
 
 	TextField textField, textField2, textField3, textField4;
@@ -33,7 +38,8 @@ public class OnScreenTextField {
 		Collections.shuffle(Arrays.asList(developmentPile));
 
 	}
-
+	
+	// Creates all of the individual text fields
 	public void create(GameContainer gc) {
 
 		textField = new TextField(gc, gc.getDefaultFont(), textFieldXPos, textFieldYPos, textFieldWidth,
@@ -57,6 +63,10 @@ public class OnScreenTextField {
 		textField4.setBackgroundColor(Color.gray);
 	}
 
+	/* 
+	 * If a player buys a card this method is run to write the event to the text field
+	 * as well as giving the random card drawn from the pile.
+	 */
 	public void writeBuyToConsole(Card[] input) throws SlickException {
 		Card output = new Card(control);
 		Random rand = new Random();
@@ -95,6 +105,7 @@ public class OnScreenTextField {
 		textField4.render(gc, g);
 	}
 
+	// Checks if the button is pressed and then runs the, writeBuyToConsole method.
 	public void update(GameContainer gc, int i) throws SlickException, IOException {
 		cardButton.update(gc, i);
 

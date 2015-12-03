@@ -1,8 +1,10 @@
-
-
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+/* 
+ * This gives us the possibility to make one of the special development cards
+ * and make sure that we trigger the correct effect when it is drawn.
+ */
 public class BuildRoadsCard extends Card {
 
 	public BuildRoadsCard (Controller control) throws SlickException{
