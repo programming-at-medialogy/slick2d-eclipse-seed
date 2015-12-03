@@ -1,5 +1,4 @@
 import java.awt.Font;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -24,14 +23,14 @@ public class WinCondition extends BasicGameState{
 		// TODO Auto-generated method stub
 		 awtfont = new Font("Times New Roman", Font.BOLD, 42);
 		 font = new TrueTypeFont(awtfont, false);
+
 		
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		// TODO Auto-generated method stub
-		
-		
+
 		/////////Victory points leaderboard/////////////////////////////////////////////
 		g.drawString("Player one has: "+game.client.obj.playerVictoryPoints[0][0] + " Victory Points!", 450, 300);
 		g.drawString("Player two has: "+game.client.obj.playerVictoryPoints[1][0] + " Victory Points!", 450, 300 + spacing);
@@ -40,6 +39,7 @@ public class WinCondition extends BasicGameState{
 		////////////////////////////////////////////////////////////////////////////////
 		
 		findWinner(g);
+
 	}
 
 	@Override
@@ -64,9 +64,10 @@ public class WinCondition extends BasicGameState{
 				playerNumber = i+1;
 			}
 		}
+
 		g.setFont(font);
 		font.drawString(400, 150, "Player " + playerNumber + " is the winner!", Color.green);
 		
 	}
-
 }
+

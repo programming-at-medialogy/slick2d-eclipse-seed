@@ -1,5 +1,4 @@
 import java.io.IOException;
-
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
@@ -7,6 +6,9 @@ public class Controller {
 	int playerNo;
 	Game game;
 	Resource resources;
+	int receivedExCard = 0;
+	boolean receivedMonoCard = false;
+	boolean devCardButtonClicked = false;
 	int [][] tile = new int[19][3];
 	int [] tileNumber = new int[19];
 	int [][] settlement = new int[54][2];

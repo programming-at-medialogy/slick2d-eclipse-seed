@@ -2,7 +2,13 @@ import java.io.Serializable;
 
 public class PlayerInformation implements Serializable{
 
+	//Ready booleans for menu
     boolean playerOneReady, playerTwoReady, playerThreeReady, playerFourReady;
+    
+    //Player Scores
+    int playerOneScore, playerTwoScore, playerThreeScore, playerFourScore;
+    
+    //int to decide player numbers
     int playerNumber;
     int[] houseColour = new int[54];
     int[] cityColour = new int[54];
@@ -32,6 +38,11 @@ public class PlayerInformation implements Serializable{
 
 
     PlayerInformation(){
+    	
+    	playerOneReady = false;
+        playerTwoReady = false;
+        playerThreeReady = false;
+        playerFourReady = false;
 
         for(int i = 0;i<playerResource.length;i++){
             playerResource[i][0] = 0;
@@ -40,11 +51,6 @@ public class PlayerInformation implements Serializable{
             playerResource[i][3] = 4;
             playerResource[i][4] = 2;
         }
-
-        playerOneReady = false;
-        playerTwoReady = false;
-        playerThreeReady = false;
-        playerFourReady = false;
 
     }
 }

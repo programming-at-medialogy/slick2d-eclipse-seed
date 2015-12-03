@@ -1,6 +1,4 @@
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
 
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.*;
@@ -9,16 +7,16 @@ public class Play extends BasicGameState {
 
 	HexMap map;
 	Game game;
-	SettlementSpawn houseArea;
+
+	SettlementSpawn settlementArea;
 	RoadClickArea roadArea;
 	Controller control;
 	DieRoll die;
 	OnScreenButton buttons;
 	int VPWinAmount = 150;
-	
-	public Card cardHelp;
+	OnScreenTextField textField;
+	Image playBackground;
 	public Card infoCard;
-	public Card[] developmentPile = new Card[25];
 	
 	
 	public Play(int state) {
@@ -29,28 +27,38 @@ public class Play extends BasicGameState {
 		control = new Controller();
 		map = new HexMap(control);
 		die = new DieRoll(control,1000,50);
-		houseArea = new SettlementSpawn(control);
+		settlementArea = new SettlementSpawn(control);
 		roadArea = new RoadClickArea(control);
 		buttons = new OnScreenButton(control);
+		textField = new OnScreenTextField(control);
+		textField.create(gc);
+
 		
-		infoCard = new Card();
+		playBackground = new Image("images/PlayBackground.png");
+		
+		infoCard = new Card(control);
 		infoCard.cardType = new Image ("images/info.png");
 		infoCard.x = 990;
 		infoCard.y = 170;
-		cardHelp = new Card();
+		/*cardHelp = new Card();
 		cardHelp.createDevPile(developmentPile);
-		Collections.shuffle(Arrays.asList(developmentPile));
+		Collections.shuffle(Arrays.asList(developmentPile));*/
+		
 	}
 
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 
+		g.drawImage(playBackground, 0,0);
+		
+
+		buttons.render(gc, g);
 		map.render(gc, g);
 		roadArea.render(gc, g);
-		houseArea.render(gc, g);
+		settlementArea.render(gc, g);
 		die.render(gc, g);
-		buttons.render(gc, g);
 		infoCard.render(gc, g);
 		control.resources.render(gc, g);
+		textField.render(gc, g);
 
 	}
 	
@@ -71,9 +79,9 @@ public class Play extends BasicGameState {
 		Thread t1 = new Thread() {
 			@Override
 			public void run() {
-				synchronized (houseArea) {
+				synchronized (settlementArea) {
 					try {
-						houseArea.update(gc, delta);
+						settlementArea.update(gc, delta);
 					} catch (SlickException e) {
 						e.printStackTrace();
 					} catch (IOException e) {
@@ -107,6 +115,7 @@ public class Play extends BasicGameState {
 				synchronized (die) {
 					try {
 						die.update(gc, delta);
+						//textField.update(gc, delta);
 					} catch (SlickException | IOException e) {
 						//e.printStackTrace();
 					}

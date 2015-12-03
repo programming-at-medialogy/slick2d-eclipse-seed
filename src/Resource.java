@@ -1,13 +1,11 @@
-import java.io.IOException;
-
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.StateBasedGame;
 
 public class Resource {
 	
+
 	Game game;
 	int oreResource, clayResource, wheatResource, woodResource, woolResource;
 	int x, y;
@@ -18,6 +16,7 @@ public class Resource {
 	int xSpacing = 30;
 	int ySpacing = 15;
 	int playerNo;
+	int armySize = 0;
 	Image ore, clay, wood, wool, wheat;
 	
 	Resource(int x, int y, int playerNo) throws SlickException{
@@ -37,7 +36,6 @@ public class Resource {
 		woolResource = 0;
 	}
 	
-
 	
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		
@@ -69,8 +67,7 @@ public class Resource {
 		g.drawString("House count: " + houseCount, 10, 50);
 		g.drawString("Road count: " + roadCount, 10, 70);
 		g.drawString("Victory points: " + victoryPoint, 10, 90);
-	}
-	
-	
 
+	}
 }
+

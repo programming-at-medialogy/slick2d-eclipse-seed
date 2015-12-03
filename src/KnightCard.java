@@ -5,12 +5,17 @@ import org.newdawn.slick.SlickException;
 
 public class KnightCard extends Card {
 
-	public KnightCard () throws SlickException{
+	Controller control;
+	
+	public KnightCard (Controller control) throws SlickException{
+		super (control);
 		cardType = new Image ("images/knight.jpg");
+		effectline = new String("drew knight card");
+		this.control = control;
 	}
 	
 	@Override
 	public void effect (){
-		// should trigger the Robber's movement and steal effect
+		control.resources.armySize++;
 	}
 }
