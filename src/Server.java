@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -11,11 +12,13 @@ public class Server {
     protected List<ServerThread> clientSockets;
     PlayerInformation serverData;
     int playerNumber = 1;
-
+    String serverIP = "192.168.43.235";
+    InetAddress addr = InetAddress.getByName(serverIP);
+    
     SOCHexMap map;
 
     public Server(int port) throws IOException {
-        serverSocket = new ServerSocket(5555);
+        serverSocket = new ServerSocket(5555, 50, addr);
         clientSockets = new ArrayList<>();
         map = new SOCHexMap();
 
