@@ -18,22 +18,23 @@ public class Controller {
 	
 	int [][] tile = new int[19][3]; //2D array to store middle position
 	int [] tileNumber = new int[19];
-	int [][] settlement = new int[54][2];
-	int dieNumber = 0;
+	int [][] settlement = new int[54][2]; 
 	int [] tileResource = new int[2];
-	boolean diceButtonClicked = false;
-	int clickOnce = 0;
+	boolean diceButtonClicked = false; //boolean that checks if the dice button has been clicked
+	int clickOnce = 0; //int that controls whether you can click or not - only one per turn.
 	int [][] settlementData = new int[54][3];
 	boolean deselectButtonControl; //boolean to the deselect button
-	boolean tradeButtonControl;
-	Random rand = new Random();
-	int armyCounter = 0;
+	boolean tradeButtonControl; //boolean that checks if the trade button is clicked
+	Random rand = new Random(); //used to create random numbers
+	
+	//counters used to check how big the army is or amount of roads
+	int armyCounter = 0; 
 	int roadCounter = 0;
 	
 	Controller() throws SlickException{
-		resources = new Resource(900,10,playerNo);
+		resources = new Resource(900,10,playerNo); //the resource display with player number assigned
 		playerNo = game.client.obj.playerNumber; //Set player number
-		tileNumber = game.client.obj.SOCnumberIndex;
+		tileNumber = game.client.obj.SOCnumberIndex; //sets the tile number
 	}
 	
 	public void update(GameContainer gc, int i) throws SlickException, IOException {
@@ -44,10 +45,11 @@ public class Controller {
 		resources.clayResource = game.client.obj.playerResource[playerNo-1][3]; //CLAY
 		resources.woolResource = game.client.obj.playerResource[playerNo-1][4]; //WOOL
 
+		//functions that check how big your army is and how many roads you have
 		checkArmySize();
 		checkRoadSize();
 		
-		
+		//stores the shared settlement positions in a 2D array
 		for(int j = 0; j < settlementData.length; j++){
 			settlementData[j][0] = game.client.obj.settlementPos[j][0];
 			settlementData[j][1] = game.client.obj.settlementPos[j][1];
@@ -55,6 +57,8 @@ public class Controller {
 		}
 	}
 	
+	
+	////Distributes the resources to each player with a house on the tile////
 	public void distributeResources() {
 		
 
@@ -78,7 +82,7 @@ public class Controller {
 		
 		for (int i = 0; i < tileResource.length; i++){
 			tileResource[i] = 0;
-		}
+		} //resets the tile resource
 
 		
 	}
@@ -120,6 +124,7 @@ public class Controller {
 	}
 	
 	
+	//every 5 knights you have give the player a victory point.
 	public void checkArmySize() throws IOException{
 		if(armyCounter == 5){
 			game.client.obj.playerVictoryPoints[playerNo-1][0]++;
@@ -129,6 +134,7 @@ public class Controller {
 		}
 	}
 	
+	//checks how many roads you have placed, gives a victory point each 10 roads.
 	public void checkRoadSize() throws IOException{
 		if(roadCounter == 10){
 			game.client.obj.playerVictoryPoints[playerNo-1][0]++;
