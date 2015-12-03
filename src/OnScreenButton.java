@@ -123,31 +123,31 @@ public class OnScreenButton {
         if(control.receivedExCard > 0) {
             if((xMousePos > 680 && xMousePos < 680 + 45) && (yMousePos < screenHeight - 635 && yMousePos > screenHeight - 635 - 45 )){
                 if(input.isMousePressed(0)) {
-                    control.resources.oreResource++;
+                	game.client.obj.playerResource[control.playerNo-1][0]++;
                     control.receivedExCard--;
                 }
             }
             if((xMousePos > 680 + xResourceSpacing && xMousePos < 680 + 45 + xResourceSpacing) && (yMousePos < screenHeight - 635 && yMousePos > screenHeight - 635 - 45 )){
                 if(input.isMousePressed(0)) {
-                    control.resources.clayResource++;
+                	game.client.obj.playerResource[control.playerNo-1][3]++;
                     control.receivedExCard--;
                 }
             }
             if((xMousePos > 680 + xResourceSpacing*2 && xMousePos < 680 + 45 + xResourceSpacing*2) && (yMousePos < screenHeight - 635 && yMousePos > screenHeight - 635 - 45 )){
                 if(input.isMousePressed(0)) {
-                    control.resources.woodResource++;
+                	game.client.obj.playerResource[control.playerNo-1][2]++;
                     control.receivedExCard--;
                 }
             }
             if((xMousePos > 680 + xResourceSpacing*3 && xMousePos < 680 + 45 + xResourceSpacing*3) && (yMousePos < screenHeight - 635 && yMousePos > screenHeight - 635 - 45 )){
                 if(input.isMousePressed(0)) {
-                    control.resources.woolResource++;
+                	game.client.obj.playerResource[control.playerNo-1][4]++;
                     control.receivedExCard--;
                 }
             }
             if((xMousePos > 680 + xResourceSpacing*4 && xMousePos < 680 + 45 + xResourceSpacing*4) && (yMousePos < screenHeight - 635 && yMousePos > screenHeight - 635 - 45 )){
                 if(input.isMousePressed(0)) {
-                    control.resources.wheatResource++;
+                	game.client.obj.playerResource[control.playerNo-1][1]++;
                     control.receivedExCard--;
                 }
             }
@@ -226,9 +226,8 @@ public class OnScreenButton {
 	                && xMousePos < (buttonStartPosX - buttonWidth - 9) + buttonWidth)
 	                && (yMousePos < screenHeight - buttonStartPosY + buttonSpacing
 	                && yMousePos > screenHeight - buttonStartPosY + buttonSpacing - buttonHeight)) {
-	            if (input.isMouseButtonDown(0)) {
+	            if (input.isMousePressed(0)) {
 	                control.devCardButtonClicked = true;
-	                buttonDiceControl = false;
 	            }
 	        }
 		

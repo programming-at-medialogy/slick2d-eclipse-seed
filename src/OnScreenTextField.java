@@ -26,13 +26,14 @@ public class OnScreenTextField {
 	Card pileOutput;
 
 	public OnScreenTextField(Controller control) throws SlickException {
-		relButton = new OnScreenButton(control);
 		this.control = control;
+		relButton = new OnScreenButton(control);
 		//dice = new DieRoll();
 		cardHelp = new Card(control);
 		pileOutput = new Card(control);
 		cardHelp.createDevPile(developmentPile);
 		Collections.shuffle(Arrays.asList(developmentPile));
+
 	}
 
 	public void create(GameContainer gc) {
@@ -87,7 +88,6 @@ public class OnScreenTextField {
 			textField4.getText();
 			pileOutput = output;
 		}
-		//relButton.buttonDevCardControl = false;
 	}
 
 	public void render(GameContainer gc, Graphics g) throws SlickException {
