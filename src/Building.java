@@ -40,6 +40,8 @@ public class Building {
 			Building building = new Building(inPos, player);
 			GameData.buildings.add(building);
 			Road.longestRoad();
+			GameData.players.get(player).addPoint();
+			System.out.println("Player has " + GameData.players.get(player).points + " points");
 			return building;
 		}
 		
@@ -99,6 +101,8 @@ public class Building {
 	public boolean upgrade() {
 		if (!upgraded) {
 			upgraded = true;
+			GameData.players.get(PLAYER).addPoint();
+			System.out.println("Player has " + GameData.players.get(PLAYER).points + " points");
 			return true;
 		}
 		return false;

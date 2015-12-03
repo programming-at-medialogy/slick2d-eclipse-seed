@@ -4,6 +4,7 @@ import java.util.ArrayList;
  * Created by kristianhjensen on 02/11/2015.
  */
 public class Player  {
+	
 	//player name
 	private String playerName;
 	
@@ -13,8 +14,10 @@ public class Player  {
 	//Buildings
 	//private Road[] road;
 	
+
 	//ressources
 	public int [] resources = new int[5];
+
 	
 	int resourceAmount;
 	
@@ -23,19 +26,17 @@ public class Player  {
 	
 	//Number of points
 	public int points;
+	//how many point to WIN!
+	public int tempPoints = 10;
 	
-	//How many developmentcards the players has
+	//How many development cards the players has
 	public int[] devCard;
 	
-	//Checks whether the player has to discard resourcecards or not
+	//Checks whether the player has to discard resource cards or not
 	//public boolean hasToDiscard;
 	
-	//Haswon
-	private boolean hasWon;
-
-
-
-
+	//boolean checking if someone won
+	boolean hasWon = false;
 
 	/**
 	 * Constructor for the player classes, this constructor contains all information needed to generate
@@ -49,7 +50,6 @@ public class Player  {
 		//road = 0;
 		knights = 0;
 		devCard = new int[5];
-
 	}
 	
 	public void setPlayerName(String name) {
@@ -86,7 +86,6 @@ public class Player  {
 	
 	
 
-
 	/**
 	 * Method for checking whether the player needs to discard resourcecards
 	 */
@@ -110,6 +109,14 @@ public class Player  {
 	
 	public int getAmountOfDevCards(int type){ 
 		return devCard[type];
+	}
+	
+	public int getTotalAmountOfDevCards(){ 
+		int total = 0;
+		for(int i = 0; i < 5; i++){
+		total += devCard[i];
+		}
+		return total;
 	}
 	
 	/* Added to actions/Serveractions
@@ -157,7 +164,6 @@ public class Player  {
 	
 	public void roadBuild (Position startPos, Position endPos) {
 		Road.buildRoad(startPos, endPos, NUMBER);
-		
 	}
 	
 	public void stealResource(int stolenResource, Player playerBeingRobbed) {
@@ -165,7 +171,6 @@ public class Player  {
 		//playerBeingRobbed.discard(stolenResource);
 		
 		//addResource(stolenResource);
-		
 	}
 	
 	public void playMonopoly(int chosenResource) {
@@ -176,16 +181,20 @@ public class Player  {
 				
 				while(GameData.players.get(i).resources[chosenResource] != 0) {
 					
-					stealResource(GameData.players.get(i).resources[chosenResource], GameData.players.get(i));
-					
-				}
-				
-			}
-			
+					stealResource(GameData.players.get(i).resources[chosenResource], GameData.players.get(i));	
+				}	
+			}	
 		}
-		
 	}
 	
+	public void addPoint() {
+		points++;
+		if(points == tempPoints){
+			hasWon = true;
+			GameState.endGame();
+		}
+	}
+
 	public String getName() {
 		return playerName;
 	}

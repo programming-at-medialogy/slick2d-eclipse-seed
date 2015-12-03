@@ -102,7 +102,7 @@ public class ServerActions {
 
 	private static void updatePlayerResources() {
 		for (int i = 0; i < GameData.players.size(); i++) {
-			ArrayList<Integer> resources = new ArrayList<>();
+			ArrayList<Integer> resources = new ArrayList<Integer>();
 			for (int j = 0; j < GameData.players.get(i).resources.length; j++)
 				resources.add(GameData.players.get(i).resources[j]);
 			
