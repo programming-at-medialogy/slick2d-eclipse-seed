@@ -67,6 +67,7 @@ public class Resource {
 		g.drawString("House count: " + houseCount, 10, 50);
 		g.drawString("Road count: " + roadCount, 10, 70);
 		g.drawString("Victory points: " + victoryPoint, 10, 90);
+		g.drawString("Army size: "+ armySize, 10, 110);
 
 	}
 }

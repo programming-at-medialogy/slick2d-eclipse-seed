@@ -15,8 +15,8 @@ public class BuildRoadsCard extends Card {
 	@Override
 	public void effect (){
 		// should trigger the button for allowing the player to place 2 roads
-		control.resources.clayResource += 2;
-		control.resources.woodResource += 2;
+		game.client.obj.playerResource[control.playerNo-1][3] += 2;
+		game.client.obj.playerResource[control.playerNo-1][2] += 2;
 		
 	}
 }
