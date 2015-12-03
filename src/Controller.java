@@ -1,4 +1,6 @@
 import java.io.IOException;
+import java.util.Random;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
@@ -19,6 +21,7 @@ public class Controller {
 	int clickOnce = 0;
 	int [][] settlementData = new int[54][3];
 	boolean deselectButtonControl;
+	Random rand = new Random();
 	
 	Controller() throws SlickException{
 		resources = new Resource(900,10,playerNo);
@@ -39,6 +42,15 @@ public class Controller {
 			settlementData[j][1] = game.client.obj.settlementPos[j][1];
 			settlementData[j][2] = game.client.obj.settlementPos[j][2];
 		}
+		
+		
+		//Code for most roads...
+		/*for(int j = 0; j < game.client.obj.playerRoadCount.length;j++){
+			if(game.client.obj.playerRoadCount[playerNo-1][0]>game.client.obj.playerRoadCount[j][0]){
+				resources.victoryPoint++;
+				break;
+			}
+		}*/
 	}
 	
 	public void distributeResources() {
@@ -82,6 +94,9 @@ public class Controller {
 		if (i < minDist && tileIndex == 1) {
 			game.client.obj.playerResource[playerIndex][1]++;
 			System.out.println("wheat");
+		}
+		if (i < minDist && tileIndex == 2) {
+			game.client.obj.playerResource[playerIndex][rand.nextInt(5)]++;
 		}
 		if (i < minDist && tileIndex == 3) {
 			game.client.obj.playerResource[playerIndex][2]++;
