@@ -95,6 +95,7 @@ public class RoadClickArea {
 		int yMousePos = Mouse.getY(); // gets y position of mouse
 
 		Input input = gc.getInput(); //Used in the mouse input
+		
 
 
 		// Controls different parameters to see, if one is allowed to place a road
@@ -146,18 +147,18 @@ public class RoadClickArea {
 				}
 			}
 		}
-		
-		//Runs through all the diagonal roads to equal them to the information in PlayerInformation
-		for (int j = 0; j < DiagonalRoadCount; j++){
-			DiagonalRoad[j].playerNo = game.client.obj.roadsColourDiagonal[j];
-		}
-		
-		//Runs through all the straight roads to equal them to the information in PlayerInformation
-		for (int j = 0; j < StraightRoadCount; j++){
-			StraightRoad[j].playerNo = game.client.obj.roadsColourStraight[j];
-		}
 	
 	}
+		
+		//Runs through all the diagonal roads to equal them to the information in PlayerInformation
+				for (int j = 0; j < DiagonalRoadCount; j++){
+					DiagonalRoad[j].playerNo = game.client.obj.roadsColourDiagonal[j];
+				}
+				
+				//Runs through all the straight roads to equal them to the information in PlayerInformation
+				for (int j = 0; j < StraightRoadCount; j++){
+					StraightRoad[j].playerNo = game.client.obj.roadsColourStraight[j];
+				}
 		
 	}
 	
