@@ -210,6 +210,9 @@ public class ServerActions {
 				String outMessage = gson.toJson(GameData.players);
 				NetworkServer.sendToAll("Players " + outMessage);
 			}
+		} else if (objectType.equals("Robber")) {
+			System.out.println("Received robber");
+			NetworkServer.sendToAll("Robber " + message);
 		}
 
 	}

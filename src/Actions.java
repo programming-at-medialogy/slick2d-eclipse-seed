@@ -103,6 +103,7 @@ public class Actions {
 	}
 	
 	static void moveRobber(int hexIndex) {
+		System.out.println("Sending: Robber " + hexIndex);
 		NetworkClient.sendMessage("Robber " + hexIndex);
 	}
 
@@ -268,7 +269,7 @@ public class Actions {
 			String objectType = "";
 			int playerID = 0;
 			int jsonIndex = 0;
-			for (int i = 0; !Character.isSpaceChar(message.charAt(i)) && i < message.length(); i++) {
+			for (int i = 0; i < message.length() && !Character.isSpaceChar(message.charAt(i)); i++) {
 				objectType += message.charAt(i);
 				jsonIndex = i + 2;
 			}
