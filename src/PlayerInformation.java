@@ -29,7 +29,7 @@ public class PlayerInformation implements Serializable{
     int testInt = 0;
 
     int playerTurn = 1;
-    int roundCount = 1;
+    int roundCount = 30;
 
     int [][] playerResource = new int[4][5];
     int [][] settlementPos = new int[54][3];
