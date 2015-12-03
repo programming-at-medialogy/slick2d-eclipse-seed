@@ -7,7 +7,7 @@ public class Users implements Runnable
 {
 	DataOutputStream out;
 	DataInputStream in;
-	Users[] user = new Users[10];
+	Users[] user = new Users[10];	//need to cap it at two
 	String name;
 	public Users(DataOutputStream out, DataInputStream in, Users[] user) 
 	{
