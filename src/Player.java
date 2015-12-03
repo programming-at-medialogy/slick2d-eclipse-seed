@@ -189,7 +189,7 @@ public class Player  {
 	
 	public void addPoint() {
 		points++;
-		if(points == tempPoints){
+		if(points == tempPoints || (points > tempPoints - 3 && Road.longestRoad == GameData.ownIndex)){
 			hasWon = true;
 			GameState.endGame();
 		}
