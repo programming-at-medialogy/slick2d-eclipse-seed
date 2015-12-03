@@ -2,7 +2,10 @@ import java.io.IOException;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-
+/*This class stores the image and a string for the Victory Point card.
+ * The effect increments the integer victoryPoint with 1, which is displayed in the Resource class.
+ * Image is not displayed in this version.
+ */
 public class VPCard extends Card {
 	
 	Controller control;

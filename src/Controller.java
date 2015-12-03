@@ -5,22 +5,27 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 
 public class Controller {
+	
+	//Int to set the player number
 	int playerNo;
+	
 	Game game;
 	Resource resources;
-	int receivedExCard = 0;
-	boolean receivedMonoCard = false;
-	boolean devCardButtonClicked = false;
-	int [][] tile = new int[19][3];
+	
+	int receivedExCard = 0; //Int to control if a player gets an excavation card
+	boolean receivedMonoCard = false; //boolean to control if a player gets a monopoly card
+	boolean devCardButtonClicked = false; //checks if a player have bought a card
+	
+	int [][] tile = new int[19][3]; //2D array to store middle position
 	int [] tileNumber = new int[19];
 	int [][] settlement = new int[54][2];
 	int dieNumber = 0;
 	int [] tileResource = new int[2];
-	boolean diceButtonClicked = false;
+	boolean diceButtonClicked = false; //boolean to control if the dices have been clicked
 	int testint = 0;
-	int clickOnce = 0;
+	int clickOnce = 0; //int to make sure the endturn button is only clicked once
 	int [][] settlementData = new int[54][3];
-	boolean deselectButtonControl;
+	boolean deselectButtonControl; //boolean to the deselect button
 	boolean tradeButtonControl;
 	Random rand = new Random();
 	int armyCounter = 0;
@@ -88,7 +93,11 @@ public class Controller {
 		
 	}
 	
-	
+	/*
+	 * A method to measure the distance between the middle point of a tile and a settlement
+	 * Checks the index of the tile to know what resource must be distributed
+	 * and the playerIndex tells who needs to get the resource.
+	 */
 	public void distance(int x, int y, int x2, int y2, int tileIndex, int playerIndex) {
 		int i = 0;
 		int minDist = 60;
