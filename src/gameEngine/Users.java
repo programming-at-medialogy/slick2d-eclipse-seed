@@ -33,7 +33,7 @@ public class Users implements Runnable
 						{
 							if (user[i] != null) 
 								{
-									user[i].out.writeUTF(name + ":" + message);
+									user[i].out.writeUTF(name + ": " + message);
 								}
 						}
 				} catch (IOException e) 
