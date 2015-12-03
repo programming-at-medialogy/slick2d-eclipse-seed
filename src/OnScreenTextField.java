@@ -58,28 +58,6 @@ public class OnScreenTextField {
 		textField4.setBackgroundColor(Color.gray);
 	}
 
-	public void writeDiceToConsole() throws IOException {
-		// depending on how we recognize players, this much change accordingly
-		if (control.playerNo == 1) {
-			textField.setConsumeEvents(true);
-			textField.setText(Integer.toString(dice.rollDice()));
-			textField.getText();
-		} else if (control.playerNo == 2) {
-			textField2.setConsumeEvents(true);
-			textField2.setText(Integer.toString(dice.rollDice()));
-			textField2.getText();
-		} else if (control.playerNo == 3) {
-			textField3.setConsumeEvents(true);
-			textField3.setText(Integer.toString(dice.rollDice()));
-			textField3.getText();
-		} else if (control.playerNo == 4) {
-			textField4.setConsumeEvents(true);
-			textField4.setText(Integer.toString(dice.rollDice()));
-			textField4.getText();
-		}
-
-	}
-
 	public void writeBuyToConsole(Card[] input) throws SlickException {
 		Card output = new Card(control);
 		Random rand = new Random();
@@ -121,13 +99,6 @@ public class OnScreenTextField {
 
 	public void update(GameContainer gc, int i) throws SlickException, IOException {
 		relButton.update(gc, i);
-
-		if (relButton.buttonDiceControl == true) {
-			if (game.client.obj.playerTurn == control.playerNo) {
-				writeDiceToConsole();
-				relButton.buttonDiceControl = false;
-			}
-		}
 
 		if (control.devCardButtonClicked == true) {
 			if (game.client.obj.playerTurn == control.playerNo) {
