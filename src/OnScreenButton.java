@@ -133,8 +133,10 @@ public class OnScreenButton {
          */
 		if (control.tradeButtonControl == true || control.playerNo != game.client.obj.playerTurn) {
 			buttonTradePressed.render(gc, g);
+			if(control.tradeButtonControl == true) {
 			g.drawImage(tradeArrowDown, chooseResourcePosX-50, chooseResourcePosY-40);
 			g.drawString("4 x Resource for 1 x Resource", chooseResourcePosX, chooseResourcePosY-80);
+			}
 		} else{
 			buttonTrade.render(gc, g);
 		}
