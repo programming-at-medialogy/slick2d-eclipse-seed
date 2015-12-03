@@ -40,9 +40,6 @@ public class Play extends BasicGameState {
 		infoCard.cardType = new Image ("images/info.png");
 		infoCard.x = 990;
 		infoCard.y = 170;
-		/*cardHelp = new Card();
-		cardHelp.createDevPile(developmentPile);
-		Collections.shuffle(Arrays.asList(developmentPile));*/
 		
 	}
 
@@ -115,23 +112,38 @@ public class Play extends BasicGameState {
 				synchronized (die) {
 					try {
 						die.update(gc, delta);
-						//textField.update(gc, delta);
 					} catch (SlickException | IOException e) {
 						//e.printStackTrace();
 					}
 				}	
 			}
-			
 		};
+		
+		Thread t4 = new Thread (){
+			@Override
+			public void run() {
+				synchronized (textField) {
+					try {
+						textField.update(gc, delta);
+					} catch (SlickException | IOException e) {
+						// TODO Auto-generated catch block
+						//e.printStackTrace();
+					}
+				}
+			}
+		};
+		
 
 		t1.start();
 		t2.start();
 		t3.start();
+		t4.start();
 
 		try {
 			t1.join();
 			t2.join();
 			t3.join();
+			t4.join();
 		} catch (InterruptedException e) {
 		}
 

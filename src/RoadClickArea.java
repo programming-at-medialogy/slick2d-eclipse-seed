@@ -23,8 +23,6 @@ public class RoadClickArea {
 	
 	int DiagonalRoadCount = 47; //the amount of diagonal roads
 	int StraightRoadCount = 24; //the amount of straight roads
-	
-	int roadPressed; //int to control if a roads button has been pressed. Boolean didnt work.
 
 	OnScreenButton roadButton; // instance of the OnScreenButton class. Needed to render and check if the button has been clicked
 	Game game; //instance of the game class
@@ -101,46 +99,39 @@ public class RoadClickArea {
 		// Controls different parameters to see, if one is allowed to place a road
 		if (game.client.obj.playerTurn == control.playerNo) { //Needs to be the player's turn
 			if (roadButton.buttonRoadControl == true) { // Checks to see of the roadButton has been clicked
-				roadPressed = 1; //It has been clicked (needed to render a second image to display this)
 			for (i = 0; i < diagonal_xpos.length; i++) {
 				if ((xMousePos > diagonal_xpos[i] && xMousePos < diagonal_xpos[i] + areaClickSizeXsmall)
 					&& (yMousePos < screenHeight - diagonal_ypos[i]
 					&& yMousePos > screenHeight - diagonal_ypos[i] - areaClickSizeYsmall)) {// checks the coordinates of the click
 					if (input.isMouseButtonDown(0)) { // has the mouse been clicked?
-						
-						if(DiagonalRoadArea[i] != true){
-						
+						control.deslectButtonControl = false;
 						if(DiagonalRoadArea[i] != true){ //If the index is false
 						placeDiagonalRoad(i); // the diagonal area has been clicked; spawn a road at no. i
 						game.client.obj.roadsColourDiagonal[i] = control.playerNo; //Set the area equal to the player no; that player now owns the area
 						game.client.obj.SOCroadAreaDiagonal[i] = DiagonalRoadArea[i]; //The area is no longer availbe for the taking. 
 						game.client.sendData(game.client.obj); //Send the data
 						roadButton.buttonRoadControl = false; // toggles the button false
-						roadPressed = 0; //The button is no longer pressed.
 							}
 						}
 					}
 				}
 			}
-		}
 
 		// Does the same as above this time for the straight roads.
 		if (game.client.obj.playerTurn == control.playerNo) {
 			if (roadButton.buttonRoadControl == true) {
-					roadPressed = 1;
 				for (i = 0; i < straight_xpos.length; i++) {
 					if ((xMousePos > straight_xpos[i] && xMousePos < straight_xpos[i] + areaClickSizeXbig)
 						&& (yMousePos < screenHeight - straight_ypos[i]
 						&& yMousePos > screenHeight - straight_ypos[i] - areaClickSizeYbig)) {
 						if (input.isMouseButtonDown(0)) {
+							control.deslectButtonControl = false;
 							if(StraightRoadArea[i] != true){			
 							placeStraightRoad(i); // if the area is clicked, that area's boolean must become true.
 							game.client.obj.roadsColourStraight[i] = control.playerNo;
 							game.client.obj.SOCroadAreaStraight[i] = StraightRoadArea[i];
 							game.client.sendData(game.client.obj);
 							roadButton.buttonRoadControl = false;
-							roadPressed = 0;
-
 							}
 						}
 					}
@@ -159,7 +150,6 @@ public class RoadClickArea {
 				for (int j = 0; j < StraightRoadCount; j++){
 					StraightRoad[j].playerNo = game.client.obj.roadsColourStraight[j];
 				}
-		
 	}
 	
 	
@@ -167,8 +157,8 @@ public class RoadClickArea {
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		
 		//If the road button has been pressed, then render the image.
-		if(roadPressed > 0){
-			//roadButton.buttonRoadPressed.render(gc, g);
+		if(roadButton.buttonRoadControl == true){
+			roadButton.buttonRoadPressed.render(gc, g);
 		}
 		
 		// Renders all the diagonal roads

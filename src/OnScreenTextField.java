@@ -20,19 +20,18 @@ public class OnScreenTextField {
 	OnScreenButton relButton;
 	Controller control;
 	Game game;
-	DieRoll dice;
 	Card cardHelp;
 	Card[] developmentPile = new Card[25];
 	Card pileOutput;
 
 	public OnScreenTextField(Controller control) throws SlickException {
-		relButton = new OnScreenButton(control);
 		this.control = control;
-		//dice = new DieRoll();
+		relButton = new OnScreenButton(control);
 		cardHelp = new Card(control);
 		pileOutput = new Card(control);
 		cardHelp.createDevPile(developmentPile);
 		Collections.shuffle(Arrays.asList(developmentPile));
+
 	}
 
 	public void create(GameContainer gc) {
@@ -56,28 +55,6 @@ public class OnScreenTextField {
 				textFieldWidth, textFieldHeight);
 		textField4.setBorderColor(Color.magenta);
 		textField4.setBackgroundColor(Color.gray);
-	}
-
-	public void writeDiceToConsole() throws IOException {
-		// depending on how we recognize players, this much change accordingly
-		if (control.playerNo == 1) {
-			textField.setConsumeEvents(true);
-			textField.setText(Integer.toString(dice.rollDice()));
-			textField.getText();
-		} else if (control.playerNo == 2) {
-			textField2.setConsumeEvents(true);
-			textField2.setText(Integer.toString(dice.rollDice()));
-			textField2.getText();
-		} else if (control.playerNo == 3) {
-			textField3.setConsumeEvents(true);
-			textField3.setText(Integer.toString(dice.rollDice()));
-			textField3.getText();
-		} else if (control.playerNo == 4) {
-			textField4.setConsumeEvents(true);
-			textField4.setText(Integer.toString(dice.rollDice()));
-			textField4.getText();
-		}
-
 	}
 
 	public void writeBuyToConsole(Card[] input) throws SlickException {
@@ -109,7 +86,6 @@ public class OnScreenTextField {
 			textField4.getText();
 			pileOutput = output;
 		}
-		//relButton.buttonDevCardControl = false;
 	}
 
 	public void render(GameContainer gc, Graphics g) throws SlickException {
@@ -121,13 +97,6 @@ public class OnScreenTextField {
 
 	public void update(GameContainer gc, int i) throws SlickException, IOException {
 		relButton.update(gc, i);
-
-		if (relButton.buttonDiceControl == true) {
-			if (game.client.obj.playerTurn == control.playerNo) {
-				writeDiceToConsole();
-				relButton.buttonDiceControl = false;
-			}
-		}
 
 		if (control.devCardButtonClicked == true) {
 			if (game.client.obj.playerTurn == control.playerNo) {

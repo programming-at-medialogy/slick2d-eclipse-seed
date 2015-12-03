@@ -12,6 +12,7 @@ public class Card {
 	String effectline;
 	
 	Controller control;
+	Game game;
 	
 	public Card (Controller control) throws SlickException{
 		this.control = control;
@@ -45,8 +46,8 @@ public class Card {
 	
 	public boolean checkDevCardCost (){
 		boolean isTrue = false;
-		if (control.resources.wheatResource >= 1 && control.resources.woolResource >= 1 
-				&& control.resources.oreResource >= 1){
+		if (game.client.obj.playerResource [control.playerNo-1][1] >= 1 && game.client.obj.playerResource [control.playerNo-1][4] >= 1 
+				&& game.client.obj.playerResource [control.playerNo-1][0] >= 1){
 			isTrue = true;
 		}else {
 			isTrue = false;
@@ -54,8 +55,8 @@ public class Card {
 		return isTrue;
 	}
 	public void buyCard(){
-		control.resources.wheatResource--;
-		control.resources.woolResource--;
-		control.resources.oreResource--;
+		game.client.obj.playerResource [control.playerNo-1][0]--;
+		game.client.obj.playerResource [control.playerNo-1][1]--;
+		game.client.obj.playerResource [control.playerNo-1][4]--;
 	}
 }
