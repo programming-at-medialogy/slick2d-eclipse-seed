@@ -1,4 +1,3 @@
-
 import java.io.IOException;
 
 import org.lwjgl.input.Mouse;
@@ -54,9 +53,10 @@ public class RoadClickArea {
 
 
 	// Constructor
-	RoadClickArea() throws SlickException {
-
-		roadButton = new OnScreenButton(); // create the button
+	RoadClickArea(Controller control) throws SlickException {
+		
+		this.control = control;
+		roadButton = new OnScreenButton(control); // create the button
 
 		DiagonalRoad = new RoadSpawn[totalRoads]; // create 47 instances of the HouseSpawn class
 		StraightRoad = new RoadSpawn[totalRoads]; // create 25 instances of the HouseSpawn class
@@ -71,8 +71,6 @@ public class RoadClickArea {
 		DiagonalRoadArea = new boolean[totalRoads];
 		StraightRoadArea = new boolean[totalRoads];
 
-		control = new Controller(); // create the controller
-		
 		placeRoad();
 
 	}
@@ -97,9 +95,7 @@ public class RoadClickArea {
 
 		// Controls different parameters to see, if one is allowed to place a
 		// road
-		if (control.isPlayerTurn == true // player turn?
-				&& control.placeRoadAmount != 0 // does the player have any roads available?
-				&& roadButton.buttonRoadControl == true) { // has the GUI button been pressed?
+		if (roadButton.buttonRoadControl == true) { // has the GUI button been pressed?
 			for (i = 0; i < diagonal_xpos.length; i++) {
 				if ((xMousePos > diagonal_xpos[i] && xMousePos < diagonal_xpos[i] + areaClickSizeXsmall)
 						&& (yMousePos < screenHeight - diagonal_ypos[i]
@@ -110,12 +106,11 @@ public class RoadClickArea {
 						
 						if(DiagonalRoadArea[i] != true){
 							
-						DiagonalRoadArea[i] = true; // the small area has been clicked; spawn a road.
+						placeDiagonalRoad(i); // the small area has been clicked; spawn a road.
 						game.client.obj.roadsColourDiagonal[i] = control.playerNo;
 						game.client.obj.SOCroadAreaDiagonal[i] = DiagonalRoadArea[i];
 						game.client.sendData(game.client.obj);
 						roadButton.buttonRoadControl = false; // toggles the button false
-						control.reduceRoadAmount(); // reduce the amount of roads the player have available
 						
 						}
 					}
@@ -124,7 +119,7 @@ public class RoadClickArea {
 		}
 
 		// Does the same as above.
-		if (control.isPlayerTurn == true && control.placeRoadAmount != 0) {
+
 			if (roadButton.buttonRoadControl == true) {
 				for (i = 0; i < straight_xpos.length; i++) {
 					if ((xMousePos > straight_xpos[i] && xMousePos < straight_xpos[i] + areaClickSizeXbig)
@@ -133,18 +128,16 @@ public class RoadClickArea {
 						if (input.isMouseButtonDown(0)) {
 							if(StraightRoadArea[i] != true){
 								
-							StraightRoadArea[i] = true; // if the area is clicked, that area's boolean must become true.
+							placeStraightRoad(i); // if the area is clicked, that area's boolean must become true.
 							game.client.obj.roadsColourStraight[i] = control.playerNo;
 							game.client.obj.SOCroadAreaStraight[i] = StraightRoadArea[i];
 							game.client.sendData(game.client.obj);
 							roadButton.buttonRoadControl = false;
-							control.reduceRoadAmount();
 							}
 						}
 					}
 				}
 			}
-		}
 		
 		
 		for (int j = 0; j < DiagonalRoadCount; j++){
@@ -173,6 +166,36 @@ public class RoadClickArea {
 				StraightRoad[i].render(gc, g);
 			}
 		}
+	}
+	
+	public void placeDiagonalRoad(int i) {
+
+		if (checkRoadCost()) {
+			game.client.obj.playerResource[control.playerNo-1][3]--;
+			game.client.obj.playerResource[control.playerNo-1][2]--;
+			control.resources.roadCount++;
+			DiagonalRoadArea[i] = true;
+		}
+	}
+	
+	public void placeStraightRoad(int i) {
+
+		if (checkRoadCost()) {
+			game.client.obj.playerResource[control.playerNo-1][3]--;
+			game.client.obj.playerResource[control.playerNo-1][2]--;
+			control.resources.roadCount++;
+			StraightRoadArea[i] = true;
+		}
+	}
+	
+	public boolean checkRoadCost() {
+		
+		boolean isTrue = false;
+		if (game.client.obj.playerResource[control.playerNo-1][3] >= 1 && game.client.obj.playerResource[control.playerNo-1][2] >= 1) {
+			isTrue = true;
+		}
+
+		return isTrue;
 	}
 
 	// This method is used to get all the coordinates of where the roads can be placed

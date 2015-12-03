@@ -1,6 +1,3 @@
-
-
-
 import java.io.IOException;
 
 import org.newdawn.slick.GameContainer;
@@ -15,7 +12,7 @@ import org.newdawn.slick.SlickException;
  * 
  */
 
-public class HouseSpawn {
+public class Settlement {
 
 	Image house; // Used to inform where the image is stored
 
@@ -23,19 +20,25 @@ public class HouseSpawn {
 	int x;
 	int y;
 	int playerNo;
+	int houseType;
+	int xMiddle;
+	int yMiddle;
 
 	// Constructor
-	HouseSpawn(int x, int y, int playerNo) throws SlickException {
+	Settlement(int x, int y, int playerNo, int houseType) throws SlickException {
 		this.x = x;
 		this.y = y;
+		xMiddle = x + 15;
+		yMiddle = y + 15;
 		this.playerNo = playerNo;
+		this.houseType = houseType;
 	}
 	
 	
 	// render method to be called, informing that an image of house.png must be
 	// spawned at point X,Y
 	public void render(GameContainer gc, Graphics g) throws SlickException {
-		house = new Image("images/housePlayer" + playerNo + ".png");
+		house = new Image("images/settlementP_" + playerNo + "_" + houseType + ".png");
 		g.drawImage(house, x, y);
 	}
 	
