@@ -11,11 +11,11 @@ import org.newdawn.slick.state.StateBasedGame;
 public class WinCondition extends BasicGameState{
 	
 	Game game;
-	Font awtfont;
+	Font awtfont; //sets the font
 	TrueTypeFont font;
 	int spacing = 60;
-	Image winBG;
-	Color color = new Color(67, 175, 35);
+	Image winBG; //background image
+	Color color = new Color(67, 175, 35); //color on the player who wins
 	
 	WinCondition(int state){
 
@@ -23,8 +23,8 @@ public class WinCondition extends BasicGameState{
 
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		// TODO Auto-generated method stub
-		 awtfont = new Font("Times New Roman", Font.BOLD, 42);
+		
+		 awtfont = new Font("Times New Roman", Font.BOLD, 42); //Sets the font
 		 font = new TrueTypeFont(awtfont, false);
 		 winBG = new Image("images/WinnerBanner.png");
 
@@ -33,8 +33,10 @@ public class WinCondition extends BasicGameState{
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-		// TODO Auto-generated method stub
 		g.drawImage(winBG,0,0);
+		/*
+		 * Draws a "leader board" of strings that displays other peoples victory points
+		 */
 		/////////Victory points leaderboard/////////////////////////////////////////////
 		g.drawString("Player one has: "+game.client.obj.playerVictoryPoints[0][0] + " Victory Points!", 450, 330);
 		g.drawString("Player two has: "+game.client.obj.playerVictoryPoints[1][0] + " Victory Points!", 450, 330 + spacing);
@@ -42,24 +44,25 @@ public class WinCondition extends BasicGameState{
 		g.drawString("Player four has: "+game.client.obj.playerVictoryPoints[3][0] + " Victory Points!", 450, 330 + spacing * 3);
 		////////////////////////////////////////////////////////////////////////////////
 		
-		findWinner(g);
+		findWinner(g); //calls the method
 
 	}
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public int getID() {
-		// TODO Auto-generated method stub
-		return 2;
+		return 2; //win condition ID
 	}
 	
+	/*
+	 * A method to find the winner. Checks who have the highest value in the array of players.
+	 */
 	public void findWinner(Graphics g){
-
+		
 		int max = Integer.MIN_VALUE;
 		int playerNumber = 0;
 		for(int i = 0 ; i < 4; i++){
@@ -69,6 +72,7 @@ public class WinCondition extends BasicGameState{
 			}
 		}
 
+		//Draws a string with a specific font with the winning player
 		g.setFont(font);
 		font.drawString(400, 150, "Player " + playerNumber + " is the winner!",color);
 		
