@@ -8,6 +8,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.KeyListener;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -47,6 +48,9 @@ public class GameState extends BasicGameState implements KeyListener {
 	static boolean isClicked = false;
 	static boolean isInit = true;
 	
+	static int[] trading;
+	static int[] tradingRec;
+	
 	static BasicGameState thisState;
 	
 	static DialogBox robberWarning;
@@ -55,10 +59,49 @@ public class GameState extends BasicGameState implements KeyListener {
 	Position startRoadPos;
 	Position endRoadPos;
 	
+	DialogBox tradeBox;
+	static DialogBox tradeAcceptBox;
+	static DialogBox tradeDeclineBox;
+	static DialogBox tradeChooseBox;
+	Button[] adjustButtons;
+	Button[] adjustRecButtons;
+	Button[] sendButtons;
+	
     Random rand = new Random();
+    
+    static TrueTypeFont tradeFont;
+    
+	static boolean isInitializingTrade = false;
+	static boolean isChoosingTrade = false;
+	
+	static Button declineTrade;
+	static Button acceptTrade;
+	static Button cancleButton;
 
 	@Override
 	public void init(GameContainer gc, StateBasedGame s) throws SlickException {	
+		trading = new int[5];
+		tradingRec = new int[5];
+		tradeFont = Resource.getFont("std", 30);
+		
+		tradeBox = new DialogBox(0, 0, Windows.scWidth, Windows.scHeight, 40, this);
+		tradeBox.deactivate();
+		tradeBox.addString("Others: ", 200, 125 / 2 + 40);
+		tradeBox.addString("You: ", 200, 225 / 2 + 40 + 225 + 100);
+		
+		tradeAcceptBox = new DialogBox(Windows.scWidth/2 - 250, Windows.scHeight/2 - 250, 500, 500, 30, this);
+		tradeAcceptBox.addString("Trade accepted", Windows.scWidth/2, Windows.scHeight/2);
+		tradeAcceptBox.deactivate();
+		
+		tradeChooseBox = new DialogBox(0, 0, Windows.scWidth, Windows.scHeight, 30, this);
+		
+		tradeDeclineBox = new DialogBox(Windows.scWidth/2 - 250, Windows.scHeight/2 - 250, 500, 500, 30, this);
+		tradeDeclineBox.addString("Trade declined", Windows.scWidth/2, Windows.scHeight/2);
+		tradeDeclineBox.deactivate();
+		
+		adjustButtons = new Button[10];
+		adjustRecButtons = new Button[10];
+		
 		thisState = this;
 		
 		// to initialize multiple images
@@ -137,8 +180,55 @@ public class GameState extends BasicGameState implements KeyListener {
 		// Board action buttons
 		Button trade = new Button((int)(Windows.scWidth-buttonWidth*2-buttonWidth*1.3), (int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor-buttonHeight), buttonWidth, buttonHeight, 20, "Trade", this) {
 			@Override
-			public void isClicked() {		
-				System.out.println("Trade");
+			public void isClicked() {
+				isInitializingTrade = true;
+				tradeBox.activate();
+				int wPadding = 125;
+				int hPadding = 225;
+				sendButtons = new Button[GameData.players.size() - 1];
+				for (int i = 0; i < adjustButtons.length; i++) {
+					adjustButtons[i] = new Button((i % 5) * wPadding + Windows.scWidth/2 - 2 * wPadding - 80 / 2, (i % 2) * hPadding + 150 - hPadding / 2 - 40/2, 80, 40, 30, (i % 2 == 0) ? "+" : "-", this.state, true) {
+						@Override
+						public void isClicked() {
+							if (this.message.equals("+")) {
+								addTResource(this);
+							} else {
+								removeTResource(this);
+							}
+						}
+					};
+					adjustRecButtons[i] = new Button((i % 5) * wPadding + Windows.scWidth/2 - 2 * wPadding - 80 / 2, (i % 2) * hPadding + 150 + hPadding + 100 - hPadding / 2 - 40/2, 80, 40, 30, (i % 2 == 0) ? "+" : "-", this.state, true) {
+						@Override
+						public void isClicked() {
+							if (this.message.equals("+")) {
+								addTResource(this);
+							} else {
+								removeTResource(this);
+							}
+						}
+					};
+				}
+				
+				for (int i = 0; i < GameData.players.size(); i++) {
+					System.out.println("i: " + i + " ownIndex: " + GameData.ownIndex);
+					if (i != GameData.ownIndex) {
+						sendButtons[i] = new Button(i * Windows.scWidth / 7 + Windows.scWidth / 7, Windows.scHeight - 100, tradeFont.getWidth("Send to " + GameData.players.get(i).getName()) + 20, 40, 30, "Send to " + GameData.players.get(i).getName(), this.state, true) {
+							@Override
+							public void isClicked() {
+								sendTradeRequest(this);
+							}
+						};
+					} else {
+						cancleButton = new Button(i * Windows.scWidth / 7 + Windows.scWidth / 7, Windows.scHeight - 100, tradeFont.getWidth("Cancle") + 20, 40, 30, "Cancle", this.state, true) {
+							@Override
+							public void isClicked() {
+								cancleTrade();
+							}
+						};
+					}
+				}
+				
+				
 			}
 		};
 		Button rollD = new Button((int)(Windows.scWidth-buttonWidth-buttonWidth*1.2),(int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor-buttonHeight), buttonWidth, buttonHeight, 20, "Roll Dice", this) {
@@ -205,9 +295,11 @@ public class GameState extends BasicGameState implements KeyListener {
 		drawBuilding(g);
 		diceImg[Dice.dice1-1].draw((int) Math.random()*(Windows.scWidth-hexWidth*Windows.scFactor*2+diceImg[1].getWidth())+(Windows.scWidth-hexWidth*Windows.scFactor*2)          ,Windows.scHeight/2 , Windows.scFactor*0.8f);
 		diceImg[Dice.dice2-1].draw(Windows.scWidth-hexWidth*Windows.scFactor*2-diceImg[1].getWidth()*Windows.scFactor ,Windows.scHeight/2, Windows.scFactor*0.8f);
+		
 		Button.draw(g, this);
 		ListBox.draw(g, this);
 		TextBox.draw(g, this);
+		
 
 		// For displaying resource cards
 		for (int c = 0; c < GameData.players.get(GameData.ownIndex).resources.length;  c++){ 
@@ -220,15 +312,73 @@ public class GameState extends BasicGameState implements KeyListener {
 		for (int d=0; d<5; d++){
 			devCrdImg[d].draw(Windows.scWidth-crdWidth, Windows.scHeight-crdHeight, Windows.scFactor);
 		}
-		ListBox.update(this);
-		TextBox.update(this);
+		/*ListBox.update(this);
+		TextBox.update(this);*/
 		DialogBox.draw(g, this);
+		Button.drawSpecial(g, this);
+		
+		if (isInitializingTrade) {
+			int wPadding = 125;
+			int hPadding = 200;
+			for (int i = 0; i < crdImg.length; i++) {
+				crdImg[i].draw(i * wPadding + Windows.scWidth/2 - 2 * wPadding - (wPadding - 5) / 2, 150 - (hPadding - 25) / 2, wPadding - 5, hPadding - 25);
+				tradeFont.drawString(i * wPadding + Windows.scWidth/2 - 2 * wPadding - tradeFont.getWidth("" + trading[i]) / 2, 150 - tradeFont.getHeight("" + trading[i]) / 2 + hPadding / 2 + 50, "" + trading[i]);
+				crdImg[i].draw(i * wPadding + Windows.scWidth/2 - 2 * wPadding - (wPadding - 5) / 2, 150 - (hPadding - 25) / 2 + hPadding + 125, wPadding - 5, hPadding - 25);
+				tradeFont.drawString(i * wPadding + Windows.scWidth/2 - 2 * wPadding - tradeFont.getWidth("" + trading[i]) / 2, 150 - tradeFont.getHeight("" + tradingRec[i]) / 2 + hPadding / 2 + 50  + hPadding + 125, "" + tradingRec[i]);
+			}
+		}
+		
+		if (isChoosingTrade) {
+			int wPadding = 125;
+			int hPadding = 200;
+			for (int i = 0; i < crdImg.length; i++) {
+				crdImg[i].draw(i * wPadding + Windows.scWidth/2 - 2 * wPadding - (wPadding - 5) / 2, 150 - (hPadding - 25) / 2, wPadding - 5, hPadding - 25);
+				tradeFont.drawString(i * wPadding + Windows.scWidth/2 - 2 * wPadding - tradeFont.getWidth("" + GameData.tObject.wants[i]) / 2, 100 - tradeFont.getHeight("" + GameData.tObject.wants[i]) / 2 + hPadding / 2 + 50, "" + GameData.tObject.wants[i]);
+				crdImg[i].draw(i * wPadding + Windows.scWidth/2 - 2 * wPadding - (wPadding - 5) / 2, hPadding + 100 + 150 - (hPadding - 25) / 2, wPadding - 5, hPadding - 25);
+				tradeFont.drawString(i * wPadding + Windows.scWidth/2 - 2 * wPadding - tradeFont.getWidth("" + GameData.tObject.has[i]) / 2, hPadding + 100 + 100 - tradeFont.getHeight("" + GameData.tObject.has[i]) / 2 + hPadding / 2 + 50, "" + GameData.tObject.has[i]);
+			}
+			tradeFont.drawString(Windows.scWidth/2 - tradeFont.getWidth("Offer from: " + GameData.players.get(GameData.turn).getName()) / 2, hPadding + 100 + 175 - tradeFont.getHeight("Offer from: " + GameData.players.get(GameData.turn).getName()) / 2 + hPadding / 2 + 50, "Offer from: " + GameData.players.get(GameData.turn).getName());
+		}
+		
 	}
 	
 	
+	public void addTResource(Button button) {
+		System.out.println("Adding");
+		int index = 0;
+		for (int i = 0; i < adjustButtons.length; i++) {
+			if (adjustButtons[i] == button) {
+				trading[i % 5]++;
+				break;
+			} else if (adjustRecButtons[i] == button) {
+				tradingRec[i % 5]++;
+				break;
+			}
+		}
+		
+		//trading[index % 5]++;
+		//System.out.println("Add: " + index % 5);
+	}
 	
-	
-	
+	public void removeTResource(Button button) {
+		System.out.println("Removing");
+		int index = 0;
+		for (int i = 0; i < adjustButtons.length; i++) {
+			if (adjustButtons[i] == button) {
+				if (trading[i % 5] > 0)
+					trading[i % 5]--;
+				break;
+			} else if (adjustRecButtons[i] == button) {
+				if (tradingRec[i % 5] > 0)
+					tradingRec[i % 5]--;
+				break;
+			}
+		}
+		
+		/*if (trading[index % 5] > 0)
+			trading[index % 5]--;*/
+		//System.out.println("Remove: " + index % 5);
+	}
 	
 	@Override
 	public void update(GameContainer gc, StateBasedGame s, int delta) throws SlickException {
@@ -243,7 +393,15 @@ public class GameState extends BasicGameState implements KeyListener {
 		} else if (buildingWarning.isActive && !isClicked) {
 			if (Mouse.isButtonDown(0))
 				buildingWarning.deactivate();
+		} else if (tradeAcceptBox.isActive && !isClicked) {
+			if (Mouse.isButtonDown(0))
+				tradeAcceptBox.deactivate();
+		} else if (tradeDeclineBox.isActive && !isClicked) {
+			if (Mouse.isButtonDown(0))
+				tradeDeclineBox.deactivate();
 		}
+		
+		
 		
 		
 		else if(Mouse.isButtonDown(0) && isPlacingBuilding && !isClicked) {
@@ -363,5 +521,104 @@ public class GameState extends BasicGameState implements KeyListener {
 		System.out.println(message);
 	}
 	
+	private void sendTradeRequest(Button button) {
+		for (int i = 0; i < sendButtons.length; i++) {
+			if (button == sendButtons[i]) {
+				TradeObject t = new TradeObject(trading, tradingRec, GameData.ownIndex, i);
+				Actions.initiateTrade(t);
+				break;
+			}
+		}
+		
+		isInitializingTrade = false;
+		
+		for (int i = 0; i < sendButtons.length; i++) {
+			sendButtons[i].remove(true);
+		}
+		
+		for (int i = 0; i < adjustButtons.length; i++) {
+			adjustButtons[i].remove(true);
+		}
+		
+		for (int i = 0; i < adjustRecButtons.length; i++) {
+			adjustRecButtons[i].remove(true);
+		}
+		
+		cancleButton.remove(true);
+		
+		tradeBox.deactivate();
+	}
+
+	public static void acceptedTrade() {
+		tradeAcceptBox.activate();
+	}
 	
+	public static void declinedTrade() {
+		tradeDeclineBox.activate();
+	}
+
+	public static void chooseTrade() {
+		tradeChooseBox.activate();
+		tradeChooseBox.addString(GameData.players.get(GameData.tObject.initPlayer).getName() + " wants: ", 200, 125 / 2 + 40);
+		tradeChooseBox.addString("You will get: ", 200, 225 / 2 + 40 + 225 + 100);
+		isChoosingTrade = true;
+		
+		acceptTrade = new Button(Windows.scWidth / 2 - 50 - 200, 200 + 100 + Windows.scHeight / 2, 100, 50, 30, "Accept", thisState, true) {
+			@Override
+			public void isClicked() {
+				acceptTrade();
+			}
+		};
+		
+		declineTrade = new Button(Windows.scWidth / 2 - 50 + 200, 200 + 100 + Windows.scHeight / 2, 100, 50, 30, "Decline", thisState, true) {
+			@Override
+			public void isClicked() {
+				declineTrade();
+			}
+		};
+	}
+
+	public static void declineTrade() {
+		isChoosingTrade = false;
+		
+		tradeChooseBox.deactivate();
+		acceptTrade.remove(true);
+		declineTrade.remove(true);
+		tradeChooseBox.removeString();
+		tradeChooseBox.removeString();
+		Actions.declineTrade();
+	}
+
+	public static void acceptTrade() {
+		isChoosingTrade = false;
+		
+		tradeChooseBox.deactivate();
+		acceptTrade.remove(true);
+		declineTrade.remove(true);
+		tradeChooseBox.removeString();
+		tradeChooseBox.removeString();
+		Actions.acceptTrade();
+	}
+	
+	public void cancleTrade() {
+		isInitializingTrade = false;
+		
+		if (sendButtons != null) {
+			for (int i = 0; i < sendButtons.length; i++) {
+				sendButtons[i].remove(true);
+			}
+		}
+		
+		for (int i = 0; i < adjustButtons.length; i++) {
+			adjustButtons[i].remove(true);
+		}
+		
+		for (int i = 0; i < adjustRecButtons.length; i++) {
+			adjustRecButtons[i].remove(true);
+		}
+		
+		cancleButton.remove(true);
+		
+		tradeBox.deactivate();
+	}
 }
