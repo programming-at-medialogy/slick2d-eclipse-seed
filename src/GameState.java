@@ -143,7 +143,7 @@ public class GameState extends BasicGameState implements KeyListener {
 			public void isClicked() {	
 				if (GameData.turn == GameData.ownIndex) {
 					Actions.rollDice();
-					GameData.turn = (GameData.turn + 1) % GameData.players.size();
+					//GameData.turn = (GameData.turn + 1) % GameData.players.size();
 				}
 			}
 		};
@@ -160,14 +160,14 @@ public class GameState extends BasicGameState implements KeyListener {
 	}
 	
 	public static void processDie() {
-		if (Dice.dice1 + Dice.dice2 == 7) {
+		if (Dice.dice1 + Dice.dice2 == 7 && GameData.turn == GameData.ownIndex) {
 			moveRobber = true;
 			robberWarning = new DialogBox(Windows.scWidth/2 - 250, Windows.scHeight/2 - 250, 500, 500, 30, thisState);
 			robberWarning.activate();
 			robberWarning.addImage(robImg, Windows.scWidth/2 + 150, Windows.scHeight/2, 200, 200);
 			robberWarning.addString("Move the robber", Windows.scWidth/2, Windows.scHeight/2);
 		}
-		else if (Dice.dice1 != Dice.dice2)
+		else if (Dice.dice1 != Dice.dice2 && GameData.turn == GameData.ownIndex)
 			endTurn();
 		// collect resources
 	}
