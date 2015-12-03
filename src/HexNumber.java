@@ -5,6 +5,10 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+/*
+ * Classed used to render the numbers on the tiles. These numbers will be random placed
+ */
+
 public class HexNumber {
 	
 	Image img;
@@ -19,13 +23,7 @@ public class HexNumber {
 		img = new Image("images/tileNumber"+index+".png");
 	}
 	
-	HexNumber(int x, int y) throws SlickException {
-		this.x = x;
-		this.y = y;
-		img = new Image("images/desertPiece.png");
-	}
-	
-	
+	//Render method to render the images.
 	public void render(GameContainer gc, Graphics g) throws SlickException
 	{
 		g.drawImage(img,x,y);	

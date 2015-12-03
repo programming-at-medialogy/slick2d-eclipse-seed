@@ -5,6 +5,11 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+/*
+ * Class to render the tiles (hexPieces) of the game
+ * The class also declares the integers used for the x and y middle point of the tiles.
+ */
+
 public class HexPiece {
 	
 	Image img;
@@ -24,10 +29,9 @@ public class HexPiece {
 
 	}
 	
-	
+	//Renders the tiles when called.
 	public void render(GameContainer gc, Graphics g) throws SlickException
-	{
-		
+	{	
 		g.drawImage(img,x,y);	
 	}
 }

@@ -18,7 +18,7 @@ public class Server {
     SOCHexMap map;
 
     public Server(int port) throws IOException {
-        serverSocket = new ServerSocket(5555, 50, addr);
+        serverSocket = new ServerSocket(5555);
         clientSockets = new ArrayList<>();
         map = new SOCHexMap();
 
