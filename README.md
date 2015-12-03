@@ -14,7 +14,10 @@ The project has been developed primarily in the IDE Eclipse Mars, with the imple
 
 In order to play the game, a server must be launch with a matching port and IP to the clients. 
 Once a server is established, a minimum and maximum of four players must join the game. This is needed to pass the menu state of the game. However, it is possible to start directly in the play state of the game, thus skipping the menu. 
-TO START IN THE PLAYSTATE OF THE GAME, ONE HAVE TO TYPE playState IN THE GAME CLASS, UNDER initStatesList (this.enterState(playState);
+
+
+TO START IN THE PLAYSTATE OF THE GAME, ONE HAVE TO TYPE   playState  IN THE GAME CLASS, UNDER  initStatesList    (this.enterState(playState);
+
 
 ### House Rules
 
