@@ -2,6 +2,7 @@ import java.awt.Font;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.state.BasicGameState;
@@ -13,6 +14,8 @@ public class WinCondition extends BasicGameState{
 	Font awtfont;
 	TrueTypeFont font;
 	int spacing = 60;
+	Image winBG;
+	Color color = new Color(67, 175, 35);
 	
 	WinCondition(int state){
 
@@ -23,6 +26,7 @@ public class WinCondition extends BasicGameState{
 		// TODO Auto-generated method stub
 		 awtfont = new Font("Times New Roman", Font.BOLD, 42);
 		 font = new TrueTypeFont(awtfont, false);
+		 winBG = new Image("images/WinnerBanner.png");
 
 		
 	}
@@ -30,12 +34,12 @@ public class WinCondition extends BasicGameState{
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		// TODO Auto-generated method stub
-
+		g.drawImage(winBG,0,0);
 		/////////Victory points leaderboard/////////////////////////////////////////////
-		g.drawString("Player one has: "+game.client.obj.playerVictoryPoints[0][0] + " Victory Points!", 450, 300);
-		g.drawString("Player two has: "+game.client.obj.playerVictoryPoints[1][0] + " Victory Points!", 450, 300 + spacing);
-		g.drawString("Player three has: "+game.client.obj.playerVictoryPoints[2][0] + " Victory Points!", 450, 300 + spacing * 2);
-		g.drawString("Player four has: "+game.client.obj.playerVictoryPoints[3][0] + " Victory Points!", 450, 300 + spacing * 3);
+		g.drawString("Player one has: "+game.client.obj.playerVictoryPoints[0][0] + " Victory Points!", 450, 330);
+		g.drawString("Player two has: "+game.client.obj.playerVictoryPoints[1][0] + " Victory Points!", 450, 330 + spacing);
+		g.drawString("Player three has: "+game.client.obj.playerVictoryPoints[2][0] + " Victory Points!", 450, 330 + spacing * 2);
+		g.drawString("Player four has: "+game.client.obj.playerVictoryPoints[3][0] + " Victory Points!", 450, 330 + spacing * 3);
 		////////////////////////////////////////////////////////////////////////////////
 		
 		findWinner(g);
@@ -66,7 +70,7 @@ public class WinCondition extends BasicGameState{
 		}
 
 		g.setFont(font);
-		font.drawString(400, 150, "Player " + playerNumber + " is the winner!", Color.green);
+		font.drawString(400, 150, "Player " + playerNumber + " is the winner!",color);
 		
 	}
 }
