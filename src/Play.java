@@ -40,7 +40,6 @@ public class Play extends BasicGameState {
 		infoCard.cardType = new Image ("images/info.png");
 		infoCard.x = 990;
 		infoCard.y = 170;
-		System.out.println(textField.developmentPile);
 		
 	}
 

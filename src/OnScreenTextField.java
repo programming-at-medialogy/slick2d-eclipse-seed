@@ -20,7 +20,6 @@ public class OnScreenTextField {
 	OnScreenButton relButton;
 	Controller control;
 	Game game;
-	DieRoll dice;
 	Card cardHelp;
 	Card[] developmentPile = new Card[25];
 	Card pileOutput;
@@ -28,7 +27,6 @@ public class OnScreenTextField {
 	public OnScreenTextField(Controller control) throws SlickException {
 		this.control = control;
 		relButton = new OnScreenButton(control);
-		//dice = new DieRoll();
 		cardHelp = new Card(control);
 		pileOutput = new Card(control);
 		cardHelp.createDevPile(developmentPile);
