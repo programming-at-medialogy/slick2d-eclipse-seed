@@ -51,6 +51,8 @@ public class RoadClickArea {
 	int[] straight_xpos;
 	int[] straight_ypos;
 
+
+
 	// Constructor
 	RoadClickArea(Controller control) throws SlickException {
 		
@@ -70,7 +72,7 @@ public class RoadClickArea {
 		DiagonalRoadArea = new boolean[totalRoads];
 		StraightRoadArea = new boolean[totalRoads];
 
-		placeRoad(); //calls the method.
+		placeRoad();
 	}
 
 
@@ -92,6 +94,8 @@ public class RoadClickArea {
 
 		Input input = gc.getInput(); //Used in the mouse input
 		
+
+
 		// Controls different parameters to see, if one is allowed to place a road
 		if (game.client.obj.playerTurn == control.playerNo) { //Needs to be the player's turn
 			if (roadButton.buttonRoadControl == true) { // Checks to see of the roadButton has been clicked
@@ -134,6 +138,7 @@ public class RoadClickArea {
 				}
 			}
 		}
+	
 	}
 		
 		//Runs through all the diagonal roads to equal them to the information in PlayerInformation
@@ -172,21 +177,26 @@ public class RoadClickArea {
 	}
 	
 	public void placeDiagonalRoad(int i) {
-		//If a player have enough resources to place a road, 
-		//this can be done and player resources will be reduced.
+
+		//If a player have enough resources to place a road, this can be done and player resources will be reduced.
 		if (checkRoadCost()) {
 			game.client.obj.playerResource[control.playerNo-1][3]--;
 			game.client.obj.playerResource[control.playerNo-1][2]--;
+			control.roadCounter++;
+			//game.client.obj.playerRoadCount[control.playerNo-1][0]++; ---- for most roads
 			control.resources.roadCount++;
-			DiagonalRoadArea[i] = true; //area becomes true, no one can take this now
+			DiagonalRoadArea[i] = true;
 			}
 	}
 	
-	//Same as above with diagonal road.
 	public void placeStraightRoad(int i) {
+
+
 		if (checkRoadCost()) {
 			game.client.obj.playerResource[control.playerNo-1][3]--;
 			game.client.obj.playerResource[control.playerNo-1][2]--;
+			control.roadCounter++;
+			//game.client.obj.playerRoadCount[control.playerNo-1][0]++; ---- for most roads
 			control.resources.roadCount++;
 			StraightRoadArea[i] = true;
 		}
