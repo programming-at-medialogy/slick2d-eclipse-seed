@@ -153,7 +153,8 @@ public class OnScreenButton {
 			if(control.receivedMonoCard == true) {
 		        if((xMousePos > 680 && xMousePos < 680 + 45) && (yMousePos < screenHeight - 635 && yMousePos > screenHeight - 635 - 45 )){
 		                if(input.isMousePressed(0)) {
-		                	System.out.println("WOOHOO!");
+		                	// = to the other players resources incl ones own
+		                	//other players resource must return to 0.
 		                	control.receivedMonoCard = false;
 		                }
 		        }
