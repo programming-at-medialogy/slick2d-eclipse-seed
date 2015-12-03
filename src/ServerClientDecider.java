@@ -6,7 +6,7 @@ public class ServerClientDecider {
 	 * When isServer = true the server launches
 	 * When isServer = false the client launches
 	 */
-	static final boolean isServer = true;
+	static final boolean isServer = false;
 	static final boolean isTest = false;
 	static final boolean isOther = false;
 
