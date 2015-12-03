@@ -27,7 +27,7 @@ public class GameState extends BasicGameState implements KeyListener {
 	private Image[] cityImg = new Image[4]; // Array for level 2 building images
 	private static Image[] butImg = new Image[13]; //Action buttons
 	
-	private Image robImg;
+	private static Image robImg;
 	private Image bkWater;
 	 
 	static float hexHeight; // to get height of hexagon
@@ -45,7 +45,9 @@ public class GameState extends BasicGameState implements KeyListener {
 	static boolean moveRobber = false;
 	static boolean isClicked = false;
 	
-	DialogBox robberWarning;
+	static BasicGameState thisState;
+	
+	static DialogBox robberWarning;
 	DialogBox buildingWarning;
 	
 	Position startRoadPos;
@@ -54,7 +56,9 @@ public class GameState extends BasicGameState implements KeyListener {
     Random rand = new Random();
 
 	@Override
-	public void init(GameContainer gc, StateBasedGame s) throws SlickException {		
+	public void init(GameContainer gc, StateBasedGame s) throws SlickException {	
+		thisState = this;
+		
 		// to initialize multiple images
 		for(int i=0; i<hexImg.length; i++){ //goes trough hexagon array
 			hexImg[i] = new Image("resources/hexagon_" + (i) + ".png"); //Assigns every hexagon a name
@@ -139,6 +143,7 @@ public class GameState extends BasicGameState implements KeyListener {
 			public void isClicked() {	
 				if (GameData.turn == GameData.ownIndex) {
 					Actions.rollDice();
+					GameData.turn = (GameData.turn + 1) % GameData.players.size();
 				}
 			}
 		};
@@ -154,10 +159,10 @@ public class GameState extends BasicGameState implements KeyListener {
 		};
 	}
 	
-	public void processDie() {
+	public static void processDie() {
 		if (Dice.dice1 + Dice.dice2 == 7) {
 			moveRobber = true;
-			robberWarning = new DialogBox(Windows.scWidth/2 - 250, Windows.scHeight/2 - 250, 500, 500, 30, this.state);
+			robberWarning = new DialogBox(Windows.scWidth/2 - 250, Windows.scHeight/2 - 250, 500, 500, 30, thisState);
 			robberWarning.activate();
 			robberWarning.addImage(robImg, Windows.scWidth/2 + 150, Windows.scHeight/2, 200, 200);
 			robberWarning.addString("Move the robber", Windows.scWidth/2, Windows.scHeight/2);
@@ -278,7 +283,7 @@ public class GameState extends BasicGameState implements KeyListener {
 			isClicked = false;
 	}
 	
-	public void endTurn() {
+	public static void endTurn() {
 		if (GameData.turn == GameData.ownIndex) {
 			GameData.turn = (GameData.turn + 1) % GameData.players.size();
 			Actions.endTurn();

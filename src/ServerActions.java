@@ -113,7 +113,7 @@ public class ServerActions {
 	 *            The message received
 	 */
 	public synchronized static void received(int clientId, String message) {
-
+		System.out.println(message);
 		if (message.equals("Collect")) {
 			collectResources();
 			String outMessage = gson.toJson(GameData.players);
@@ -149,55 +149,62 @@ public class ServerActions {
 			NetworkServer.sendToAll("Turn " + GameData.turn);
 		}
 
-		String objectType = "";
-		int jsonIndex = 0;
-		for (int i = 0; !Character.isSpaceChar(message.charAt(i)); i++) {
-			objectType += message.charAt(i);
-			jsonIndex = i + 2;
-		}
-
-		message = message.substring(jsonIndex);
-
-		if (objectType.equals("Building")) {
-			Position inPos = gson.fromJson(message, Position.class);
-			if (Building.build(inPos, clientId) != null)
-				NetworkServer.sendToAll("Building " + clientId + " " + message);
-		} else if (objectType.equals("Upgrade")) {
-			Position inPos = gson.fromJson(message, Position.class);
-			if (Building.getByPosition(inPos).upgrade())
-				NetworkServer.sendToAll("Upgrade " + clientId + inPos);
-		} else if (objectType.equals("Road")) {
-			rStartPos = gson.fromJson(message, Position.class);
-			expectingRoad = clientId;
-		} else if (objectType.equals("Chat")) {
-			NetworkServer.sendToAll("Chat " + clientId + " " + message);
-		} else if (objectType.equals("Trade")) {
-			GameData.tObject = gson.fromJson(message, TradeObject.class);
-			NetworkServer.sendToAll("Trade " + message);
-		} else if (objectType.equals("TradeAccept")) {
-			GameData.tObject = gson.fromJson(message, TradeObject.class);
-			GameData.players.get(
-					GameData.tObject.initPlayer).resources[GameData.tObject.hasType] -= GameData.tObject.has.length;
-			GameData.players.get(
-					GameData.tObject.initPlayer).resources[GameData.tObject.wantsType] += GameData.tObject.wants.length;
-			GameData.players.get(
-					GameData.tObject.acceptPlayer).resources[GameData.tObject.hasType] += GameData.tObject.has.length;
-			GameData.players.get(
-					GameData.tObject.acceptPlayer).resources[GameData.tObject.wantsType] -= GameData.tObject.wants.length;
-			NetworkServer.sendToAll("TradeAccept " + message);
-		} else if (objectType.equals("Name")){
-			System.out.println("Name received");
-			GameData.players.set(clientId, new Player(message, clientId));
-			startIndex++;
-			if (startIndex == GameData.players.size()) {
-				String outMessage = gson.toJson(GameData.players);
-				NetworkServer.sendToAll("Players " + outMessage);
+		else {
+		
+			String objectType = "";
+			int jsonIndex = 0;
+			for (int i = 0; i < message.length() && !Character.isSpaceChar(message.charAt(i)); i++) {
+				objectType += message.charAt(i);
+				jsonIndex = i + 2;
 			}
-		} else if (objectType.equals("Robber")) {
-			System.out.println("Received robber");
-			NetworkServer.sendToAll("Robber " + message);
-		}
+			if (jsonIndex >= message.length()) {
+				System.out.println("ERROR ON LINE: " + message);
+				return;
+			}
+	
+			message = message.substring(jsonIndex);
+	
+			if (objectType.equals("Building")) {
+				Position inPos = gson.fromJson(message, Position.class);
+				if (Building.build(inPos, clientId) != null)
+					NetworkServer.sendToAll("Building " + clientId + " " + message);
+			} else if (objectType.equals("Upgrade")) {
+				Position inPos = gson.fromJson(message, Position.class);
+				if (Building.getByPosition(inPos).upgrade())
+					NetworkServer.sendToAll("Upgrade " + clientId + inPos);
+			} else if (objectType.equals("Road")) {
+				rStartPos = gson.fromJson(message, Position.class);
+				expectingRoad = clientId;
+			} else if (objectType.equals("Chat")) {
+				NetworkServer.sendToAll("Chat " + clientId + " " + message);
+			} else if (objectType.equals("Trade")) {
+				GameData.tObject = gson.fromJson(message, TradeObject.class);
+				NetworkServer.sendToAll("Trade " + message);
+			} else if (objectType.equals("TradeAccept")) {
+				GameData.tObject = gson.fromJson(message, TradeObject.class);
+				GameData.players.get(
+						GameData.tObject.initPlayer).resources[GameData.tObject.hasType] -= GameData.tObject.has.length;
+				GameData.players.get(
+						GameData.tObject.initPlayer).resources[GameData.tObject.wantsType] += GameData.tObject.wants.length;
+				GameData.players.get(
+						GameData.tObject.acceptPlayer).resources[GameData.tObject.hasType] += GameData.tObject.has.length;
+				GameData.players.get(
+						GameData.tObject.acceptPlayer).resources[GameData.tObject.wantsType] -= GameData.tObject.wants.length;
+				NetworkServer.sendToAll("TradeAccept " + message);
+			} else if (objectType.equals("Name")){
+				System.out.println("Name received");
+				GameData.players.set(clientId, new Player(message, clientId));
+				startIndex++;
+				if (startIndex == GameData.players.size()) {
+					String outMessage = gson.toJson(GameData.players);
+					NetworkServer.sendToAll("Players " + outMessage);
+				}
+			} else if (objectType.equals("Robber")) {
+				System.out.println("Received robber");
+				NetworkServer.sendToAll("Robber " + message);
+			}
 
+		}
 	}
 	
 	public static void nameRequest() {
