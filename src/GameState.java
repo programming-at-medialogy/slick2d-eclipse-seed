@@ -221,7 +221,7 @@ public class GameState extends BasicGameState implements KeyListener {
 				tradeBox.activate();
 				int wPadding = 125;
 				int hPadding = 225;
-				sendButtons = new Button[GameData.players.size() - 1];
+				sendButtons = new Button[GameData.players.size()];
 				for (int i = 0; i < adjustButtons.length; i++) {
 					adjustButtons[i] = new Button((i % 5) * wPadding + Windows.scWidth/2 - 2 * wPadding - 80 / 2, (i % 2) * hPadding + 150 - hPadding / 2 - 40/2, 80, 40, 30, (i % 2 == 0) ? "+" : "-", this.state, true) {
 						@Override
