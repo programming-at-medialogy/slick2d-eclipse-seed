@@ -167,7 +167,7 @@ public class GameState extends BasicGameState implements KeyListener {
 		}
 		for (int c=0; c<5; c++){ // for both resource and development cards
 			crdImg[c] = new Image ("resources/r_card_"+(c)+".jpg");
-			devCrdImg[c] = new Image ("resources/r_card_1.jpg");
+			devCrdImg[c] = new Image ("resources/d_card_"+(c)+".jpg");
 		}
 		for(int b = 0; b < cityImg.length; b++) {
 			buildImg[b] = new Image("resources/buildImg" + b + ".png"); //Initializing level 1 building images
@@ -294,7 +294,7 @@ public class GameState extends BasicGameState implements KeyListener {
 			}
 		};
 		
-		Button aiTrade = new Button((int)(Windows.scWidth-buttonWidth*3-buttonWidth*1.3), (int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor-buttonHeight), buttonWidth, buttonHeight, 20, "Global Trade", this) {
+		Button aiTrade = new Button((int)(Windows.scWidth-buttonWidth*3-buttonWidth*1.6), (int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor-buttonHeight), buttonWidth, buttonHeight, 20, "Global Trade", this) {
 			@Override
 			public void isClicked() {
 				if (GameData.turn == GameData.ownIndex) {
