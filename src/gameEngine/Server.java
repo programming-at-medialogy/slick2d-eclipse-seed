@@ -35,7 +35,7 @@ public class Server {
 	Server() {
 
 		ran = new Random();
-		roleCards = new ArrayList<>(Arrays.asList("Medic", "Dispatcher", "Researcher", "Scientist","Consistency planner", "Operations expert"));
+		roleCards = new ArrayList<>(Arrays.asList("Medic", "Field Director","Dispatcher", "Researcher", "Scientist","Consistency planner", "Operations expert"));
 		Collections.shuffle(roleCards);
 
 		infectionDeck = new ArrayList<>(Arrays.asList("Sydney", "Atlanta", "Hong Kong",
@@ -72,7 +72,7 @@ public class Server {
 		citiesOnBoard.add(new City("Paris", 1018, 380, 0));
 		citiesOnBoard.add(new City("New York", 574, 384, 0));
 		citiesOnBoard.add(new City("Kolkata", 1426, 490, 0));
-		citiesOnBoard.add(new City("Atlanta", 428, 400, 2));
+		citiesOnBoard.add(new City("Atlanta", 428, 400, 0));
 		citiesOnBoard.add(new City("Tokyo", 1676, 368, 0));
 
 		// new empty array list where program is going to place drawn cards.
@@ -113,6 +113,7 @@ public class Server {
 		for (int i = 0; i < amountOfPlayerCards; i++) {
 			drawnPlayerCards.add(playerDeck.get(0));
 			playerDeck.remove(0);
+			
 		}
 	}
 	// Finds city index from citiesOnBoard array according input String city 
