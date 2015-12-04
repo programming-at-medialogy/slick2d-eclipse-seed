@@ -80,13 +80,14 @@ public class Server {
 		// System.out.println(drawnPlayerCards.toString());
 		System.out.println(citiesOnBoard.get(13).getcityPosX());
 		//draws and infects amount of cards
-		drawInfectionCards(5);
+		drawInfectionCards(9);
+		asignPlayerCards (4);
 	}
 
 	// This function should be at the server
 	// Draws number of city cards and calls infect function on them
 	public void drawInfectionCards(int amountOfCardsDrawn) {
-		System.out.println("Cards drawn: " + amountOfCardsDrawn);
+		//System.out.println("Cards drawn: " + amountOfCardsDrawn);
 		for (int i = 0; i < amountOfCardsDrawn; i++) {
 			usedInfecCards.add(infectionDeck.get(0));
 			infectCities();
@@ -113,7 +114,7 @@ public class Server {
 		for (int i = 0; i < amountOfPlayerCards; i++) {
 			drawnPlayerCards.add(playerDeck.get(0));
 			playerDeck.remove(0);
-			
+			System.out.println(amountOfPlayerCards + " player cards are drawn. It is :" + drawnPlayerCards.toString());
 		}
 	}
 	// Finds city index from citiesOnBoard array according input String city 
