@@ -256,12 +256,10 @@ public class ServerActions {
 			} else if (objectType.equals("Upgrade")) {
 				Position inPos = gson.fromJson(message, Position.class);
 				if (Building.getByPosition(inPos).upgrade()) {
-					NetworkServer.sendToAll("Upgrade " + clientId + inPos);
-					if (!isInit) {
-						GameData.players.get(clientId).resources[ResourceType.CORN.toInt()]-=2;
-						GameData.players.get(clientId).resources[ResourceType.ROCK.toInt()]-=3;
-						updatePlayerResources();
-					}
+					NetworkServer.sendToAll("Upgrade " + message);
+					GameData.players.get(clientId).resources[ResourceType.CORN.toInt()]-=2;
+					GameData.players.get(clientId).resources[ResourceType.ROCK.toInt()]-=3;
+					updatePlayerResources();
 				}
 			} else if (objectType.equals("Road")) {
 				rStartPos = gson.fromJson(message, Position.class);

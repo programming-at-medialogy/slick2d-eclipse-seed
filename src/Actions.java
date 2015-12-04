@@ -209,7 +209,7 @@ public class Actions {
 						&& player == Building.getBuildings().get(i).PLAYER
 						&& Building.getBuildings().get(i).isUpgraded() == false) {
 					Building.getBuildings().get(i).upgrade();
-					gson = new Gson();
+					//gson = new Gson();
 					String message = gson.toJson(pos);
 					NetworkClient.sendMessage("Upgrade " + message);
 				}
@@ -340,6 +340,11 @@ public class Actions {
 						GameData.tObject.acceptPlayer).resources[GameData.tObject.hasType] += GameData.tObject.has.length;
 				GameData.players.get(
 						GameData.tObject.acceptPlayer).resources[GameData.tObject.wantsType] -= GameData.tObject.wants.length;
+			} else if (objectType.equals("Upgrade")) {
+				message = message.substring(jsonIndex);
+				Position position = gson.fromJson(message, Position.class);
+				Building.getByPosition(position).upgrade();
+				System.out.println("Upgrade this nigger");
 			} 
 			
 			else {
@@ -385,11 +390,6 @@ public class Actions {
 					startR = gson.fromJson(message, Position.class);
 					expR = playerID;
 					System.out.println("Road");
-				} else if (objectType.equals("Upgrade")) {
-					message = message.substring(jsonIndex);
-					Position position = gson.fromJson(message, Position.class);
-					Building.getByPosition(position).upgrade();
-					System.out.println("Upgrade this nigger");
 				} else if (objectType.equals("Chat")) {
 					System.out.println("Chat");
 					message = message.substring(jsonIndex);

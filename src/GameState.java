@@ -82,6 +82,7 @@ public class GameState extends BasicGameState implements KeyListener {
 	Button[] sendButtons;
 	
     Random rand = new Random();
+	static boolean isUpgrading;
     
     static TrueTypeFont tradeFont;
     
@@ -191,7 +192,7 @@ public class GameState extends BasicGameState implements KeyListener {
 		Button buyRoad = new Button(Windows.scWidth-aButtonWidth,(int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor)-aButtonHeight*4, aButtonWidth, aButtonHeight, butImg[0], butImg[2], butImg[1], this) {
 			@Override
 			public void isClicked() {
-				if (roadsPlaced == 0 || !isInit)
+				if ((roadsPlaced == 0 || !isInit) && GameData.turn == GameData.ownIndex)
 					isPlacingRoad = true;
 			}
 		};
@@ -205,6 +206,7 @@ public class GameState extends BasicGameState implements KeyListener {
 		Button upgCity = new Button(Windows.scWidth-aButtonWidth, (int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor)-aButtonHeight*2, aButtonWidth, aButtonHeight, butImg[6], butImg[8], butImg[7], this) {
 			@Override
 			public void isClicked() {
+				isUpgrading = true;
 			}
 		};
 		Button devCard = new Button(Windows.scWidth-aButtonWidth, (int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor)-aButtonHeight, aButtonWidth, aButtonHeight, butImg[9], butImg[10], butImg[11], this) {
@@ -487,6 +489,15 @@ public class GameState extends BasicGameState implements KeyListener {
 				//}
 				//else 
 					//buildingWarning.activate();
+			} 
+		} else if (Mouse.isButtonDown(0) && isUpgrading && !isClicked) {
+			Position bPos = Position.findPosition(Mouse.getX() - Windows.scWidth/2, Windows.scHeight - Mouse.getY() - Windows.scHeight/2);
+			
+			if (bPos != null) {
+				if (!isInit)
+					Actions.upgradeCity(bPos, GameData.ownIndex);
+				
+				isUpgrading = false;
 			} 
 		}
 		
