@@ -35,7 +35,7 @@ public class Building {
 	 */
 	public static Building build(Position inPos, int player) {
 		// error checking
-		if (canBuild(inPos)) {
+		if (canBuild(inPos, player)) {
 			System.out.println("Building here:    " + inPos.DIVISION + ", " + inPos.INDEX);
 			Building building = new Building(inPos, player);
 			GameData.buildings.add(building);
@@ -66,12 +66,12 @@ public class Building {
 	 * @param inPos the position to be checked
 	 * @return true if a building can be built; otherwise false
 	 */
-	public static boolean canBuild(Position inPos) {
+	public static boolean canBuild(Position inPos, int playerIndex) {
 		if (getBuildingPositions() != null && Position.getLength(getBuildingPositions(), inPos) < 2)
 			return false;
 		
 		for (int i = 0; i < GameData.roads.size(); i++) {
-			if (GameData.roads.get(i).PLAYER_INDEX == GameData.ownIndex) {
+			if (GameData.roads.get(i).PLAYER_INDEX == playerIndex) {
 				if (Position.comparePosition(GameData.roads.get(i).start, inPos) ||
 						Position.comparePosition(GameData.roads.get(i).end, inPos))
 					return true;
