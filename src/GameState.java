@@ -360,13 +360,13 @@ public class GameState extends BasicGameState implements KeyListener {
 				pointFont = Resource.getFont("pik", 25);
 				Color color = new Color(0,0,0);
 				if(i == 0){
-					color = new Color(255,140,0);
+					color = new Color(204,149,40);
 				} else if(i == 1){
-					color = new Color(0,0,255);
+					color = new Color(81,162,218);
 				} else if(i == 2){
-					color = new Color(255,0,0);
+					color = new Color(232,73,66);
 				} else if(i == 3){
-					color = new Color(0,255,0);
+					color = new Color(161,228,71);
 				}
 				tempFont.drawString(Windows.scWidth/6 - tempFont.getWidth(GameData.players.get(i).getName())/2, 20, GameData.players.get(i).getName()+ "'s turn", color);
 			}
