@@ -143,15 +143,15 @@ public class Server {
 		{
 			serverSocket = new ServerSocket(9000);
 			System.out.println("Server is running");
-			ArrayList<String> clients = new ArrayList<String>();
-			while(true) {
+			//ArrayList<String> clients = new ArrayList<String>();
+			//while(true) {
 				clientSocket = serverSocket.accept();
 				
-				clients.add(clientSocket);
+				//clients.add(clientSocket);
 				    System.out.println("test");
 				new Thread(new ClientRunnable(clientSocket, server)).start();	
 				
-			}
+			//}
 			
 		}
 		catch(IOException e)
