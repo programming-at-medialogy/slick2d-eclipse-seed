@@ -104,12 +104,22 @@ public class Actions {
 	static void initiateTrade(TradeObject trade) {
 		// Method to use when the player wants to trade with other players
 		// Check if player have funds
+		boolean isEmpty = true;
 		for (int i = 0; i < trade.has.length; i++) {
 			if (GameData.players.get(GameData.ownIndex).resources[i] < trade.has[i]) {
 				System.out.println("Error in trade");
 				GameState.declinedTrade();
 				return;
 			}
+			
+			if (trade.has[i] != 0 || trade.wants[i] != 0)
+				isEmpty = false;
+		}
+		
+		if (isEmpty) {
+			System.out.println("Trade object is empty");
+			GameState.declinedTrade();
+			return;
 		}
 		
 		String message = gson.toJson(trade);
@@ -127,19 +137,12 @@ public class Actions {
 		for (int i = 0; i < GameData.players.get(0).resources.length; i++) {
 			if (GameData.players.get(GameData.ownIndex).resources[i] < GameData.tObject.wants[i]) {
 				System.out.println("You do not have enough resources!");
+				NetworkClient.sendMessage("TradeDecline");
 				return;
 			}
 		}
 		
 		NetworkClient.sendMessage("TradeAccept");
-		/*
-		int type = GameData.tObject.wants[0];
-		if (GameData.players.get(GameData.ownIndex).resources[type] >= GameData.tObject.wants.length) {
-			GameData.tObject.acceptPlayer = GameData.ownIndex;
-			String message = gson.toJson(GameData.tObject);
-			// Send message to server
-			NetworkClient.sendMessage("TradeAccept");
-		}*/
 	}
 	
 	static void declineTrade() {

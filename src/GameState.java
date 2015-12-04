@@ -217,54 +217,54 @@ public class GameState extends BasicGameState implements KeyListener {
 		Button trade = new Button((int)(Windows.scWidth-buttonWidth*2-buttonWidth*1.3), (int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor-buttonHeight), buttonWidth, buttonHeight, 20, "Trade", this) {
 			@Override
 			public void isClicked() {
-				isInitializingTrade = true;
-				tradeBox.activate();
-				int wPadding = 125;
-				int hPadding = 225;
-				sendButtons = new Button[GameData.players.size()];
-				for (int i = 0; i < adjustButtons.length; i++) {
-					adjustButtons[i] = new Button((i % 5) * wPadding + Windows.scWidth/2 - 2 * wPadding - 80 / 2, (i % 2) * hPadding + 150 - hPadding / 2 - 40/2, 80, 40, 30, (i % 2 == 0) ? "+" : "-", this.state, true) {
-						@Override
-						public void isClicked() {
-							if (this.message.equals("+")) {
-								addTResource(this);
-							} else {
-								removeTResource(this);
-							}
-						}
-					};
-					adjustRecButtons[i] = new Button((i % 5) * wPadding + Windows.scWidth/2 - 2 * wPadding - 80 / 2, (i % 2) * hPadding + 150 + hPadding + 100 - hPadding / 2 - 40/2, 80, 40, 30, (i % 2 == 0) ? "+" : "-", this.state, true) {
-						@Override
-						public void isClicked() {
-							if (this.message.equals("+")) {
-								addTResource(this);
-							} else {
-								removeTResource(this);
-							}
-						}
-					};
-				}
-				
-				for (int i = 0; i < GameData.players.size(); i++) {
-					System.out.println("i: " + i + " ownIndex: " + GameData.ownIndex);
-					if (i != GameData.ownIndex) {
-						sendButtons[i] = new Button(i * Windows.scWidth / 7 + Windows.scWidth / 7, Windows.scHeight - 100, tradeFont.getWidth("Send to " + GameData.players.get(i).getName()) + 20, 40, 30, "Send to " + GameData.players.get(i).getName(), this.state, true) {
+				if (GameData.turn == GameData.ownIndex) {
+					isInitializingTrade = true;
+					tradeBox.activate();
+					int wPadding = 125;
+					int hPadding = 225;
+					sendButtons = new Button[GameData.players.size()];
+					for (int i = 0; i < adjustButtons.length; i++) {
+						adjustButtons[i] = new Button((i % 5) * wPadding + Windows.scWidth/2 - 2 * wPadding - 80 / 2, (i % 2) * hPadding + 150 - hPadding / 2 - 40/2, 80, 40, 30, (i % 2 == 0) ? "+" : "-", this.state, true) {
 							@Override
 							public void isClicked() {
-								sendTradeRequest(this);
+								if (this.message.equals("+")) {
+									addTResource(this);
+								} else {
+									removeTResource(this);
+								}
 							}
 						};
-					} else {
-						cancleButton = new Button(i * Windows.scWidth / 7 + Windows.scWidth / 7, Windows.scHeight - 100, tradeFont.getWidth("Cancle") + 20, 40, 30, "Cancle", this.state, true) {
+						adjustRecButtons[i] = new Button((i % 5) * wPadding + Windows.scWidth/2 - 2 * wPadding - 80 / 2, (i % 2) * hPadding + 150 + hPadding + 100 - hPadding / 2 - 40/2, 80, 40, 30, (i % 2 == 0) ? "+" : "-", this.state, true) {
 							@Override
 							public void isClicked() {
-								cancleTrade();
+								if (this.message.equals("+")) {
+									addTResource(this);
+								} else {
+									removeTResource(this);
+								}
 							}
 						};
 					}
+					
+					for (int i = 0; i < GameData.players.size(); i++) {
+						System.out.println("i: " + i + " ownIndex: " + GameData.ownIndex);
+						if (i != GameData.ownIndex) {
+							sendButtons[i] = new Button(i * Windows.scWidth / 7 + Windows.scWidth / 7, Windows.scHeight - 100, tradeFont.getWidth("Send to " + GameData.players.get(i).getName()) + 20, 40, 30, "Send to " + GameData.players.get(i).getName(), this.state, true) {
+								@Override
+								public void isClicked() {
+									sendTradeRequest(this);
+								}
+							};
+						} else {
+							cancleButton = new Button(i * Windows.scWidth / 7 + Windows.scWidth / 7, Windows.scHeight - 100, tradeFont.getWidth("Cancel") + 20, 40, 30, "Cancel", this.state, true) {
+								@Override
+								public void isClicked() {
+									cancleTrade();
+								}
+							};
+						}
+					}
 				}
-				
-				
 			}
 		};
 		Button rollD = new Button((int)(Windows.scWidth-buttonWidth-buttonWidth*1.2),(int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor-buttonHeight), buttonWidth, buttonHeight, 20, "Roll Dice", this) {
@@ -674,7 +674,7 @@ public class GameState extends BasicGameState implements KeyListener {
 	private void sendTradeRequest(Button button) {
 		for (int i = 0; i < sendButtons.length; i++) {
 			if (button == sendButtons[i]) {
-				TradeObject t = new TradeObject(trading, tradingRec, GameData.ownIndex, i);
+				TradeObject t = new TradeObject(tradingRec, trading, GameData.ownIndex, i);
 				Actions.initiateTrade(t);
 				break;
 			}
@@ -731,7 +731,6 @@ public class GameState extends BasicGameState implements KeyListener {
 
 	public static void declineTrade() {
 		isChoosingTrade = false;
-		
 		tradeChooseBox.deactivate();
 		acceptTrade.remove(true);
 		declineTrade.remove(true);
@@ -742,12 +741,13 @@ public class GameState extends BasicGameState implements KeyListener {
 
 	public static void acceptTrade() {
 		isChoosingTrade = false;
-		
 		tradeChooseBox.deactivate();
 		acceptTrade.remove(true);
 		declineTrade.remove(true);
 		tradeChooseBox.removeString();
 		tradeChooseBox.removeString();
+		
+		
 		Actions.acceptTrade();
 	}
 	
