@@ -69,7 +69,15 @@ public class Building {
 	public static boolean canBuild(Position inPos) {
 		if (getBuildingPositions() != null && Position.getLength(getBuildingPositions(), inPos) < 2)
 			return false;
-		return true;
+		
+		for (int i = 0; i < GameData.roads.size(); i++) {
+			if (GameData.roads.get(i).PLAYER_INDEX == GameData.ownIndex) {
+				if (Position.comparePosition(GameData.roads.get(i).start, inPos) ||
+						Position.comparePosition(GameData.roads.get(i).end, inPos))
+					return true;
+			}
+		}
+		return false;
 	}
 	
 	/**
