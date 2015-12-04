@@ -58,7 +58,7 @@ public class ServerActions {
 								GameData.players.get(i).resourceAmount += 2;
 
 							}
-							if (nearbyHexagons[k].TYPE != ResourceType.DESERT && !nearbyHexagons[k].isRobbed()) {
+							else if (nearbyHexagons[k].TYPE != ResourceType.DESERT && !nearbyHexagons[k].isRobbed()) {
 								GameData.players.get(i).resources[nearbyHexagons[k].TYPE.toInt()]++;
 								GameData.players.get(i).resourceAmount++;
 							}
@@ -276,6 +276,7 @@ public class ServerActions {
 				}
 			} else if (objectType.equals("Robber")) {
 				System.out.println("Received robber");
+				Hexagon.getHexagons()[Integer.parseInt(message)].rob();
 				NetworkServer.sendToAll("Robber " + message);
 			} else if (objectType.equals("Trade")) {
 				//message = message.substring(jsonIndex);
