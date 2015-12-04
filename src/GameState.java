@@ -77,11 +77,19 @@ public class GameState extends BasicGameState implements KeyListener {
 	static DialogBox tradeAcceptBox;
 	static DialogBox tradeDeclineBox;
 	static DialogBox tradeChooseBox;
+	static DialogBox tradeAIBox;
 	Button[] adjustButtons;
 	Button[] adjustRecButtons;
 	Button[] sendButtons;
 	
     Random rand = new Random();
+	public static boolean isInitializingAITrade;
+	public static Button[] adjustAIButtons;
+	public static int[] tradingAI;
+	public static Button[] adjustAIRecButtons;
+	public static int[] tradingAIRec;
+	public static Button sendAIButton;
+	public static Button cancelAIButton;
 	static boolean isUpgrading;
     
     static TrueTypeFont tradeFont;
@@ -98,12 +106,23 @@ public class GameState extends BasicGameState implements KeyListener {
 	public void init(GameContainer gc, StateBasedGame s) throws SlickException {	
 		trading = new int[5];
 		tradingRec = new int[5];
+		tradingAI = new int[5];
+		tradingAIRec = new int[5];
+		
+		/*for (int i = 0; i < 5; i++) {
+			tradingAI
+		}*/
 		tradeFont = Resource.getFont("std", 30);
 		
 		tradeBox = new DialogBox(0, 0, Windows.scWidth, Windows.scHeight, 40, this);
 		tradeBox.deactivate();
 		tradeBox.addString("You want: ", 200, 125 / 2 + 40);
 		tradeBox.addString("You will give: ", 200, 225 / 2 + 40 + 225 + 100);
+		
+		tradeAIBox = new DialogBox(0, 0, Windows.scWidth, Windows.scHeight, 40, this);
+		tradeAIBox.deactivate();
+		tradeAIBox.addString("You will get: ", 200, 125 / 2 + 40);
+		tradeAIBox.addString("You will give", 200, 225 / 2 + 40 + 225 + 100);
 		
 		tradeAcceptBox = new DialogBox(Windows.scWidth/2 - 250, Windows.scHeight/2 - 250, 500, 500, 30, this);
 		tradeAcceptBox.addString("Trade accepted", Windows.scWidth/2, Windows.scHeight/2);
@@ -116,7 +135,9 @@ public class GameState extends BasicGameState implements KeyListener {
 		tradeDeclineBox.deactivate();
 		
 		adjustButtons = new Button[10];
+		adjustAIButtons = new Button[10];
 		adjustRecButtons = new Button[10];
+		adjustAIRecButtons = new Button[10];
 		
 		thisState = this;
 		tempFont = Resource.getFont("std", 30);
@@ -272,6 +293,56 @@ public class GameState extends BasicGameState implements KeyListener {
 				}
 			}
 		};
+		
+		Button aiTrade = new Button((int)(Windows.scWidth-buttonWidth*3-buttonWidth*1.3), (int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor-buttonHeight), buttonWidth, buttonHeight, 20, "Global Trade", this) {
+			@Override
+			public void isClicked() {
+				if (GameData.turn == GameData.ownIndex) {
+					isInitializingAITrade = true;
+					tradeAIBox.activate();
+					int wPadding = 125;
+					int hPadding = 225;
+					//sendAIButton = new Button[GameData.players.size()];
+					for (int i = 0; i < adjustButtons.length; i++) {
+						adjustAIButtons[i] = new Button((i % 5) * wPadding + Windows.scWidth/2 - 2 * wPadding - 80 / 2, (i % 2) * hPadding + 150 - hPadding / 2 - 40/2, 80, 40, 30, (i % 2 == 0) ? "+" : "-", this.state, true) {
+							@Override
+							public void isClicked() {
+								if (this.message.equals("+")) {
+									addAITResource(this);
+								} else {
+									removeAITResource(this);
+								}
+							}
+						};
+						adjustAIRecButtons[i] = new Button((i % 5) * wPadding + Windows.scWidth/2 - 2 * wPadding - 80 / 2, (i % 2) * hPadding + 150 + hPadding + 100 - hPadding / 2 - 40/2, 80, 40, 30, (i % 2 == 0) ? "+" : "-", this.state, true) {
+							@Override
+							public void isClicked() {
+								if (this.message.equals("+")) {
+									addAITResource(this);
+								} else {
+									removeAITResource(this);
+								}
+							}
+						};
+					}
+					
+					sendAIButton = new Button(3 * Windows.scWidth / 5, Windows.scHeight - 100, tradeFont.getWidth("Trade") + 20, 40, 30, "Trade", this.state, true) {
+						@Override
+						public void isClicked() {
+							sendTradeAIRequest(this);
+						}
+
+					};
+					
+					cancelAIButton = new Button(1 * Windows.scWidth / 5, Windows.scHeight - 100, tradeFont.getWidth("Cancel") + 20, 40, 30, "Cancel", this.state, true) {
+						@Override
+						public void isClicked() {
+							cancelTradeAIRequest(this);
+						}
+					};
+				}
+			}
+		};
 		Button rollD = new Button((int)(Windows.scWidth-buttonWidth-buttonWidth*1.2),(int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor-buttonHeight), buttonWidth, buttonHeight, 20, "Roll Dice", this) {
 			@Override
 			public void isClicked() {	
@@ -382,6 +453,18 @@ public class GameState extends BasicGameState implements KeyListener {
 				tradeFont.drawString(i * wPadding + Windows.scWidth/2 - 2 * wPadding - tradeFont.getWidth("" + trading[i]) / 2, 150 - tradeFont.getHeight("" + trading[i]) / 2 + hPadding / 2 + 50, "" + trading[i]);
 				crdImg[i].draw(i * wPadding + Windows.scWidth/2 - 2 * wPadding - (wPadding - 5) / 2, 150 - (hPadding - 25) / 2 + hPadding + 125, wPadding - 5, hPadding - 25);
 				tradeFont.drawString(i * wPadding + Windows.scWidth/2 - 2 * wPadding - tradeFont.getWidth("" + trading[i]) / 2, 150 - tradeFont.getHeight("" + tradingRec[i]) / 2 + hPadding / 2 + 50  + hPadding + 125, "" + tradingRec[i]);
+			}
+		}
+		
+		if (isInitializingAITrade) {
+			int wPadding = 125;
+			int hPadding = 200;
+			for (int i = 0; i < crdImg.length; i++) {
+				//System.out.println(tradingAI[i]);
+				crdImg[i].draw(i * wPadding + Windows.scWidth/2 - 2 * wPadding - (wPadding - 5) / 2, 150 - (hPadding - 25) / 2, wPadding - 5, hPadding - 25);
+				tradeFont.drawString(i * wPadding + Windows.scWidth/2 - 2 * wPadding - tradeFont.getWidth("" + tradingAI[i]) / 2, 150 - tradeFont.getHeight("" + tradingAI[i]) / 2 + hPadding / 2 + 50, "" + tradingAI[i]);
+				crdImg[i].draw(i * wPadding + Windows.scWidth/2 - 2 * wPadding - (wPadding - 5) / 2, 150 - (hPadding - 25) / 2 + hPadding + 125, wPadding - 5, hPadding - 25);
+				tradeFont.drawString(i * wPadding + Windows.scWidth/2 - 2 * wPadding - tradeFont.getWidth("" + tradingAI[i]) / 2, 150 - tradeFont.getHeight("" + tradingAIRec[i]) / 2 + hPadding / 2 + 50  + hPadding + 125, "" + tradingAIRec[i]);
 			}
 		}
 		
@@ -581,6 +664,8 @@ public class GameState extends BasicGameState implements KeyListener {
 		}
 	}
 	
+	
+	
 	void drawOwnCards(Graphics g){
 		pointFont = Resource.getFont("pik", 25);
 		Color color = new Color(0,0,0);
@@ -686,6 +771,36 @@ public class GameState extends BasicGameState implements KeyListener {
 		System.out.println(message);
 	}
 	
+	public void removeAITResource(Button button) {
+		System.out.println("Removing");
+		//int index = 0;
+		for (int i = 0; i < adjustAIButtons.length; i++) {
+			if (adjustAIButtons[i] == button) {
+				if (tradingAI[i % 5] > 0)
+					tradingAI[i % 5]--;
+				break;
+			} else if (adjustAIRecButtons[i] == button) {
+				if (tradingAIRec[i % 5] > 0)
+					tradingAIRec[i % 5]-=4;
+				break;
+			}
+		}
+	}
+
+	public void addAITResource(Button button) {
+		System.out.println("Adding");
+		//int index = 0;
+		for (int i = 0; i < adjustAIButtons.length; i++) {
+			if (adjustAIButtons[i] == button) {
+				tradingAI[i % 5]++;
+				break;
+			} else if (adjustAIRecButtons[i] == button) {
+				tradingAIRec[i % 5]+=4;
+				break;
+			}
+		}
+	}
+	
 	private void sendTradeRequest(Button button) {
 		for (int i = 0; i < sendButtons.length; i++) {
 			if (button == sendButtons[i]) {
@@ -714,6 +829,8 @@ public class GameState extends BasicGameState implements KeyListener {
 		
 		tradeBox.deactivate();
 	}
+	
+	
 
 	public static void acceptedTrade() {
 		tradeAcceptBox.activate();
@@ -721,6 +838,49 @@ public class GameState extends BasicGameState implements KeyListener {
 	
 	public static void declinedTrade() {
 		tradeDeclineBox.activate();
+	}
+	
+	public static void sendTradeAIRequest(Button button) {
+		TradeObject t = new TradeObject(tradingAIRec, tradingAI, GameData.ownIndex, -1);
+		Actions.initiateTrade(t);
+		
+		isInitializingAITrade = false;
+		
+		if (sendAIButton != null)
+			sendAIButton.remove(true);
+		
+		if (cancelAIButton != null)
+			cancelAIButton.remove(true);
+		
+		tradeAIBox.deactivate();
+		
+		for (int i = 0; i < adjustAIButtons.length; i++) {
+			adjustAIButtons[i].remove(true);
+		}
+		
+		for (int i = 0; i < adjustAIRecButtons.length; i++) {
+			adjustAIRecButtons[i].remove(true);
+		}
+	}
+	
+	public static void cancelTradeAIRequest(Button button) {
+		isInitializingAITrade = false;
+		
+		if (sendAIButton != null)
+			sendAIButton.remove(true);
+		
+		if (cancelAIButton != null)
+			cancelAIButton.remove(true);
+		
+		tradeAIBox.deactivate();
+		
+		for (int i = 0; i < adjustAIButtons.length; i++) {
+			adjustAIButtons[i].remove(true);
+		}
+		
+		for (int i = 0; i < adjustAIRecButtons.length; i++) {
+			adjustAIRecButtons[i].remove(true);
+		}
 	}
 
 	public static void chooseTrade() {
@@ -788,6 +948,22 @@ public class GameState extends BasicGameState implements KeyListener {
 		
 		tradeBox.deactivate();
 	}
+	
+	public void cancleAITrade() {
+		isInitializingAITrade = false;
+		
+		if (sendAIButton != null)
+			sendAIButton.remove(true);
+		
+		for (int i = 0; i < adjustAIButtons.length; i++) {
+			adjustAIButtons[i].remove(true);
+		}
+		
+		for (int i = 0; i < adjustAIRecButtons.length; i++) {
+			adjustAIRecButtons[i].remove(true);
+		}
+	}
+	
 	/**
 	 * Method taking care of the dialogue box when the game is finished. 
 	 * It lists all victor and all the other players

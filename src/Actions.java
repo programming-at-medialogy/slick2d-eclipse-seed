@@ -123,6 +123,21 @@ public class Actions {
 			return;
 		}
 		
+		if (trade.acceptPlayer == -1) {
+			int aWants = 0;
+			int aHas = 0;
+			
+			for (int i = 0; i < trade.has.length; i++) {
+				aHas += trade.has[i];
+				aWants += trade.wants[i];
+			}
+			
+			if (aWants * 4 != aHas) {
+				GameState.declinedTrade();
+				return;
+			}
+		}
+		
 		String message = gson.toJson(trade);
 		NetworkClient.sendMessage("Trade " + message);
 	}

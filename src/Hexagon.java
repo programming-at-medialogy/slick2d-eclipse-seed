@@ -115,7 +115,7 @@ public class Hexagon {
 		
 		float closestX = 0.0f;
 		float closestY = 0.0f;
-		int closestIndex = -1;
+		int closestIndex = 0;
 		for (int i = 0; i < hexagons.length; i++) {
 			if ((Math.sqrt(Math.pow(hexagons[i].getX() - x, 2) + Math.pow(hexagons[i].getY() - y, 2))) <
 				(Math.sqrt(Math.pow(closestX - x, 2) + Math.pow(closestY - y, 2)))) {

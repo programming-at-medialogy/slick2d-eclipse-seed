@@ -281,7 +281,14 @@ public class ServerActions {
 				//message = message.substring(jsonIndex);
 				System.out.println(message);
 				GameData.tObject = gson.fromJson(message, TradeObject.class);
-				NetworkServer.send(GameData.tObject.acceptPlayer ,"Trade " + message);
+				if (GameData.tObject.acceptPlayer == -1) {
+					for (int i = 0; i < GameData.tObject.wants.length; i++) {
+						GameData.players.get(clientId).resources[i] -= GameData.tObject.has[i];
+						GameData.players.get(clientId).resources[i] += GameData.tObject.wants[i];
+					}
+					updatePlayerResources();
+				} else
+					NetworkServer.send(GameData.tObject.acceptPlayer ,"Trade " + message);
 			} 
 			
 			/*
