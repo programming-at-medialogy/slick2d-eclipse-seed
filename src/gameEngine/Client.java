@@ -37,7 +37,7 @@ public class Client extends BasicGame {
 		
 		System.out.println("Player 1 role is: " + player1.getRole());
 		System.out.println("Player 1 is now in city: " + player1.currentCity.toString());
-		server.citiesOnBoard.get(5).setInfectionRate(4);
+		//server.citiesOnBoard.get(5).setInfectionRate(4);
 		for(int i=0; i < 16; i++){
 			if(server.citiesOnBoard.get(i).getInfectionRate() != 0){
 				System.out.println(server.citiesOnBoard.get(i).getcityName()+ " was infected. It's current infection rate is " + server.citiesOnBoard.get(i).getInfectionRate());
