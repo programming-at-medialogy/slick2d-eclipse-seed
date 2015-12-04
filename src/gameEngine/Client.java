@@ -41,7 +41,9 @@ public class Client extends BasicGame {
 		for(int i=0; i < 16; i++){
 			if(server.citiesOnBoard.get(i).getInfectionRate() != 0){
 				System.out.println(server.citiesOnBoard.get(i).getcityName()+ " was infected. It's current infection rate is " + server.citiesOnBoard.get(i).getInfectionRate());
-			}
+			} else if(server.citiesOnBoard.get(i).getInfectionRate() == 0){
+			System.out.println(server.citiesOnBoard.get(i).getcityName()+ " was not infected. It's current infection rate is " + server.citiesOnBoard.get(i).getInfectionRate());
+			} //^prints out the infected cities and the rest of cities' infection rates and whether it was indected or not^
 		}
 	}
 
