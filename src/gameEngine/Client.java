@@ -92,29 +92,50 @@ public class Client extends BasicGame {
 		g.drawImage(player1Img, server.citiesOnBoard.get(server.findCity(player1.getCurrentCity())).getcityPosX(),
 				server.citiesOnBoard.get(server.findCity(player1.getCurrentCity())).getcityPosY());
 
-		// Renders the assigned role card
+		// Cards for player 1
 		if (player1.getRole() == "Medic") {
-			g.drawImage(medic, 26, 700);
+			g.drawImage(medic, 10, 700);
 
 		} else if (player1.getRole() == "Dispatcher") {
-			g.drawImage(dispatcher, 26, 700);
+			g.drawImage(dispatcher, 10, 700);
 
 		} else if (player1.getRole() == "Researcher") {
 
-			g.drawImage(researcher, 26, 700);
+			g.drawImage(researcher, 10, 700);
 
 		} else if (player1.getRole() == "Scientist") {
-			g.drawImage(scientist, 26, 700);
+			g.drawImage(scientist, 10, 700);
 
 		} else if (player1.getRole() == "Consistency planner") {
-			g.drawImage(consistencyPlanner, 26, 700);
+			g.drawImage(consistencyPlanner, 10, 700);
 
 		} else if (player1.getRole() == "Operations expert") {
-			g.drawImage(operationsExpert, 26, 700);
+			g.drawImage(operationsExpert, 10, 700);
 		} else if (player1.getRole() == "Field Director") {
-			g.drawImage(fieldDirector, 26, 700);
+			g.drawImage(fieldDirector, 10, 700);
 		}
+// cards for player 2
+		if (player2.getRole() == "Medic") {
+			g.drawImage(medic, 100, 700);
 
+		} else if (player2.getRole() == "Dispatcher") {
+			g.drawImage(dispatcher, 100, 700);
+
+		} else if (player2.getRole() == "Researcher") {
+
+			g.drawImage(researcher, 100, 700);
+
+		} else if (player2.getRole() == "Scientist") {
+			g.drawImage(scientist, 100, 700);
+
+		} else if (player1.getRole() == "Consistency planner") {
+			g.drawImage(consistencyPlanner, 100, 700);
+
+		} else if (player2.getRole() == "Operations expert") {
+			g.drawImage(operationsExpert, 100, 700);
+		} else if (player2.getRole() == "Field Director") {
+			g.drawImage(fieldDirector, 100, 700);
+		}
 		// System.out.println(Server.citiesOnBoard.get(Server.findCity(player1.getCurrentCity())).getcityPosX());
 		// g.drawImage(fieldDirector, 26, 700);
 		g.drawImage(player2Img, server.citiesOnBoard.get(server.findCity(player1.getCurrentCity())).getcityPosX() - 20,
