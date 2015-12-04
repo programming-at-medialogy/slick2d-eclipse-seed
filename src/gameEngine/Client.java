@@ -38,6 +38,8 @@ public class Client extends BasicGame {
 
 		System.out.println("Player 1 role is: " + player1.getRole());
 		System.out.println("Player 1 is now in city: " + player1.currentCity.toString());
+		System.out.println("4 player cards are drawn. It is :" + server.drawnPlayerCards.toString());
+		
 
 		// server.citiesOnBoard.get(5).setInfectionRate(4);
 		for (int i = 0; i < 16; i++) {

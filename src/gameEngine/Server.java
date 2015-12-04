@@ -114,7 +114,7 @@ public class Server {
 		for (int i = 0; i < amountOfPlayerCards; i++) {
 			drawnPlayerCards.add(playerDeck.get(0));
 			playerDeck.remove(0);
-			System.out.println(amountOfPlayerCards + " player cards are drawn. It is :" + drawnPlayerCards.toString());
+			//System.out.println(amountOfPlayerCards + " player cards are drawn. It is :" + drawnPlayerCards.toString());
 		}
 	}
 	// Finds city index from citiesOnBoard array according input String city 
