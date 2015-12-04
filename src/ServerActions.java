@@ -53,7 +53,7 @@ public class ServerActions {
 					Hexagon[] nearbyHexagons = GameData.buildings.get(j).POSITION.getNearbyHexagons();
 					for (int k = 0; k < nearbyHexagons.length; k++) {
 						if (nearbyHexagons[k].NUMBER == number && !nearbyHexagons[k].isRobbed()) {
-							if (GameData.buildings.get(j).isUpgraded()) {
+							if (nearbyHexagons[k].TYPE != ResourceType.DESERT && GameData.buildings.get(j).isUpgraded() && !nearbyHexagons[k].isRobbed()) {
 								GameData.players.get(i).resources[nearbyHexagons[k].TYPE.toInt()] += 2;
 								GameData.players.get(i).resourceAmount += 2;
 
