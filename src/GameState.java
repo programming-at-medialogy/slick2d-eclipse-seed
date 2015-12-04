@@ -294,7 +294,7 @@ public class GameState extends BasicGameState implements KeyListener {
 			}
 		};
 		
-		Button aiTrade = new Button((int)(Windows.scWidth-buttonWidth*3-buttonWidth*1.6), (int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor-buttonHeight), buttonWidth, buttonHeight, 20, "Global Trade", this) {
+		Button aiTrade = new Button((int)(Windows.scWidth-buttonWidth*3-buttonWidth*1.4), (int)(Windows.scHeight-playerBck.getHeight()*Windows.scFactor-buttonHeight), buttonWidth, buttonHeight, 18, "Global Trade", this) {
 			@Override
 			public void isClicked() {
 				if (GameData.turn == GameData.ownIndex) {
@@ -715,7 +715,6 @@ public class GameState extends BasicGameState implements KeyListener {
 					playerTopOrange.draw(Windows.scWidth/2-playerTopRed.getWidth()/2*Windows.scFactor*0.6f,0,Windows.scFactor*0.6f);
 				} else if(i == 1){
 					playerTopBlue.draw(Windows.scWidth/2-playerTopRed.getWidth()/2*Windows.scFactor*0.6f,0,Windows.scFactor*0.6f);
-				} else if(i == 2){
 					playerTopRed.draw(Windows.scWidth/2-playerTopRed.getWidth()/2*Windows.scFactor*0.6f,0,Windows.scFactor*0.6f);
 				} else if(i == 3){
 					playerTopGreen.draw(Windows.scWidth/2-playerTopRed.getWidth()/2*Windows.scFactor*0.6f,0,Windows.scFactor*0.6f);
@@ -760,9 +759,9 @@ public class GameState extends BasicGameState implements KeyListener {
 			float xPos = building.POSITION.getX();
 			float yPos = building.POSITION.getY();
 			if (building.isUpgraded()) {
-				cityImg[building.PLAYER].draw(xPos + Windows.scWidth/2 - cityImg[building.PLAYER].getWidth()/2 * Windows.scFactor, yPos + Windows.scHeight/2 - cityImg[building.PLAYER].getHeight()/2 * Windows.scFactor);
+				cityImg[building.PLAYER].draw(xPos + Windows.scWidth/2 - cityImg[building.PLAYER].getWidth()/2 * Windows.scFactor -cityImg[1].getHeight()/2*Windows.scFactor, yPos + Windows.scHeight/2 - cityImg[building.PLAYER].getHeight()/2 * Windows.scFactor-cityImg[0].getWidth()*Windows.scFactor);
 			} else {
-				buildImg[building.PLAYER].draw(xPos + Windows.scWidth/2 - buildImg[building.PLAYER].getWidth() / 2, yPos + Windows.scHeight/2 - buildImg[building.PLAYER].getHeight() / 2);
+				buildImg[building.PLAYER].draw(xPos + Windows.scWidth/2 - buildImg[building.PLAYER].getWidth() / 2 , yPos + Windows.scHeight/2 - buildImg[building.PLAYER].getHeight() / 2-buildImg[1].getHeight()/2*Windows.scFactor);
 			}
 		}
 	}
