@@ -157,6 +157,9 @@ public class GameState extends BasicGameState implements KeyListener {
 		for (int a=0; a<13; a++){
 			butImg[a] = new Image("resources/but_"+(a)+".jpg");
 		}
+		for (int i = 0; i < cityImg.length; i++) {
+			cityImg[i] = new Image("resources/cityImg" + i + ".png");
+		}
 		playerTopRed = new Image("resources/playerTopRed.jpg");
 		playerTopGreen = new Image("resources/playerTopGreen.jpg");
 		playerTopBlue = new Image("resources/playerTopBlue.jpg");
