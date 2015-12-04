@@ -477,9 +477,10 @@ public class GameState extends BasicGameState implements KeyListener {
 					if (!isInit)
 						Actions.buyBuilding(bPos, GameData.ownIndex);
 					else {
-						roadsPlaced = 0;
-						Actions.placeBuilding(bPos, GameData.ownIndex);
-						Actions.endTurn();
+						if (Actions.placeBuilding(bPos, GameData.ownIndex)) {
+							roadsPlaced = 0;
+							Actions.endTurn();
+						}
 					}
 					
 					isPlacingBuilding = false;

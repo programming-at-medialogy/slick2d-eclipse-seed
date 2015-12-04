@@ -35,14 +35,15 @@ public class Actions {
 	 * @param player
 	 *            Index of the player
 	 */
-	static void placeBuilding(Position pos, int player) {
+	static boolean placeBuilding(Position pos, int player) {
 
 		Building newBuilding = Building.build(pos, player);
 		if (newBuilding != null) {
 			String message = gson.toJson(pos);
 			NetworkClient.sendMessage("Building " + message);
+			return true;
 		}
-
+		return false;
 	}
 
 	/**
