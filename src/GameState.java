@@ -525,12 +525,12 @@ public class GameState extends BasicGameState implements KeyListener {
 		ListBox.update(this);
 		TextBox.update(this);
 		
-			for(int i = 0; i < GameData.players.size(); i++){
-				if(GameData.players.get(i).hasWon == true && victoryWarning != null){	
-					victoryWarning.activate();
-				}
+		for(int i = 0; i < GameData.players.size(); i++){
+			if(GameData.players.get(i).hasWon == true && victoryWarning != null){	
+				victoryWarning.activate();
 			}
-		
+		}
+	
 		if (instructionWarning != null && instructionWarning.isActive && !isClicked) {
 			if (Mouse.isButtonDown(0))
 				instructionWarning.deactivate();
@@ -970,6 +970,20 @@ public class GameState extends BasicGameState implements KeyListener {
 	 */
 	public static void endGame(){
 		victoryWarning = new DialogBox(Windows.scWidth/2 - 250, Windows.scHeight/2 - 250, 500, 500, 30, thisState);
+		if (GameData.players.get(GameData.ownIndex).points == GameData.players.get(0).tempPoints) {
+			victoryWarning.addString("Victory", Windows.scWidth/2, Windows.scHeight/2 - 200);
+			victoryWarning.addString("Congratulation", Windows.scWidth/2, Windows.scHeight/2 - 200 + tempFont.getHeight("IGF"));
+		} else {
+			victoryWarning.addString("Defeat", Windows.scWidth/2, Windows.scHeight/2 - 200);
+			victoryWarning.addString("Condolences", Windows.scWidth/2, Windows.scHeight/2 - 200 + tempFont.getHeight("IGF"));
+		}
+		
+		for (int i = 0; i < GameData.players.size(); i++) {
+			victoryWarning.addString("Ranking", Windows.scWidth/2, Windows.scHeight/2 - 200 + (2*tempFont.getHeight("IGF")));	
+			victoryWarning.addString("Name: " + GameData.players.get(i).getName() + " Points: " + GameData.players.get(i).points, Windows.scWidth/2, Windows.scHeight/2 - 200 + ((i+3)*tempFont.getHeight("IGF")));
+		}
+		
+		/*
 		for(int i = 0; i < GameData.players.size(); i ++){
 			if(GameData.players.get(i).points == GameData.players.get(i).tempPoints){
 					victoryWarning.addString("Victory", Windows.scWidth/2, Windows.scHeight/2 - 200);
@@ -980,6 +994,6 @@ public class GameState extends BasicGameState implements KeyListener {
 			}
 			victoryWarning.addString("Ranking", Windows.scWidth/2, Windows.scHeight/2 - 200 + (2*tempFont.getHeight("IGF")));	
 			victoryWarning.addString("Name: " + GameData.players.get(i).getName() + " Points: " + GameData.players.get(i).points, Windows.scWidth/2, Windows.scHeight/2 - 200 + ((i+3)*tempFont.getHeight("IGF")));
-		}
+		}*/
 	}
 }
