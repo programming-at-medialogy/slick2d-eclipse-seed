@@ -83,7 +83,7 @@ public class Client extends BasicGame {
 
 			int maxFPS = 60;// initialising frame rate per second
 			AppGameContainer appgc;
-			appgc = new AppGameContainer(new Client("Simple Slick Game"));
+			appgc = new AppGameContainer(new Client("Pandemic"));
 			appgc.setTargetFrameRate(maxFPS);// setting fps
 			appgc.setDisplayMode(boardWidth, boardHight, false);
 			appgc.start();
