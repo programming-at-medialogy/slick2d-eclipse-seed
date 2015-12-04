@@ -72,7 +72,7 @@ public class Server {
 		citiesOnBoard.add(new City("Paris", 1018, 380, 0));
 		citiesOnBoard.add(new City("New York", 574, 384, 0));
 		citiesOnBoard.add(new City("Kolkata", 1426, 490, 0));
-		citiesOnBoard.add(new City("Atlanta", 428, 400, 2));
+		citiesOnBoard.add(new City("Atlanta", 428, 400, 0));
 		citiesOnBoard.add(new City("Tokyo", 1676, 368, 0));
 
 		// new empty array list where program is going to place drawn cards.
