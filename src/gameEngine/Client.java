@@ -54,15 +54,15 @@ public class Client extends BasicGame {
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		
-		Image fieldDirector = new Image("images/fieldDirector.png"); //unused
-		Image quarantineSpecialist = new Image("images/quarantineSpecialist.png"); //unused
+		//Image fieldDirector = new Image("images/fieldDirector.png"); //unused
+		//Image quarantineSpecialist = new Image("images/quarantineSpecialist.png"); //unused
 		//need to create images for the 6 role cards
-		//Image medic = new Image("images/medic.png");
-		//Image dispatcher = new Image("images/dispatcher.png");
-		//Image researcher = new Image("images/researcher.png");
-		//Image scientist = new Image("images/scientist.png");
-		//Image cosistencyPlanner = new Image("images/consistencyPlanner.png");
-		//Image operationsExpert = new Image("images/operationsExpert.png");
+		Image medic = new Image("images/medic.png");
+		Image dispatcher = new Image("images/dispatcher.png");
+		Image researcher = new Image("images/researcher.png");
+		Image scientist = new Image("images/scientist.png");
+		Image consistencyPlanner = new Image("images/consistencyPlanner.png");
+		Image operationsExpert = new Image("images/operationsExpert.png");
 		Image player1Img = new Image("images/player1.png");
 		Image player2Img = new Image("images/player2.png");
 		Image background = new Image("images/board.jpg");// background image
@@ -71,8 +71,30 @@ public class Client extends BasicGame {
 	
 		g.drawImage(player1Img, server.citiesOnBoard.get(server.findCity(player1.getCurrentCity())).getcityPosX() , server.citiesOnBoard.get(server.findCity(player1.getCurrentCity())).getcityPosY());
 		
+		
+		//Renders the assigned role card
+		if(player1.getRole() == "Medic"){
+			g.drawImage(medic, 26, 700);
+	
+		}else if(player1.getRole() == "Dispatcher"){
+			g.drawImage(dispatcher, 26, 700);
+	
+		}else if(player1.getRole() == "Researcher"){
+		
+			g.drawImage(researcher, 26, 700);
+	
+		}else if(player1.getRole() == "Scientist"){
+			g.drawImage(scientist, 26, 700);
+	
+		}else if(player1.getRole() == "Consistency planner"){
+			g.drawImage(consistencyPlanner, 26, 700);
+	
+		}else if(player1.getRole() == "Operations expert"){
+			g.drawImage(operationsExpert, 26, 700);
+		}
+		
 		//System.out.println(Server.citiesOnBoard.get(Server.findCity(player1.getCurrentCity())).getcityPosX());
-		g.drawImage(fieldDirector, 26, 700);
+		//g.drawImage(fieldDirector, 26, 700);
 		//g.drawImage(player2Img, 396, 354);
 		g.setColor(Color.white);
 		g.fillOval(circleWidth, circleHeight, radius, radius);
