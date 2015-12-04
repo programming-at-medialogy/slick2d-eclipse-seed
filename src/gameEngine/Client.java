@@ -76,7 +76,7 @@ public class Client extends BasicGame {
 		//Image quarantineSpecialist = new Image("images/quarantineSpecialist.png"); //unused
 		//need to create images for the 6 role cards
 		Image field = new Image("images/medic.png");
-
+		Image cubeImg = new Image("images/cube.png");
 		Image dispatcher = new Image("images/dispatcher.png");
 		Image researcher = new Image("images/researcher.png");
 		Image scientist = new Image("images/scientist.png");
@@ -86,10 +86,16 @@ public class Client extends BasicGame {
 		Image player2Img = new Image("images/player2.png");
 		Image background = new Image("images/board.jpg");// background image
 		g.drawImage(background, 0, 0);// rendering background
-
-		// Draw a player according vity positio !!!not complete!!!
-
+		
+	
+		
+		//infection cube
+		
+		g.drawImage(cubeImg, server.citiesOnBoard.get(server.findCity(player1.getCurrentCity())).getcityPosX(),
+				server.citiesOnBoard.get(server.findCity(player1.getCurrentCity())).getcityPosY());
 		g.drawImage(player1Img, server.citiesOnBoard.get(server.findCity(player1.getCurrentCity())).getcityPosX(),
+				server.citiesOnBoard.get(server.findCity(player1.getCurrentCity())).getcityPosY());
+		g.drawImage(player2Img, server.citiesOnBoard.get(server.findCity(player1.getCurrentCity())).getcityPosX() - 20,
 				server.citiesOnBoard.get(server.findCity(player1.getCurrentCity())).getcityPosY());
 
 		// Cards for player 1
@@ -138,9 +144,7 @@ public class Client extends BasicGame {
 		}
 		// System.out.println(Server.citiesOnBoard.get(Server.findCity(player1.getCurrentCity())).getcityPosX());
 		// g.drawImage(fieldDirector, 26, 700);
-		g.drawImage(player2Img, server.citiesOnBoard.get(server.findCity(player1.getCurrentCity())).getcityPosX() - 20,
-				server.citiesOnBoard.get(server.findCity(player1.getCurrentCity())).getcityPosY());
-
+		
 		//Draw a player according vity positio !!!not complete!!!
 	
 		g.drawImage(player1Img, server.citiesOnBoard.get(server.findCity(player1.getCurrentCity())).getcityPosX() , server.citiesOnBoard.get(server.findCity(player1.getCurrentCity())).getcityPosY());
