@@ -39,7 +39,7 @@ public class Building {
 			System.out.println("Building here:    " + inPos.DIVISION + ", " + inPos.INDEX);
 			Building building = new Building(inPos, player);
 			GameData.buildings.add(building);
-			Road.longestRoad();
+			Road.longestRoad(player);
 			GameData.players.get(player).addPoint();
 			System.out.println("Player has " + GameData.players.get(player).points + " points");
 			return building;

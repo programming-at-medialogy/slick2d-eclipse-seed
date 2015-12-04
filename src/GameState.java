@@ -101,8 +101,8 @@ public class GameState extends BasicGameState implements KeyListener {
 		
 		tradeBox = new DialogBox(0, 0, Windows.scWidth, Windows.scHeight, 40, this);
 		tradeBox.deactivate();
-		tradeBox.addString("Others: ", 200, 125 / 2 + 40);
-		tradeBox.addString("You: ", 200, 225 / 2 + 40 + 225 + 100);
+		tradeBox.addString("You want: ", 200, 125 / 2 + 40);
+		tradeBox.addString("You will give: ", 200, 225 / 2 + 40 + 225 + 100);
 		
 		tradeAcceptBox = new DialogBox(Windows.scWidth/2 - 250, Windows.scHeight/2 - 250, 500, 500, 30, this);
 		tradeAcceptBox.addString("Trade accepted", Windows.scWidth/2, Windows.scHeight/2);
@@ -249,14 +249,14 @@ public class GameState extends BasicGameState implements KeyListener {
 					for (int i = 0; i < GameData.players.size(); i++) {
 						System.out.println("i: " + i + " ownIndex: " + GameData.ownIndex);
 						if (i != GameData.ownIndex) {
-							sendButtons[i] = new Button(i * Windows.scWidth / 7 + Windows.scWidth / 7, Windows.scHeight - 100, tradeFont.getWidth("Send to " + GameData.players.get(i).getName()) + 20, 40, 30, "Send to " + GameData.players.get(i).getName(), this.state, true) {
+							sendButtons[i] = new Button(i * Windows.scWidth / 5, Windows.scHeight - 100, tradeFont.getWidth("Send to " + GameData.players.get(i).getName()) + 20, 40, 30, "Send to " + GameData.players.get(i).getName(), this.state, true) {
 								@Override
 								public void isClicked() {
 									sendTradeRequest(this);
 								}
 							};
 						} else {
-							cancleButton = new Button(i * Windows.scWidth / 7 + Windows.scWidth / 7, Windows.scHeight - 100, tradeFont.getWidth("Cancel") + 20, 40, 30, "Cancel", this.state, true) {
+							cancleButton = new Button(i * Windows.scWidth / 5, Windows.scHeight - 100, tradeFont.getWidth("Cancel") + 20, 40, 30, "Cancel", this.state, true) {
 								@Override
 								public void isClicked() {
 									cancleTrade();

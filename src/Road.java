@@ -60,7 +60,7 @@ public class Road {
 			System.out.println("Constructing road");
 			Road road = new Road(startPos,endPos,playerIndex);
 			GameData.roads.add(road);
-			longestRoad();
+			longestRoad(playerIndex);
 			return road;
 		}
 		else {
@@ -73,13 +73,13 @@ public class Road {
 	/**
 	 * Checks which road is the longest by calling roadLength for each end road
 	 */
-	static void longestRoad(){	
+	static void longestRoad(int playerIndex){	
 		roadLength = 1;
 		int thisRoad = 0;
 
 		for(int i = 0; i<GameData.roads.size(); i++){
 			tempLength = 0;
-			if(GameData.roads.get(i).PLAYER_INDEX != GameData.ownIndex){
+			if(GameData.roads.get(i).PLAYER_INDEX != playerIndex){
 				if(GameData.roads.get(i).endTouch == true){
 					thisRoad = roadLength(GameData.roads.get(i),"end");
 				}
