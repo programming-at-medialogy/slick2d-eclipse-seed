@@ -132,3 +132,4 @@ public class Client extends BasicGame {
 		System.out.println(message);
 	}
 }
+
