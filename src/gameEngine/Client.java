@@ -65,10 +65,10 @@ public class Client extends BasicGame {
 		Image player2Img = new Image("images/player2.png");
 		Image background = new Image("images/board.jpg");// background image
 		g.drawImage(background, 0, 0);// rendering background
-		/*Draw a player according vity positio !!!not complete, so marked as a comment for now!!!
-		*
-		*g.drawImage(player1Img, server.citiesOnBoard.get(server.findCity(player1.getCurrentCity())).getcityPosX() , server.citiesOnBoard.get(server.findCity(player1.getCurrentCity())).getcityPosY());
-		*/
+		//Draw a player according vity positio !!!not complete!!!
+	
+		g.drawImage(player1Img, server.citiesOnBoard.get(server.findCity(player1.getCurrentCity())).getcityPosX() , server.citiesOnBoard.get(server.findCity(player1.getCurrentCity())).getcityPosY());
+		
 		//System.out.println(Server.citiesOnBoard.get(Server.findCity(player1.getCurrentCity())).getcityPosX());
 		g.drawImage(fieldDirector, 26, 700);
 		//g.drawImage(player2Img, 396, 354);
