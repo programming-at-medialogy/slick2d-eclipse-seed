@@ -715,6 +715,7 @@ public class GameState extends BasicGameState implements KeyListener {
 					playerTopOrange.draw(Windows.scWidth/2-playerTopRed.getWidth()/2*Windows.scFactor*0.6f,0,Windows.scFactor*0.6f);
 				} else if(i == 1){
 					playerTopBlue.draw(Windows.scWidth/2-playerTopRed.getWidth()/2*Windows.scFactor*0.6f,0,Windows.scFactor*0.6f);
+				} else if(i == 2) {
 					playerTopRed.draw(Windows.scWidth/2-playerTopRed.getWidth()/2*Windows.scFactor*0.6f,0,Windows.scFactor*0.6f);
 				} else if(i == 3){
 					playerTopGreen.draw(Windows.scWidth/2-playerTopRed.getWidth()/2*Windows.scFactor*0.6f,0,Windows.scFactor*0.6f);
