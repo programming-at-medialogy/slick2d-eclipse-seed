@@ -148,7 +148,7 @@ public class Server {
 				clientSocket = serverSocket.accept();
 				
 				clients.add(clientSocket);
-				    System.out.println("PIDAR");
+				    System.out.println("test");
 				new Thread(new ClientRunnable(clientSocket, server)).start();	
 				
 			}
