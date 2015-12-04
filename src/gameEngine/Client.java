@@ -51,7 +51,16 @@ public class Client extends BasicGame {
 
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
-		Image fieldDirector = new Image("images/fieldDirector.png");
+		
+		Image fieldDirector = new Image("images/fieldDirector.png"); //unused
+		Image quarantineSpecialist = new Image("images/quarantineSpecialist.png"); //unused
+		//need to create images for the 6 role cards
+		//Image medic = new Image("images/medic.png");
+		//Image dispatcher = new Image("images/dispatcher.png");
+		//Image researcher = new Image("images/researcher.png");
+		//Image scientist = new Image("images/scientist.png");
+		//Image cosistencyPlanner = new Image("images/consistencyPlanner.png");
+		//Image operationsExpert = new Image("images/operationsExpert.png");
 		Image player1Img = new Image("images/player1.png");
 		Image player2Img = new Image("images/player2.png");
 		Image background = new Image("images/board.jpg");// background image
