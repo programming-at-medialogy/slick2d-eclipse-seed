@@ -6,8 +6,8 @@ import java.util.ArrayList.*;
 public class City {
 
 	private String cityName;
-	private int cityPosX;
-	private int cityPosY;
+	public int cityPosX;
+	public int cityPosY;
 	private int infectionRate;
 
 	public City(String cityName, int cityPosX, int cityPosY, int infectionRate) {

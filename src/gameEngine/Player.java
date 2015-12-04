@@ -2,22 +2,21 @@ package gameEngine;
 
 public class Player {
 
-	City currentCity;
+	String currentCity;
 	String role;
 
-	public Player(City currentCity, String role) {
+	public Player(String currentCity, String role) {
 
 		this.currentCity = currentCity;
 		this.role = role;
-		//Setup.citiesOnBoard.get(currentCity);
-System.out.println(currentCity.toString());
+
 	}
 
-	public void setCurrentCity(City city) {
-		this.currentCity = city;
+	public String setCurrentCity(String city) {
+		return 	this.currentCity = city;
 	}
 
-	public City getCurrentCity() {
+	public String getCurrentCity() {
 		return currentCity;
 	}
 

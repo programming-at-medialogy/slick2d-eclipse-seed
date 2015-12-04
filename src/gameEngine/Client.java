@@ -4,29 +4,95 @@ import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 
-public class Client {
+import org.newdawn.slick.Image;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Shape;
 
-	Player player1 = new Player(Setup.citiesOnBoard.get(14),Setup.getPlayerRole());
-	Player player2 = new Player(Setup.citiesOnBoard.get(14),Setup.getPlayerRole());
+public class Client extends BasicGame {
 
+	public static int boardWidth = 1920;
+	public static int boardHight = 1080;
+	private Shape circle = null;
+	static int circleWidth;
+	static int circleHeight;
+	static int radius;
+	Server server = new Server();
+	public Player player1 = new Player("Atlanta", server.assignRole());
 	
-	Client(){
-		//System.out.println(player1.toString());
-
+	Client(String gamename) {
+		super(gamename);
 	}
 
+	@Override
+	public void init(GameContainer gc) throws SlickException {
+		circle = new Circle(circleWidth, circleHeight, radius);// drawing circle
+		
+		System.out.println("Player 1 role is: " + player1.getRole());
+		System.out.println("Player 1 is now in city: " + player1.currentCity.toString());
+		server.citiesOnBoard.get(5).setInfectionRate(4);
+		for(int i=0; i < 16; i++){
+			if(server.citiesOnBoard.get(i).getInfectionRate() != 0){
+				System.out.println(server.citiesOnBoard.get(i).getcityName()+ " was infected. It's current infection rate is " + server.citiesOnBoard.get(i).getInfectionRate());
+			}
+		}
+	}
+
+	@Override
+	public void update(GameContainer gc, int i) throws SlickException {
+	}
+
+	@Override
+	public void render(GameContainer gc, Graphics g) throws SlickException {
+		Image fieldDirector = new Image("images/fieldDirector.png");
+		Image player1Img = new Image("images/player1.png");
+		Image player2Img = new Image("images/player2.png");
+		Image background = new Image("images/board.jpg");// background image
+		g.drawImage(background, 0, 0);// rendering background
+		//Draw a player according vity positio
+		
+		g.drawImage(player1Img, server.citiesOnBoard.get(server.findCity(player1.getCurrentCity())).getcityPosX() , server.citiesOnBoard.get(server.findCity(player1.getCurrentCity())).getcityPosY());
+		
+		//System.out.println(Server.citiesOnBoard.get(Server.findCity(player1.getCurrentCity())).getcityPosX());
+		g.drawImage(fieldDirector, 26, 700);
+		//g.drawImage(player2Img, 396, 354);
+		g.setColor(Color.white);
+		g.fillOval(circleWidth, circleHeight, radius, radius);
+		g.draw(circle);
+		// g.drawString("WORKS!", 250, 200);
+	}
 
 	public static void main(String args[]) {
-		Setup setup = new Setup();
-		Client client = new Client();
-	
+
+		Client client = new Client("Infect");
+
+
 		DatagramSocket sock = null;
 		int port = 9000;
 		String s;
-
 		BufferedReader cin = new BufferedReader(new InputStreamReader(System.in));
 
 		try {
+
+			int maxFPS = 60;// initialising frame rate per second
+			AppGameContainer appgc;
+			appgc = new AppGameContainer(new Client("Simple Slick Game"));
+			appgc.setTargetFrameRate(maxFPS);// setting fps
+			appgc.setDisplayMode(boardWidth, boardHight, false);
+			appgc.start();
+		} catch (SlickException ex) {
+			Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+		}
+
+		try {
+
 			sock = new DatagramSocket();
 
 			InetAddress host = InetAddress.getByName("localhost");
