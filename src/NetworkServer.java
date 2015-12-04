@@ -25,6 +25,7 @@ public class NetworkServer extends Thread  {
 			Socket client = null;
 			try {
 				System.out.println("Server Ip Address: " + InetAddress.getLocalHost().getHostAddress());
+				ServerMain.displayStuff("Listening on port " + serverSocket.getLocalPort(), "Server Ip Address: " + InetAddress.getLocalHost().getHostAddress());
 				client = serverSocket.accept();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
