@@ -22,7 +22,7 @@ public class Clienttt
 		Thread thread = new Thread(input);
 		thread.start();
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("Enter your name and hit 'Enter'...");
+		System.out.println("Press ENTER");
 		String name = scanner.nextLine();
 		out.writeUTF(name);
 
