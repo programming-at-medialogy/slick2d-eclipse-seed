@@ -129,21 +129,29 @@ public class Server {
 		return foundMatchingCity;
 	}
 
+//Problematic...
+
+	public void sendMessage(Socket from) throws IOException{
+		Socket receiver = null;
+		//receiver = ArrayList - from
+		receiver.getOutputStream().write(null);
+	}
+	
 	public static void main(String[] args) {
 		Server server = new Server ();
 		try
 		{
 			serverSocket = new ServerSocket(9000);
 			System.out.println("Server is running");
-			clientSocket = serverSocket.accept();
-			
-			// Create a reader
-			bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-			
-			// Get the client message
-			while((inputLine = bufferedReader.readLine()) != null)
-			System.out.println(inputLine);
-
+			ArrayList<String> clients = new ArrayList<String>();
+			while(true) {
+				clientSocket = serverSocket.accept();
+				
+				clients.add(clientSocket);
+				    System.out.println("PIDAR");
+				new Thread(new ClientRunnable(clientSocket, server)).start();	
+				
+			}
 			
 		}
 		catch(IOException e)
