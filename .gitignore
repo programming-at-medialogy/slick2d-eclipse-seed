@@ -34,3 +34,18 @@ local.properties
 
 # TeXlipse plugin
 .texlipse
+
+# text files
+*.txt
+
+*.xml
+
+src/.idea/workspace.xml
+
+src/.idea/vcs.xml
+
+*.iml
+
+*.xml
+
+*.txt
